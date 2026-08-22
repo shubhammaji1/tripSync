@@ -1,0 +1,27 @@
+{
+  "name": "@tripsync/ui",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b -w",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4"
+  },
+  "devDependencies": {
+    "@tripsync/config": "workspace:*",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  }
+}

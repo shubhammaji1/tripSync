@@ -1,0 +1,24 @@
+{
+  "name": "tripsync-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@8.15.9",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "db:generate": "pnpm --filter @tripsync/api db:generate",
+    "db:migrate": "pnpm --filter @tripsync/api db:migrate",
+    "db:seed": "pnpm --filter @tripsync/api db:seed"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.1.3",
+    "typescript": "^5.6.3"
+  }
+}

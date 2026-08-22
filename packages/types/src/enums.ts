@@ -1,0 +1,79 @@
+export enum TripRole {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+  VIEWER = 'VIEWER',
+}
+
+export enum TripPrivacy {
+  PRIVATE = 'PRIVATE',
+  SHARED = 'SHARED',
+  PUBLIC = 'PUBLIC',
+}
+
+export enum TripStatus {
+  PLANNING = 'PLANNING',
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum InvitationStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  DECLINED = 'DECLINED',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum ActivityStatus {
+  PLANNED = 'PLANNED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum ExpenseCategory {
+  ACCOMMODATION = 'ACCOMMODATION',
+  TRANSPORT = 'TRANSPORT',
+  FOOD = 'FOOD',
+  ACTIVITIES = 'ACTIVITIES',
+  SHOPPING = 'SHOPPING',
+  ENTERTAINMENT = 'ENTERTAINMENT',
+  EMERGENCY = 'EMERGENCY',
+  OTHER = 'OTHER',
+}
+
+export enum SplitType {
+  EQUAL = 'EQUAL',
+  EXACT = 'EXACT',
+  PERCENTAGE = 'PERCENTAGE',
+  SHARES = 'SHARES',
+}
+
+export enum SettlementStatus {
+  PENDING = 'PENDING',
+  SETTLED = 'SETTLED',
+}
+
+export enum TaskPriority {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  URGENT = 'URGENT',
+}
+
+export enum TaskStatus {
+  TODO = 'TODO',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+}
+
+export enum NotificationType {
+  TRIP_INVITATION = 'TRIP_INVITATION',
+  ITINERARY_UPDATED = 'ITINERARY_UPDATED',
+  EXPENSE_ADDED = 'EXPENSE_ADDED',
+  SETTLEMENT_REMINDER = 'SETTLEMENT_REMINDER',
+  TASK_ASSIGNED = 'TASK_ASSIGNED',
+  EMERGENCY_TRIGGERED = 'EMERGENCY_TRIGGERED',
+  SYSTEM = 'SYSTEM',
+}
