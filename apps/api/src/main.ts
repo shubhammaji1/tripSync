@@ -24,7 +24,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: false })
+    new FastifyAdapter({ logger: true })
   );
 
   // Global API Prefix
@@ -69,6 +69,36 @@ async function bootstrap() {
 
   logger.log(`🚀 TripSync API is running on http://localhost:${port}/api/v1`);
   logger.log(`📚 Swagger Documentation is available on http://localhost:${port}/api/docs`);
+
+  // Self-check: hit our own health endpoint over loopback right after boot.
+  // This proves (or disproves) that the process can actually accept and
+  // answer HTTP requests on the bound port, without needing shell/curl
+  // access to the container - the result is visible in the normal deploy
+  // log, which is available on every Render plan including free.
+  try {
+    const http = await import('http');
+    await new Promise((resolve, reject) => {
+      const req = http.get(`http://127.0.0.1:${port}/api/v1/health`, (res) => {
+        let body = '';
+        res.on('data', (chunk) => (body += chunk));
+        res.on('end', () => {
+          logger.log(`✅ Self health-check responded: ${res.statusCode} ${body}`);
+          resolve(null);
+        });
+      });
+      req.on('error', (err) => {
+        logger.error(`❌ Self health-check request failed: ${err.message}`);
+        reject(err);
+      });
+      req.setTimeout(5000, () => {
+        logger.error('❌ Self health-check timed out after 5s - the process is not answering its own port');
+        req.destroy();
+        reject(new Error('self health-check timeout'));
+      });
+    });
+  } catch {
+    // already logged above
+  }
 }
 
 bootstrap();
