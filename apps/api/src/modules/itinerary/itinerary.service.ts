@@ -196,6 +196,52 @@ export class ItineraryService {
     return this.mockDays.get(tripId) || [];
   }
 
+  async createDay(tripId: string, input: CreateTripDayInput) {
+    if (this.db) {
+      try {
+        const [day] = await (this.db.insert(tripDays).values({
+          tripId,
+          dayNumber: input.dayNumber,
+          date: input.date,
+          title: input.title || `Day ${input.dayNumber}`,
+          notes: input.notes,
+        } as any) as any).returning();
+        return day;
+      } catch (err) {
+        console.warn('Trip day insert db error:', err);
+      }
+    }
+
+    const day = {
+      id: `day-${Date.now()}`,
+      tripId,
+      dayNumber: input.dayNumber,
+      date: input.date,
+      title: input.title || `Day ${input.dayNumber}`,
+      notes: input.notes || null,
+      activities: [],
+    };
+    const days = this.mockDays.get(tripId) || [];
+    days.push(day);
+    this.mockDays.set(tripId, days);
+    return day;
+  }
+
+  async deleteDay(tripId: string, dayId: string) {
+    if (this.db) {
+      try {
+        await this.db.delete(tripDays).where(and(eq(tripDays.id, dayId), eq(tripDays.tripId, tripId)));
+        return { success: true };
+      } catch (err) {
+        console.warn('Trip day delete db error:', err);
+      }
+    }
+
+    const days = this.mockDays.get(tripId) || [];
+    this.mockDays.set(tripId, days.filter((day) => day.id !== dayId));
+    return { success: true };
+  }
+
   async createActivity(tripId: string, input: CreateActivityInput) {
     if (this.db) {
       try {

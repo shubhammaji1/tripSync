@@ -14,6 +14,8 @@ import { AuthGuard } from '../../common/auth.guard';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import {
   createActivitySchema,
+  createTripDaySchema,
+  CreateTripDayInput,
   updateActivitySchema,
   CreateActivityInput,
   UpdateActivityInput,
@@ -32,6 +34,15 @@ export class ItineraryController {
     return this.itineraryService.getItinerary(tripId);
   }
 
+  @Post('days')
+  @ApiOperation({ summary: 'Create a custom itinerary day' })
+  async createDay(
+    @Param('tripId') tripId: string,
+    @Body(new ZodValidationPipe(createTripDaySchema)) body: CreateTripDayInput
+  ) {
+    return this.itineraryService.createDay(tripId, body);
+  }
+
   @Post('activities')
   @ApiOperation({ summary: 'Add a new activity to a trip day' })
   async createActivity(
@@ -39,6 +50,12 @@ export class ItineraryController {
     @Body(new ZodValidationPipe(createActivitySchema)) body: CreateActivityInput
   ) {
     return this.itineraryService.createActivity(tripId, body);
+  }
+
+  @Delete('days/:dayId')
+  @ApiOperation({ summary: 'Delete an itinerary day and its activities' })
+  async deleteDay(@Param('tripId') tripId: string, @Param('dayId') dayId: string) {
+    return this.itineraryService.deleteDay(tripId, dayId);
   }
 
   @Patch('activities/:activityId')

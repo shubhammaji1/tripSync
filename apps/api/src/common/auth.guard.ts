@@ -6,65 +6,77 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { SEED_USERS } from '../database/seed';
+import { ProfileSyncService } from './profile-sync.service';
 
+interface SupabaseJwtPayload {
+  sub: string;
+  email?: string;
+  phone?: string;
+  aud?: string;
+  exp: number;
+  user_metadata?: { full_name?: string; avatar_url?: string };
+}
+
+/**
+ * Verifies the Supabase session JWT sent as `Authorization: Bearer <token>`.
+ *
+ * This guard has exactly one source of identity: a token signed by Supabase
+ * Auth with SUPABASE_JWT_SECRET. There is intentionally no fallback path -
+ * no "no header -> default user", no seed-user token matching, no unsigned
+ * `user_token_<id>` acceptance. Every branch that cannot cryptographically
+ * verify the caller throws UnauthorizedException.
+ */
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly profileSync: ProfileSyncService,
+  ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const authHeader = request.headers['authorization'];
+    const authHeader = request.headers['authorization'] as string | undefined;
 
-    // In development/testing, if no auth header or standard bearer test token is passed, default to user Rahul
     if (!authHeader) {
-      request.user = {
-        id: SEED_USERS[0].id,
-        email: SEED_USERS[0].email,
-        fullName: SEED_USERS[0].fullName,
-        avatarUrl: SEED_USERS[0].avatarUrl,
-        phone: SEED_USERS[0].phone,
-      };
-      return true;
+      throw new UnauthorizedException('Missing Authorization header');
     }
 
-    const [bearer, token] = authHeader.split(' ');
-    if (bearer !== 'Bearer' || !token) {
-      throw new UnauthorizedException('Invalid Authorization token format');
-    }
-
-    // Support simulated userId tokens in development (e.g. Bearer user_1, user_2, or direct uuid)
-    const matchedSeedUser = SEED_USERS.find((u) => u.id === token || u.email.startsWith(token.toLowerCase()));
-    if (matchedSeedUser) {
-      request.user = matchedSeedUser;
-      return true;
+    const [scheme, token] = authHeader.split(' ');
+    if (scheme !== 'Bearer' || !token) {
+      throw new UnauthorizedException('Invalid Authorization header. Expected: Bearer <token>');
     }
 
     const jwtSecret = this.configService.get<string>('SUPABASE_JWT_SECRET');
-    if (jwtSecret) {
-      try {
-        const decoded = jwt.verify(token, jwtSecret) as any;
-        request.user = {
-          id: decoded.sub,
-          email: decoded.email,
-          fullName: decoded.user_metadata?.full_name || null,
-          avatarUrl: decoded.user_metadata?.avatar_url || null,
-          phone: decoded.phone || null,
-        };
-        return true;
-      } catch (err) {
-        throw new UnauthorizedException('Expired or invalid session token');
-      }
+    if (!jwtSecret) {
+      // Fail closed. There is no "default user" to fall back to - if the
+      // server isn't configured to verify sessions, nothing is authenticated.
+      throw new UnauthorizedException('Authentication is not configured on the server');
     }
 
-    // Fallback default
-    request.user = {
-      id: SEED_USERS[0].id,
-      email: SEED_USERS[0].email,
-      fullName: SEED_USERS[0].fullName,
-      avatarUrl: SEED_USERS[0].avatarUrl,
-      phone: SEED_USERS[0].phone,
-    };
+    let decoded: SupabaseJwtPayload;
+    try {
+      decoded = jwt.verify(token, jwtSecret, { algorithms: ['HS256'] }) as SupabaseJwtPayload;
+    } catch {
+      throw new UnauthorizedException('Expired or invalid session token');
+    }
+
+    if (!decoded.sub) {
+      throw new UnauthorizedException('Session token is missing a subject claim');
+    }
+    // Supabase issues "authenticated" as the audience for real user sessions.
+    if (decoded.aud && decoded.aud !== 'authenticated') {
+      throw new UnauthorizedException('Token is not a valid user session token');
+    }
+
+    const profile = await this.profileSync.syncFromClaims({
+      sub: decoded.sub,
+      email: decoded.email,
+      phone: decoded.phone,
+      user_metadata: decoded.user_metadata,
+    });
+
+    request.user = profile;
+    request.supabaseUserId = decoded.sub;
     return true;
   }
 }

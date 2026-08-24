@@ -7,6 +7,21 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const logger = new Logger('TripSyncBootstrap');
 
+  // Authentication has no fallback path anymore (see AuthGuard) - every
+  // request needs a verifiable Supabase session token. If this secret is
+  // missing in production, every request will correctly 401, but that's a
+  // silent, confusing failure mode in prod - fail loudly at boot instead.
+  if (process.env.NODE_ENV === 'production' && !process.env.SUPABASE_JWT_SECRET) {
+    throw new Error(
+      'SUPABASE_JWT_SECRET is required in production - the API cannot verify user sessions without it.',
+    );
+  }
+  if (!process.env.SUPABASE_JWT_SECRET) {
+    logger.warn(
+      'SUPABASE_JWT_SECRET is not set - all authenticated requests will be rejected until it is configured.',
+    );
+  }
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: false })
@@ -15,9 +30,16 @@ async function bootstrap() {
   // Global API Prefix
   app.setGlobalPrefix('api/v1');
 
-  // Enable CORS
+  // Enable CORS - explicit allow-list, not '*'. '*' combined with
+  // credentials:true is meaningless to browsers anyway, and defeats the
+  // point of bearer-token auth being scoped to our own frontend origins.
+  const allowedOrigins = (process.env.WEB_URL || 'http://localhost:3000')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: '*',
+    origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });

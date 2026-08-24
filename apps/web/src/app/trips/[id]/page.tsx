@@ -37,7 +37,7 @@ import {
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { useAuth, DEMO_PERSONAS } from '@/lib/auth-context';
+import { useAuth, canForRole } from '@/lib/auth-context';
 import { TripRole } from '@tripsync/types';
 import {
   PieChart,
@@ -60,6 +60,13 @@ interface MemberState {
   phone: string;
 }
 
+interface TripDayState {
+  id?: string;
+  num: number;
+  date: string;
+  label: string;
+}
+
 const INITIAL_MEMBERS: MemberState[] = [
   { id: '11111111-1111-1111-1111-111111111111', name: 'Rahul Sharma', role: TripRole.OWNER, phone: '+91 98765 43210' },
   { id: '22222222-2222-2222-2222-222222222222', name: 'Shubham Verma', role: TripRole.ADMIN, phone: '+91 98765 43211' },
@@ -72,8 +79,14 @@ const INITIAL_MEMBERS: MemberState[] = [
 
 function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams();
-  const { user, activePersona, currentRole, switchPersona, can } = useAuth();
-  const isDemoSession = Boolean(activePersona);
+  const { user } = useAuth();
+  // Persona impersonation removed - there is no more "demo session"; every
+  // logged-in user is a real authenticated account. This flag was previously
+  // used to switch between hardcoded demo trip data and the real API - now
+  // it's fixed at true only for the seeded sample trip ID, false for every
+  // real trip.
+  const isDemoSession = params.id === 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+  const [tripDetails, setTripDetails] = useState<any>(null);
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [copiedText, setCopiedText] = useState<string | null>(null);
@@ -81,15 +94,110 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   // Members list with dynamic roles
   const [members, setMembers] = useState<MemberState[]>(INITIAL_MEMBERS);
+
+  // Role is derived from this trip's real member list matched against the
+  // logged-in user - never from a client-chosen persona. (The member list
+  // itself is still seeded/local-storage-backed pending the real
+  // GET /trips/:id/members wiring - see TODO further down.) The backend
+  // re-checks every mutation regardless of what `can()` returns here.
+  const myMembership = members.find((m) => m.id === user?.id);
+  const currentRole: TripRole = myMembership?.role ?? TripRole.VIEWER;
+  const can = (permission: Parameters<typeof canForRole>[1]) => canForRole(currentRole, permission);
+
+  const [membersReady, setMembersReady] = useState(false);
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [newMemberRole, setNewMemberRole] = useState<TripRole>(TripRole.MEMBER);
-  const [inviteStatus, setInviteStatus] = useState<string | null>(null);
+  const [inviteStatus, setInviteStatus] = useState<string | null>(null);  const [lastInviteLink, setLastInviteLink] = useState<string | null>(null);
   const [emergencyContacts, setEmergencyContacts] = useState<{ id: string; name: string; phone: string; relationship: string }[]>([]);
   const [newEmergencyContact, setNewEmergencyContact] = useState({ name: '', phone: '', relationship: '' });
   const [emergencyStatus, setEmergencyStatus] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (isDemoSession || typeof window === 'undefined') return;
+
+    try {
+      const storedTrips = JSON.parse(localStorage.getItem('tripsync_trips') || '[]');
+      const selectedTrip = Array.isArray(storedTrips)
+        ? storedTrips.find((trip) => trip.id === params.id)
+        : null;
+      setTripDetails(selectedTrip || null);
+    } catch {
+      setTripDetails(null);
+    }
+  }, [isDemoSession, params.id]);
+
+  useEffect(() => {
+    if (isDemoSession) return;
+
+    api.getTripById(params.id).then((trip) => {
+      setTripDetails(trip);
+      const apiMembers = (trip.members || []).map((member: any) => ({
+        id: member.userId || member.user?.id,
+        name: member.user?.fullName || member.user?.email || 'Trip Member',
+        role: member.role,
+        phone: member.user?.phone || '',
+      }));
+      if (apiMembers.length) setMembers(apiMembers);
+
+      const apiDays = (trip.days || []).map((day: any) => ({
+        id: day.id,
+        num: day.dayNumber,
+        date: day.date,
+        label: day.title || `Day ${day.dayNumber}`,
+      }));
+      if (apiDays.length) setTripDays(apiDays);
+
+      setActivitiesList((trip.days || []).flatMap((day: any) =>
+        (day.activities || []).map((activity: any) => ({
+          id: activity.id,
+          dayNumber: day.dayNumber,
+          time: [activity.startTime, activity.endTime].filter(Boolean).join(' - '),
+          title: activity.title,
+          description: activity.description || '',
+          location: activity.locationName || '',
+          responsible: activity.responsibleMember?.fullName || 'Unassigned',
+          cost: Number(activity.estimatedCost || 0),
+          status: activity.status || 'PLANNED',
+        }))
+      ));
+
+      setExpensesList((trip.expenses || []).map((expense: any) => ({
+        id: expense.id,
+        title: expense.title,
+        paidById: expense.paidById,
+        paidBy: expense.paidBy?.fullName || expense.paidBy?.email || 'Unknown',
+        amount: Number(expense.amount || 0),
+        category: expense.category,
+        date: expense.date,
+        participants: expense.participants || [],
+        split: `${expense.participants?.length || 0} members`,
+      })));
+
+      setTasks((trip.tasks || []).map((task: any) => ({
+        id: task.id,
+        title: task.title,
+        assignedTo: task.assignedTo?.fullName || task.assignedTo?.email || 'Unassigned',
+        dueDate: task.dueDate || '',
+        priority: task.priority,
+        status: task.status,
+      })));
+      setEmergencyContacts((trip.emergencyContacts || []).map((contact: any) => ({
+        id: contact.id,
+        name: contact.name,
+        phone: contact.phone,
+        relationship: contact.relationship,
+      })));
+    }).catch(() => {
+      // Local-only trips continue using their local fallback state.
+    });
+  }, [isDemoSession, params.id]);
+
   // Itinerary state
   const [selectedDay, setSelectedDay] = useState<number>(1);
+  const [tripDays, setTripDays] = useState<TripDayState[]>([]);
+  const [tripDaysReady, setTripDaysReady] = useState(false);
+  const [newDayDate, setNewDayDate] = useState('');
+  const [newDayLabel, setNewDayLabel] = useState('');
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
   const [activitiesList, setActivitiesList] = useState([
     {
@@ -158,10 +266,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     estimatedCost: 1000,
     responsibleMemberId: INITIAL_MEMBERS[0].id,
   });
+  const [activitiesReady, setActivitiesReady] = useState(false);
 
   // Expense & Split state
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
-  const [expensesList, setExpensesList] = useState([
+  const [expensesReady, setExpensesReady] = useState(false);
+  const [expensesList, setExpensesList] = useState<any[]>([
     {
       id: 'exp-1',
       title: 'Summit Hermon Hotel Advance Booking',
@@ -203,6 +313,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [settledDebtIds, setSettledDebtIds] = useState<Record<string, boolean>>({});
 
   // Tasks local state
+  const [newTask, setNewTask] = useState({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
   const [tasks, setTasks] = useState([
     {
       id: 't-1',
@@ -252,11 +363,25 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       const owner = user
         ? { id: user.id, name: user.fullName || user.email, role: TripRole.OWNER, phone: user.phone || '' }
         : { id: 'owner-current-user', name: 'Trip Owner', role: TripRole.OWNER, phone: '' };
-      setMembers([owner]);
-      localStorage.setItem(tripMembersKey, JSON.stringify([owner]));
-      setActivitiesList([]);
-      setExpensesList([]);
-      setTasks([]);
+
+      let savedMembers: MemberState[] = [];
+      try {
+        const storedMembers = JSON.parse(localStorage.getItem(tripMembersKey) || '[]');
+        if (Array.isArray(storedMembers)) savedMembers = storedMembers;
+      } catch {
+        savedMembers = [];
+      }
+
+      const seededMemberIds = new Set(INITIAL_MEMBERS.map((member) => member.id));
+      savedMembers = savedMembers.filter((member) => !seededMemberIds.has(member.id));
+
+      const savedOwner = savedMembers.find((member) => member.role === TripRole.OWNER);
+      const restoredMembers = savedOwner
+        ? savedMembers
+        : [owner, ...savedMembers.filter((member) => member.id !== owner.id)];
+      setMembers(restoredMembers);
+      localStorage.setItem(tripMembersKey, JSON.stringify(restoredMembers));
+      setMembersReady(true);
       setSettledDebtIds({});
       return;
     }
@@ -267,6 +392,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setMembers(parsed);
+          setMembersReady(true);
           return;
         }
       } catch (error) {
@@ -276,11 +402,100 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
     setMembers(INITIAL_MEMBERS);
     localStorage.setItem(tripMembersKey, JSON.stringify(INITIAL_MEMBERS));
+    setMembersReady(true);
   }, [isDemoSession, params.id, user]);
 
   useEffect(() => {
+    if (!membersReady) return;
     localStorage.setItem(`tripsync_trip_members_${params.id}`, JSON.stringify(members));
-  }, [members, params.id]);
+  }, [members, membersReady, params.id]);
+
+  useEffect(() => {
+    if (isDemoSession) {
+      setExpensesReady(true);
+      return;
+    }
+
+    try {
+      const storedExpenses = JSON.parse(localStorage.getItem(`tripsync_expenses_${params.id}`) || '[]');
+      setExpensesList(Array.isArray(storedExpenses) ? storedExpenses : []);
+    } catch {
+      setExpensesList([]);
+    }
+    setExpensesReady(true);
+  }, [isDemoSession, params.id]);
+
+  useEffect(() => {
+    if (!expensesReady) return;
+    localStorage.setItem(`tripsync_expenses_${params.id}`, JSON.stringify(expensesList));
+  }, [expensesList, expensesReady, params.id]);
+
+  useEffect(() => {
+    if (isDemoSession) {
+      setActivitiesReady(true);
+      return;
+    }
+
+    try {
+      const storedActivities = JSON.parse(localStorage.getItem(`tripsync_activities_${params.id}`) || '[]');
+      setActivitiesList(Array.isArray(storedActivities) ? storedActivities : []);
+    } catch {
+      setActivitiesList([]);
+    }
+    setActivitiesReady(true);
+  }, [isDemoSession, params.id]);
+
+  useEffect(() => {
+    if (!activitiesReady) return;
+    localStorage.setItem(`tripsync_activities_${params.id}`, JSON.stringify(activitiesList));
+  }, [activitiesList, activitiesReady, params.id]);
+
+  const [tasksReady, setTasksReady] = useState(false);
+
+  useEffect(() => {
+    if (isDemoSession) {
+      setTasksReady(true);
+      return;
+    }
+
+    try {
+      const storedTasks = JSON.parse(localStorage.getItem(`tripsync_tasks_${params.id}`) || '[]');
+      setTasks(Array.isArray(storedTasks) ? storedTasks : []);
+    } catch {
+      setTasks([]);
+    }
+    setTasksReady(true);
+  }, [isDemoSession, params.id]);
+
+  useEffect(() => {
+    if (!tasksReady) return;
+    localStorage.setItem(`tripsync_tasks_${params.id}`, JSON.stringify(tasks));
+  }, [params.id, tasks, tasksReady]);
+
+  useEffect(() => {
+    const savedDays = localStorage.getItem(`tripsync_trip_days_${params.id}`);
+    if (savedDays) {
+      try {
+        const parsedDays = JSON.parse(savedDays);
+        if (Array.isArray(parsedDays) && parsedDays.length > 0) {
+          setTripDays(parsedDays);
+          setTripDaysReady(true);
+          return;
+        }
+      } catch {
+        localStorage.removeItem(`tripsync_trip_days_${params.id}`);
+      }
+    }
+
+    if (!isDemoSession && tripDetails?.days?.length) return;
+    setTripDays([]);
+    setTripDaysReady(true);
+  }, [isDemoSession, params.id, tripDetails]);
+
+  useEffect(() => {
+    if (!tripDaysReady) return;
+    localStorage.setItem(`tripsync_trip_days_${params.id}`, JSON.stringify(tripDays));
+  }, [params.id, tripDays, tripDaysReady]);
 
   useEffect(() => {
     const stored = localStorage.getItem(`tripsync_emergency_contacts_${params.id}`);
@@ -308,7 +523,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setTimeout(() => setActionAlert(null), 5000);
   };
 
-  const handleAddActivity = (e: React.FormEvent) => {
+  const handleAddActivity = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!can('ADD_ACTIVITY')) {
       showPermissionWarning('add activities');
@@ -316,6 +531,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       return;
     }
 
+    const selectedDayDetails = tripDays.find((day) => day.num === selectedDay);
     const responsiblePerson = members.find((m) => m.id === newActivity.responsibleMemberId)?.name || user?.fullName || 'Traveler';
     const newAct = {
       id: 'act-' + Date.now(),
@@ -329,7 +545,25 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       status: 'PLANNED',
     };
 
-    setActivitiesList([...activitiesList, newAct]);
+    try {
+      if (!selectedDayDetails?.id) throw new Error('Select a saved itinerary day first.');
+      const saved = await api.createActivity(params.id, {
+        dayId: selectedDayDetails.id,
+        title: newAct.title,
+        description: newAct.description,
+        startTime: newActivity.startTime,
+        endTime: newActivity.endTime,
+        locationName: newAct.location,
+        estimatedCost: newAct.cost,
+        currency: tripCurrency,
+        responsibleMemberId: /^[0-9a-f-]{36}$/i.test(newActivity.responsibleMemberId) ? newActivity.responsibleMemberId : null,
+        status: 'PLANNED',
+        sortOrder: activitiesList.length,
+      });
+      setActivitiesList((current) => [...current, { ...newAct, id: saved.id || newAct.id }]);
+    } catch {
+      setActivitiesList((current) => [...current, newAct]);
+    }
     setShowAddActivityModal(false);
     setNewActivity({
       title: '',
@@ -342,7 +576,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     });
   };
 
-  const handleAddExpense = (e: React.FormEvent) => {
+  const handleAddExpense = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!can('ADD_EXPENSE')) {
       showPermissionWarning('add expenses');
@@ -350,35 +584,103 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       return;
     }
 
-    const payer = members.find((p) => p.id === newExpense.paidById)?.name || user?.fullName || 'Rahul Sharma';
+    const payerId = members.some((member) => member.id === newExpense.paidById)
+      ? newExpense.paidById
+      : user?.id || newExpense.paidById;
+    const payer = members.find((p) => p.id === payerId)?.name || user?.fullName || 'Traveler';
     const newEntry = {
       id: 'exp-' + Date.now(),
+      paidById: payerId,
       title: newExpense.title || 'Group Expense',
       paidBy: payer,
       amount: Number(newExpense.amount),
       category: newExpense.category,
-      date: '2026-09-12',
-      split: `6 members (₹${Math.round(newExpense.amount / 6)} each)`,
+      date: tripDetails?.startDate || new Date().toISOString().slice(0, 10),
+      participants: members.map((member) => ({
+        userId: member.id,
+        shareAmount: Number(newExpense.amount) / Math.max(1, members.length),
+      })),
+      split: `${members.length} members (₹${Math.round(Number(newExpense.amount) / Math.max(1, members.length))} each)`,
     };
-    setExpensesList([newEntry, ...expensesList]);
+    try {
+      const validMembers = members.filter((member) => /^[0-9a-f-]{36}$/i.test(member.id));
+      const amount = Number(newExpense.amount);
+      const saved = await api.createExpense(params.id, {
+        title: newEntry.title,
+        amount,
+        currency: tripCurrency,
+        category: newExpense.category,
+        splitType: newExpense.splitType,
+        date: newEntry.date,
+        participants: validMembers.map((member) => ({
+          userId: member.id,
+          shareAmount: Math.round((amount / validMembers.length) * 100) / 100,
+        })),
+      });
+      setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
+    } catch {
+      setExpensesList((current) => [newEntry, ...current]);
+    }
     setShowAddExpenseModal(false);
+    setNewExpense({
+      title: '',
+      amount: 1800,
+      category: 'FOOD',
+      paidById: user?.id || members[0]?.id || '',
+      splitType: 'EQUAL',
+    });
   };
 
-  const toggleTaskStatus = (taskId: string) => {
+  const toggleTaskStatus = async (taskId: string) => {
     if (!can('MANAGE_TASKS')) {
       showPermissionWarning('update task statuses');
       return;
     }
 
-    setTasks(
-      tasks.map((t) => {
+    const nextTasks = tasks.map((t) => {
         if (t.id === taskId) {
           const nextStatus = t.status === 'DONE' ? 'TODO' : t.status === 'TODO' ? 'IN_PROGRESS' : 'DONE';
           return { ...t, status: nextStatus };
         }
         return t;
-      })
-    );
+      });
+    setTasks(nextTasks);
+    const task = nextTasks.find((item) => item.id === taskId);
+    if (task && /^[0-9a-f-]{36}$/i.test(taskId)) {
+      try {
+        await api.updateTask(params.id, taskId, { status: task.status as any });
+      } catch {
+        // Keep optimistic state when the API is unavailable.
+      }
+    }
+  };
+
+  const handleAddTask = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!can('MANAGE_TASKS') || !newTask.title.trim()) return;
+
+    const assignedMember = members.find((member) => member.id === newTask.assignedToId);
+    const localTask = {
+      id: `task-${Date.now()}`,
+      title: newTask.title.trim(),
+      assignedTo: assignedMember?.name || 'Unassigned',
+      dueDate: newTask.dueDate,
+      priority: newTask.priority,
+      status: 'TODO',
+    };
+    try {
+      const saved = await api.createTask(params.id, {
+        title: localTask.title,
+        dueDate: localTask.dueDate || null,
+        priority: localTask.priority,
+        status: 'TODO',
+        assignedToId: /^[0-9a-f-]{36}$/i.test(newTask.assignedToId) ? newTask.assignedToId : null,
+      });
+      setTasks((current) => [{ ...localTask, id: saved.id || localTask.id }, ...current]);
+    } catch {
+      setTasks((current) => [localTask, ...current]);
+    }
+    setNewTask({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
   };
 
   const handleMemberRoleChange = (memberId: string, newRole: TripRole) => {
@@ -458,6 +760,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       ]);
       setNewMemberEmail('');
       setNewMemberRole(TripRole.MEMBER);
+      setLastInviteLink(invitation.inviteLink);
       setInviteStatus(`Invitation created for ${email}. Share the password setup link with them.`);
       await navigator.clipboard?.writeText(invitation.inviteLink);
       setActionAlert(`Invitation link copied for ${email}.`);
@@ -467,17 +770,114 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setTimeout(() => setActionAlert(null), 4000);
   };
 
-  const handleAddEmergencyContact = (e: React.FormEvent) => {
+  const handleAddEmergencyContact = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newEmergencyContact.name.trim() || !newEmergencyContact.phone.trim() || !newEmergencyContact.relationship.trim()) {
       setEmergencyStatus('Enter a name, phone number, and relationship.');
       return;
     }
 
-    setEmergencyContacts((current) => [...current, { id: `emergency-${Date.now()}`, ...newEmergencyContact }]);
+    const newContact = { id: `emergency-${Date.now()}`, ...newEmergencyContact };
+    try {
+      const saved = await api.createEmergencyContact(params.id, newEmergencyContact);
+      setEmergencyContacts((current) => [...current, { ...newContact, id: saved.id || newContact.id }]);
+    } catch {
+      setEmergencyContacts((current) => [...current, newContact]);
+    }
     setNewEmergencyContact({ name: '', phone: '', relationship: '' });
     setEmergencyStatus('Emergency contact saved.');
   };
+
+  const handleAddDay = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!can('EDIT_TRIP') || !newDayDate) return;
+
+    const dayNumber = tripDays.length + 1;
+    let savedDay: any = null;
+    try {
+      savedDay = await api.createTripDay(params.id, {
+        dayNumber,
+        date: newDayDate,
+        title: newDayLabel.trim() || `Day ${dayNumber}`,
+      });
+    } catch {
+      // Keep the day available locally for local-only trips.
+    }
+    setTripDays((current) => [
+      ...current,
+      {
+        id: savedDay?.id,
+        num: dayNumber,
+        date: newDayDate,
+        label: newDayLabel.trim() || `Day ${dayNumber}`,
+      },
+    ]);
+    setNewDayDate('');
+    setNewDayLabel('');
+  };
+
+  const handleDeleteDay = async () => {
+    if (!can('EDIT_TRIP')) return;
+    const dayToDelete = tripDays.find((day) => day.num === selectedDay);
+    if (!dayToDelete || !window.confirm(`Delete ${dayToDelete.label} and all its activities?`)) return;
+
+    if (dayToDelete.id && /^[0-9a-f-]{36}$/i.test(dayToDelete.id)) {
+      try {
+        await api.deleteTripDay(params.id, dayToDelete.id);
+      } catch {
+        // Continue removing the local view when the API is unavailable.
+      }
+    }
+
+    const remainingDays = tripDays
+      .filter((day) => day.num !== selectedDay)
+      .map((day, index) => ({ ...day, num: index + 1 }));
+    setTripDays(remainingDays);
+    setActivitiesList((current) => current.filter((activity) => activity.dayNumber !== selectedDay));
+    setSelectedDay(Math.max(1, Math.min(selectedDay, remainingDays.length)));
+  };
+
+  const calculatedDebtTransfers = (() => {
+    const balances = new Map<string, number>(members.map((member) => [member.id, 0]));
+    for (const expense of expensesList) {
+      const payerId = expense.paidById || members.find((member) => member.name === expense.paidBy)?.id;
+      if (!payerId || !balances.has(payerId)) continue;
+      const amount = Number(expense.amount || 0);
+      balances.set(payerId, (balances.get(payerId) || 0) + amount);
+
+      const participants = expense.participants?.length
+        ? expense.participants
+        : members.map((member) => ({ userId: member.id, shareAmount: amount / Math.max(1, members.length) }));
+      for (const participant of participants) {
+        if (balances.has(participant.userId)) {
+          balances.set(participant.userId, (balances.get(participant.userId) || 0) - Number(participant.shareAmount || 0));
+        }
+      }
+    }
+
+    const creditors = Array.from(balances.entries()).filter(([, amount]) => amount > 0.01).map(([id, amount]) => ({ id, amount }));
+    const debtors = Array.from(balances.entries()).filter(([, amount]) => amount < -0.01).map(([id, amount]) => ({ id, amount: -amount }));
+    const transfers: { id: string; from: string; to: string; amount: number }[] = [];
+    let creditorIndex = 0;
+    let debtorIndex = 0;
+
+    while (creditorIndex < creditors.length && debtorIndex < debtors.length) {
+      const creditor = creditors[creditorIndex];
+      const debtor = debtors[debtorIndex];
+      const amount = Math.min(creditor.amount, debtor.amount);
+      transfers.push({
+        id: `settlement-${transfers.length + 1}`,
+        from: members.find((member) => member.id === debtor.id)?.name || 'Member',
+        to: members.find((member) => member.id === creditor.id)?.name || 'Member',
+        amount: Math.round(amount * 100) / 100,
+      });
+      creditor.amount -= amount;
+      debtor.amount -= amount;
+      if (creditor.amount <= 0.01) creditorIndex += 1;
+      if (debtor.amount <= 0.01) debtorIndex += 1;
+    }
+    return transfers;
+  })();
 
   const debtTransfers = isDemoSession ? [
     { id: 'dt-1', from: 'Amit Kumar', to: 'Rahul Sharma', amount: 1933 },
@@ -485,7 +885,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     { id: 'dt-3', from: 'Arjun Mehta', to: 'Rahul Sharma', amount: 200 },
     { id: 'dt-4', from: 'Arjun Mehta', to: 'Priya Patel', amount: 1267 },
     { id: 'dt-5', from: 'Shubham Verma', to: 'Priya Patel', amount: 467 },
-  ] : [];
+  ] : calculatedDebtTransfers;
+
+  const tripBudget = isDemoSession ? 35000 : Number(tripDetails?.budget || 0);
+  const calculatedTripSpent = expensesList.reduce((total, expense) => total + Number(expense.amount || 0), 0);
+  const tripSpent = isDemoSession ? 11600 : calculatedTripSpent;
+  const tripCurrency = tripDetails?.currency || 'INR';
+  const pendingTaskCount = tasks.filter((task) => task.status !== 'DONE').length;
 
   const categoryChartData = isDemoSession ? [
     { name: 'Hotel', value: 6000, color: '#22c55e' },
@@ -501,6 +907,31 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     { name: 'Sneha R.', paid: 0, share: 1933 },
     { name: 'Arjun M.', paid: 0, share: 1933 },
   ] : [];
+
+  const displayTripName = isDemoSession ? 'Darjeeling Himalayan Adventure' : tripDetails?.name || 'Your New Trip';
+  const displayDestination = isDemoSession
+    ? 'Darjeeling, West Bengal, India'
+    : tripDetails?.destination || 'Add your destination to get started';
+  const displayDates = isDemoSession
+    ? 'Sep 10 - Sep 14, 2026 (4 Days)'
+    : tripDetails?.startDate && tripDetails?.endDate
+      ? `${formatDate(tripDetails.startDate)} - ${formatDate(tripDetails.endDate)}`
+      : 'No dates selected';
+  const displayCoverImage = isDemoSession
+    ? 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80'
+    : tripDetails?.coverImage;
+  const countdownDays = !isDemoSession && tripDetails?.startDate
+    ? Math.ceil((new Date(`${tripDetails.startDate}T00:00:00`).getTime() - new Date().setHours(0, 0, 0, 0)) / 86400000)
+    : null;
+  const countdownLabel = isDemoSession
+    ? '19 Days'
+    : countdownDays === null
+      ? 'N/A'
+      : countdownDays > 0
+        ? `${countdownDays} Days`
+        : countdownDays === 0
+          ? 'Today'
+          : 'Trip started';
 
   return (
     <div className="min-h-full pb-16">
@@ -538,28 +969,6 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </p>
             </div>
           </div>
-
-          {/* Quick Role Switcher Pills */}
-          {activePersona && <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto">
-            <span className="text-[10px] uppercase font-bold text-slate-500 whitespace-nowrap mr-1">Switch:</span>
-            {DEMO_PERSONAS.map((p) => {
-              const isSelected = activePersona?.id === p.id || user?.id === p.id;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => switchPersona(p.id)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                    isSelected
-                      ? 'bg-white text-slate-900 shadow-md ring-2 ring-brand-400'
-                      : 'bg-white/10 hover:bg-white/20 text-slate-300'
-                  }`}
-                >
-                  <span>{p.fullName.split(' ')[0]}</span>
-                  <span className="text-[10px] opacity-75">({p.role})</span>
-                </button>
-              );
-            })}
-          </div>}
         </div>
       </div>
 
@@ -576,11 +985,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       {/* Trip Top Hero Banner */}
       <div className="relative bg-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-30 mix-blend-overlay">
-          <img
-            src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80"
-            alt="Darjeeling"
-            className="w-full h-full object-cover"
-          />
+          {displayCoverImage && <img src={displayCoverImage} alt={displayTripName} className="w-full h-full object-cover" />}
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent" />
 
@@ -598,14 +1003,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </>}
               </div>
               <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                {isDemoSession ? 'Darjeeling Himalayan Adventure' : 'Your New Trip'}
+                {displayTripName}
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 flex items-center gap-2 mt-1.5">
                 <MapPin className="w-4 h-4 text-brand-400" />
-                <span>{isDemoSession ? 'Darjeeling, West Bengal, India' : 'Add your destination to get started'}</span>
+                <span>{displayDestination}</span>
                 <span>•</span>
                 <Calendar className="w-4 h-4 text-slate-400" />
-                <span>{isDemoSession ? 'Sep 10 - Sep 14, 2026 (4 Days)' : 'No dates selected'}</span>
+                <span>{displayDates}</span>
               </p>
             </div>
 
@@ -613,12 +1018,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10">
               <div>
                 <p className="text-[10px] uppercase font-semibold text-slate-400">Total Spent</p>
-                <p className="text-lg font-extrabold text-brand-400">{isDemoSession ? '₹11,600' : '₹0'}</p>
+                <p className="text-lg font-extrabold text-brand-400">{formatCurrency(tripSpent, tripCurrency)}</p>
               </div>
               <div className="h-8 w-px bg-white/20" />
               <div>
                 <p className="text-[10px] uppercase font-semibold text-slate-400">Budget</p>
-                <p className="text-lg font-extrabold text-white">{isDemoSession ? '₹35,000' : '₹0'}</p>
+                <p className="text-lg font-extrabold text-white">{formatCurrency(tripBudget, tripCurrency)}</p>
               </div>
             </div>
           </div>
@@ -670,23 +1075,23 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 font-medium">Days Countdown</p>
-                <p className="text-2xl font-black text-slate-900 mt-1">{isDemoSession ? '19 Days' : 'N/A'}</p>
-                <p className="text-[11px] text-brand-600 font-semibold mt-0.5">{isDemoSession ? 'Departing Sep 10' : 'Add trip dates'}</p>
+                <p className="text-2xl font-black text-slate-900 mt-1">{countdownLabel}</p>
+                <p className="text-[11px] text-brand-600 font-semibold mt-0.5">{isDemoSession ? 'Departing Sep 10' : tripDetails?.startDate ? `Starts ${formatDate(tripDetails.startDate)}` : 'Add trip dates'}</p>
               </div>
               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 font-medium">Itinerary Items</p>
                 <p className="text-2xl font-black text-slate-900 mt-1">{activitiesList.length} Activities</p>
-                <p className="text-[11px] text-ocean-600 font-semibold mt-0.5">Across 4 Days</p>
+                <p className="text-[11px] text-ocean-600 font-semibold mt-0.5">Across {tripDays.length} Days</p>
               </div>
               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 font-medium">Split Status</p>
-                <p className="text-2xl font-black text-emerald-600 mt-1">{isDemoSession ? '₹11,600' : '₹0'}</p>
-                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '5 Transfers pending' : 'No expenses yet'}</p>
+                <p className="text-2xl font-black text-emerald-600 mt-1">{formatCurrency(tripSpent, tripCurrency)}</p>
+                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '5 Transfers pending' : `${debtTransfers.length} transfer${debtTransfers.length === 1 ? '' : 's'} pending`}</p>
               </div>
               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 font-medium">Pending Tasks</p>
-                <p className="text-2xl font-black text-amber-600 mt-1">{isDemoSession ? '2 Left' : '0 Left'}</p>
-                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '2 Completed' : 'No tasks yet'}</p>
+                <p className="text-2xl font-black text-amber-600 mt-1">{isDemoSession ? '2 Left' : `${pendingTaskCount} Left`}</p>
+                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '2 Completed' : `${tasks.length - pendingTaskCount} Completed`}</p>
               </div>
             </div>
 
@@ -760,36 +1165,6 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 ))}
               </div>
             </div>
-
-            {/* Trip Management Danger Zone (OWNER only) */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-bold text-slate-900">Trip Administrative Actions</h3>
-                <p className="text-xs text-slate-500">
-                  {can('DELETE_TRIP')
-                    ? 'You are the Owner. You can archive or permanently delete this trip.'
-                    : 'Trip deletion and ownership management is restricted to the Trip Owner (Rahul Sharma).'}
-                </p>
-              </div>
-
-              {can('DELETE_TRIP') ? (
-                <button
-                  onClick={() => alert('Trip deletion confirmed for Trip Owner.')}
-                  className="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold border border-red-200 flex items-center gap-1.5"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  <span>Delete Trip</span>
-                </button>
-              ) : (
-                <button
-                  onClick={() => showPermissionWarning('delete the trip')}
-                  className="px-3.5 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 flex items-center gap-1.5 cursor-not-allowed"
-                >
-                  <Lock className="w-4 h-4" />
-                  <span>Delete Locked (Owner Only)</span>
-                </button>
-              )}
-            </div>
           </div>
         )}
 
@@ -801,12 +1176,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             {/* Day Selector Pills & Action */}
             <div className="flex items-center justify-between gap-4 pb-2 border-b border-slate-200">
               <div className="flex items-center gap-2 overflow-x-auto">
-                {[
-                  { num: 1, date: 'Sep 10', label: 'Day 1: Arrival' },
-                  { num: 2, date: 'Sep 11', label: 'Day 2: Tiger Hill' },
-                  { num: 3, date: 'Sep 12', label: 'Day 3: Monasteries' },
-                  { num: 4, date: 'Sep 13', label: 'Day 4: Toy Train' },
-                ].map((d) => (
+                {tripDays.map((d) => (
                   <button
                     key={d.num}
                     onClick={() => setSelectedDay(d.num)}
@@ -817,35 +1187,73 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     }`}
                   >
                     <span>{d.label}</span>
-                    <span className="block text-[10px] font-normal opacity-80">{d.date}</span>
+                    <span className="block text-[10px] font-normal opacity-80">
+                      {new Date(`${d.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
                   </button>
                 ))}
               </div>
 
-              {can('ADD_ACTIVITY') ? (
-                <button
-                  onClick={() => setShowAddActivityModal(true)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-sm"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add Activity</span>
-                </button>
-              ) : (
-                <button
-                  onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-semibold border border-slate-200 cursor-not-allowed"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Add Activity (Read-Only)</span>
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                {can('EDIT_TRIP') && (
+                  <form onSubmit={handleAddDay} className="flex items-center gap-1.5">
+                    <input
+                      type="date"
+                      required
+                      value={newDayDate}
+                      onChange={(event) => setNewDayDate(event.target.value)}
+                      className="rounded-lg border border-slate-300 px-2 py-2 text-xs"
+                      aria-label="New itinerary day date"
+                    />
+                    <input
+                      value={newDayLabel}
+                      onChange={(event) => setNewDayLabel(event.target.value)}
+                      placeholder="Day title"
+                      className="w-28 rounded-lg border border-slate-300 px-2 py-2 text-xs"
+                      aria-label="New itinerary day title"
+                    />
+                    <button type="submit" className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white">
+                      <Plus className="h-3.5 w-3.5" />
+                      Add day
+                    </button>
+                  </form>
+                )}
+                {can('EDIT_TRIP') && tripDays.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleDeleteDay}
+                    className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Delete day
+                  </button>
+                )}
+                {can('ADD_ACTIVITY') ? (
+                  <button
+                    onClick={() => setShowAddActivityModal(true)}
+                    disabled={tripDays.length === 0}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Activity</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-semibold border border-slate-200 cursor-not-allowed"
+                  >
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Add Activity (Read-Only)</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Timeline for Selected Day */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
               <h2 className="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-brand-600" />
-                Day {selectedDay} Schedule
+                {tripDays.find((day) => day.num === selectedDay)?.label || 'Itinerary'} Schedule
               </h2>
 
               <div className="space-y-6 relative before:absolute before:inset-0 before:left-4 before:h-full before:w-0.5 before:bg-slate-200">
@@ -927,7 +1335,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <div>
                     <h3 className="font-bold text-base text-white">Optimal Debt Settlement Engine</h3>
                     <p className="text-xs text-slate-400">
-                      Reduced complex reciprocal debts into 5 minimal direct transfers.
+                      {debtTransfers.length > 0
+                        ? `Reduced shared expenses into ${debtTransfers.length} minimal direct transfer${debtTransfers.length === 1 ? '' : 's'}.`
+                        : 'Everyone is settled. New shared expenses will appear here.'}
                     </p>
                   </div>
                 </div>
@@ -977,6 +1387,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     </div>
                   );
                 })}
+                {debtTransfers.length === 0 && (
+                  <p className="col-span-full py-6 text-center text-sm text-slate-400">No outstanding settlements.</p>
+                )}
               </div>
             </div>
 
@@ -1033,6 +1446,33 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <p className="text-xs text-slate-500 mt-0.5">Assign and track who is managing what.</p>
               </div>
             </div>
+
+            {can('MANAGE_TASKS') && (
+              <form onSubmit={handleAddTask} className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-[1.5fr_1fr_1fr_1fr_auto] md:items-end">
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Task</label>
+                  <input required value={newTask.title} onChange={(event) => setNewTask({ ...newTask, title: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Task to complete" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Assignee</label>
+                  <select value={newTask.assignedToId} onChange={(event) => setNewTask({ ...newTask, assignedToId: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                    <option value="">Unassigned</option>
+                    {members.map((member) => <option key={member.id} value={member.id}>{member.name}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Due date</label>
+                  <input type="date" value={newTask.dueDate} onChange={(event) => setNewTask({ ...newTask, dueDate: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold text-slate-700">Priority</label>
+                  <select value={newTask.priority} onChange={(event) => setNewTask({ ...newTask, priority: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                    <option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option><option value="URGENT">Urgent</option>
+                  </select>
+                </div>
+                <button type="submit" className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-bold text-white">Add task</button>
+              </form>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* To Do Column */}
@@ -1430,11 +1870,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
               {can('INVITE_MEMBERS') ? (
                 <button
-                  onClick={() => copyToClipboard('http://localhost:3000/invite/inv_darjeeling2026')}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow"
+                  onClick={() => lastInviteLink && copyToClipboard(lastInviteLink)}
+                  disabled={!lastInviteLink}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Copy className="w-3.5 h-3.5" />
-                  <span>{copiedText?.includes('invite') ? 'Link Copied!' : 'Copy Invite Link'}</span>
+                  <span>{copiedText === lastInviteLink ? 'Link Copied!' : 'Copy Latest Invite Link'}</span>
                 </button>
               ) : (
                 <button

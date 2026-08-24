@@ -2,7 +2,7 @@ import { Injectable, Inject, Optional, NotFoundException } from '@nestjs/common'
 import { CreateTripInput, UpdateTripInput } from '@tripsync/validation';
 import { Trip, TripRole, TripStatus, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { trips, tripMembers, profiles, tripDays, activities } from '../../database/schema';
+import { trips, tripMembers, profiles, activities } from '../../database/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_TRIP_2_ID, SEED_USERS } from '../../database/seed';
 
@@ -152,22 +152,6 @@ export class TripsService {
           userId: userId,
           role: TripRole.OWNER,
         } as any) as any);
-
-        // Automatically create initial days for the trip
-        const start = new Date(input.startDate);
-        const end = new Date(input.endDate);
-        const dayCount = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 3600 * 24)) + 1);
-
-        for (let i = 1; i <= Math.min(dayCount, 14); i++) {
-          const dayDate = new Date(start);
-          dayDate.setDate(start.getDate() + (i - 1));
-          await (this.db.insert(tripDays).values({
-            tripId: inserted.id,
-            dayNumber: i,
-            date: dayDate.toISOString().split('T')[0],
-            title: `Day ${i}`,
-          } as any) as any);
-        }
 
         return inserted;
       } catch (err) {

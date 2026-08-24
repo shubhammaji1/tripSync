@@ -16,6 +16,7 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmationMessage, setConfirmationMessage] = useState<string | null>(null);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +25,11 @@ export default function RegisterPage() {
     try {
       setLoading(true);
       setError(null);
-      await register(fullName, email, password, phone);
+      const result = await register(fullName, email, password, phone);
+      if (result && 'requiresEmailConfirmation' in result) {
+        setConfirmationMessage(result.message);
+        return;
+      }
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please check your information.');
@@ -55,6 +60,13 @@ export default function RegisterPage() {
           </div>
         )}
 
+        {confirmationMessage && (
+          <div className="p-3 mb-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium">
+            {confirmationMessage}
+          </div>
+        )}
+
+        {!confirmationMessage && (
         <form onSubmit={handleRegister} className="space-y-4 text-xs">
           <div>
             <label className="block font-semibold text-slate-700 mb-1.5">Full Name</label>
@@ -134,6 +146,7 @@ export default function RegisterPage() {
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+        )}
 
         <div className="mt-6 pt-6 border-t border-slate-100 text-center">
           <p className="text-xs text-slate-500">

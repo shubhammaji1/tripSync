@@ -14,6 +14,7 @@ import {
   Sparkles,
   X,
   CheckCircle2,
+  Trash2,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -54,7 +55,7 @@ const DEFAULT_TRIPS = [
 
 function DashboardContent() {
   const searchParams = useSearchParams();
-  const { user, activePersona, currentRole, logout } = useAuth();
+  const { user } = useAuth();
   const [trips, setTrips] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'planning' | 'active' | 'completed'>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -115,13 +116,14 @@ function DashboardContent() {
     });
   }, []);
 
-  const handleCreateTrip = (e: React.FormEvent) => {
+  const handleCreateTrip = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTrip.name || !newTrip.destination) return;
 
     const created = {
       id: 'trip-' + Date.now(),
       ...newTrip,
+      budget: Number(newTrip.budget) || 0,
       status: 'PLANNING',
       memberCount: 1,
       totalExpenses: 0,
@@ -137,7 +139,25 @@ function DashboardContent() {
       ],
     };
 
-    const nextTrips = [created, ...trips];
+    let savedTrip = created;
+    try {
+      const response = await api.createTrip({
+        name: newTrip.name,
+        destination: newTrip.destination,
+        description: newTrip.description || null,
+        startDate: newTrip.startDate,
+        endDate: newTrip.endDate,
+        budget: Number(newTrip.budget) || null,
+        currency: newTrip.currency,
+        coverImage: newTrip.coverImage,
+        privacy: 'PRIVATE',
+      });
+      savedTrip = { ...created, ...response, budget: Number(response.budget ?? created.budget) };
+    } catch {
+      // Keep the local trip available when the API/database is not configured.
+    }
+
+    const nextTrips = [savedTrip, ...trips];
     setTrips(nextTrips);
     localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(nextTrips));
     setShowCreateModal(false);
@@ -153,28 +173,38 @@ function DashboardContent() {
     });
   };
 
+  const handleDeleteTrip = async (tripId: string) => {
+    if (!window.confirm('Delete this trip permanently?')) return;
+
+    try {
+      await api.deleteTrip(tripId);
+    } catch {
+      // Local/demo trips are not present in the API database.
+    }
+
+    const remainingTrips = trips.filter((trip) => trip.id !== tripId);
+    setTrips(remainingTrips);
+    localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(remainingTrips));
+  };
+
   const filteredTrips = trips.filter((t) => {
     if (filter === 'all') return true;
     return t.status.toLowerCase() === filter;
   });
 
-  const handleSignOut = () => {
-    logout();
-    window.location.href = '/login';
+  const getTripDayCount = (trip: any) => {
+    if (typeof window === 'undefined') return trip.dayCount || trip.days?.length || 0;
+    try {
+      const savedDays = JSON.parse(localStorage.getItem(`tripsync_trip_days_${trip.id}`) || '[]');
+      return Array.isArray(savedDays) ? savedDays.length : trip.dayCount || trip.days?.length || 0;
+    } catch {
+      return trip.dayCount || trip.days?.length || 0;
+    }
   };
-
-  const roleBadgeClass =
-    currentRole === 'OWNER'
-      ? 'border-amber-300 bg-amber-100 text-amber-900'
-      : currentRole === 'ADMIN'
-        ? 'border-sky-300 bg-sky-100 text-sky-900'
-        : currentRole === 'MEMBER'
-          ? 'border-emerald-300 bg-emerald-100 text-emerald-900'
-          : 'border-purple-300 bg-purple-100 text-purple-900';
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-8">
+      <div className="grid grid-cols-1 gap-8">
         {!isDemoSession && filteredTrips.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-white/80 px-6 py-20 text-center shadow-sm">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-8 ring-brand-100">
@@ -270,6 +300,10 @@ function DashboardContent() {
                         <Users className="w-4 h-4 text-slate-400" />
                         <span>{trip.memberCount} Members</span>
                       </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-slate-400" />
+                        <span>{getTripDayCount(trip)} Days</span>
+                      </div>
                     </div>
                   </div>
 
@@ -282,6 +316,17 @@ function DashboardContent() {
                       <span className="text-slate-400">Spent: </span>
                       <span className="font-bold text-slate-800">{formatCurrency(trip.totalExpenses || 0, trip.currency)}</span>
                     </div>
+                    <button
+                      type="button"
+                      aria-label={`Delete ${trip.name}`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDeleteTrip(trip.id);
+                      }}
+                      className="rounded-lg p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-600"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -290,89 +335,6 @@ function DashboardContent() {
           </div>
         )}
 
-        <aside className="hidden xl:block">
-          <div className="rounded-[22px] border border-slate-200 bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <div className="border-b border-slate-200 pb-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">Active Session</p>
-              <div className="mt-3 flex items-center justify-between">
-                <div>
-                  <p className="text-2xl font-extrabold text-slate-900">{user?.fullName || 'Owner'}</p>
-                  <p className="text-sm text-slate-500">{user?.email || 'owner@tripsync.local'}</p>
-                </div>
-              </div>
-            </div>
-
-            {activePersona && (
-              <button
-                onClick={() => {
-                  if (window.confirm('This is a demo role switcher. Continue?')) {
-                    const demo = window.localStorage.getItem('tripsync_persona_id');
-                    if (demo) {
-                      window.location.reload();
-                    }
-                  }
-                }}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-3 text-sm font-bold text-emerald-700"
-              >
-                <span className="text-lg">✦</span>
-                Switch RBAC Role Simulator
-              </button>
-            )}
-
-            {activePersona ? (
-              <div className="mt-5 space-y-3">
-                {[
-                  { name: 'Rahul Sharma', role: 'OWNER', tone: 'amber' },
-                  { name: 'Shubham Verma', role: 'ADMIN', tone: 'sky' },
-                  { name: 'Priya Patel', role: 'MEMBER', tone: 'emerald' },
-                  { name: 'Ananya Sen', role: 'VIEWER', tone: 'purple' },
-                ].map((member) => (
-                  <div
-                    key={member.name}
-                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-gradient-to-br from-slate-200 to-slate-300" />
-                      <div>
-                        <p className="text-sm font-semibold text-slate-800">{member.name}</p>
-                        <span
-                          className={`mt-1 inline-flex rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] ${
-                            member.tone === 'amber'
-                              ? 'border-amber-300 bg-amber-100 text-amber-900'
-                              : member.tone === 'sky'
-                                ? 'border-sky-300 bg-sky-100 text-sky-900'
-                                : member.tone === 'emerald'
-                                  ? 'border-emerald-300 bg-emerald-100 text-emerald-900'
-                                  : 'border-purple-300 bg-purple-100 text-purple-900'
-                          }`}
-                        >
-                          {member.role}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-semibold text-slate-800">Current role</span>
-                  <span className={`inline-flex rounded border px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] ${roleBadgeClass}`}>
-                    {currentRole}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            <button
-              onClick={handleSignOut}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-3 text-sm font-semibold text-red-600"
-            >
-              <span>↩</span>
-              Sign Out
-            </button>
-          </div>
-        </aside>
       </div>
 
       {/* Create Trip Modal */}

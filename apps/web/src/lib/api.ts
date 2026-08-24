@@ -1,4 +1,4 @@
-import { Profile, DemoPersona, AuthResponse } from '@tripsync/types';
+import { Profile, AuthResponse } from '@tripsync/types';
 import { LoginInput, RegisterInput } from '@tripsync/validation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
@@ -36,20 +36,26 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
 
     return await res.json();
   } catch (err: any) {
-    console.warn(`API request to ${endpoint} failed, fallback behavior active:`, err.message);
+    console.warn(`API request to ${endpoint} failed:`, err.message);
     throw err;
   }
 }
 
 export const api = {
-  // Auth & Personas
+  // Auth & Profiles
   login: (data: LoginInput) => fetcher<AuthResponse>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
-  register: (data: RegisterInput) => fetcher<AuthResponse>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+  register: (data: RegisterInput) =>
+    fetcher<AuthResponse | { requiresEmailConfirmation: true; message: string }>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
   getMe: () => fetcher<Profile>('/auth/me'),
-  getPersonas: () => fetcher<DemoPersona[]>('/auth/personas'),
   logout: () => fetcher<{ success: boolean }>('/auth/logout', { method: 'POST' }),
   acceptInvitation: (data: { token: string; fullName: string; password: string }) =>
-    fetcher<AuthResponse>('/auth/accept-invitation', { method: 'POST', body: JSON.stringify(data) }),
+    fetcher<AuthResponse | { requiresEmailConfirmation: true; message: string }>('/auth/accept-invitation', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 
   // Trips
   getTrips: () => fetcher<any[]>('/trips'),
@@ -60,6 +66,10 @@ export const api = {
 
   // Itinerary
   getItinerary: (tripId: string) => fetcher<any[]>(`/trips/${tripId}/itinerary`),
+  createTripDay: (tripId: string, data: any) =>
+    fetcher<any>(`/trips/${tripId}/itinerary/days`, { method: 'POST', body: JSON.stringify(data) }),
+  deleteTripDay: (tripId: string, dayId: string) =>
+    fetcher<any>(`/trips/${tripId}/itinerary/days/${dayId}`, { method: 'DELETE' }),
   createActivity: (tripId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/itinerary/activities`, { method: 'POST', body: JSON.stringify(data) }),
   deleteActivity: (activityId: string) =>

@@ -4,7 +4,14 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from '../../common/auth.guard';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
-import { acceptInvitationSchema, AcceptInvitationInput, loginSchema, registerSchema, LoginInput, RegisterInput } from '@tripsync/validation';
+import {
+  acceptInvitationSchema,
+  AcceptInvitationInput,
+  loginSchema,
+  registerSchema,
+  LoginInput,
+  RegisterInput,
+} from '@tripsync/validation';
 import { Profile } from '@tripsync/types';
 
 @ApiTags('Auth & Profiles')
@@ -13,21 +20,21 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Authenticate user with email and password or demo credentials' })
-  @ApiResponse({ status: 200, description: 'Authentication successful with JWT token' })
+  @ApiOperation({ summary: 'Authenticate against Supabase Auth with email and password' })
+  @ApiResponse({ status: 200, description: 'Authentication successful, returns a Supabase session token' })
   async login(@Body(new ZodValidationPipe(loginSchema)) body: LoginInput) {
     return this.authService.login(body);
   }
 
   @Post('register')
-  @ApiOperation({ summary: 'Register a new traveler user account' })
-  @ApiResponse({ status: 201, description: 'User account successfully registered' })
+  @ApiOperation({ summary: 'Register a new traveler account via Supabase Auth' })
+  @ApiResponse({ status: 201, description: 'Account created (may require email confirmation)' })
   async register(@Body(new ZodValidationPipe(registerSchema)) body: RegisterInput) {
     return this.authService.register(body);
   }
 
   @Post('accept-invitation')
-  @ApiOperation({ summary: 'Create an account from a trip invitation and set a password' })
+  @ApiOperation({ summary: 'Create an account from a trip invitation, set a password, and join the trip' })
   async acceptInvitation(@Body(new ZodValidationPipe(acceptInvitationSchema)) body: AcceptInvitationInput) {
     return this.authService.acceptInvitation(body);
   }
@@ -40,15 +47,12 @@ export class AuthController {
     return this.authService.getCurrentUserProfile(user);
   }
 
-  @Get('personas')
-  @ApiOperation({ summary: 'Get list of the 4 RBAC demo personas (OWNER, ADMIN, MEMBER, VIEWER)' })
-  async getPersonas() {
-    return this.authService.getDemoPersonas();
-  }
-
   @Post('logout')
   @ApiOperation({ summary: 'Log out current session' })
   async logout() {
-    return { success: true, message: 'Logged out successfully' };
+    // Session invalidation happens client-side (Supabase client clears the
+    // local session / calls Supabase's own /auth/v1/logout with the token).
+    // Nothing server-side to fabricate a response for.
+    return { success: true };
   }
 }

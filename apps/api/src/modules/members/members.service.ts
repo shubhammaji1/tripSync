@@ -5,12 +5,11 @@ import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { tripMembers, tripInvitations, profiles } from '../../database/schema';
 import { eq, and } from 'drizzle-orm';
 import { SEED_USERS } from '../../database/seed';
-import { AuthService } from '../auth/auth.service';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class MembersService {
   constructor(
-    private readonly authService: AuthService,
     @Optional() @Inject(DRIZZLE_PROVIDER) private db?: DrizzleDB,
   ) {}
 
@@ -38,7 +37,8 @@ export class MembersService {
   }
 
   async inviteMember(tripId: string, invitedBy: string, input: InviteMemberInput) {
-    const { token, expiresAt } = this.authService.createInvitation({ tripId, invitedBy, email: input.email, role: input.role });
+    const token = `inv_${randomUUID().replace(/-/g, '')}`;
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     if (this.db) {
       try {

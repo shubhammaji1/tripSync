@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { CommonModule } from './common/common.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TripsModule } from './modules/trips/trips.module';
@@ -18,6 +19,7 @@ import { RealtimeModule } from './modules/realtime/realtime.module';
       isGlobal: true,
       envFilePath: ['.env.local', '.env', '../../.env'],
     }),
+    CommonModule,
     DatabaseModule,
     RealtimeModule,
     AuthModule,
