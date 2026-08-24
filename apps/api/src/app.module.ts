@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { DatabaseModule } from './database/database.module';
+import { HealthController } from './modules/health/health.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { TripsModule } from './modules/trips/trips.module';
 import { MembersModule } from './modules/members/members.module';
@@ -32,5 +33,6 @@ import { RealtimeModule } from './modules/realtime/realtime.module';
     EmergencyModule,
     AnalyticsModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}
