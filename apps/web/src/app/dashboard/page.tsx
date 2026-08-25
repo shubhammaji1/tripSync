@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import {
   Plus,
   Compass,
@@ -18,7 +19,6 @@ import {
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { useAuth } from '@/lib/auth-context';
 
 const TRIPS_STORAGE_KEY = 'tripsync_trips';
 
@@ -55,11 +55,28 @@ const DEFAULT_TRIPS = [
 
 function DashboardContent() {
   const searchParams = useSearchParams();
-  const { user } = useAuth();
+  const router = useRouter();
+  // Clerk is the active session provider for the web app (and the provider
+  // used by the navigation bar).  Do not gate this route on the legacy
+  // Supabase token stored by AuthProvider: a valid Clerk user does not have
+  // that token, which previously sent them back to sign-in.
+  const { isLoaded: isClerkLoaded, isSignedIn, user } = useUser();
   const [trips, setTrips] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'planning' | 'active' | 'completed'>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isDemoSession, setIsDemoSession] = useState(false);
+
+  // Gate the whole dashboard behind real authentication. Previously this
+  // page rendered fully (including the "Create your first trip" flow) for
+  // logged-out visitors, who could open the create form and submit it only
+  // to have the request rejected by the backend's AuthGuard - a confusing
+  // dead end instead of a clear sign-in prompt.
+  useEffect(() => {
+    if (isClerkLoaded && !isSignedIn) {
+      router.replace(`/login?next=${encodeURIComponent('/dashboard')}`);
+    }
+  }, [isClerkLoaded, isSignedIn, router]);
+
 
   // Form state for creating a new trip
   const [newTrip, setNewTrip] = useState({
@@ -127,13 +144,13 @@ function DashboardContent() {
       status: 'PLANNING',
       memberCount: 1,
       totalExpenses: 0,
-      ownerName: user?.fullName || 'Trip Owner',
-      ownerEmail: user?.email || 'owner@tripsync.local',
+      ownerName: user?.fullName || user?.firstName || 'Trip Owner',
+      ownerEmail: user?.primaryEmailAddress?.emailAddress || 'owner@tripsync.local',
       members: [
         {
           id: user?.id || 'owner-current-user',
-          name: user?.fullName || 'Trip Owner',
-          email: user?.email || 'owner@tripsync.local',
+          name: user?.fullName || user?.firstName || 'Trip Owner',
+          email: user?.primaryEmailAddress?.emailAddress || 'owner@tripsync.local',
           role: 'OWNER',
         },
       ],
@@ -201,6 +218,17 @@ function DashboardContent() {
       return trip.dayCount || trip.days?.length || 0;
     }
   };
+
+  // While the session is being validated, or once we know the visitor isn't
+  // signed in and the redirect above is about to fire, show a neutral
+  // loading state instead of flashing the real dashboard content.
+  if (!isClerkLoaded || !isSignedIn) {
+    return (
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-24 flex items-center justify-center">
+        <p className="text-sm text-slate-500">Checking your session...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -284,14 +312,14 @@ function DashboardContent() {
 
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h2 className="text-[2rem] leading-tight font-extrabold tracking-[-0.04em] text-slate-900">
+                    <h2 className="text-2xl sm:text-[2rem] leading-tight font-extrabold tracking-[-0.04em] text-slate-900 break-words">
                       {trip.name}
                     </h2>
                     <p className="text-sm text-slate-500 mt-2 line-clamp-2">
                       {trip.description}
                     </p>
 
-                    <div className="flex items-center gap-5 mt-4 text-sm text-slate-600">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-sm text-slate-600">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-slate-400" />
                         <span>{formatDate(trip.startDate)}</span>
@@ -307,7 +335,7 @@ function DashboardContent() {
                     </div>
                   </div>
 
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-sm">
+                  <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm">
                     <div>
                       <span className="text-slate-400">Budget: </span>
                       <span className="font-bold text-slate-800">{formatCurrency(trip.budget || 0, trip.currency)}</span>

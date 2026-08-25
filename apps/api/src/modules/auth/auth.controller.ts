@@ -9,8 +9,10 @@ import {
   AcceptInvitationInput,
   loginSchema,
   registerSchema,
+  verifyEmailOtpSchema,
   LoginInput,
   RegisterInput,
+  VerifyEmailOtpInput,
 } from '@tripsync/validation';
 import { Profile } from '@tripsync/types';
 
@@ -31,6 +33,13 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Account created (may require email confirmation)' })
   async register(@Body(new ZodValidationPipe(registerSchema)) body: RegisterInput) {
     return this.authService.register(body);
+  }
+
+  @Post('verify-email-otp')
+  @ApiOperation({ summary: 'Verify the email OTP sent after registration and create a session' })
+  @ApiResponse({ status: 201, description: 'Email verified and authenticated session returned' })
+  async verifyEmailOtp(@Body(new ZodValidationPipe(verifyEmailOtpSchema)) body: VerifyEmailOtpInput) {
+    return this.authService.verifyEmailOtp(body);
   }
 
   @Post('accept-invitation')

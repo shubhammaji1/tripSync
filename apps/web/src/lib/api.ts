@@ -31,7 +31,9 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || `API error: ${res.status}`);
+      const fieldError = Array.isArray(errorData.errors) ? errorData.errors[0]?.message : undefined;
+      const message = Array.isArray(errorData.message) ? errorData.message[0] : errorData.message;
+      throw new Error(fieldError || message || `API error: ${res.status}`);
     }
 
     return await res.json();
@@ -46,6 +48,11 @@ export const api = {
   login: (data: LoginInput) => fetcher<AuthResponse>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
   register: (data: RegisterInput) =>
     fetcher<AuthResponse | { requiresEmailConfirmation: true; message: string }>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  verifyEmailOtp: (data: { email: string; token: string }) =>
+    fetcher<AuthResponse>('/auth/verify-email-otp', {
       method: 'POST',
       body: JSON.stringify(data),
     }),

@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.8.2",
     "@tripsync/types": "workspace:*",
     "@tripsync/validation": "workspace:*",
     "clsx": "^2.1.1",

@@ -29,6 +29,15 @@ export const registerSchema = z.object({
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 
+export const verifyEmailOtpSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  // Supabase-hosted projects issue a numeric email token. Accept both the
+  // six- and eight-digit forms used by different Supabase Auth versions.
+  token: z.string().regex(/^\d{6,8}$/, 'Enter the verification code from your email'),
+});
+
+export type VerifyEmailOtpInput = z.infer<typeof verifyEmailOtpSchema>;
+
 export const acceptInvitationSchema = z.object({
   token: z.string().min(1),
   fullName: z.string().min(2, 'Full name must be at least 2 characters').max(100),

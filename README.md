@@ -102,6 +102,17 @@ pnpm dev
 - **API Swagger Docs**: `http://localhost:4000/api/docs`
 - **Mailpit (Email Testing)**: `http://localhost:8025`
 
+### Email OTP verification
+
+TripSync verifies a new account with an email OTP before starting its session. In
+Supabase, open **Authentication → Sign In / Providers → Email** and enable
+**Confirm email** (this turns `mailer_autoconfirm` off). Then update **Auth →
+Email Templates → Confirm signup** to include `{{ .Token }}` (rather than only
+`{{ .ConfirmationURL }}`).
+The frontend accepts the six- or eight-digit token and sends it to the API for
+verification. For production, configure custom SMTP and an appropriate email
+rate limit in Supabase to avoid delivery quotas during registration.
+
 ---
 
 ## 🗂️ Monorepo Structure

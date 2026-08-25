@@ -1,5 +1,46 @@
 {
-  "node": {},
+  "node": {
+    "0a0ab06f6f69891fb13ee7b82e3eff593eefd13a": {
+      "workers": {
+        "app/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/dashboard/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/login/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/sign-in/[[...sign-in]]/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/trips/[id]/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/_not-found/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!",
+        "app/sign-up/[[...sign-up]]/page": "(rsc)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Ckeyless-actions.js%22%2C%5B%22deleteKeylessAction%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/page": "rsc",
+        "app/dashboard/page": "rsc",
+        "app/login/page": "rsc",
+        "app/sign-in/[[...sign-in]]/page": "rsc",
+        "app/trips/[id]/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/sign-up/[[...sign-up]]/page": "rsc"
+      }
+    },
+    "4b0f09702dc6c93199f0b5dc7f275a40953bca14": {
+      "workers": {
+        "app/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/dashboard/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/login/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/sign-in/[[...sign-in]]/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/trips/[id]/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!",
+        "app/sign-up/[[...sign-up]]/page": "(action-browser)/../../node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5CTripSync%5C%5Cnode_modules%5C%5C.pnpm%5C%5C%40clerk%2Bnextjs%407.8.2_next%4014.2.35_react-dom%4018.3.1_react%4018.3.1%5C%5Cnode_modules%5C%5C%40clerk%5C%5Cnextjs%5C%5Cdist%5C%5Cesm%5C%5Capp-router%5C%5Cserver-actions.js%22%2C%5B%22invalidateCacheAction%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/page": "action-browser",
+        "app/dashboard/page": "action-browser",
+        "app/login/page": "action-browser",
+        "app/sign-in/[[...sign-in]]/page": "action-browser",
+        "app/trips/[id]/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/sign-up/[[...sign-up]]/page": "action-browser"
+      }
+    }
+  },
   "edge": {},
-  "encryptionKey": "NMHqdG10025uMeXfKD8MeOhrElVmMz48Jwd3p2g5PyY="
+  "encryptionKey": "ToWLNSNjFtD5RQwweH4wlL8QMa0NcT/Zp2Z3MpGHdYs="
 }

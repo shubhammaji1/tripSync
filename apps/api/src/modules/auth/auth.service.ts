@@ -4,12 +4,14 @@ import {
   BadRequestException,
   UnauthorizedException,
   ConflictException,
+  HttpException,
+  HttpStatus,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Profile, AuthResponse, InvitationStatus } from '@tripsync/types';
-import { AcceptInvitationInput, LoginInput, RegisterInput } from '@tripsync/validation';
+import { AcceptInvitationInput, LoginInput, RegisterInput, VerifyEmailOtpInput } from '@tripsync/validation';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { tripInvitations, tripMembers } from '../../database/schema';
 import { eq } from 'drizzle-orm';
@@ -65,6 +67,49 @@ export class AuthService {
   }
 
   /**
+   * New users must prove control of their email before TripSync creates a
+   * session for them. Supabase exposes this setting through its public Auth
+   * settings endpoint, so check it before creating an account rather than
+   * discovering the misconfiguration after a session has already been issued.
+   */
+  private async ensureEmailOtpIsRequired(): Promise<void> {
+    const res = await fetch(`${this.supabaseUrl()}/auth/v1/settings`, {
+      headers: { apikey: this.supabaseAnonKey() },
+    });
+    const settings = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      throw new ServiceUnavailableException(
+        'Unable to verify the email confirmation settings. Please try again shortly.',
+      );
+    }
+
+    if (settings?.mailer_autoconfirm) {
+      throw new ServiceUnavailableException(
+        'Email OTP verification is not configured. In Supabase, enable Confirm email before registering.',
+      );
+    }
+  }
+
+  /**
+   * Translates authentication-provider failures into useful application
+   * errors. Supabase can surface an email quota error with either 400 or
+   * 429, so match the provider's message as well as its HTTP status.
+   */
+  private throwAuthError(status: number, data: any, fallback: string): never {
+    const message = data?.error_description || data?.msg || fallback;
+
+    if (status === 429 || /rate limit|too many requests/i.test(message)) {
+      throw new HttpException(
+        'Too many verification emails have been requested. Please wait a few minutes before trying again.',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
+    throw new BadRequestException(message);
+  }
+
+  /**
    * Authenticates against Supabase Auth. TripSync's API never checks a
    * password itself - there is nothing here to bypass.
    */
@@ -98,6 +143,8 @@ export class AuthService {
   async register(
     input: RegisterInput,
   ): Promise<AuthResponse | { requiresEmailConfirmation: true; message: string }> {
+    await this.ensureEmailOtpIsRequired();
+
     const { status, data } = await this.supabaseFetch('/auth/v1/signup', {
       email: input.email,
       password: input.password,
@@ -110,7 +157,7 @@ export class AuthService {
           'An account with this email address already exists. Please log in.',
         );
       }
-      throw new BadRequestException(data?.error_description || data?.msg || 'Unable to register account');
+      this.throwAuthError(status, data, 'Unable to register account');
     }
 
     if (!data.access_token || !data.user) {
@@ -118,6 +165,36 @@ export class AuthService {
         requiresEmailConfirmation: true,
         message: 'Account created. Check your email to confirm your account before logging in.',
       };
+    }
+
+    const profile = await this.profileSync.syncFromClaims({
+      sub: data.user.id,
+      email: data.user.email,
+      phone: data.user.phone,
+      user_metadata: data.user.user_metadata,
+    });
+
+    return { user: profile, token: data.access_token };
+  }
+
+  /**
+   * Confirms the OTP issued by Supabase's Confirm signup email template.
+   * A verified session is exchanged here rather than on the client so the
+   * profile is synced before the user reaches the dashboard.
+   */
+  async verifyEmailOtp(input: VerifyEmailOtpInput): Promise<AuthResponse> {
+    const { status, data } = await this.supabaseFetch('/auth/v1/verify', {
+      email: input.email,
+      token: input.token,
+      type: 'email',
+    });
+
+    if (status !== 200 || !data.access_token || !data.user) {
+      this.throwAuthError(
+        status,
+        data,
+        'That verification code is invalid or has expired. Request a new code and try again.',
+      );
     }
 
     const profile = await this.profileSync.syncFromClaims({
@@ -154,6 +231,8 @@ export class AuthService {
       throw new BadRequestException('This invitation has expired');
     }
 
+    await this.ensureEmailOtpIsRequired();
+
     const { status, data } = await this.supabaseFetch('/auth/v1/signup', {
       email: invite.email,
       password: input.password,
@@ -164,7 +243,7 @@ export class AuthService {
       if (status === 422 || /already registered/i.test(data?.msg || '')) {
         throw new ConflictException('An account with this email already exists. Please log in instead.');
       }
-      throw new BadRequestException(data?.error_description || data?.msg || 'Unable to create account');
+      this.throwAuthError(status, data, 'Unable to create account');
     }
 
     if (!data.user) {

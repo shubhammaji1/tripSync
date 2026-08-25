@@ -992,7 +992,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex flex-wrap items-center gap-2 mb-2">
                 {isDemoSession && <>
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/40">
                     🏔️ Mountain Expedition
@@ -1005,7 +1005,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                 {displayTripName}
               </h1>
-              <p className="text-xs sm:text-sm text-slate-300 flex items-center gap-2 mt-1.5">
+              <p className="text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5">
                 <MapPin className="w-4 h-4 text-brand-400" />
                 <span>{displayDestination}</span>
                 <span>•</span>
@@ -1015,7 +1015,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             </div>
 
             {/* Quick Spend Counter */}
-            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10">
+            <div className="w-full md:w-auto flex items-center justify-between gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10">
               <div>
                 <p className="text-[10px] uppercase font-semibold text-slate-400">Total Spent</p>
                 <p className="text-lg font-extrabold text-brand-400">{formatCurrency(tripSpent, tripCurrency)}</p>
@@ -1072,7 +1072,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Quick Metrics */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                 <p className="text-xs text-slate-500 font-medium">Days Countdown</p>
                 <p className="text-2xl font-black text-slate-900 mt-1">{countdownLabel}</p>
