@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
@@ -16,11 +16,48 @@ import {
   X,
   CheckCircle2,
   Trash2,
+  Search,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
 
 const TRIPS_STORAGE_KEY = 'tripsync_trips';
+
+type PlaceSuggestion = {
+  display_name: string;
+  lat: string;
+  lon: string;
+  imageUrl?: string | null;
+};
+
+async function findPlaceImage(placeName: string): Promise<string | null> {
+  const placeParts = placeName.split(',').map((part) => part.trim()).filter(Boolean);
+  const searchName = placeParts.slice(0, 2).join(' ');
+  const params = new URLSearchParams({
+    action: 'query',
+    generator: 'search',
+    gsrnamespace: '6',
+    gsrsearch: `${searchName} landscape`,
+    gsrlimit: '1',
+    prop: 'imageinfo',
+    iiprop: 'url|mime',
+    iiurlwidth: '1200',
+    format: 'json',
+    origin: '*',
+  });
+
+  try {
+    const response = await fetch(`https://commons.wikimedia.org/w/api.php?${params}`);
+    const data = await response.json();
+    const pages = data.query?.pages ? Object.values(data.query.pages) as Array<{ imageinfo?: Array<{ mime?: string; thumburl?: string; url?: string }> }> : [];
+    const image = pages
+      .flatMap((page) => page.imageinfo || [])
+      .find((info) => info.mime?.startsWith('image/'));
+    return image?.thumburl || image?.url || null;
+  } catch {
+    return null;
+  }
+}
 
 const DEFAULT_TRIPS = [
   {
@@ -65,6 +102,10 @@ function DashboardContent() {
   const [filter, setFilter] = useState<'all' | 'planning' | 'active' | 'completed'>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isDemoSession, setIsDemoSession] = useState(false);
+  const [destinationSuggestions, setDestinationSuggestions] = useState<PlaceSuggestion[]>([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [isResolvingImage, setIsResolvingImage] = useState(false);
+  const selectedDestinationRef = useRef<string | null>(null);
 
   // Gate the whole dashboard behind real authentication. Previously this
   // page rendered fully (including the "Create your first trip" flow) for
@@ -87,8 +128,60 @@ function DashboardContent() {
     budget: 30000,
     currency: 'INR',
     description: '',
-    coverImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+    coverImage: null as string | null,
   });
+
+  useEffect(() => {
+    const query = newTrip.destination.trim();
+    if (selectedDestinationRef.current === query) {
+      setDestinationSuggestions([]);
+      setIsLoadingSuggestions(false);
+      return;
+    }
+    if (query.length < 2) {
+      setDestinationSuggestions([]);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setIsLoadingSuggestions(true);
+      try {
+        const params = new URLSearchParams({
+          q: query,
+          format: 'jsonv2',
+          addressdetails: '1',
+          limit: '5',
+        });
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+          signal: controller.signal,
+          headers: { 'Accept-Language': 'en' },
+        });
+        if (response.ok) {
+          const places: PlaceSuggestion[] = await response.json();
+          if (!controller.signal.aborted) setDestinationSuggestions(places);
+        }
+      } catch {
+        if (!controller.signal.aborted) setDestinationSuggestions([]);
+      } finally {
+        if (!controller.signal.aborted) setIsLoadingSuggestions(false);
+      }
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [newTrip.destination]);
+
+  const selectDestination = async (place: PlaceSuggestion) => {
+    selectedDestinationRef.current = place.display_name;
+    setDestinationSuggestions([]);
+    setIsResolvingImage(true);
+    const coverImage = await findPlaceImage(place.display_name);
+    setNewTrip((current) => ({ ...current, destination: place.display_name, coverImage }));
+    setIsResolvingImage(false);
+  };
 
   useEffect(() => {
     if (searchParams.get('create') === 'true') {
@@ -137,9 +230,14 @@ function DashboardContent() {
     e.preventDefault();
     if (!newTrip.name || !newTrip.destination) return;
 
+    setIsResolvingImage(true);
+    const coverImage = newTrip.coverImage || await findPlaceImage(newTrip.destination);
+    setIsResolvingImage(false);
+
     const created = {
       id: 'trip-' + Date.now(),
       ...newTrip,
+      coverImage,
       budget: Number(newTrip.budget) || 0,
       status: 'PLANNING',
       memberCount: 1,
@@ -166,7 +264,7 @@ function DashboardContent() {
         endDate: newTrip.endDate,
         budget: Number(newTrip.budget) || null,
         currency: newTrip.currency,
-        coverImage: newTrip.coverImage,
+        coverImage,
         privacy: 'PRIVATE',
       });
       savedTrip = { ...created, ...response, budget: Number(response.budget ?? created.budget) };
@@ -186,7 +284,7 @@ function DashboardContent() {
       budget: 30000,
       currency: 'INR',
       description: '',
-      coverImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+      coverImage: null,
     });
   };
 
@@ -233,7 +331,7 @@ function DashboardContent() {
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 gap-8">
-        {!isDemoSession && filteredTrips.length === 0 ? (
+        {!isDemoSession && trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-white/80 px-6 py-20 text-center shadow-sm">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-8 ring-brand-100">
               <Plus className="h-8 w-8" />
@@ -277,8 +375,23 @@ function DashboardContent() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            {filteredTrips.map((trip) => (
+          {filteredTrips.length === 0 ? (
+            <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white/80 px-6 py-12 text-center">
+              <h2 className="text-xl font-extrabold text-slate-900">No {filter} trips</h2>
+              <p className="mt-2 text-sm text-slate-500">
+                You do not have any trips with this status yet.
+              </p>
+              <button
+                type="button"
+                onClick={() => setFilter('all')}
+                className="mt-5 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white shadow-sm"
+              >
+                View all trips
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              {filteredTrips.map((trip) => (
               <div
                 key={trip.id}
                 role="link"
@@ -358,8 +471,9 @@ function DashboardContent() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           </div>
         )}
 
@@ -399,14 +513,55 @@ function DashboardContent() {
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Destination</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Manali, Himachal Pradesh, India"
-                  value={newTrip.destination}
-                  onChange={(e) => setNewTrip({ ...newTrip, destination: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-600" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Manali, Himachal Pradesh, India"
+                    value={newTrip.destination}
+                    onChange={(e) => {
+                      selectedDestinationRef.current = null;
+                      setNewTrip({ ...newTrip, destination: e.target.value, coverImage: null });
+                      setDestinationSuggestions([]);
+                    }}
+                    className="w-full rounded-full border border-slate-300 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                  {(destinationSuggestions.length > 0 || isLoadingSuggestions) && (
+                    <div className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+                      {isLoadingSuggestions && <div className="px-3 py-2 text-xs text-slate-500">Finding places...</div>}
+                      {destinationSuggestions.map((place) => (
+                        <button
+                          key={`${place.lat}-${place.lon}`}
+                          type="button"
+                          onClick={() => selectDestination(place)}
+                          className="flex w-full items-center gap-3 px-3 py-2.5 text-left first:bg-slate-100 hover:bg-slate-100"
+                        >
+                          {place.imageUrl ? (
+                            <img
+                              src={place.imageUrl}
+                              alt=""
+                              className="h-14 w-14 shrink-0 rounded-md object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700">
+                              <MapPin className="h-5 w-5" />
+                            </div>
+                          )}
+                          <span className="min-w-0 leading-tight">
+                            <span className="block truncate text-sm font-bold text-slate-900">
+                              {place.display_name.split(',')[0]}
+                            </span>
+                            <span className="mt-1 block truncate text-xs text-slate-500">
+                              {place.display_name.split(',').slice(1).join(',').trim() || 'Location'}
+                            </span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {newTrip.coverImage && <p className="mt-1 text-[11px] text-brand-700">A destination photo is ready for this trip.</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -474,9 +629,10 @@ function DashboardContent() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-md"
+                  disabled={isResolvingImage}
+                  className="px-5 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 disabled:cursor-wait disabled:opacity-60 text-white text-xs font-semibold shadow-md"
                 >
-                  Create Trip
+                  {isResolvingImage ? 'Finding photo...' : 'Create Trip'}
                 </button>
               </div>
             </form>

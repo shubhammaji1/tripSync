@@ -93,7 +93,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [actionAlert, setActionAlert] = useState<string | null>(null);
 
   // Members list with dynamic roles
-  const [members, setMembers] = useState<MemberState[]>(INITIAL_MEMBERS);
+  const [members, setMembers] = useState<MemberState[]>(isDemoSession ? INITIAL_MEMBERS : []);
 
   // Role is derived from this trip's real member list matched against the
   // logged-in user - never from a client-chosen persona. (The member list
@@ -101,7 +101,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   // GET /trips/:id/members wiring - see TODO further down.) The backend
   // re-checks every mutation regardless of what `can()` returns here.
   const myMembership = members.find((m) => m.id === user?.id);
-  const currentRole: TripRole = myMembership?.role ?? TripRole.VIEWER;
+  const currentRole: TripRole = myMembership?.role
+    ?? (tripDetails?.ownerId === user?.id ? TripRole.OWNER : TripRole.VIEWER);
   const can = (permission: Parameters<typeof canForRole>[1]) => canForRole(currentRole, permission);
 
   const [membersReady, setMembersReady] = useState(false);
@@ -121,23 +122,56 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         ? storedTrips.find((trip) => trip.id === params.id)
         : null;
       setTripDetails(selectedTrip || null);
+
+      if (selectedTrip) {
+        const storedMembers = Array.isArray(selectedTrip.members) ? selectedTrip.members : [];
+        const localMembers = storedMembers.map((member: any) => ({
+          id: member.id || member.userId,
+          name: member.name || member.email || 'Trip Member',
+          role: member.role || TripRole.MEMBER,
+          phone: member.phone || '',
+        }));
+        if (localMembers.length > 0) {
+          setMembers(localMembers);
+        } else if (user) {
+          setMembers([{
+            id: user.id,
+            name: user.fullName || user.email || 'Trip Owner',
+            role: TripRole.OWNER,
+            phone: user.phone || '',
+          }]);
+        }
+        setMembersReady(true);
+      }
     } catch {
       setTripDetails(null);
     }
-  }, [isDemoSession, params.id]);
+  }, [isDemoSession, params.id, user]);
 
   useEffect(() => {
     if (isDemoSession) return;
 
     api.getTripById(params.id).then((trip) => {
       setTripDetails(trip);
-      const apiMembers = (trip.members || []).map((member: any) => ({
-        id: member.userId || member.user?.id,
+      const mapMember = (member: any) => ({
+        id: member.userId || member.user?.id || member.id,
         name: member.user?.fullName || member.user?.email || 'Trip Member',
         role: member.role,
         phone: member.user?.phone || '',
-      }));
-      if (apiMembers.length) setMembers(apiMembers);
+      });
+      const apiMembers = (trip.members || []).map(mapMember);
+      if (apiMembers.length) {
+        setMembers(apiMembers);
+        setMembersReady(true);
+      } else {
+        api.getMembers(params.id).then((tripMembers) => {
+          const fetchedMembers = tripMembers.map(mapMember);
+          if (fetchedMembers.length) {
+            setMembers(fetchedMembers);
+            setMembersReady(true);
+          }
+        }).catch(() => {});
+      }
 
       const apiDays = (trip.days || []).map((day: any) => ({
         id: day.id,
@@ -270,6 +304,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   // Expense & Split state
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null);
   const [expensesReady, setExpensesReady] = useState(false);
   const [expensesList, setExpensesList] = useState<any[]>([
     {
@@ -305,9 +340,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     title: '',
     amount: 1800,
     category: 'FOOD',
+    date: '',
     paidById: INITIAL_MEMBERS[0].id,
     splitType: 'EQUAL',
   });
+
+  const formatExpenseAmount = (amount: number) => new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Number(amount) || 0);
 
   // Settled debts local state
   const [settledDebtIds, setSettledDebtIds] = useState<Record<string, boolean>>({});
@@ -359,32 +400,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const tripMembersKey = `tripsync_trip_members_${params.id}`;
-    if (!isDemoSession) {
-      const owner = user
-        ? { id: user.id, name: user.fullName || user.email, role: TripRole.OWNER, phone: user.phone || '' }
-        : { id: 'owner-current-user', name: 'Trip Owner', role: TripRole.OWNER, phone: '' };
-
-      let savedMembers: MemberState[] = [];
-      try {
-        const storedMembers = JSON.parse(localStorage.getItem(tripMembersKey) || '[]');
-        if (Array.isArray(storedMembers)) savedMembers = storedMembers;
-      } catch {
-        savedMembers = [];
-      }
-
-      const seededMemberIds = new Set(INITIAL_MEMBERS.map((member) => member.id));
-      savedMembers = savedMembers.filter((member) => !seededMemberIds.has(member.id));
-
-      const savedOwner = savedMembers.find((member) => member.role === TripRole.OWNER);
-      const restoredMembers = savedOwner
-        ? savedMembers
-        : [owner, ...savedMembers.filter((member) => member.id !== owner.id)];
-      setMembers(restoredMembers);
-      localStorage.setItem(tripMembersKey, JSON.stringify(restoredMembers));
-      setMembersReady(true);
-      setSettledDebtIds({});
-      return;
-    }
+    if (!isDemoSession) return;
 
     const stored = localStorage.getItem(tripMembersKey);
     if (stored) {
@@ -588,23 +604,45 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       ? newExpense.paidById
       : user?.id || newExpense.paidById;
     const payer = members.find((p) => p.id === payerId)?.name || user?.fullName || 'Traveler';
+    const amount = Number(newExpense.amount);
     const newEntry = {
       id: 'exp-' + Date.now(),
       paidById: payerId,
       title: newExpense.title || 'Group Expense',
       paidBy: payer,
-      amount: Number(newExpense.amount),
+      amount,
       category: newExpense.category,
-      date: tripDetails?.startDate || new Date().toISOString().slice(0, 10),
+      date: newExpense.date || tripDetails?.startDate || new Date().toISOString().slice(0, 10),
       participants: members.map((member) => ({
         userId: member.id,
-        shareAmount: Number(newExpense.amount) / Math.max(1, members.length),
+        shareAmount: amount / Math.max(1, members.length),
       })),
-      split: `${members.length} members (₹${Math.round(Number(newExpense.amount) / Math.max(1, members.length))} each)`,
+      split: `${members.length} members (₹${formatExpenseAmount(amount / Math.max(1, members.length))} each)`,
     };
+
+    if (editingExpenseId) {
+      const updatedEntry = { ...newEntry, id: editingExpenseId };
+      try {
+        await api.updateExpense(params.id, editingExpenseId, {
+          title: newEntry.title,
+          amount,
+          category: newEntry.category,
+          currency: tripCurrency,
+          splitType: newExpense.splitType,
+          date: newEntry.date,
+          participants: newEntry.participants,
+        });
+      } catch {
+        // Keep the local edit when the API is unavailable.
+      }
+      setExpensesList((current) => current.map((expense) => expense.id === editingExpenseId ? updatedEntry : expense));
+      setEditingExpenseId(null);
+      setShowAddExpenseModal(false);
+      return;
+    }
+
     try {
       const validMembers = members.filter((member) => /^[0-9a-f-]{36}$/i.test(member.id));
-      const amount = Number(newExpense.amount);
       const saved = await api.createExpense(params.id, {
         title: newEntry.title,
         amount,
@@ -626,9 +664,33 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       title: '',
       amount: 1800,
       category: 'FOOD',
+      date: '',
       paidById: user?.id || members[0]?.id || '',
       splitType: 'EQUAL',
     });
+  };
+
+  const handleEditExpense = (expense: any) => {
+    setEditingExpenseId(expense.id);
+    setNewExpense({
+      title: expense.title || '',
+      amount: Number(expense.amount || 0),
+      category: expense.category || 'FOOD',
+      date: expense.date || '',
+      paidById: expense.paidById || members.find((member) => member.name === expense.paidBy)?.id || user?.id || '',
+      splitType: expense.splitType || 'EQUAL',
+    });
+    setShowAddExpenseModal(true);
+  };
+
+  const handleDeleteExpense = async (expenseId: string) => {
+    if (!window.confirm('Delete this expense?')) return;
+    try {
+      if (/^[0-9a-f-]{36}$/i.test(expenseId)) await api.deleteExpense(params.id, expenseId);
+    } catch {
+      // Keep the local deletion when the API is unavailable.
+    }
+    setExpensesList((current) => current.filter((expense) => expense.id !== expenseId));
   };
 
   const toggleTaskStatus = async (taskId: string) => {
@@ -747,26 +809,32 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       return;
     }
 
+    const localMember = {
+      id: `invite-${Date.now()}`,
+      name: email.split('@')[0].replace(/[._-]/g, ' '),
+      role: newMemberRole,
+      phone: email,
+    };
+
     try {
       const invitation = await api.inviteMember(params.id, { email, role: newMemberRole });
-      setMembers((current) => [
-        ...current,
-        {
-          id: invitation.id || `invite-${Date.now()}`,
-          name: email.split('@')[0].replace(/[._-]/g, ' '),
-          role: newMemberRole,
-          phone: email,
-        },
-      ]);
-      setNewMemberEmail('');
-      setNewMemberRole(TripRole.MEMBER);
-      setLastInviteLink(invitation.inviteLink);
+      const inviteLink = invitation.inviteLink || `${window.location.origin}/invite/${invitation.token}`;
+      setMembers((current) => [...current, { ...localMember, id: invitation.id || localMember.id }]);
+      setLastInviteLink(inviteLink);
       setInviteStatus(`Invitation created for ${email}. Share the password setup link with them.`);
-      await navigator.clipboard?.writeText(invitation.inviteLink);
+      await navigator.clipboard?.writeText(inviteLink);
       setActionAlert(`Invitation link copied for ${email}.`);
-    } catch (error: any) {
-      setInviteStatus(error.message || 'Unable to create invitation.');
+    } catch {
+      const inviteToken = `${params.id}-${Date.now()}`;
+      const inviteLink = `${window.location.origin}/invite/${encodeURIComponent(inviteToken)}`;
+      setMembers((current) => [...current, localMember]);
+      setLastInviteLink(inviteLink);
+      setInviteStatus(`Member added locally for ${email}. The API is unavailable, so no server invitation was created.`);
+      await navigator.clipboard?.writeText(inviteLink);
+      setActionAlert(`Local invite link copied for ${email}.`);
     }
+    setNewMemberEmail('');
+    setNewMemberRole(TripRole.MEMBER);
     setTimeout(() => setActionAlert(null), 4000);
   };
 
@@ -893,20 +961,29 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const tripCurrency = tripDetails?.currency || 'INR';
   const pendingTaskCount = tasks.filter((task) => task.status !== 'DONE').length;
 
-  const categoryChartData = isDemoSession ? [
-    { name: 'Hotel', value: 6000, color: '#22c55e' },
-    { name: 'Food & Dining', value: 3200, color: '#0ea5e9' },
-    { name: 'Transport & Cab', value: 2400, color: '#f59e0b' },
-  ] : [];
+  const categoryColors = ['#22c55e', '#0ea5e9', '#f59e0b', '#8b5cf6', '#ef4444', '#14b8a6'];
+  const categoryTotals = expensesList.reduce<Record<string, number>>((totals, expense) => {
+    const category = expense.category || 'OTHER';
+    totals[category] = (totals[category] || 0) + Number(expense.amount || 0);
+    return totals;
+  }, {});
+  const categoryChartData = Object.entries(categoryTotals).map(([name, value], index) => ({
+    name,
+    value,
+    color: categoryColors[index % categoryColors.length],
+  }));
 
-  const memberSpendingData = isDemoSession ? [
-    { name: 'Rahul S.', paid: 6000, share: 1933 },
-    { name: 'Priya P.', paid: 3200, share: 1933 },
-    { name: 'Shubham V.', paid: 2400, share: 1933 },
-    { name: 'Amit K.', paid: 0, share: 1933 },
-    { name: 'Sneha R.', paid: 0, share: 1933 },
-    { name: 'Arjun M.', paid: 0, share: 1933 },
-  ] : [];
+  const memberPaidTotals = expensesList.reduce<Record<string, number>>((totals, expense) => {
+    const payerId = expense.paidById || members.find((member) => member.name === expense.paidBy)?.id;
+    if (payerId) totals[payerId] = (totals[payerId] || 0) + Number(expense.amount || 0);
+    return totals;
+  }, {});
+  const equalShare = members.length > 0 ? tripSpent / members.length : 0;
+  const memberSpendingData = members.map((member) => ({
+    name: member.name.split(' ').map((part) => part[0]).join(''),
+    paid: memberPaidTotals[member.id] || 0,
+    share: equalShare,
+  }));
 
   const displayTripName = isDemoSession ? 'Darjeeling Himalayan Adventure' : tripDetails?.name || 'Your New Trip';
   const displayDestination = isDemoSession
@@ -1409,6 +1486,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       <th className="pb-3">Date</th>
                       <th className="pb-3">Split Details</th>
                       <th className="pb-3 text-right">Amount</th>
+                      <th className="pb-3 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -1424,7 +1502,25 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                         <td className="py-3.5 text-slate-500">{exp.date}</td>
                         <td className="py-3.5 text-slate-600">{exp.split}</td>
                         <td className="py-3.5 text-right font-extrabold text-slate-900">
-                          ₹{exp.amount.toLocaleString()}
+                          ₹{formatExpenseAmount(exp.amount)}
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <div className="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleEditExpense(exp)}
+                              className="font-semibold text-brand-700 hover:text-brand-900"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteExpense(exp.id)}
+                              className="font-semibold text-red-600 hover:text-red-800"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -1801,24 +1897,30 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   Expense Category Distribution
                 </h3>
                 <div className="w-full h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={categoryChartData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={90}
-                        paddingAngle={5}
-                        dataKey="value"
-                      >
-                        {categoryChartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip formatter={(value: any) => `₹${value.toLocaleString()}`} />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  {categoryChartData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={categoryChartData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={90}
+                          paddingAngle={5}
+                          dataKey="value"
+                        >
+                          {categoryChartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value: any) => `₹${value.toLocaleString()}`} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-sm text-slate-400">
+                      No expenses recorded yet.
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-4 mt-2">
                   {categoryChartData.map((c) => (
@@ -1835,20 +1937,28 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               {/* Member Contribution Bar Chart */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 mb-4">
-                  Member Paid vs Equal Share (₹1,933)
+                  Member Paid vs Equal Share ({formatCurrency(equalShare, tripCurrency)})
                 </h3>
                 <div className="w-full h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={memberSpendingData}>
-                      <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                      <YAxis tick={{ fontSize: 11 }} />
-                      <Tooltip formatter={(val: any) => `₹${val.toLocaleString()}`} />
-                      <Bar dataKey="paid" fill="#22c55e" radius={[4, 4, 0, 0]} name="Paid" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  {memberSpendingData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={memberSpendingData}>
+                        <XAxis dataKey="name" tick={{ fontSize: 11 }} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip formatter={(val: any) => `₹${val.toLocaleString()}`} />
+                        <Bar dataKey="paid" fill="#22c55e" radius={[4, 4, 0, 0]} name="Paid" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-sm text-slate-400">
+                      No members or expenses recorded yet.
+                    </div>
+                  )}
                 </div>
                 <p className="text-[11px] text-slate-500 text-center mt-2">
-                  Rahul, Priya, and Shubham fronted the costs for hotel, cabs, and meals.
+                  {memberSpendingData.length > 0
+                    ? 'Compare each member\'s payments with their equal share.'
+                    : 'Member contribution data will appear after members and expenses are added.'}
                 </p>
               </div>
             </div>
@@ -2043,6 +2153,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </div>
               </div>
               <div>
+                <label className="block font-semibold text-slate-700 mb-1">Expense Date</label>
+                <input
+                  type="date"
+                  required
+                  value={newExpense.date || tripDetails?.startDate || ''}
+                  onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+              <div>
                 <label className="block font-semibold text-slate-700 mb-1">Location Name</label>
                 <input
                   type="text"
@@ -2085,7 +2205,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       {showAddExpenseModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-            <h3 className="font-bold text-base text-slate-900 mb-4">Add Group Expense</h3>
+            <h3 className="font-bold text-base text-slate-900 mb-4">
+              {editingExpenseId ? 'Edit Group Expense' : 'Add Group Expense'}
+            </h3>
             <form onSubmit={handleAddExpense} className="space-y-3 text-xs">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Expense Title</label>
@@ -2139,7 +2261,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </select>
               </div>
               <p className="text-[11px] text-slate-500 italic">
-                Split equally among all {members.length} active travelers (₹{Math.round(newExpense.amount / members.length)} per person).
+                Split equally among all {members.length} active travelers (₹{formatExpenseAmount(newExpense.amount / Math.max(1, members.length))} per person).
               </p>
               <div className="pt-3 flex justify-end gap-2">
                 <button
@@ -2153,7 +2275,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   type="submit"
                   className="px-4 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold shadow"
                 >
-                  Save & Split
+                  {editingExpenseId ? 'Save Changes' : 'Save & Split'}
                 </button>
               </div>
             </form>

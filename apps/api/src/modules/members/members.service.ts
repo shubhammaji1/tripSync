@@ -7,6 +7,8 @@ import { eq, and } from 'drizzle-orm';
 import { SEED_USERS } from '../../database/seed';
 import { randomUUID } from 'crypto';
 
+export const mockInvitations = new Map<string, any>();
+
 @Injectable()
 export class MembersService {
   constructor(
@@ -57,7 +59,7 @@ export class MembersService {
       }
     }
 
-    return {
+    const fallbackInvitation = {
       id: 'invite-' + Date.now(),
       tripId,
       invitedBy,
@@ -68,6 +70,8 @@ export class MembersService {
       expiresAt: expiresAt.toISOString(),
       inviteLink: `http://localhost:3000/invite/${token}`,
     };
+    mockInvitations.set(token, fallbackInvitation);
+    return fallbackInvitation;
   }
 
   async updateMemberRole(tripId: string, memberUserId: string, input: UpdateMemberRoleInput) {

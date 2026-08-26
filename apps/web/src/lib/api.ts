@@ -3,6 +3,12 @@ import { LoginInput, RegisterInput } from '@tripsync/validation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
 
+let authTokenProvider: (() => Promise<string | null>) | null = null;
+
+export function setApiAuthTokenProvider(provider: (() => Promise<string | null>) | null) {
+  authTokenProvider = provider;
+}
+
 function getAuthToken(): string | null {
   if (typeof window !== 'undefined') {
     return localStorage.getItem('tripsync_token');
@@ -12,7 +18,7 @@ function getAuthToken(): string | null {
 
 async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
-  const token = getAuthToken();
+  const token = authTokenProvider ? await authTokenProvider() : getAuthToken();
 
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -86,6 +92,10 @@ export const api = {
   getExpenses: (tripId: string) => fetcher<any[]>(`/trips/${tripId}/expenses`),
   createExpense: (tripId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/expenses`, { method: 'POST', body: JSON.stringify(data) }),
+  updateExpense: (tripId: string, expenseId: string, data: any) =>
+    fetcher<any>(`/trips/${tripId}/expenses/${expenseId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteExpense: (tripId: string, expenseId: string) =>
+    fetcher<any>(`/trips/${tripId}/expenses/${expenseId}`, { method: 'DELETE' }),
   getSettlements: (tripId: string) => fetcher<any>(`/trips/${tripId}/settlements`),
   recordSettlement: (tripId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/settlements`, { method: 'POST', body: JSON.stringify(data) }),

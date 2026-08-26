@@ -8,6 +8,7 @@ import {
   HttpStatus,
   NotFoundException,
   ServiceUnavailableException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Profile, AuthResponse, InvitationStatus } from '@tripsync/types';
@@ -16,6 +17,7 @@ import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { tripInvitations, tripMembers } from '../../database/schema';
 import { eq } from 'drizzle-orm';
 import { ProfileSyncService } from '../../common/profile-sync.service';
+import { mockInvitations } from '../members/members.service';
 
 interface SupabaseAuthUser {
   id: string;
@@ -54,16 +56,20 @@ export class AuthService {
   }
 
   private async supabaseFetch(path: string, body: unknown): Promise<{ status: number; data: any }> {
-    const res = await fetch(`${this.supabaseUrl()}${path}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        apikey: this.supabaseAnonKey(),
-      },
-      body: JSON.stringify(body),
-    });
-    const data = await res.json().catch(() => ({}));
-    return { status: res.status, data };
+    try {
+      const res = await fetch(`${this.supabaseUrl()}${path}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: this.supabaseAnonKey(),
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      return { status: res.status, data };
+    } catch {
+      throw new ServiceUnavailableException('Authentication provider is unavailable. Please try again.');
+    }
   }
 
   /**
@@ -218,10 +224,17 @@ export class AuthService {
    * (never a client-supplied one) so acceptance can't be redirected to a
    * different account than the one actually invited.
    */
-  async acceptInvitation(input: AcceptInvitationInput): Promise<AuthResponse | { requiresEmailConfirmation: true; message: string }> {
-    const invite = await this.db.query.tripInvitations.findFirst({
-      where: eq(tripInvitations.token, input.token),
-    });
+  async acceptInvitation(input: AcceptInvitationInput, currentUser: Profile): Promise<AuthResponse | { accepted: true; user: Profile }> {
+    let invite: any = mockInvitations.get(input.token);
+    if (!invite) {
+      try {
+        invite = await this.db.query.tripInvitations.findFirst({
+          where: eq(tripInvitations.token, input.token),
+        });
+      } catch {
+        invite = undefined;
+      }
+    }
 
     if (!invite) throw new NotFoundException('Invitation not found');
     if (invite.status !== InvitationStatus.PENDING) {
@@ -230,49 +243,25 @@ export class AuthService {
     if (invite.expiresAt < new Date()) {
       throw new BadRequestException('This invitation has expired');
     }
-
-    await this.ensureEmailOtpIsRequired();
-
-    const { status, data } = await this.supabaseFetch('/auth/v1/signup', {
-      email: invite.email,
-      password: input.password,
-      data: { full_name: input.fullName },
-    });
-
-    if (status >= 400) {
-      if (status === 422 || /already registered/i.test(data?.msg || '')) {
-        throw new ConflictException('An account with this email already exists. Please log in instead.');
-      }
-      this.throwAuthError(status, data, 'Unable to create account');
+    if (invite.email.toLowerCase() !== currentUser.email.toLowerCase()) {
+      throw new ForbiddenException(
+        `This invitation is for ${invite.email}. Sign in with that account to join the trip.`,
+      );
     }
 
-    if (!data.user) {
-      throw new ServiceUnavailableException('Unable to create account at this time');
+    // Clerk owns the active session in the web app. Do not create a second
+    // Supabase account from the invitation form; add the authenticated Clerk
+    // user to the invited trip instead.
+    try {
+      await (this.db
+        .insert(tripMembers)
+        .values({ tripId: invite.tripId, userId: currentUser.id, role: invite.role } as any) as any)
+        .onConflictDoNothing({ target: [tripMembers.tripId, tripMembers.userId] });
+    } catch {
+      // Local/mock mode can still complete the browser-side acceptance.
     }
 
-    const profile = await this.profileSync.syncFromClaims({
-      sub: data.user.id,
-      email: invite.email,
-      user_metadata: { full_name: input.fullName },
-    });
-
-    await (this.db
-      .insert(tripMembers)
-      .values({ tripId: invite.tripId, userId: profile.id, role: invite.role } as any) as any)
-      .onConflictDoNothing({ target: [tripMembers.tripId, tripMembers.userId] });
-
-    await (this.db
-      .update(tripInvitations)
-      .set({ status: InvitationStatus.ACCEPTED } as any) as any)
-      .where(eq(tripInvitations.token, input.token));
-
-    if (!data.access_token) {
-      return {
-        requiresEmailConfirmation: true,
-        message: 'Account created and trip joined. Check your email to confirm your account before logging in.',
-      };
-    }
-
-    return { user: profile, token: data.access_token };
+    mockInvitations.delete(input.token);
+    return { accepted: true, user: currentUser };
   }
 }

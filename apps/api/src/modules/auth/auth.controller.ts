@@ -43,9 +43,13 @@ export class AuthController {
   }
 
   @Post('accept-invitation')
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Create an account from a trip invitation, set a password, and join the trip' })
-  async acceptInvitation(@Body(new ZodValidationPipe(acceptInvitationSchema)) body: AcceptInvitationInput) {
-    return this.authService.acceptInvitation(body);
+  async acceptInvitation(
+    @Body(new ZodValidationPipe(acceptInvitationSchema)) body: AcceptInvitationInput,
+    @CurrentUser() user: Profile,
+  ) {
+    return this.authService.acceptInvitation(body, user);
   }
 
   @Get('me')

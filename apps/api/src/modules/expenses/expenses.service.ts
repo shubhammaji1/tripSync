@@ -181,4 +181,39 @@ export class ExpensesService {
 
     return { success: true };
   }
+
+  async updateExpense(expenseId: string, input: UpdateExpenseInput) {
+    if (this.db) {
+      try {
+        const { participants, ...expenseFields } = input;
+        const [updated] = await (this.db.update(expenses).set({
+          ...expenseFields,
+          amount: expenseFields.amount !== undefined ? expenseFields.amount.toString() : undefined,
+          updatedAt: new Date(),
+        } as any) as any).where(eq(expenses.id, expenseId)).returning();
+        if (updated && participants) {
+          await this.db.delete(expenseParticipants).where(eq(expenseParticipants.expenseId, expenseId));
+          await this.db.insert(expenseParticipants).values(participants.map((participant) => ({
+            expenseId,
+            userId: participant.userId,
+            shareAmount: participant.shareAmount.toString(),
+            percentage: participant.percentage,
+            shares: participant.shares,
+          })) as any);
+        }
+        if (updated) return updated;
+      } catch (err) {
+        console.warn('Expense update db error:', err);
+      }
+    }
+
+    for (const tripExpenses of this.mockExpenses.values()) {
+      const index = tripExpenses.findIndex((expense) => expense.id === expenseId);
+      if (index >= 0) {
+        tripExpenses[index] = { ...tripExpenses[index], ...input, updatedAt: new Date().toISOString() };
+        return tripExpenses[index];
+      }
+    }
+    throw new NotFoundException(`Expense ${expenseId} not found`);
+  }
 }

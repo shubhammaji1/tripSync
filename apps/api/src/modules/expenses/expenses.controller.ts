@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Delete,
   Param,
   Body,
@@ -12,7 +13,7 @@ import { ExpensesService } from './expenses.service';
 import { AuthGuard } from '../../common/auth.guard';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
-import { createExpenseSchema, CreateExpenseInput } from '@tripsync/validation';
+import { createExpenseSchema, updateExpenseSchema, CreateExpenseInput, UpdateExpenseInput } from '@tripsync/validation';
 
 @ApiTags('Expenses')
 @ApiBearerAuth()
@@ -41,5 +42,14 @@ export class ExpensesController {
   @ApiOperation({ summary: 'Delete an expense record' })
   async deleteExpense(@Param('expenseId') expenseId: string) {
     return this.expensesService.deleteExpense(expenseId);
+  }
+
+  @Patch(':expenseId')
+  @ApiOperation({ summary: 'Update an expense record' })
+  async updateExpense(
+    @Param('expenseId') expenseId: string,
+    @Body(new ZodValidationPipe(updateExpenseSchema)) body: UpdateExpenseInput
+  ) {
+    return this.expensesService.updateExpense(expenseId, body);
   }
 }

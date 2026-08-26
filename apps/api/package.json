@@ -19,6 +19,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@clerk/backend": "^3.16.12",
     "@fastify/static": "^7.0.4",
     "@nestjs/common": "^10.4.7",
     "@nestjs/config": "^3.3.0",

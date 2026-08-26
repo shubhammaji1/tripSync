@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { AuthProvider } from '@/lib/auth-context';
+import { ApiAuthBridge } from '@/components/ApiAuthBridge';
 
 export const metadata: Metadata = {
   title: 'TripSync — Collaborative Group Travel Platform',
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col antialiased selection:bg-brand-500 selection:text-white">
         <ClerkProvider>
           <AuthProvider>
+            <ApiAuthBridge />
             <Navbar />
             <main className="flex-1">{children}</main>
             <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">

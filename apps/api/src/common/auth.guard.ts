@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
+import { createHash } from 'crypto';
+import { createClerkClient, verifyToken } from '@clerk/backend';
 import { ProfileSyncService } from './profile-sync.service';
 
 interface SupabaseJwtPayload {
@@ -57,7 +59,28 @@ export class AuthGuard implements CanActivate {
     try {
       decoded = jwt.verify(token, jwtSecret, { algorithms: ['HS256'] }) as SupabaseJwtPayload;
     } catch {
-      throw new UnauthorizedException('Expired or invalid session token');
+      const clerkSecretKey = this.configService.get<string>('CLERK_SECRET_KEY');
+      if (!clerkSecretKey) throw new UnauthorizedException('Expired or invalid session token');
+
+      try {
+        const clerkClaims = await verifyToken(token, { secretKey: clerkSecretKey });
+        const clerkClient = createClerkClient({ secretKey: clerkSecretKey });
+        const clerkUser = await clerkClient.users.getUser(clerkClaims.sub);
+        const clerkProfileId = createHash('sha256')
+          .update(clerkClaims.sub)
+          .digest('hex')
+          .replace(/^(.{8})(.{4})(.{4})(.{4})(.{12}).*$/, '$1-$2-4$3-8$4-$5');
+        decoded = {
+          sub: clerkProfileId,
+          email: clerkUser.emailAddresses[0]?.emailAddress,
+          user_metadata: {
+            full_name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || undefined,
+            avatar_url: clerkUser.imageUrl,
+          },
+        } as SupabaseJwtPayload;
+      } catch {
+        throw new UnauthorizedException('Expired or invalid session token');
+      }
     }
 
     if (!decoded.sub) {
