@@ -39,6 +39,7 @@ import {
   UserPlus,
   Mail,
   RefreshCw,
+  X,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -111,6 +112,19 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [emergencyContacts, setEmergencyContacts] = useState<{ id: string; name: string; phone: string; relationship: string }[]>([]);
   const [newEmergencyContact, setNewEmergencyContact] = useState({ name: '', phone: '', relationship: '' });
   const [emergencyStatus, setEmergencyStatus] = useState<string | null>(null);
+
+  // Edit Trip Modal state
+  const [showEditTripModal, setShowEditTripModal] = useState(false);
+  const [editTripForm, setEditTripForm] = useState({
+    name: '',
+    destination: '',
+    budget: 0,
+    currency: 'INR',
+    startDate: '',
+    endDate: '',
+    description: '',
+    status: 'PLANNING',
+  });
 
   useEffect(() => {
     api.getMe().then(setUser).catch(() => setUser(null));
@@ -785,6 +799,35 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setEmergencyStatus('Emergency contact saved.');
   };
 
+  const handleOpenEditTrip = () => {
+    if (!can('EDIT_TRIP')) return;
+    setEditTripForm({
+      name: tripDetails?.name || '',
+      destination: tripDetails?.destination || '',
+      budget: Number(tripDetails?.budget || 0),
+      currency: tripDetails?.currency || 'INR',
+      startDate: tripDetails?.startDate ? tripDetails.startDate.split('T')[0] : '',
+      endDate: tripDetails?.endDate ? tripDetails.endDate.split('T')[0] : '',
+      description: tripDetails?.description || '',
+      status: tripDetails?.status || 'PLANNING',
+    });
+    setShowEditTripModal(true);
+  };
+
+  const handleSaveEditTrip = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const updated = await api.updateTrip(params.id, editTripForm);
+      setTripDetails((curr: any) => ({ ...curr, ...updated }));
+      setShowEditTripModal(false);
+      setActionAlert('Trip details updated successfully.');
+      setTimeout(() => setActionAlert(null), 3000);
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to update trip.');
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
   const handleAddDay = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!can('EDIT_TRIP') || !newDayDate) return;
@@ -1010,9 +1053,21 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   </span>
                 </>}
               </div>
-              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                {displayTripName}
-              </h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                  {displayTripName}
+                </h1>
+                {can('EDIT_TRIP') && (
+                  <button
+                    type="button"
+                    onClick={handleOpenEditTrip}
+                    title="Edit trip name & details"
+                    className="rounded-xl p-2 bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white backdrop-blur-md transition-colors"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
               <p className="text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5">
                 <MapPin className="w-4 h-4 text-brand-400" />
                 <span>{displayDestination}</span>
@@ -2438,6 +2493,129 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   className="px-4 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold shadow"
                 >
                   {editingExpenseId ? 'Save Changes' : 'Save & Split'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Trip Details Modal */}
+      {showEditTripModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
+                  <Edit className="w-4 h-4" />
+                </div>
+                <h2 className="font-bold text-lg text-slate-900">Edit Trip Details</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditTripModal(false)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditTrip} className="mt-4 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Trip Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Nepal Himalayan Expedition"
+                  value={editTripForm.name}
+                  onChange={(e) => setEditTripForm({ ...editTripForm, name: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Destination</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Kathmandu, Nepal"
+                  value={editTripForm.destination}
+                  onChange={(e) => setEditTripForm({ ...editTripForm, destination: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Start Date</label>
+                  <input
+                    type="date"
+                    required
+                    value={editTripForm.startDate}
+                    onChange={(e) => setEditTripForm({ ...editTripForm, startDate: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">End Date</label>
+                  <input
+                    type="date"
+                    required
+                    value={editTripForm.endDate}
+                    onChange={(e) => setEditTripForm({ ...editTripForm, endDate: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Budget (₹)</label>
+                  <input
+                    type="number"
+                    value={editTripForm.budget}
+                    onChange={(e) => setEditTripForm({ ...editTripForm, budget: Number(e.target.value) })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Status</label>
+                  <select
+                    value={editTripForm.status}
+                    onChange={(e) => setEditTripForm({ ...editTripForm, status: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  >
+                    <option value="PLANNING">Planning</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="COMPLETED">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Description / Notes</label>
+                <textarea
+                  rows={2}
+                  placeholder="Key goals or highlights..."
+                  value={editTripForm.description}
+                  onChange={(e) => setEditTripForm({ ...editTripForm, description: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                />
+              </div>
+
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowEditTripModal(false)}
+                  className="px-4 py-2 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm"
+                >
+                  Save Changes
                 </button>
               </div>
             </form>
