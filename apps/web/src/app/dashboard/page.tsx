@@ -21,8 +21,6 @@ import {
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
 
-const TRIPS_STORAGE_KEY = 'tripsync_trips';
-
 type PlaceSuggestion = {
   display_name: string;
   lat: string;
@@ -59,37 +57,6 @@ async function findPlaceImage(placeName: string): Promise<string | null> {
   }
 }
 
-const DEFAULT_TRIPS = [
-  {
-    id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-    name: 'Darjeeling Himalayan Adventure',
-    description: '4-day scenic mountain getaway featuring tea garden trails, Tiger Hill sunrise, and toy train ride.',
-    destination: 'Darjeeling, West Bengal, India',
-    startDate: '2026-09-10',
-    endDate: '2026-09-14',
-    budget: 35000,
-    currency: 'INR',
-    coverImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-    status: 'PLANNING',
-    memberCount: 6,
-    totalExpenses: 11600,
-  },
-  {
-    id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
-    name: 'Goa Coastal Monsoon Retreat',
-    description: 'Chilled weekend trip with beach hopping, sunset cruises, and seafood feast.',
-    destination: 'North Goa, India',
-    startDate: '2026-10-02',
-    endDate: '2026-10-06',
-    budget: 45000,
-    currency: 'INR',
-    coverImage: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
-    status: 'PLANNING',
-    memberCount: 4,
-    totalExpenses: 0,
-  },
-];
-
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -101,7 +68,6 @@ function DashboardContent() {
   const [trips, setTrips] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'planning' | 'active' | 'completed'>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [isDemoSession, setIsDemoSession] = useState(false);
   const [destinationSuggestions, setDestinationSuggestions] = useState<PlaceSuggestion[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isResolvingImage, setIsResolvingImage] = useState(false);
@@ -190,41 +156,10 @@ function DashboardContent() {
   }, [searchParams]);
 
   useEffect(() => {
-    const hasDemoPersona = typeof window !== 'undefined' && !!localStorage.getItem('tripsync_persona_id');
-    setIsDemoSession(hasDemoPersona);
-
-    if (typeof window === 'undefined') return;
-
-    const savedTrips = localStorage.getItem(TRIPS_STORAGE_KEY);
-    if (savedTrips) {
-      try {
-        const parsedTrips = JSON.parse(savedTrips);
-        if (Array.isArray(parsedTrips) && parsedTrips.length > 0) {
-          setTrips(parsedTrips);
-          return;
-        }
-      } catch (error) {
-        console.warn('Trips load failed, falling back to defaults:', error);
-      }
+    if (isClerkLoaded && isSignedIn) {
+      api.getTrips().then(setTrips).catch(() => setTrips([]));
     }
-
-    if (!hasDemoPersona) {
-      setTrips([]);
-      return;
-    }
-
-    setTrips(DEFAULT_TRIPS);
-
-    api.getTrips().then((data) => {
-      if (data && data.length > 0) {
-        setTrips(data);
-        localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(data));
-      }
-    }).catch(() => {
-      setTrips(DEFAULT_TRIPS);
-      localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(DEFAULT_TRIPS));
-    });
-  }, []);
+  }, [isClerkLoaded, isSignedIn]);
 
   const handleCreateTrip = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -234,27 +169,6 @@ function DashboardContent() {
     const coverImage = newTrip.coverImage || await findPlaceImage(newTrip.destination);
     setIsResolvingImage(false);
 
-    const created = {
-      id: 'trip-' + Date.now(),
-      ...newTrip,
-      coverImage,
-      budget: Number(newTrip.budget) || 0,
-      status: 'PLANNING',
-      memberCount: 1,
-      totalExpenses: 0,
-      ownerName: user?.fullName || user?.firstName || 'Trip Owner',
-      ownerEmail: user?.primaryEmailAddress?.emailAddress || 'owner@tripsync.local',
-      members: [
-        {
-          id: user?.id || 'owner-current-user',
-          name: user?.fullName || user?.firstName || 'Trip Owner',
-          email: user?.primaryEmailAddress?.emailAddress || 'owner@tripsync.local',
-          role: 'OWNER',
-        },
-      ],
-    };
-
-    let savedTrip = created;
     try {
       const response = await api.createTrip({
         name: newTrip.name,
@@ -267,14 +181,11 @@ function DashboardContent() {
         coverImage,
         privacy: 'PRIVATE',
       });
-      savedTrip = { ...created, ...response, budget: Number(response.budget ?? created.budget) };
-    } catch {
-      // Keep the local trip available when the API/database is not configured.
+      setTrips((current) => [response, ...current]);
+    } catch (reason: any) {
+      window.alert(reason.message || 'Trip could not be saved.');
+      return;
     }
-
-    const nextTrips = [savedTrip, ...trips];
-    setTrips(nextTrips);
-    localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(nextTrips));
     setShowCreateModal(false);
     setNewTrip({
       name: '',
@@ -293,13 +204,13 @@ function DashboardContent() {
 
     try {
       await api.deleteTrip(tripId);
-    } catch {
-      // Local/demo trips are not present in the API database.
+    } catch (reason: any) {
+      window.alert(reason.message || 'Trip could not be deleted.');
+      return;
     }
 
     const remainingTrips = trips.filter((trip) => trip.id !== tripId);
     setTrips(remainingTrips);
-    localStorage.setItem(TRIPS_STORAGE_KEY, JSON.stringify(remainingTrips));
   };
 
   const filteredTrips = trips.filter((t) => {
@@ -308,13 +219,7 @@ function DashboardContent() {
   });
 
   const getTripDayCount = (trip: any) => {
-    if (typeof window === 'undefined') return trip.dayCount || trip.days?.length || 0;
-    try {
-      const savedDays = JSON.parse(localStorage.getItem(`tripsync_trip_days_${trip.id}`) || '[]');
-      return Array.isArray(savedDays) ? savedDays.length : trip.dayCount || trip.days?.length || 0;
-    } catch {
-      return trip.dayCount || trip.days?.length || 0;
-    }
+    return trip.dayCount || trip.days?.length || 0;
   };
 
   // While the session is being validated, or once we know the visitor isn't
@@ -331,7 +236,7 @@ function DashboardContent() {
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 gap-8">
-        {!isDemoSession && trips.length === 0 ? (
+        {trips.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-white/80 px-6 py-20 text-center shadow-sm">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-8 ring-brand-100">
               <Plus className="h-8 w-8" />

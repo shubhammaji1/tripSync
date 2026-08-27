@@ -77,9 +77,9 @@ export class TasksService {
           orderBy: [desc(tasks.createdAt)],
           with: { assignedTo: true },
         });
-        if (result && result.length > 0) return result;
+        return result;
       } catch (err) {
-        console.warn('Tasks query fallback to mock:', err);
+        throw err;
       }
     }
 
@@ -100,7 +100,7 @@ export class TasksService {
         } as any) as any).returning();
         return task;
       } catch (err) {
-        console.warn('Task insert db error:', err);
+        throw err;
       }
     }
 
@@ -130,7 +130,7 @@ export class TasksService {
           .returning();
         return updated;
       } catch (err) {
-        console.warn('Task update db error:', err);
+        throw err;
       }
     }
 
@@ -143,7 +143,7 @@ export class TasksService {
         await this.db.delete(tasks).where(eq(tasks.id, taskId));
         return { success: true };
       } catch (err) {
-        console.warn('Task delete db error:', err);
+        throw err;
       }
     }
 

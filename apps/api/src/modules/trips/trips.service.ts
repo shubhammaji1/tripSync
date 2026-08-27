@@ -74,7 +74,7 @@ export class TripsService {
           totalExpenses: t.expenses.reduce((sum, e) => sum + Number(e.amount), 0),
         }));
       } catch (err) {
-        console.warn('Trips db error, falling back to mock trips');
+        throw err;
       }
     }
     return Array.from(this.mockTrips.values());
@@ -105,7 +105,7 @@ export class TripsService {
         });
         if (trip) return trip;
       } catch (err) {
-        console.warn('Trips db error, falling back to mock trip');
+        throw err;
       }
     }
 
@@ -153,9 +153,14 @@ export class TripsService {
           role: TripRole.OWNER,
         } as any) as any);
 
-        return inserted;
+        return {
+          ...inserted,
+          budget: inserted.budget ? Number(inserted.budget) : null,
+          memberCount: 1,
+          totalExpenses: 0,
+        };
       } catch (err) {
-        console.warn('Error inserting trip in db:', err);
+        throw err;
       }
     }
 
@@ -176,7 +181,7 @@ export class TripsService {
           .returning();
         if (updated) return updated;
       } catch (err) {
-        console.warn('Error updating trip in db:', err);
+        throw err;
       }
     }
 
@@ -193,7 +198,7 @@ export class TripsService {
         await this.db.delete(trips).where(eq(trips.id, tripId));
         return { success: true };
       } catch (err) {
-        console.warn('Error deleting trip in db:', err);
+        throw err;
       }
     }
     this.mockTrips.delete(tripId);

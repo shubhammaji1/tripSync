@@ -1,3 +1,11 @@
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// Load environment variables early before bootstrap checks
+dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
+
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';

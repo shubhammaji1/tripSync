@@ -1,0 +1,21 @@
+{
+  "node": {
+    "412872dd0c2d61bbe109a0c465a62c19df3253c4": {
+      "workers": {
+        "app/sign-up/[[...sign-up]]/page": "[project]/apps/web/.next-internal/server/app/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript, action, ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/sign-up/[[...sign-up]]/page": "actionBrowser"
+      }
+    },
+    "8f41e568918fcbd363a7a1e05a9b506341f88e5c": {
+      "workers": {
+        "app/sign-up/[[...sign-up]]/page": "[project]/apps/web/.next-internal/server/app/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript, action, ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)"
+      },
+      "layer": {
+        "app/sign-up/[[...sign-up]]/page": "rsc"
+      }
+    }
+  },
+  "edge": {}
+}

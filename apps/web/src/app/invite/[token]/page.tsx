@@ -1,118 +1,255 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useClerk, useSignUp, useUser } from '@clerk/nextjs';
+import Link from 'next/link';
+import { useClerk, useUser } from '@clerk/nextjs';
 import { api } from '@/lib/api';
-import { useAuth } from '@/lib/auth-context';
+import { MapPin, Users, CheckCircle2, AlertCircle, ArrowRight, Compass, ShieldCheck, UserCheck } from 'lucide-react';
+
+interface InvitationDetails {
+  id: string;
+  tripId: string;
+  tripName: string;
+  tripDestination: string;
+  email: string | null;
+  isShareable?: boolean;
+  role: string;
+  status: string;
+  expiresAt: string;
+  inviterName: string;
+}
 
 export default function AcceptInvitationPage({ params }: { params: { token: string } }) {
   const router = useRouter();
-  const { signOut, setActive } = useClerk();
-  const { signUp } = useSignUp();
-  const { user } = useUser();
-  const { setSession } = useAuth();
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [needsVerification, setNeedsVerification] = useState(false);
-  const [error, setError] = useState('');
-  const [confirmationMessage, setConfirmationMessage] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const signedInEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase();
+  const { signOut } = useClerk();
+  const { isLoaded: isUserLoaded, user } = useUser();
 
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    setSubmitting(true);
-    setError('');
-    try {
-      if (!user) {
-        if (needsVerification) {
-          const verification = await signUp.verifications.emailAddress.attemptVerification({ code: verificationCode });
-          if (verification.status !== 'complete' || !verification.createdSessionId) {
-            throw new Error('Enter the verification code sent to your email.');
-          }
-          await setActive({ session: verification.createdSessionId });
-        } else {
-          const created = await signUp.create({
-            emailAddress: email.trim(),
-            password,
-            firstName: fullName.trim(),
-          });
-          if (created.status !== 'complete' || !created.createdSessionId) {
-            await signUp.verifications.emailAddress.prepareVerification({ strategy: 'email_code' });
-            setNeedsVerification(true);
-            setConfirmationMessage(`Enter the verification code sent to ${email.trim()}.`);
-            return;
-          }
-          await setActive({ session: created.createdSessionId });
+  const [invitation, setInvitation] = useState<InvitationDetails | null>(null);
+  const [loadingInvite, setLoadingInvite] = useState(true);
+  const [inviteError, setInviteError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const acceptanceStarted = useRef(false);
+
+  // 1. Fetch invitation details
+  useEffect(() => {
+    let cancelled = false;
+    setLoadingInvite(true);
+    setInviteError(null);
+
+    api.getInvitation(params.token)
+      .then((data) => {
+        if (cancelled) return;
+        setInvitation(data);
+        if (data.status === 'EXPIRED') {
+          setInviteError('This invitation has expired. Please request a new invite from the trip organizer.');
+        } else if (data.status === 'ACCEPTED' && !data.isShareable) {
+          setInviteError('This invitation has already been accepted.');
         }
-      }
-      const response = await api.acceptInvitation({ token: params.token, fullName, password });
+      })
+      .catch((err: any) => {
+        if (!cancelled) {
+          setInviteError(err.message || 'Invitation link is not valid or has expired.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingInvite(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [params.token]);
+
+  // 2. If already logged in, auto-accept (for both universal shareable link and matching email)
+  useEffect(() => {
+    if (!isUserLoaded || !user || !invitation || inviteError || acceptanceStarted.current) return;
+
+    const userEmail = user.primaryEmailAddress?.emailAddress?.toLowerCase();
+    const invitedEmail = invitation.email?.toLowerCase();
+    const isShareable = !invitation.email || invitation.isShareable || params.token.startsWith('join_');
+
+    if (isShareable || (userEmail && invitedEmail && userEmail === invitedEmail)) {
+      acceptanceStarted.current = true;
+      setSubmitting(true);
+
+      api.acceptInvitation({
+        token: params.token,
+        fullName: user.fullName || user.firstName || userEmail?.split('@')[0] || 'Trip member',
+      })
+        .then((response) => {
+          if ('accepted' in response && response.accepted) {
+            router.replace(response.tripId ? `/trips/${response.tripId}` : '/dashboard');
+          }
+        })
+        .catch((err: any) => {
+          setAuthError(err.message || 'Unable to join the trip.');
+          acceptanceStarted.current = false;
+        })
+        .finally(() => {
+          setSubmitting(false);
+        });
+    }
+  }, [isUserLoaded, user, invitation, inviteError, params.token, router]);
+
+  const handleManualAccept = async () => {
+    if (!user) return;
+    setSubmitting(true);
+    setAuthError('');
+    try {
+      const userEmail = user.primaryEmailAddress?.emailAddress?.toLowerCase() || '';
+      const response = await api.acceptInvitation({
+        token: params.token,
+        fullName: user.fullName || user.firstName || userEmail.split('@')[0] || 'Trip member',
+      });
       if ('accepted' in response && response.accepted) {
-        router.push('/dashboard');
-        return;
+        router.replace(response.tripId ? `/trips/${response.tripId}` : '/dashboard');
       }
-      if ('requiresEmailConfirmation' in response) {
-        setConfirmationMessage(response.message);
-        return;
-      }
-      setSession(response.user, response.token);
-      router.push('/dashboard');
-    } catch (reason: any) {
-      setError(reason.message || 'This invitation could not be accepted.');
+    } catch (err: any) {
+      setAuthError(err.message || 'Unable to join the trip.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const signInAsInvitee = async () => {
+  const handleSignOutAndSwitch = async () => {
     await signOut();
     router.push(`/sign-in?redirect_url=${encodeURIComponent(`/invite/${params.token}`)}`);
   };
 
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <form onSubmit={submit} className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900">Join your TripSync trip</h1>
-        <p className="mt-2 text-sm text-slate-500">Create your profile and password to accept this invitation.</p>
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase();
+  const invitedEmail = invitation?.email?.toLowerCase();
+  const isShareable = !invitation?.email || invitation?.isShareable || params.token.startsWith('join_');
+  const isEmailMismatch = !isShareable && Boolean(user && userEmail && invitedEmail && userEmail !== invitedEmail);
 
-        {user && signedInEmail && (
-          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
-            Signed in as <strong>{user.primaryEmailAddress?.emailAddress}</strong>. Accept this invitation only with the invited email address.
-            <button type="button" onClick={signInAsInvitee} className="mt-2 block font-semibold text-brand-700 hover:text-brand-900">
-              Sign out and use the invited account
-            </button>
+  if (loadingInvite) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-slate-900 border-r-transparent align-[-0.125em]" />
+          <p className="mt-4 text-sm font-medium text-slate-600">Verifying invitation link...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (inviteError) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-red-600 ring-8 ring-red-50/50">
+            <AlertCircle className="h-6 w-6" />
+          </div>
+          <h1 className="mt-4 text-xl font-bold text-slate-900">Invitation Invalid</h1>
+          <p className="mt-2 text-sm text-slate-500">{inviteError}</p>
+          <div className="mt-6 flex flex-col gap-2">
+            <Link
+              href="/dashboard"
+              className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-slate-800"
+            >
+              Go to Dashboard
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-12">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        {/* Header with trip invitation details */}
+        <div className="text-center pb-6 border-b border-slate-100">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 text-brand-600 ring-8 ring-brand-50/50">
+            <Compass className="h-6 w-6" />
+          </div>
+          <h1 className="mt-4 text-2xl font-extrabold text-slate-900">
+            {invitation?.tripName || 'Group Trip'}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Invited by <strong className="text-slate-700">{invitation?.inviterName}</strong> as a{' '}
+            <span className="font-semibold uppercase text-brand-700">{invitation?.role}</span>
+          </p>
+          {invitation?.tripDestination && (
+            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+              <MapPin className="h-3.5 w-3.5 text-slate-400" />
+              <span>{invitation.tripDestination}</span>
+            </div>
+          )}
+        </div>
+
+        {/* State 1: User already logged in */}
+        {user ? (
+          <div className="mt-6 space-y-4">
+            {isEmailMismatch ? (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                <p className="font-semibold">Email address mismatch</p>
+                <p className="mt-1 text-xs text-amber-700">
+                  You are signed in as <strong>{userEmail}</strong>, but this invite was sent to{' '}
+                  <strong>{invitedEmail}</strong>.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleSignOutAndSwitch}
+                  className="mt-4 w-full rounded-xl bg-amber-900 px-4 py-2.5 text-xs font-bold text-white hover:bg-amber-800"
+                >
+                  Sign out and switch to {invitedEmail}
+                </button>
+              </div>
+            ) : (
+              <div className="text-center py-4">
+                <div className="flex items-center justify-center gap-2 text-emerald-600">
+                  <CheckCircle2 className="h-5 w-5" />
+                  <span className="text-sm font-semibold">Joining as {userEmail}...</span>
+                </div>
+                {authError && (
+                  <div className="mt-4">
+                    <p className="text-xs text-red-600 font-medium">{authError}</p>
+                    <button
+                      type="button"
+                      onClick={handleManualAccept}
+                      disabled={submitting}
+                      className="mt-3 w-full rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white"
+                    >
+                      {submitting ? 'Joining...' : 'Try Joining Again'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* State 2: Not logged in - Signup or Direct Sign In buttons */
+          <div className="mt-6 space-y-4">
+            <div className="rounded-xl bg-slate-50 p-3.5 text-xs text-slate-600 border border-slate-100 flex items-center gap-2.5">
+              <ShieldCheck className="h-4 w-4 text-brand-600 shrink-0" />
+              <span>
+                {isShareable ? (
+                  <>Universal Group Invitation &bull; <strong className="text-slate-900">Open to all travelers</strong></>
+                ) : (
+                  <>Invitation reserved for <strong className="text-slate-900">{invitation?.email}</strong></>
+                )}
+              </span>
+            </div>
+
+            <Link
+              href={`/sign-up?redirect_url=${encodeURIComponent(`/invite/${params.token}`)}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 transition-colors"
+            >
+              <span>Create Account & Join</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+
+            <Link
+              href={`/sign-in?redirect_url=${encodeURIComponent(`/invite/${params.token}`)}`}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              <span>Already have an account? Sign In</span>
+            </Link>
           </div>
         )}
-
-        {confirmationMessage && !needsVerification ? (
-          <p className="mt-6 rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-sm text-emerald-800">
-            {confirmationMessage}
-          </p>
-        ) : (
-          <>
-            {!user && <p className="mt-6 text-sm text-slate-500">Create your account with the email address that received this invitation.</p>}
-            <label className="mt-4 block text-sm font-semibold text-slate-700">Full name</label>
-            <input required minLength={2} value={fullName} onChange={(event) => setFullName(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" />
-            {!user && <>
-              <label className="mt-4 block text-sm font-semibold text-slate-700">Invited email</label>
-              <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" />
-            </>}
-            <label className="mt-4 block text-sm font-semibold text-slate-700">Password</label>
-            <input required minLength={6} type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" />
-            {needsVerification && <>
-              <label className="mt-4 block text-sm font-semibold text-slate-700">Verification code</label>
-              <input required value={verificationCode} onChange={(event) => setVerificationCode(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" />
-            </>}
-            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-            <button disabled={submitting} className="mt-6 w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white disabled:opacity-50">
-              {submitting ? 'Joining trip...' : needsVerification ? 'Verify and join trip' : user ? 'Join trip' : 'Create account and join'}
-            </button>
-          </>
-        )}
-      </form>
+      </div>
     </main>
   );
 }

@@ -363,15 +363,13 @@ __turbopack_esm__({
     "api": ()=>api,
     "setApiAuthTokenProvider": ()=>setApiAuthTokenProvider
 });
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+const API_BASE_URL = rawApiUrl.replace(/\/+$/, '').endsWith('/api/v1') ? rawApiUrl.replace(/\/+$/, '') : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
 let authTokenProvider = null;
 function setApiAuthTokenProvider(provider) {
     authTokenProvider = provider;
 }
 function getAuthToken() {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('tripsync_token');
-    }
     return null;
 }
 async function fetcher(endpoint, options) {
@@ -390,13 +388,34 @@ async function fetcher(endpoint, options) {
             headers
         });
         if (!res.ok) {
-            const errorData = await res.json().catch(()=>({}));
+            const errorText = await res.text().catch(()=>'');
+            let errorData = {};
+            try {
+                errorData = errorText ? JSON.parse(errorText) : {};
+            } catch  {
+                errorData = {
+                    message: errorText
+                };
+            }
             const fieldError = Array.isArray(errorData.errors) ? errorData.errors[0]?.message : undefined;
             const message = Array.isArray(errorData.message) ? errorData.message[0] : errorData.message;
             throw new Error(fieldError || message || `API error: ${res.status}`);
         }
-        return await res.json();
+        const text = await res.text();
+        if (!text || text.trim() === '') {
+            return {};
+        }
+        try {
+            return JSON.parse(text);
+        } catch  {
+            return text;
+        }
     } catch (err) {
+        if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+            const helpfulError = new Error(`Unable to reach TripSync API at ${API_BASE_URL}. Please ensure the backend server is running.`);
+            console.warn(`API request to ${endpoint} failed:`, helpfulError.message);
+            throw helpfulError;
+        }
         console.warn(`API request to ${endpoint} failed:`, err.message);
         throw err;
     }
@@ -419,6 +438,7 @@ const api = {
     logout: ()=>fetcher('/auth/logout', {
             method: 'POST'
         }),
+    getInvitation: (token)=>fetcher(`/auth/invitations/${token}`),
     acceptInvitation: (data)=>fetcher('/auth/accept-invitation', {
             method: 'POST',
             body: JSON.stringify(data)
@@ -492,6 +512,15 @@ const api = {
     getAnalytics: (tripId)=>fetcher(`/trips/${tripId}/analytics`),
     // Members & RBAC
     getMembers: (tripId)=>fetcher(`/trips/${tripId}/members`),
+    getShareLink: (tripId)=>fetcher(`/trips/${tripId}/members/share-link`),
+    createShareLink: (tripId, data)=>fetcher(`/trips/${tripId}/members/share-link`, {
+            method: 'POST',
+            body: JSON.stringify(data || {})
+        }),
+    bulkInviteMembers: (tripId, data)=>fetcher(`/trips/${tripId}/members/bulk-invite`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }),
     inviteMember: (tripId, data)=>fetcher(`/trips/${tripId}/members/invite`, {
             method: 'POST',
             body: JSON.stringify(data)
@@ -542,32 +571,16 @@ function canForRole(role, permission) {
     }
 }
 const AuthContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createContext"])(undefined);
-const STORAGE_TOKEN_KEY = 'tripsync_token';
 function AuthProvider({ children }) {
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [token, setToken] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
-    // On load, if a token is stored, validate it against the backend rather
-    // than trusting a cached user blob - the token may have expired or been
-    // revoked since the last visit.
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        const storedToken = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_TOKEN_KEY) : null;
-        if (!storedToken) {
-            setLoading(false);
-            return;
-        }
-        setToken(storedToken);
-        __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].getMe().then((profile)=>setUser(profile)).catch(()=>{
-            // Token is invalid/expired - clear it rather than keep a stale session.
-            localStorage.removeItem(STORAGE_TOKEN_KEY);
-            setToken(null);
-            setUser(null);
-        }).finally(()=>setLoading(false));
+        setLoading(false);
     }, []);
     const setSession = (nextUser, nextToken)=>{
         setUser(nextUser);
         setToken(nextToken);
-        localStorage.setItem(STORAGE_TOKEN_KEY, nextToken);
     };
     const login = async (email, password)=>{
         const res = await __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].login({
@@ -591,7 +604,6 @@ function AuthProvider({ children }) {
     const logout = ()=>{
         setUser(null);
         setToken(null);
-        localStorage.removeItem(STORAGE_TOKEN_KEY);
         __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["api"].logout().catch(()=>{
         /* best-effort - client state is already cleared */ });
     };
@@ -609,7 +621,7 @@ function AuthProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/apps/web/src/lib/auth-context.tsx",
-        lineNumber: 122,
+        lineNumber: 98,
         columnNumber: 5
     }, this);
 }

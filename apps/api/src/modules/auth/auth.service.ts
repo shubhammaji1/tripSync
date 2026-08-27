@@ -15,9 +15,8 @@ import { Profile, AuthResponse, InvitationStatus } from '@tripsync/types';
 import { AcceptInvitationInput, LoginInput, RegisterInput, VerifyEmailOtpInput } from '@tripsync/validation';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { tripInvitations, tripMembers } from '../../database/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { ProfileSyncService } from '../../common/profile-sync.service';
-import { mockInvitations } from '../members/members.service';
 
 interface SupabaseAuthUser {
   id: string;
@@ -224,44 +223,77 @@ export class AuthService {
    * (never a client-supplied one) so acceptance can't be redirected to a
    * different account than the one actually invited.
    */
-  async acceptInvitation(input: AcceptInvitationInput, currentUser: Profile): Promise<AuthResponse | { accepted: true; user: Profile }> {
-    let invite: any = mockInvitations.get(input.token);
-    if (!invite) {
-      try {
-        invite = await this.db.query.tripInvitations.findFirst({
-          where: eq(tripInvitations.token, input.token),
-        });
-      } catch {
-        invite = undefined;
-      }
-    }
+  async acceptInvitation(input: AcceptInvitationInput, currentUser: Profile): Promise<{ accepted: true; user: Profile; tripId: string; role: string }> {
+    const invite = await this.db.query.tripInvitations.findFirst({
+      where: eq(tripInvitations.token, input.token),
+    });
 
     if (!invite) throw new NotFoundException('Invitation not found');
     if (invite.status !== InvitationStatus.PENDING) {
       throw new BadRequestException('This invitation is no longer valid');
     }
-    if (invite.expiresAt < new Date()) {
+    if (new Date(invite.expiresAt) < new Date()) {
       throw new BadRequestException('This invitation has expired');
     }
-    if (invite.email.toLowerCase() !== currentUser.email.toLowerCase()) {
+
+    const isShareable = invite.email === '*' || invite.token.startsWith('join_');
+    if (!isShareable && invite.email.toLowerCase() !== currentUser.email.toLowerCase()) {
       throw new ForbiddenException(
-        `This invitation is for ${invite.email}. Sign in with that account to join the trip.`,
+        `This invitation was sent to ${invite.email}. Please sign in with ${invite.email} to join the trip.`,
       );
     }
 
     // Clerk owns the active session in the web app. Do not create a second
     // Supabase account from the invitation form; add the authenticated Clerk
     // user to the invited trip instead.
-    try {
-      await (this.db
+    await this.db.transaction(async (transaction) => {
+      await (transaction
         .insert(tripMembers)
         .values({ tripId: invite.tripId, userId: currentUser.id, role: invite.role } as any) as any)
-        .onConflictDoNothing({ target: [tripMembers.tripId, tripMembers.userId] });
-    } catch {
-      // Local/mock mode can still complete the browser-side acceptance.
+        .onConflictDoUpdate({
+          target: [tripMembers.tripId, tripMembers.userId],
+          set: { role: invite.role },
+        });
+
+      if (!isShareable) {
+        await transaction.update(tripInvitations)
+          .set({ status: InvitationStatus.ACCEPTED } as any)
+          .where(and(eq(tripInvitations.token, input.token), eq(tripInvitations.status, InvitationStatus.PENDING)));
+      }
+    });
+    return { accepted: true, user: currentUser, tripId: invite.tripId, role: invite.role };
+  }
+
+  /**
+   * Public endpoint: retrieve invitation details for UI preview.
+   */
+  async getInvitationByToken(token: string) {
+    const invite = await this.db.query.tripInvitations.findFirst({
+      where: eq(tripInvitations.token, token),
+      with: {
+        trip: true,
+        inviter: true,
+      },
+    });
+
+    if (!invite) {
+      throw new NotFoundException('Invitation not found');
     }
 
-    mockInvitations.delete(input.token);
-    return { accepted: true, user: currentUser };
+    const isExpired = new Date(invite.expiresAt) < new Date();
+    const isShareable = invite.email === '*' || invite.token.startsWith('join_');
+
+    return {
+      id: invite.id,
+      tripId: invite.tripId,
+      tripName: invite.trip?.name || 'Group Trip',
+      tripDestination: invite.trip?.destination || '',
+      email: isShareable ? null : invite.email,
+      isShareable,
+      role: invite.role,
+      status: isExpired ? InvitationStatus.EXPIRED : invite.status,
+      expiresAt: invite.expiresAt,
+      inviterName: invite.inviter?.fullName || invite.inviter?.email || 'Trip organizer',
+    };
   }
 }

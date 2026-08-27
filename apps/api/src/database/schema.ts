@@ -508,3 +508,14 @@ export const emergencyContactsRelations = relations(emergencyContacts, ({ one })
     references: [trips.id],
   }),
 }));
+
+export const tripInvitationsRelations = relations(tripInvitations, ({ one }) => ({
+  trip: one(trips, {
+    fields: [tripInvitations.tripId],
+    references: [trips.id],
+  }),
+  inviter: one(profiles, {
+    fields: [tripInvitations.invitedBy],
+    references: [profiles.id],
+  }),
+}));

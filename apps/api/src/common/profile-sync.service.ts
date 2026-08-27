@@ -1,6 +1,7 @@
 import { Injectable, Inject, ServiceUnavailableException } from '@nestjs/common';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../database/database.module';
 import { profiles } from '../database/schema';
+import { eq } from 'drizzle-orm';
 import { Profile } from '@tripsync/types';
 
 export interface SupabaseIdentityClaims {
@@ -15,7 +16,7 @@ export interface SupabaseIdentityClaims {
  * Supabase Auth is the identity provider (per README §Security Architecture);
  * this service is the only place that writes to `profiles`, and it always
  * writes from verified claims - never from a seed list or client-supplied
- * body - so the row always reflects the real, current Supabase identity.
+ * body - so the row always reflects the real, current identity.
  */
 @Injectable()
 export class ProfileSyncService {
@@ -42,6 +43,53 @@ export class ProfileSyncService {
     if (phone) updateSet.phone = phone;
 
     try {
+      // 1. Check if profile exists by ID
+      const existingById = await this.db.query.profiles.findFirst({
+        where: eq(profiles.id, claims.sub),
+      });
+
+      if (existingById) {
+        const [row] = await (this.db
+          .update(profiles)
+          .set(updateSet as any)
+          .where(eq(profiles.id, claims.sub)) as any)
+          .returning();
+
+        return {
+          id: row.id,
+          email: row.email,
+          fullName: row.fullName,
+          avatarUrl: row.avatarUrl,
+          phone: row.phone,
+          createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
+          updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : String(row.updatedAt),
+        };
+      }
+
+      // 2. Check if profile exists by Email (e.g. from existing Supabase session or seed)
+      const existingByEmail = await this.db.query.profiles.findFirst({
+        where: eq(profiles.email, claims.email),
+      });
+
+      if (existingByEmail) {
+        const [row] = await (this.db
+          .update(profiles)
+          .set(updateSet as any)
+          .where(eq(profiles.id, existingByEmail.id)) as any)
+          .returning();
+
+        return {
+          id: row.id,
+          email: row.email,
+          fullName: row.fullName,
+          avatarUrl: row.avatarUrl,
+          phone: row.phone,
+          createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
+          updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : String(row.updatedAt),
+        };
+      }
+
+      // 3. Otherwise, insert new profile
       const [row] = await (this.db
         .insert(profiles)
         .values({
@@ -51,10 +99,6 @@ export class ProfileSyncService {
           avatarUrl,
           phone,
         } as any) as any)
-        .onConflictDoUpdate({
-          target: profiles.id,
-          set: updateSet,
-        })
         .returning();
 
       return {
@@ -67,17 +111,7 @@ export class ProfileSyncService {
         updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : String(row.updatedAt),
       };
     } catch (err) {
-      // The identity was already verified by AuthGuard. Keep API mock/local
-      // mode usable when profile persistence is temporarily unavailable.
-      return {
-        id: claims.sub,
-        email: claims.email,
-        fullName,
-        avatarUrl,
-        phone,
-        createdAt: new Date(0).toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+      throw err;
     }
   }
 }

@@ -59,41 +59,18 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const STORAGE_TOKEN_KEY = 'tripsync_token';
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Profile | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // On load, if a token is stored, validate it against the backend rather
-  // than trusting a cached user blob - the token may have expired or been
-  // revoked since the last visit.
   useEffect(() => {
-    const storedToken = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_TOKEN_KEY) : null;
-
-    if (!storedToken) {
-      setLoading(false);
-      return;
-    }
-
-    setToken(storedToken);
-    api
-      .getMe()
-      .then((profile) => setUser(profile))
-      .catch(() => {
-        // Token is invalid/expired - clear it rather than keep a stale session.
-        localStorage.removeItem(STORAGE_TOKEN_KEY);
-        setToken(null);
-        setUser(null);
-      })
-      .finally(() => setLoading(false));
+    setLoading(false);
   }, []);
 
   const setSession = (nextUser: Profile, nextToken: string) => {
     setUser(nextUser);
     setToken(nextToken);
-    localStorage.setItem(STORAGE_TOKEN_KEY, nextToken);
   };
 
   const login = async (email: string, password: string) => {
@@ -112,7 +89,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem(STORAGE_TOKEN_KEY);
     api.logout().catch(() => {
       /* best-effort - client state is already cleared */
     });

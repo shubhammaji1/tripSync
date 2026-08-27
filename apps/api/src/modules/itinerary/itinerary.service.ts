@@ -187,9 +187,9 @@ export class ItineraryService {
             },
           },
         });
-        if (days && days.length > 0) return days;
+        return days;
       } catch (err) {
-        console.warn('Itinerary query fallback to mock days:', err);
+        throw err;
       }
     }
 
@@ -208,7 +208,7 @@ export class ItineraryService {
         } as any) as any).returning();
         return day;
       } catch (err) {
-        console.warn('Trip day insert db error:', err);
+        throw err;
       }
     }
 
@@ -233,7 +233,7 @@ export class ItineraryService {
         await this.db.delete(tripDays).where(and(eq(tripDays.id, dayId), eq(tripDays.tripId, tripId)));
         return { success: true };
       } catch (err) {
-        console.warn('Trip day delete db error:', err);
+        throw err;
       }
     }
 
@@ -263,7 +263,7 @@ export class ItineraryService {
         } as any) as any).returning();
         return activity;
       } catch (err) {
-        console.warn('Activity insert db error:', err);
+        throw err;
       }
     }
 
@@ -298,7 +298,7 @@ export class ItineraryService {
           .returning();
         return updated;
       } catch (err) {
-        console.warn('Activity update db error:', err);
+        throw err;
       }
     }
 
@@ -311,7 +311,7 @@ export class ItineraryService {
         await this.db.delete(activities).where(eq(activities.id, activityId));
         return { success: true };
       } catch (err) {
-        console.warn('Activity delete db error:', err);
+        throw err;
       }
     }
 

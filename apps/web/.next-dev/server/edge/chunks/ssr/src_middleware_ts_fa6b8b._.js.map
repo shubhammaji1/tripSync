@@ -2,6 +2,6 @@
   "version": 3,
   "sources": [],
   "sections": [
-    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/apps/web/src/middleware.ts"],"sourcesContent":["import { clerkMiddleware } from '@clerk/nextjs/server';\n\nexport default clerkMiddleware();\n\nexport const config = {\n  matcher: [\n    '/((?!_next|[^?]*\\\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',\n    '/(api|trpc)(.*)',\n    '/__clerk/:path*',\n  ],\n};\n"],"names":[],"mappings":";;;;;;;uCAEe,CAAA,GAAA,oTAAA,CAAA,kBAAe,AAAD;AAEtB,MAAM,SAAS;IACpB,SAAS;QACP;QACA;QACA;KACD;AACH"}},
-    {"offset": {"line": 20, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/apps/web/src/middleware.ts"],"sourcesContent":["import { NextResponse } from 'next/server';\n\nexport default function middleware() {\n  return NextResponse.next();\n}\n\nexport const config = {\n  matcher: [\n    '/((?!_next|[^?]*\\\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',\n    '/(api|trpc)(.*)',\n    '/__clerk/:path*',\n  ],\n};\n"],"names":[],"mappings":";;;;;;;;AAEe,SAAS;IACtB,OAAO,2RAAA,CAAA,eAAY,CAAC,IAAI;AAC1B;AAEO,MAAM,SAAS;IACpB,SAAS;QACP;QACA;QACA;KACD;AACH"}},
+    {"offset": {"line": 23, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
 }

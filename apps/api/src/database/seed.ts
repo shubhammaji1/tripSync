@@ -121,11 +121,6 @@ export async function seedDatabase() {
     console.log('Inserting trip members...');
     const memberRoles = [
       { userId: SEED_USERS[0].id, role: TripRole.OWNER },
-      { userId: SEED_USERS[1].id, role: TripRole.ADMIN },
-      { userId: SEED_USERS[2].id, role: TripRole.MEMBER },
-      { userId: SEED_USERS[3].id, role: TripRole.MEMBER },
-      { userId: SEED_USERS[4].id, role: TripRole.MEMBER },
-      { userId: SEED_USERS[5].id, role: TripRole.MEMBER },
     ];
 
     for (const m of memberRoles) {

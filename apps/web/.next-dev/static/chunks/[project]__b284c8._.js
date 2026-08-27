@@ -25,7 +25,7 @@ var _s = __turbopack_refresh__.signature();
 function AcceptInvitationPage({ params }) {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const { signOut, setActive } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$shared$40$4$2e$30$2e$1_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$shared$2f$dist$2f$react$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useClerk"])();
+    const { signOut } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$shared$40$4$2e$30$2e$1_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$shared$2f$dist$2f$react$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useClerk"])();
     const { signUp } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$react$40$6$2e$14$2e$7_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$react$2f$dist$2f$hooks$2d$74kNS3WZ$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__$5f$__as__useSignUp$3e$__["useSignUp"])();
     const { user } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$shared$40$4$2e$30$2e$1_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$shared$2f$dist$2f$react$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUser"])();
     const { setSession } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$auth$2d$context$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
@@ -37,7 +37,36 @@ function AcceptInvitationPage({ params }) {
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [confirmationMessage, setConfirmationMessage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [submitting, setSubmitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [inviteLoaded] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const acceptanceStarted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
     const signedInEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!user || !inviteLoaded || needsVerification || acceptanceStarted.current) return;
+        acceptanceStarted.current = true;
+        let cancelled = false;
+        setSubmitting(true);
+        __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].acceptInvitation({
+            token: params.token,
+            fullName: user.fullName || user.firstName || user.primaryEmailAddress?.emailAddress?.split('@')[0] || 'Trip member'
+        }).then((response)=>{
+            if (!cancelled && 'accepted' in response && response.accepted) {
+                router.replace(response.tripId ? `/trips/${response.tripId}` : '/dashboard');
+            }
+        }).catch((reason)=>{
+            if (!cancelled) setError(reason.message || 'This invitation could not be accepted.');
+        }).finally(()=>{
+            if (!cancelled) setSubmitting(false);
+        });
+        return ()=>{
+            cancelled = true;
+        };
+    }, [
+        inviteLoaded,
+        needsVerification,
+        params.token,
+        router,
+        user
+    ]);
     const submit = async (event)=>{
         event.preventDefault();
         setSubmitting(true);
@@ -45,32 +74,29 @@ function AcceptInvitationPage({ params }) {
         try {
             if (!user) {
                 if (needsVerification) {
-                    const verification = await signUp.verifications.email.attemptVerification({
+                    const verification = await signUp.verifications.verifyEmailCode({
                         code: verificationCode
                     });
-                    if (verification.status !== 'complete' || !verification.createdSessionId) {
+                    if (verification.error || signUp.status !== 'complete') {
                         throw new Error('Enter the verification code sent to your email.');
                     }
-                    await setActive({
-                        session: verification.createdSessionId
-                    });
+                    const finalized = await signUp.finalize();
+                    if (finalized.error) throw new Error(finalized.error.message || 'Unable to complete account creation.');
                 } else {
                     const created = await signUp.create({
                         emailAddress: email.trim(),
                         password,
                         firstName: fullName.trim()
                     });
-                    if (created.status !== 'complete' || !created.createdSessionId) {
-                        await signUp.verifications.email.prepareVerification({
-                            strategy: 'email_code'
-                        });
+                    if (created.error) throw new Error(created.error.message || 'Unable to create account.');
+                    if (signUp.status !== 'complete' || !signUp.createdSessionId) {
+                        await signUp.verifications.sendEmailCode();
                         setNeedsVerification(true);
                         setConfirmationMessage(`Enter the verification code sent to ${email.trim()}.`);
                         return;
                     }
-                    await setActive({
-                        session: created.createdSessionId
-                    });
+                    const finalized = await signUp.finalize();
+                    if (finalized.error) throw new Error(finalized.error.message || 'Unable to complete account creation.');
                 }
             }
             const response = await __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].acceptInvitation({
@@ -78,8 +104,8 @@ function AcceptInvitationPage({ params }) {
                 fullName,
                 password
             });
-            if ('accepted' in response && response.accepted) {
-                router.push('/dashboard');
+            if ('accepted' in response) {
+                router.push(response.tripId ? `/trips/${response.tripId}` : '/dashboard');
                 return;
             }
             if ('requiresEmailConfirmation' in response) {
@@ -109,7 +135,7 @@ function AcceptInvitationPage({ params }) {
                     children: "Join your TripSync trip"
                 }, void 0, false, {
                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                    lineNumber: 78,
+                    lineNumber: 103,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -117,7 +143,7 @@ function AcceptInvitationPage({ params }) {
                     children: "Create your profile and password to accept this invitation."
                 }, void 0, false, {
                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                    lineNumber: 79,
+                    lineNumber: 104,
                     columnNumber: 9
                 }, this),
                 user && signedInEmail && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -128,7 +154,7 @@ function AcceptInvitationPage({ params }) {
                             children: user.primaryEmailAddress?.emailAddress
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 83,
+                            lineNumber: 108,
                             columnNumber: 26
                         }, this),
                         ". Accept this invitation only with the invited email address.",
@@ -139,21 +165,28 @@ function AcceptInvitationPage({ params }) {
                             children: "Sign out and use the invited account"
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 84,
+                            lineNumber: 109,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                    lineNumber: 82,
+                    lineNumber: 107,
                     columnNumber: 11
                 }, this),
-                confirmationMessage && !needsVerification ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                user ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    className: "mt-6 rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-sm text-emerald-800",
+                    children: "Accepting your invitation..."
+                }, void 0, false, {
+                    fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
+                    lineNumber: 116,
+                    columnNumber: 11
+                }, this) : confirmationMessage && !needsVerification ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     className: "mt-6 rounded-xl bg-emerald-50 border border-emerald-200 p-4 text-sm text-emerald-800",
                     children: confirmationMessage
                 }, void 0, false, {
                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                    lineNumber: 91,
+                    lineNumber: 120,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                     children: [
@@ -162,28 +195,32 @@ function AcceptInvitationPage({ params }) {
                             children: "Create your account with the email address that received this invitation."
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 96,
+                            lineNumber: 125,
                             columnNumber: 23
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                            className: "mt-4 block text-sm font-semibold text-slate-700",
-                            children: "Full name"
-                        }, void 0, false, {
-                            fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 97,
-                            columnNumber: 13
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            required: true,
-                            minLength: 2,
-                            value: fullName,
-                            onChange: (event)=>setFullName(event.target.value),
-                            className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
-                        }, void 0, false, {
-                            fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 98,
-                            columnNumber: 13
-                        }, this),
+                        !user && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "mt-4 block text-sm font-semibold text-slate-700",
+                                    children: "Full name"
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
+                                    lineNumber: 127,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    required: true,
+                                    minLength: 2,
+                                    value: fullName,
+                                    onChange: (event)=>setFullName(event.target.value),
+                                    className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
+                                    lineNumber: 128,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
                         !user && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -191,7 +228,7 @@ function AcceptInvitationPage({ params }) {
                                     children: "Invited email"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 131,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -202,31 +239,35 @@ function AcceptInvitationPage({ params }) {
                                     className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                                    lineNumber: 101,
+                                    lineNumber: 132,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                            className: "mt-4 block text-sm font-semibold text-slate-700",
-                            children: "Password"
-                        }, void 0, false, {
-                            fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 103,
-                            columnNumber: 13
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            required: true,
-                            minLength: 6,
-                            type: "password",
-                            value: password,
-                            onChange: (event)=>setPassword(event.target.value),
-                            className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
-                        }, void 0, false, {
-                            fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 104,
-                            columnNumber: 13
-                        }, this),
+                        !user && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                    className: "mt-4 block text-sm font-semibold text-slate-700",
+                                    children: "Password"
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
+                                    lineNumber: 135,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    required: true,
+                                    minLength: 6,
+                                    type: "password",
+                                    value: password,
+                                    onChange: (event)=>setPassword(event.target.value),
+                                    className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
+                                    lineNumber: 136,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true),
                         needsVerification && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -234,7 +275,7 @@ function AcceptInvitationPage({ params }) {
                                     children: "Verification code"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                                    lineNumber: 106,
+                                    lineNumber: 139,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -244,7 +285,7 @@ function AcceptInvitationPage({ params }) {
                                     className: "mt-1 w-full rounded-xl border border-slate-300 px-3 py-2"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                                    lineNumber: 107,
+                                    lineNumber: 140,
                                     columnNumber: 15
                                 }, this)
                             ]
@@ -254,7 +295,7 @@ function AcceptInvitationPage({ params }) {
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 109,
+                            lineNumber: 142,
                             columnNumber: 23
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -263,7 +304,7 @@ function AcceptInvitationPage({ params }) {
                             children: submitting ? 'Joining trip...' : needsVerification ? 'Verify and join trip' : user ? 'Join trip' : 'Create account and join'
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-                            lineNumber: 110,
+                            lineNumber: 143,
                             columnNumber: 13
                         }, this)
                     ]
@@ -271,16 +312,16 @@ function AcceptInvitationPage({ params }) {
             ]
         }, void 0, true, {
             fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-            lineNumber: 77,
+            lineNumber: 102,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/apps/web/src/app/invite/[token]/page.tsx",
-        lineNumber: 76,
+        lineNumber: 101,
         columnNumber: 5
     }, this);
 }
-_s(AcceptInvitationPage, "iPQs+6x9nNR3zzzodq2OdEM/tng=", false, function() {
+_s(AcceptInvitationPage, "NLRFj+nz/CVtwcfn5j7GYJhKTAM=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$shared$40$4$2e$30$2e$1_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$shared$2f$dist$2f$react$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useClerk"],

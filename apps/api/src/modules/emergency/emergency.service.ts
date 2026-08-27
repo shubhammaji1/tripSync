@@ -70,9 +70,9 @@ export class EmergencyService {
         const result = await this.db.query.emergencyContacts.findMany({
           where: eq(emergencyContacts.tripId, tripId),
         });
-        if (result && result.length > 0) return result;
+        return result;
       } catch (err) {
-        console.warn('Emergency contacts db fallback to mock:', err);
+        throw err;
       }
     }
 
@@ -85,20 +85,20 @@ export class EmergencyService {
    */
   async getEmergencyPacket(tripId: string) {
     const contacts = await this.getEmergencyContacts(tripId);
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, tripId),
+      with: { members: { with: { user: true } } },
+    });
+    if (!trip) throw new Error(`Trip ${tripId} not found`);
     return {
       tripId,
-      tripName: 'Darjeeling Himalayan Adventure',
-      destination: 'Darjeeling, West Bengal, India',
+      tripName: trip.name,
+      destination: trip.destination,
       emergencyContacts: contacts,
-      accommodation: {
-        name: 'Summit Hermon Hotel & Spa',
-        address: 'Bhanu Sarani, Near Raj Bhavan, Darjeeling, West Bengal 734101',
-        phone: '+91 354 225 6789',
-      },
-      members: SEED_USERS.map((u) => ({
-        name: u.fullName,
-        phone: u.phone,
-        email: u.email,
+      members: trip.members.map((member) => ({
+        name: member.user.fullName,
+        phone: member.user.phone,
+        email: member.user.email,
       })),
       timestamp: new Date().toISOString(),
       cachedAt: Date.now(),
@@ -119,7 +119,7 @@ export class EmergencyService {
         } as any) as any).returning();
         return contact;
       } catch (err) {
-        console.warn('Emergency contact insert db error:', err);
+        throw err;
       }
     }
 

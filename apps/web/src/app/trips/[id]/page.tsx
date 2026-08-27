@@ -34,10 +34,15 @@ import {
   UserCheck,
   Eye,
   Info,
+  Share2,
+  Link2,
+  UserPlus,
+  Mail,
+  RefreshCw,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
-import { useAuth, canForRole } from '@/lib/auth-context';
+import { canForRole } from '@/lib/auth-context';
 import { TripRole } from '@tripsync/types';
 import {
   PieChart,
@@ -67,25 +72,10 @@ interface TripDayState {
   label: string;
 }
 
-const INITIAL_MEMBERS: MemberState[] = [
-  { id: '11111111-1111-1111-1111-111111111111', name: 'Rahul Sharma', role: TripRole.OWNER, phone: '+91 98765 43210' },
-  { id: '22222222-2222-2222-2222-222222222222', name: 'Shubham Verma', role: TripRole.ADMIN, phone: '+91 98765 43211' },
-  { id: '33333333-3333-3333-3333-333333333333', name: 'Priya Patel', role: TripRole.MEMBER, phone: '+91 98765 43212' },
-  { id: '44444444-4444-4444-4444-444444444444', name: 'Amit Kumar', role: TripRole.MEMBER, phone: '+91 98765 43213' },
-  { id: '55555555-5555-5555-5555-555555555555', name: 'Sneha Reddy', role: TripRole.MEMBER, phone: '+91 98765 43214' },
-  { id: '66666666-6666-6666-6666-666666666666', name: 'Arjun Mehta', role: TripRole.MEMBER, phone: '+91 98765 43215' },
-  { id: '77777777-7777-7777-7777-777777777777', name: 'Ananya Sen', role: TripRole.VIEWER, phone: '+91 98765 43299' },
-];
-
 function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams();
-  const { user } = useAuth();
-  // Persona impersonation removed - there is no more "demo session"; every
-  // logged-in user is a real authenticated account. This flag was previously
-  // used to switch between hardcoded demo trip data and the real API - now
-  // it's fixed at true only for the seeded sample trip ID, false for every
-  // real trip.
-  const isDemoSession = params.id === 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+  const [user, setUser] = useState<any>(null);
+  const isDemoSession = false;
   const [tripDetails, setTripDetails] = useState<any>(null);
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -93,64 +83,40 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [actionAlert, setActionAlert] = useState<string | null>(null);
 
   // Members list with dynamic roles
-  const [members, setMembers] = useState<MemberState[]>(isDemoSession ? INITIAL_MEMBERS : []);
+  const [members, setMembers] = useState<MemberState[]>([]);
 
-  // Role is derived from this trip's real member list matched against the
-  // logged-in user - never from a client-chosen persona. (The member list
-  // itself is still seeded/local-storage-backed pending the real
-  // GET /trips/:id/members wiring - see TODO further down.) The backend
+  // Role is derived from this trip's persisted member list. The backend
   // re-checks every mutation regardless of what `can()` returns here.
   const myMembership = members.find((m) => m.id === user?.id);
   const currentRole: TripRole = myMembership?.role
     ?? (tripDetails?.ownerId === user?.id ? TripRole.OWNER : TripRole.VIEWER);
   const can = (permission: Parameters<typeof canForRole>[1]) => canForRole(currentRole, permission);
 
-  const [membersReady, setMembersReady] = useState(false);
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const [newMemberRole, setNewMemberRole] = useState<TripRole>(TripRole.MEMBER);
-  const [inviteStatus, setInviteStatus] = useState<string | null>(null);  const [lastInviteLink, setLastInviteLink] = useState<string | null>(null);
+  const [inviteStatus, setInviteStatus] = useState<string | null>(null);
+  const [lastInviteLink, setLastInviteLink] = useState<string | null>(null);
+
+  // Universal Shareable Group Invite Link & Bulk Invite state
+  const [shareableLink, setShareableLink] = useState<string | null>(null);
+  const [shareableRole, setShareableRole] = useState<TripRole>(TripRole.MEMBER);
+  const [isGeneratingShareLink, setIsGeneratingShareLink] = useState(false);
+  const [bulkInviteMode, setBulkInviteMode] = useState<'single' | 'bulk'>('single');
+  const [bulkEmails, setBulkEmails] = useState('');
+  const [bulkRole, setBulkRole] = useState<TripRole>(TripRole.MEMBER);
+  const [bulkStatus, setBulkStatus] = useState<string | null>(null);
+  const [isSendingBulk, setIsSendingBulk] = useState(false);
+  const [recentInvites, setRecentInvites] = useState<{ email: string; link: string; emailSent?: boolean }[]>([]);
+
   const [emergencyContacts, setEmergencyContacts] = useState<{ id: string; name: string; phone: string; relationship: string }[]>([]);
   const [newEmergencyContact, setNewEmergencyContact] = useState({ name: '', phone: '', relationship: '' });
   const [emergencyStatus, setEmergencyStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isDemoSession || typeof window === 'undefined') return;
-
-    try {
-      const storedTrips = JSON.parse(localStorage.getItem('tripsync_trips') || '[]');
-      const selectedTrip = Array.isArray(storedTrips)
-        ? storedTrips.find((trip) => trip.id === params.id)
-        : null;
-      setTripDetails(selectedTrip || null);
-
-      if (selectedTrip) {
-        const storedMembers = Array.isArray(selectedTrip.members) ? selectedTrip.members : [];
-        const localMembers = storedMembers.map((member: any) => ({
-          id: member.id || member.userId,
-          name: member.name || member.email || 'Trip Member',
-          role: member.role || TripRole.MEMBER,
-          phone: member.phone || '',
-        }));
-        if (localMembers.length > 0) {
-          setMembers(localMembers);
-        } else if (user) {
-          setMembers([{
-            id: user.id,
-            name: user.fullName || user.email || 'Trip Owner',
-            role: TripRole.OWNER,
-            phone: user.phone || '',
-          }]);
-        }
-        setMembersReady(true);
-      }
-    } catch {
-      setTripDetails(null);
-    }
-  }, [isDemoSession, params.id, user]);
+    api.getMe().then(setUser).catch(() => setUser(null));
+  }, []);
 
   useEffect(() => {
-    if (isDemoSession) return;
-
     api.getTripById(params.id).then((trip) => {
       setTripDetails(trip);
       const mapMember = (member: any) => ({
@@ -162,13 +128,11 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       const apiMembers = (trip.members || []).map(mapMember);
       if (apiMembers.length) {
         setMembers(apiMembers);
-        setMembersReady(true);
       } else {
         api.getMembers(params.id).then((tripMembers) => {
           const fetchedMembers = tripMembers.map(mapMember);
           if (fetchedMembers.length) {
             setMembers(fetchedMembers);
-            setMembersReady(true);
           }
         }).catch(() => {});
       }
@@ -179,7 +143,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         date: day.date,
         label: day.title || `Day ${day.dayNumber}`,
       }));
-      if (apiDays.length) setTripDays(apiDays);
+      setTripDays(apiDays);
 
       setActivitiesList((trip.days || []).flatMap((day: any) =>
         (day.activities || []).map((activity: any) => ({
@@ -221,15 +185,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         phone: contact.phone,
         relationship: contact.relationship,
       })));
-    }).catch(() => {
-      // Local-only trips continue using their local fallback state.
-    });
-  }, [isDemoSession, params.id]);
+    }).catch((reason: any) => setActionAlert(reason.message || 'Trip data could not be loaded.'));
+  }, [params.id]);
 
   // Itinerary state
   const [selectedDay, setSelectedDay] = useState<number>(1);
   const [tripDays, setTripDays] = useState<TripDayState[]>([]);
-  const [tripDaysReady, setTripDaysReady] = useState(false);
   const [newDayDate, setNewDayDate] = useState('');
   const [newDayLabel, setNewDayLabel] = useState('');
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
@@ -298,14 +259,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     endTime: '12:00',
     locationName: 'Darjeeling Mall',
     estimatedCost: 1000,
-    responsibleMemberId: INITIAL_MEMBERS[0].id,
+    responsibleMemberId: '',
   });
-  const [activitiesReady, setActivitiesReady] = useState(false);
 
   // Expense & Split state
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null);
-  const [expensesReady, setExpensesReady] = useState(false);
   const [expensesList, setExpensesList] = useState<any[]>([
     {
       id: 'exp-1',
@@ -341,7 +300,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     amount: 1800,
     category: 'FOOD',
     date: '',
-    paidById: INITIAL_MEMBERS[0].id,
+    paidById: '',
     splitType: 'EQUAL',
   });
 
@@ -398,136 +357,6 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    const tripMembersKey = `tripsync_trip_members_${params.id}`;
-    if (!isDemoSession) return;
-
-    const stored = localStorage.getItem(tripMembersKey);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setMembers(parsed);
-          setMembersReady(true);
-          return;
-        }
-      } catch (error) {
-        console.warn('Failed to restore trip members:', error);
-      }
-    }
-
-    setMembers(INITIAL_MEMBERS);
-    localStorage.setItem(tripMembersKey, JSON.stringify(INITIAL_MEMBERS));
-    setMembersReady(true);
-  }, [isDemoSession, params.id, user]);
-
-  useEffect(() => {
-    if (!membersReady) return;
-    localStorage.setItem(`tripsync_trip_members_${params.id}`, JSON.stringify(members));
-  }, [members, membersReady, params.id]);
-
-  useEffect(() => {
-    if (isDemoSession) {
-      setExpensesReady(true);
-      return;
-    }
-
-    try {
-      const storedExpenses = JSON.parse(localStorage.getItem(`tripsync_expenses_${params.id}`) || '[]');
-      setExpensesList(Array.isArray(storedExpenses) ? storedExpenses : []);
-    } catch {
-      setExpensesList([]);
-    }
-    setExpensesReady(true);
-  }, [isDemoSession, params.id]);
-
-  useEffect(() => {
-    if (!expensesReady) return;
-    localStorage.setItem(`tripsync_expenses_${params.id}`, JSON.stringify(expensesList));
-  }, [expensesList, expensesReady, params.id]);
-
-  useEffect(() => {
-    if (isDemoSession) {
-      setActivitiesReady(true);
-      return;
-    }
-
-    try {
-      const storedActivities = JSON.parse(localStorage.getItem(`tripsync_activities_${params.id}`) || '[]');
-      setActivitiesList(Array.isArray(storedActivities) ? storedActivities : []);
-    } catch {
-      setActivitiesList([]);
-    }
-    setActivitiesReady(true);
-  }, [isDemoSession, params.id]);
-
-  useEffect(() => {
-    if (!activitiesReady) return;
-    localStorage.setItem(`tripsync_activities_${params.id}`, JSON.stringify(activitiesList));
-  }, [activitiesList, activitiesReady, params.id]);
-
-  const [tasksReady, setTasksReady] = useState(false);
-
-  useEffect(() => {
-    if (isDemoSession) {
-      setTasksReady(true);
-      return;
-    }
-
-    try {
-      const storedTasks = JSON.parse(localStorage.getItem(`tripsync_tasks_${params.id}`) || '[]');
-      setTasks(Array.isArray(storedTasks) ? storedTasks : []);
-    } catch {
-      setTasks([]);
-    }
-    setTasksReady(true);
-  }, [isDemoSession, params.id]);
-
-  useEffect(() => {
-    if (!tasksReady) return;
-    localStorage.setItem(`tripsync_tasks_${params.id}`, JSON.stringify(tasks));
-  }, [params.id, tasks, tasksReady]);
-
-  useEffect(() => {
-    const savedDays = localStorage.getItem(`tripsync_trip_days_${params.id}`);
-    if (savedDays) {
-      try {
-        const parsedDays = JSON.parse(savedDays);
-        if (Array.isArray(parsedDays) && parsedDays.length > 0) {
-          setTripDays(parsedDays);
-          setTripDaysReady(true);
-          return;
-        }
-      } catch {
-        localStorage.removeItem(`tripsync_trip_days_${params.id}`);
-      }
-    }
-
-    if (!isDemoSession && tripDetails?.days?.length) return;
-    setTripDays([]);
-    setTripDaysReady(true);
-  }, [isDemoSession, params.id, tripDetails]);
-
-  useEffect(() => {
-    if (!tripDaysReady) return;
-    localStorage.setItem(`tripsync_trip_days_${params.id}`, JSON.stringify(tripDays));
-  }, [params.id, tripDays, tripDaysReady]);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(`tripsync_emergency_contacts_${params.id}`);
-    if (stored) {
-      try {
-        setEmergencyContacts(JSON.parse(stored));
-      } catch {
-        setEmergencyContacts([]);
-      }
-    }
-  }, [params.id]);
-
-  useEffect(() => {
-    localStorage.setItem(`tripsync_emergency_contacts_${params.id}`, JSON.stringify(emergencyContacts));
-  }, [emergencyContacts, params.id]);
-
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedText(text);
@@ -577,8 +406,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         sortOrder: activitiesList.length,
       });
       setActivitiesList((current) => [...current, { ...newAct, id: saved.id || newAct.id }]);
-    } catch {
-      setActivitiesList((current) => [...current, newAct]);
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Activity could not be saved.');
+      return;
     }
     setShowAddActivityModal(false);
     setNewActivity({
@@ -588,7 +418,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       endTime: '12:00',
       locationName: 'Darjeeling Mall',
       estimatedCost: 1000,
-      responsibleMemberId: INITIAL_MEMBERS[0].id,
+      responsibleMemberId: '',
     });
   };
 
@@ -632,8 +462,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           date: newEntry.date,
           participants: newEntry.participants,
         });
-      } catch {
-        // Keep the local edit when the API is unavailable.
+      } catch (reason: any) {
+        setActionAlert(reason.message || 'Expense could not be updated.');
+        return;
       }
       setExpensesList((current) => current.map((expense) => expense.id === editingExpenseId ? updatedEntry : expense));
       setEditingExpenseId(null);
@@ -656,8 +487,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         })),
       });
       setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
-    } catch {
-      setExpensesList((current) => [newEntry, ...current]);
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Expense could not be saved.');
+      return;
     }
     setShowAddExpenseModal(false);
     setNewExpense({
@@ -687,8 +519,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     if (!window.confirm('Delete this expense?')) return;
     try {
       if (/^[0-9a-f-]{36}$/i.test(expenseId)) await api.deleteExpense(params.id, expenseId);
-    } catch {
-      // Keep the local deletion when the API is unavailable.
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Expense could not be deleted.');
+      return;
     }
     setExpensesList((current) => current.filter((expense) => expense.id !== expenseId));
   };
@@ -711,8 +544,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     if (task && /^[0-9a-f-]{36}$/i.test(taskId)) {
       try {
         await api.updateTask(params.id, taskId, { status: task.status as any });
-      } catch {
-        // Keep optimistic state when the API is unavailable.
+      } catch (reason: any) {
+        setTasks(tasks);
+        setActionAlert(reason.message || 'Task could not be updated.');
       }
     }
   };
@@ -739,13 +573,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         assignedToId: /^[0-9a-f-]{36}$/i.test(newTask.assignedToId) ? newTask.assignedToId : null,
       });
       setTasks((current) => [{ ...localTask, id: saved.id || localTask.id }, ...current]);
-    } catch {
-      setTasks((current) => [localTask, ...current]);
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Task could not be saved.');
+      return;
     }
     setNewTask({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
   };
 
-  const handleMemberRoleChange = (memberId: string, newRole: TripRole) => {
+  const handleMemberRoleChange = async (memberId: string, newRole: TripRole) => {
     if (!can('MANAGE_ROLES')) {
       showPermissionWarning('change member roles');
       return;
@@ -759,20 +594,19 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       return;
     }
 
-    setMembers(
-      members.map((m) => {
-        if (m.id === memberId) {
-          return { ...m, role: newRole };
-        }
-        return m;
-      })
-    );
+    try {
+      await api.updateMemberRole(params.id, memberId, { role: newRole });
+      setMembers((current) => current.map((member) => member.id === memberId ? { ...member, role: newRole } : member));
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Member role could not be updated.');
+      return;
+    }
 
     setActionAlert(`Updated ${targetMember?.name}'s role to ${newRole}.`);
     setTimeout(() => setActionAlert(null), 3000);
   };
 
-  const handleRemoveMember = (memberId: string) => {
+  const handleRemoveMember = async (memberId: string) => {
     if (!can('INVITE_MEMBERS')) {
       showPermissionWarning('remove trip members');
       return;
@@ -785,7 +619,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       return;
     }
 
-    setMembers(members.filter((m) => m.id !== memberId));
+    try {
+      await api.removeMember(params.id, memberId);
+      setMembers((current) => current.filter((member) => member.id !== memberId));
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Member could not be removed.');
+      return;
+    }
     setActionAlert(`Removed ${targetMember?.name} from the trip roster.`);
     setTimeout(() => setActionAlert(null), 3000);
   };
@@ -818,24 +658,112 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
     try {
       const invitation = await api.inviteMember(params.id, { email, role: newMemberRole });
-      const inviteLink = invitation.inviteLink || `${window.location.origin}/invite/${invitation.token}`;
+      const rawLink = invitation.inviteLink;
+      const inviteLink = rawLink && rawLink.startsWith('http')
+        ? rawLink
+        : `${window.location.origin}/invite/${invitation.token || ''}`;
       setMembers((current) => [...current, { ...localMember, id: invitation.id || localMember.id }]);
       setLastInviteLink(inviteLink);
-      setInviteStatus(`Invitation created for ${email}. Share the password setup link with them.`);
+      setRecentInvites((prev) => [
+        { email, link: inviteLink, emailSent: invitation.emailSent },
+        ...prev.filter((i) => i.email !== email),
+      ]);
+      const statusMsg = invitation.emailSent
+        ? `✅ Email invitation delivered to ${email}!`
+        : `Invitation created for ${email}. Copy the direct link below to share with them.`;
+      setInviteStatus(statusMsg);
       await navigator.clipboard?.writeText(inviteLink);
-      setActionAlert(`Invitation link copied for ${email}.`);
-    } catch {
-      const inviteToken = `${params.id}-${Date.now()}`;
-      const inviteLink = `${window.location.origin}/invite/${encodeURIComponent(inviteToken)}`;
-      setMembers((current) => [...current, localMember]);
-      setLastInviteLink(inviteLink);
-      setInviteStatus(`Member added locally for ${email}. The API is unavailable, so no server invitation was created.`);
-      await navigator.clipboard?.writeText(inviteLink);
-      setActionAlert(`Local invite link copied for ${email}.`);
+      setActionAlert(invitation.emailSent ? `Email sent to ${email}` : `Invite link copied for ${email}`);
+    } catch (reason: any) {
+      setInviteStatus(reason.message || 'Invitation could not be saved.');
+      return;
     }
     setNewMemberEmail('');
     setNewMemberRole(TripRole.MEMBER);
     setTimeout(() => setActionAlert(null), 4000);
+  };
+
+  const loadShareLink = async () => {
+    try {
+      const data = await api.getShareLink(params.id);
+      const raw = data.inviteLink;
+      const full = raw && raw.startsWith('http') ? raw : `${window.location.origin}/invite/${data.token || ''}`;
+      setShareableLink(full);
+      if (data.role) setShareableRole(data.role);
+    } catch {
+      setShareableLink(`${window.location.origin}/invite/join_${params.id}`);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'members') {
+      loadShareLink();
+    }
+  }, [activeTab, params.id]);
+
+  const handleUpdateShareLinkRole = async (newRole: TripRole) => {
+    setShareableRole(newRole);
+    setIsGeneratingShareLink(true);
+    try {
+      const data = await api.createShareLink(params.id, { role: newRole });
+      const raw = data.inviteLink;
+      const full = raw && raw.startsWith('http') ? raw : `${window.location.origin}/invite/${data.token || ''}`;
+      setShareableLink(full);
+      setActionAlert('Shareable group invite link updated.');
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to update share link.');
+    } finally {
+      setIsGeneratingShareLink(false);
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handleBulkInvite = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const rawList = bulkEmails
+      .split(/[\n,;\s]+/)
+      .map((e) => e.trim().toLowerCase())
+      .filter((e) => e.includes('@'));
+
+    if (rawList.length === 0) {
+      setBulkStatus('Please enter at least one valid email address.');
+      return;
+    }
+
+    setIsSendingBulk(true);
+    setBulkStatus(null);
+
+    try {
+      const result = await api.bulkInviteMembers(params.id, { emails: rawList, role: bulkRole });
+      const newItems = (result.invitations || []).map((inv: any) => ({
+        email: inv.email,
+        link: inv.inviteLink && inv.inviteLink.startsWith('http') ? inv.inviteLink : `${window.location.origin}/invite/${inv.token}`,
+        emailSent: inv.emailSent,
+      }));
+      setRecentInvites((prev) => [...newItems, ...prev]);
+
+      const feedback = result.emailsDelivered > 0
+        ? `✅ Successfully delivered ${result.emailsDelivered} email invitation(s)!`
+        : `Created ${result.count} invitation(s). Copy the links below to share with travelers.`;
+      setBulkStatus(feedback);
+      setBulkEmails('');
+
+      api.getMembers(params.id).then((tripMembers) => {
+        const mapped = tripMembers.map((m: any) => ({
+          id: m.userId || m.user?.id || m.id,
+          name: m.user?.fullName || m.user?.email || 'Trip Member',
+          role: m.role,
+          phone: m.user?.phone || '',
+        }));
+        setMembers(mapped);
+      }).catch(() => {});
+      setActionAlert(`${result.count} invitation(s) processed.`);
+    } catch (err: any) {
+      setBulkStatus(err.message || 'Bulk invitations could not be saved.');
+    } finally {
+      setIsSendingBulk(false);
+      setTimeout(() => setActionAlert(null), 4000);
+    }
   };
 
   const handleAddEmergencyContact = async (e: React.FormEvent) => {
@@ -849,8 +777,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     try {
       const saved = await api.createEmergencyContact(params.id, newEmergencyContact);
       setEmergencyContacts((current) => [...current, { ...newContact, id: saved.id || newContact.id }]);
-    } catch {
-      setEmergencyContacts((current) => [...current, newContact]);
+    } catch (reason: any) {
+      setEmergencyStatus(reason.message || 'Emergency contact could not be saved.');
+      return;
     }
     setNewEmergencyContact({ name: '', phone: '', relationship: '' });
     setEmergencyStatus('Emergency contact saved.');
@@ -868,8 +797,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         date: newDayDate,
         title: newDayLabel.trim() || `Day ${dayNumber}`,
       });
-    } catch {
-      // Keep the day available locally for local-only trips.
+    } catch (reason: any) {
+      setActionAlert(reason.message || 'Itinerary day could not be saved.');
+      return;
     }
     setTripDays((current) => [
       ...current,
@@ -892,8 +822,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     if (dayToDelete.id && /^[0-9a-f-]{36}$/i.test(dayToDelete.id)) {
       try {
         await api.deleteTripDay(params.id, dayToDelete.id);
-      } catch {
-        // Continue removing the local view when the API is unavailable.
+      } catch (reason: any) {
+        setActionAlert(reason.message || 'Itinerary day could not be deleted.');
+        return;
       }
     }
 
@@ -1978,64 +1909,295 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </p>
               </div>
 
-              {can('INVITE_MEMBERS') ? (
+              {can('INVITE_MEMBERS') && shareableLink ? (
                 <button
-                  onClick={() => lastInviteLink && copyToClipboard(lastInviteLink)}
-                  disabled={!lastInviteLink}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={() => copyToClipboard(shareableLink)}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm transition-colors"
                 >
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>{copiedText === lastInviteLink ? 'Link Copied!' : 'Copy Latest Invite Link'}</span>
+                  {copiedText === shareableLink ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Group Link Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="w-4 h-4" />
+                      <span>Copy Group Invite Link</span>
+                    </>
+                  )}
                 </button>
-              ) : (
-                <button
-                  onClick={() => showPermissionWarning('invite new members')}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-semibold border border-slate-200 cursor-not-allowed"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Invite Locked (Admins Only)</span>
-                </button>
-              )}
+              ) : null}
             </div>
 
-            <form onSubmit={handleAddMember} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_200px_auto] md:items-end">
-                <div>
-                  <label className="mb-1 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Member email</label>
-                  <input
-                    type="email"
-                    value={newMemberEmail}
-                    onChange={(e) => setNewMemberEmail(e.target.value)}
-                    placeholder="name@example.com"
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                  />
+            {/* Feature 1: Universal Group Shareable Link (For WhatsApp / Groups of 20-50+ users) */}
+            {can('INVITE_MEMBERS') && (
+              <div className="rounded-2xl border border-brand-200/80 bg-gradient-to-br from-brand-50/90 via-white to-slate-50 p-6 shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-brand-100">
+                  <div className="flex items-start gap-3.5">
+                    <div className="p-3 rounded-2xl bg-brand-600 text-white shadow-md shadow-brand-500/20 shrink-0">
+                      <Share2 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-base font-bold text-slate-900">Universal Group Invite Link</h3>
+                        <span className="inline-flex items-center rounded-full bg-brand-100 px-2.5 py-0.5 text-[10px] font-extrabold text-brand-800 uppercase tracking-wide">
+                          Active & Ready to Share
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                        Share this single link with all <strong>20–50+ travelers</strong> in your <strong>WhatsApp group, Telegram, Slack, or email thread</strong>. Anyone with the link can join the trip instantly with one click!
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 self-start md:self-auto bg-white p-1.5 rounded-xl border border-slate-200 shadow-2xs">
+                    <label className="text-[11px] font-bold uppercase text-slate-500 pl-1.5">Join as:</label>
+                    <select
+                      value={shareableRole}
+                      onChange={(e) => handleUpdateShareLinkRole(e.target.value as TripRole)}
+                      disabled={isGeneratingShareLink}
+                      className="rounded-lg border-0 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer"
+                    >
+                      <option value={TripRole.MEMBER}>Member (Traveler)</option>
+                      <option value={TripRole.VIEWER}>Viewer (Guest)</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="mb-1 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Role</label>
-                  <select
-                    value={newMemberRole}
-                    onChange={(e) => setNewMemberRole(e.target.value as TripRole)}
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                <div className="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      readOnly
+                      value={shareableLink || 'Generating shareable link...'}
+                      onClick={(e) => (e.target as HTMLInputElement).select()}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-xs font-mono text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-brand-500 selection:bg-brand-100"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => shareableLink && copyToClipboard(shareableLink)}
+                    disabled={!shareableLink || isGeneratingShareLink}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-xs font-bold text-white shadow-sm transition-all active:scale-[0.98] disabled:opacity-50"
                   >
-                    <option value={TripRole.ADMIN}>Admin</option>
-                    <option value={TripRole.MEMBER}>Member</option>
-                    <option value={TripRole.VIEWER}>Viewer</option>
-                  </select>
+                    {copiedText === shareableLink ? (
+                      <>
+                        <Check className="w-4 h-4 text-emerald-400" />
+                        <span>Link Copied to Clipboard!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        <span>Copy Group Invite Link</span>
+                      </>
+                    )}
+                  </button>
                 </div>
 
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800"
-                >
-                  Add member
-                </button>
+                {/* Quick Helper Tips */}
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-100 text-xs text-slate-500">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">1</span>
+                    <span>Copy link above</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">2</span>
+                    <span>Paste in WhatsApp / Slack</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">3</span>
+                    <span>Travelers click & join instantly</span>
+                  </div>
+                </div>
               </div>
+            )}
 
-              {inviteStatus && (
-                <p className="mt-3 text-sm text-emerald-700">{inviteStatus}</p>
-              )}
-            </form>
+            {/* ========================================================= */}
+            {/* Feature 2: Direct Email Invitations (Commented out as requested) */}
+            {/* ========================================================= */}
+            {/*
+            {can('INVITE_MEMBERS') && (
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between gap-4 pb-3 border-b border-slate-100 mb-4">
+                  <div className="flex items-center gap-2">
+                    <UserPlus className="w-4 h-4 text-slate-600" />
+                    <h3 className="text-sm font-bold text-slate-900">Direct Email Invitations</h3>
+                  </div>
+
+                  <div className="flex rounded-xl bg-slate-100 p-1 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setBulkInviteMode('single')}
+                      className={`px-3 py-1 font-semibold rounded-lg transition-all ${
+                        bulkInviteMode === 'single'
+                          ? 'bg-white text-slate-900 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-900'
+                      }`}
+                    >
+                      Single Email
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBulkInviteMode('bulk')}
+                      className={`px-3 py-1 font-semibold rounded-lg transition-all ${
+                        bulkInviteMode === 'bulk'
+                          ? 'bg-white text-slate-900 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-900'
+                      }`}
+                    >
+                      Bulk Paste (20+ Emails)
+                    </button>
+                  </div>
+                </div>
+
+                {bulkInviteMode === 'single' ? (
+                  <form onSubmit={handleAddMember}>
+                    <div className="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_200px_auto] md:items-end">
+                      <div>
+                        <label className="mb-1 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Member email</label>
+                        <input
+                          type="email"
+                          value={newMemberEmail}
+                          onChange={(e) => setNewMemberEmail(e.target.value)}
+                          placeholder="traveler@example.com"
+                          className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-1 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Role</label>
+                        <select
+                          value={newMemberRole}
+                          onChange={(e) => setNewMemberRole(e.target.value as TripRole)}
+                          className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        >
+                          <option value={TripRole.ADMIN}>Admin</option>
+                          <option value={TripRole.MEMBER}>Member</option>
+                          <option value={TripRole.VIEWER}>Viewer</option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 transition-colors"
+                      >
+                        Add Member
+                      </button>
+                    </div>
+
+                    {inviteStatus && (
+                      <p className="mt-3 text-xs font-semibold text-emerald-700">{inviteStatus}</p>
+                    )}
+                  </form>
+                ) : (
+                  <form onSubmit={handleBulkInvite} className="space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+                          Paste Multiple Emails (Separated by comma, space, or newline)
+                        </label>
+                        <span className="text-[11px] text-slate-400">
+                          {bulkEmails.split(/[\n,;\s]+/).filter((e) => e.includes('@')).length} email(s) detected
+                        </span>
+                      </div>
+                      <textarea
+                        rows={3}
+                        value={bulkEmails}
+                        onChange={(e) => setBulkEmails(e.target.value)}
+                        placeholder="alice@gmail.com, bob@example.com, charlie@domain.org&#10;david@travel.com"
+                        className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs font-semibold text-slate-600">Assign Role:</label>
+                        <select
+                          value={bulkRole}
+                          onChange={(e) => setBulkRole(e.target.value as TripRole)}
+                          className="rounded-xl border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                        >
+                          <option value={TripRole.ADMIN}>Admin</option>
+                          <option value={TripRole.MEMBER}>Member</option>
+                          <option value={TripRole.VIEWER}>Viewer</option>
+                        </select>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isSendingBulk}
+                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-slate-800 disabled:opacity-50 transition-colors"
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                        <span>
+                          {isSendingBulk
+                            ? 'Sending Invites...'
+                            : `Send Invites to ${bulkEmails.split(/[\n,;\s]+/).filter((e) => e.includes('@')).length || 0} Travelers`}
+                        </span>
+                      </button>
+                    </div>
+
+                    {bulkStatus && (
+                      <p className="text-xs font-semibold text-emerald-700">{bulkStatus}</p>
+                    )}
+                  </form>
+                )}
+
+                {recentInvites.length > 0 && (
+                  <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        Generated Traveler Links ({recentInvites.length})
+                      </h4>
+                      <span className="text-[11px] text-slate-400">
+                        Click copy to share directly via WhatsApp, SMS, or Email
+                      </span>
+                    </div>
+
+                    <div className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-slate-50/50 max-h-56 overflow-y-auto">
+                      {recentInvites.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between gap-3 p-2.5 text-xs">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-slate-800 truncate">{item.email}</span>
+                              {item.emailSent ? (
+                                <span className="inline-flex items-center rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">
+                                  Email Delivered
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600 border border-slate-200">
+                                  Direct Link
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-400 truncate mt-0.5 font-mono">{item.link}</p>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(item.link)}
+                            className="inline-flex items-center gap-1 rounded-lg bg-white border border-slate-200 px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-xs shrink-0"
+                          >
+                            {copiedText === item.link ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                <span className="text-emerald-600">Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span>Copy Link</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            */}
 
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
               <table className="w-full text-left text-xs">

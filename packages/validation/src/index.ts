@@ -41,7 +41,7 @@ export type VerifyEmailOtpInput = z.infer<typeof verifyEmailOtpSchema>;
 export const acceptInvitationSchema = z.object({
   token: z.string().min(1),
   fullName: z.string().min(2, 'Full name must be at least 2 characters').max(100),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(6, 'Password must be at least 6 characters').optional(),
 });
 
 export type AcceptInvitationInput = z.infer<typeof acceptInvitationSchema>;
@@ -87,11 +87,22 @@ export const inviteMemberSchema = z.object({
   role: z.nativeEnum(TripRole).default(TripRole.MEMBER),
 });
 
+export const bulkInviteMemberSchema = z.object({
+  emails: z.array(z.string().email('Invalid email address')).min(1, 'At least one email is required'),
+  role: z.nativeEnum(TripRole).default(TripRole.MEMBER),
+});
+
+export const createShareLinkSchema = z.object({
+  role: z.nativeEnum(TripRole).default(TripRole.MEMBER).optional(),
+});
+
 export const updateMemberRoleSchema = z.object({
   role: z.nativeEnum(TripRole),
 });
 
 export type InviteMemberInput = z.infer<typeof inviteMemberSchema>;
+export type BulkInviteMemberInput = z.infer<typeof bulkInviteMemberSchema>;
+export type CreateShareLinkInput = z.infer<typeof createShareLinkSchema>;
 export type UpdateMemberRoleInput = z.infer<typeof updateMemberRoleSchema>;
 
 // ==========================================

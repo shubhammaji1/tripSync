@@ -95,9 +95,9 @@ export class ExpensesService {
             participants: { with: { user: true } },
           },
         });
-        if (result && result.length > 0) return result;
+        return result;
       } catch (err) {
-        console.warn('Expenses query fallback to mock:', err);
+        throw err;
       }
     }
 
@@ -132,7 +132,7 @@ export class ExpensesService {
 
         return newExpense;
       } catch (err) {
-        console.warn('Expense insert db error:', err);
+        throw err;
       }
     }
 
@@ -175,7 +175,7 @@ export class ExpensesService {
         await this.db.delete(expenses).where(eq(expenses.id, expenseId));
         return { success: true };
       } catch (err) {
-        console.warn('Expense delete db error:', err);
+        throw err;
       }
     }
 
@@ -203,7 +203,7 @@ export class ExpensesService {
         }
         if (updated) return updated;
       } catch (err) {
-        console.warn('Expense update db error:', err);
+        throw err;
       }
     }
 

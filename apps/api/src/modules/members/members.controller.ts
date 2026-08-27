@@ -15,10 +15,15 @@ import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import {
   inviteMemberSchema,
+  bulkInviteMemberSchema,
+  createShareLinkSchema,
   updateMemberRoleSchema,
   InviteMemberInput,
+  BulkInviteMemberInput,
+  CreateShareLinkInput,
   UpdateMemberRoleInput,
 } from '@tripsync/validation';
+import { TripRole } from '@tripsync/types';
 
 @ApiTags('Members')
 @ApiBearerAuth()
@@ -31,6 +36,35 @@ export class MembersController {
   @ApiOperation({ summary: 'Get all members for a trip' })
   async getTripMembers(@Param('tripId') tripId: string) {
     return this.membersService.getTripMembers(tripId);
+  }
+
+  @Get('share-link')
+  @ApiOperation({ summary: 'Get or generate universal shareable invite link for the trip' })
+  async getShareLink(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') invitedBy: string,
+  ) {
+    return this.membersService.getOrCreateShareLink(tripId, invitedBy, TripRole.MEMBER);
+  }
+
+  @Post('share-link')
+  @ApiOperation({ summary: 'Create or refresh universal shareable invite link for the trip' })
+  async createShareLink(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') invitedBy: string,
+    @Body(new ZodValidationPipe(createShareLinkSchema)) body: CreateShareLinkInput,
+  ) {
+    return this.membersService.getOrCreateShareLink(tripId, invitedBy, body.role || TripRole.MEMBER);
+  }
+
+  @Post('bulk-invite')
+  @ApiOperation({ summary: 'Send invites to multiple email addresses at once' })
+  async bulkInvite(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') invitedBy: string,
+    @Body(new ZodValidationPipe(bulkInviteMemberSchema)) body: BulkInviteMemberInput,
+  ) {
+    return this.membersService.bulkInviteMembers(tripId, invitedBy, body.emails, body.role);
   }
 
   @Post('invite')
@@ -47,18 +81,20 @@ export class MembersController {
   @ApiOperation({ summary: 'Update role of a trip member (OWNER/ADMIN/MEMBER/VIEWER)' })
   async updateMemberRole(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') actingUserId: string,
     @Param('userId') memberUserId: string,
     @Body(new ZodValidationPipe(updateMemberRoleSchema)) body: UpdateMemberRoleInput
   ) {
-    return this.membersService.updateMemberRole(tripId, memberUserId, body);
+    return this.membersService.updateMemberRole(tripId, actingUserId, memberUserId, body);
   }
 
   @Delete(':userId')
   @ApiOperation({ summary: 'Remove a member from the trip' })
   async removeMember(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') actingUserId: string,
     @Param('userId') memberUserId: string
   ) {
-    return this.membersService.removeMember(tripId, memberUserId);
+    return this.membersService.removeMember(tripId, actingUserId, memberUserId);
   }
 }

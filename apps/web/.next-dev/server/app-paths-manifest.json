@@ -1,7 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/trips/[id]/page": "app/trips/[id]/page.js",
-  "/invite/[token]/page": "app/invite/[token]/page.js"
+  "/invite/[token]/page": "app/invite/[token]/page.js",
+  "/sign-up/[[...sign-up]]/page": "app/sign-up/[[...sign-up]]/page.js",
+  "/page": "app/page.js"
 }

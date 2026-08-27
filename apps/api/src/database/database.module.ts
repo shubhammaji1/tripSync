@@ -14,9 +14,10 @@ export type DrizzleDB = PostgresJsDatabase<typeof schema>;
       provide: DRIZZLE_PROVIDER,
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const connectionString =
-          configService.get<string>('DATABASE_URL') ||
-          'postgresql://postgres:postgres@localhost:5432/tripsync';
+        const connectionString = configService.get<string>('DATABASE_URL');
+        if (!connectionString) {
+          throw new Error('DATABASE_URL is required for database persistence');
+        }
         const client = postgres(connectionString, { max: 10 });
         return drizzle(client, { schema });
       },

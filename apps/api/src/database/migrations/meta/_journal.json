@@ -8,6 +8,13 @@
       "when": 1787388249297,
       "tag": "0000_dry_leper_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787815000000,
+      "tag": "0001_sample_trip_owner_only",
+      "breakpoints": true
     }
   ]
 }

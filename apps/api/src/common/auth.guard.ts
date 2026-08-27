@@ -66,10 +66,14 @@ export class AuthGuard implements CanActivate {
         const clerkClaims = await verifyToken(token, { secretKey: clerkSecretKey });
         const clerkClient = createClerkClient({ secretKey: clerkSecretKey });
         const clerkUser = await clerkClient.users.getUser(clerkClaims.sub);
-        const clerkProfileId = createHash('sha256')
-          .update(clerkClaims.sub)
-          .digest('hex')
-          .replace(/^(.{8})(.{4})(.{4})(.{4})(.{12}).*$/, '$1-$2-4$3-8$4-$5');
+        const clerkHash = createHash('sha256').update(clerkClaims.sub).digest('hex');
+        const clerkProfileId = [
+          clerkHash.slice(0, 8),
+          clerkHash.slice(8, 12),
+          `4${clerkHash.slice(13, 16)}`,
+          `8${clerkHash.slice(17, 20)}`,
+          clerkHash.slice(20, 32),
+        ].join('-');
         decoded = {
           sub: clerkProfileId,
           email: clerkUser.emailAddresses[0]?.emailAddress,

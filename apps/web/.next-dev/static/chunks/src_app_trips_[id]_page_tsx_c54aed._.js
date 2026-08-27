@@ -16,7 +16,7 @@
     "static/chunks/0d042_recharts_es6_polar_56e452._.js",
     "static/chunks/0d042_recharts_es6_8cbe29._.js",
     "static/chunks/e2bdf_d3-scale_src_ffe0dc._.js",
-    "static/chunks/08b5e__pnpm_386785._.js"
+    "static/chunks/08b5e__pnpm_8e07c5._.js"
   ],
   "source": "dynamic"
 });

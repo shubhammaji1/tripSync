@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '../../common/auth.guard';
@@ -42,9 +42,15 @@ export class AuthController {
     return this.authService.verifyEmailOtp(body);
   }
 
+  @Get('invitations/:token')
+  @ApiOperation({ summary: 'Get invitation details by token for preview' })
+  async getInvitation(@Param('token') token: string) {
+    return this.authService.getInvitationByToken(token);
+  }
+
   @Post('accept-invitation')
   @UseGuards(AuthGuard)
-  @ApiOperation({ summary: 'Create an account from a trip invitation, set a password, and join the trip' })
+  @ApiOperation({ summary: 'Accept a trip invitation with authenticated session and join the trip' })
   async acceptInvitation(
     @Body(new ZodValidationPipe(acceptInvitationSchema)) body: AcceptInvitationInput,
     @CurrentUser() user: Profile,
