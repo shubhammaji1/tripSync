@@ -26,7 +26,7 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const token = authTokenProvider ? await authTokenProvider() : getAuthToken();
 
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(options?.body !== undefined ? { 'Content-Type': 'application/json' } : {}),
     ...(options?.headers as Record<string, string>),
   };
 
@@ -139,6 +139,12 @@ export const api = {
   getEmergencyPacket: (tripId: string) => fetcher<any>(`/trips/${tripId}/emergency/packet`),
   createEmergencyContact: (tripId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/emergency/contacts`, { method: 'POST', body: JSON.stringify(data) }),
+  updateEmergencyContact: (tripId: string, contactId: string, data: any) =>
+    fetcher<any>(`/trips/${tripId}/emergency/contacts/${contactId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteEmergencyContact: (tripId: string, contactId: string) =>
+    fetcher<any>(`/trips/${tripId}/emergency/contacts/${contactId}`, { method: 'DELETE' }),
+  seedStarterEmergencyContacts: (tripId: string) =>
+    fetcher<any[]>(`/trips/${tripId}/emergency/seed-starter`, { method: 'POST', body: JSON.stringify({}) }),
 
   // Analytics
   getAnalytics: (tripId: string) => fetcher<any>(`/trips/${tripId}/analytics`),
@@ -154,6 +160,8 @@ export const api = {
     fetcher<any>(`/trips/${tripId}/members/invite`, { method: 'POST', body: JSON.stringify(data) }),
   updateMemberRole: (tripId: string, userId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/members/${userId}/role`, { method: 'PATCH', body: JSON.stringify(data) }),
+  updateMemberPhone: (tripId: string, userId: string, phone: string | null) =>
+    fetcher<any>(`/trips/${tripId}/members/${userId}/phone`, { method: 'PATCH', body: JSON.stringify({ phone }) }),
   removeMember: (tripId: string, userId: string) =>
     fetcher<any>(`/trips/${tripId}/members/${userId}`, { method: 'DELETE' }),
 };

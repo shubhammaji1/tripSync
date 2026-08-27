@@ -88,6 +88,17 @@ export class MembersController {
     return this.membersService.updateMemberRole(tripId, actingUserId, memberUserId, body);
   }
 
+  @Patch(':userId/phone')
+  @ApiOperation({ summary: 'Update or clear phone number of a trip member' })
+  async updateMemberPhone(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') actingUserId: string,
+    @Param('userId') memberUserId: string,
+    @Body() body: { phone?: string | null }
+  ) {
+    return this.membersService.updateMemberPhone(tripId, actingUserId, memberUserId, body.phone || null);
+  }
+
   @Delete(':userId')
   @ApiOperation({ summary: 'Remove a member from the trip' })
   async removeMember(

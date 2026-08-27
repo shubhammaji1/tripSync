@@ -11,10 +11,10 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Profile, AuthResponse, InvitationStatus } from '@tripsync/types';
+import { Profile, AuthResponse, InvitationStatus, TripRole } from '@tripsync/types';
 import { AcceptInvitationInput, LoginInput, RegisterInput, VerifyEmailOtpInput } from '@tripsync/validation';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { tripInvitations, tripMembers } from '../../database/schema';
+import { tripInvitations, tripMembers, trips } from '../../database/schema';
 import { and, eq } from 'drizzle-orm';
 import { ProfileSyncService } from '../../common/profile-sync.service';
 
@@ -243,16 +243,21 @@ export class AuthService {
       );
     }
 
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, invite.tripId),
+    });
+    const assignedRole = (trip && trip.ownerId === currentUser.id) ? TripRole.OWNER : invite.role;
+
     // Clerk owns the active session in the web app. Do not create a second
     // Supabase account from the invitation form; add the authenticated Clerk
     // user to the invited trip instead.
     await this.db.transaction(async (transaction) => {
       await (transaction
         .insert(tripMembers)
-        .values({ tripId: invite.tripId, userId: currentUser.id, role: invite.role } as any) as any)
+        .values({ tripId: invite.tripId, userId: currentUser.id, role: assignedRole } as any) as any)
         .onConflictDoUpdate({
           target: [tripMembers.tripId, tripMembers.userId],
-          set: { role: invite.role },
+          set: { role: assignedRole },
         });
 
       if (!isShareable) {
@@ -261,7 +266,7 @@ export class AuthService {
           .where(and(eq(tripInvitations.token, input.token), eq(tripInvitations.status, InvitationStatus.PENDING)));
       }
     });
-    return { accepted: true, user: currentUser, tripId: invite.tripId, role: invite.role };
+    return { accepted: true, user: currentUser, tripId: invite.tripId, role: assignedRole };
   }
 
   /**

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useUser } from '@clerk/nextjs';
 import {
   Compass,
   Calendar,
@@ -16,171 +17,130 @@ import {
   Clock,
   Split,
   ChevronRight,
-  Smartphone,
-  Layers,
+  Shield,
+  Plane,
+  Plus,
 } from 'lucide-react';
 
 export default function LandingPage() {
+  const { isSignedIn, user } = useUser();
+
   return (
     <div className="relative overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-brand-300/30 via-ocean-300/30 to-purple-300/20 blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-tr from-brand-300/25 via-ocean-300/25 to-purple-300/20 blur-[130px] pointer-events-none -z-10" />
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100/80 border border-brand-300/60 text-brand-800 text-xs font-semibold uppercase tracking-wider mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-200/80 text-brand-700 text-xs font-bold uppercase tracking-wider mb-6 shadow-xs">
           <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-          <span>The Open Source Operating System for Group Travel</span>
+          <span>The Next-Gen Operating System for Group Travel</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight sm:leading-[1.15]">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 max-w-4xl mx-auto leading-[1.1] sm:leading-[1.12]">
           Plan together.{' '}
-          <span className="bg-gradient-to-r from-brand-600 to-ocean-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-brand-600 via-teal-600 to-ocean-600 bg-clip-text text-transparent">
             Travel smarter.
           </span>{' '}
-          Stay connected.
+          Stay in sync.
         </h1>
 
-        <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          No more juggling WhatsApp chats, messy spreadsheets, lost UPI screenshots, and missing tickets.
-          TripSync brings your entire group trip into one synchronized workspace.
+        <p className="mt-6 text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          No more chaotic WhatsApp groups, messy spreadsheets, lost UPI payment screenshots, or missing itineraries.
+          TripSync unites your entire travel crew into one collaborative workspace.
         </p>
 
-        {/* CTA Buttons */}
+        {/* Dynamic CTA Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/trips/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white font-bold text-sm shadow-lg shadow-brand-500/25 transition-all hover:scale-[1.02]"
-          >
-            <span>Explore Darjeeling Demo Trip</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {isSignedIn ? (
+            <Link
+              href="/dashboard"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-xl transition-all hover:scale-[1.02]"
+            >
+              <Compass className="w-4 h-4 text-brand-400" />
+              <span>Go to My Trips Workspace</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <Link
+              href="/dashboard"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-xl shadow-brand-500/20 transition-all hover:scale-[1.02]"
+            >
+              <span>Get Started Free</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
+
           <Link
             href="/dashboard?create=true"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm border border-slate-300 shadow-sm transition-all hover:border-slate-400"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm border border-slate-300 shadow-xs transition-all hover:border-slate-400"
           >
-            <span>Create New Trip</span>
+            <Plus className="w-4 h-4 text-brand-600" />
+            <span>Plan a New Group Trip</span>
           </Link>
         </div>
 
-        {/* Live Trip Preview Card */}
-        <div className="mt-16 relative mx-auto max-w-5xl rounded-2xl border border-slate-200/80 bg-white/95 shadow-2xl p-4 sm:p-8 backdrop-blur-xl">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-200 flex items-center justify-center text-2xl">
-                🏔️
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-bold text-slate-900">Darjeeling Himalayan Adventure</h2>
-                  <span className="px-2 py-0.5 text-[11px] font-semibold bg-emerald-100 text-emerald-800 rounded-full">
-                    Active Plan
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" /> Darjeeling, India • Sep 10 - 14, 2026 (4 Days)
-                </p>
-              </div>
+        {/* Feature Preview Cards Grid */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
+          {/* Card 1 */}
+          <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-4">
+              <Calendar className="w-5 h-5" />
             </div>
-
-            {/* Avatars */}
-            <div className="flex items-center gap-2">
-              <div className="flex -space-x-2 overflow-hidden">
-                {['Rahul', 'Shubham', 'Priya', 'Amit', 'Sneha', 'Arjun'].map((name, i) => (
-                  <div
-                    key={name}
-                    className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-700"
-                    title={name}
-                  >
-                    {name[0]}
-                  </div>
-                ))}
-              </div>
-              <span className="text-xs font-semibold text-slate-500 pl-1">6 travelers</span>
-            </div>
+            <h3 className="font-extrabold text-slate-900 text-base">Collaborative Itineraries</h3>
+            <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Design daily schedules together with activity leads, arrival times, and real-time syncing across all traveler devices.
+            </p>
           </div>
 
-          {/* Feature Grid inside preview */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 text-left">
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-              <div className="flex items-center gap-2 text-brand-700 font-semibold text-xs mb-1">
-                <Calendar className="w-4 h-4" /> Itinerary
-              </div>
-              <p className="text-sm font-bold text-slate-900">4 Days • 12 Activities</p>
-              <p className="text-xs text-slate-500 mt-1">Tiger Hill sunrise at 4:30 AM</p>
+          {/* Card 2 */}
+          <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+              <Split className="w-5 h-5" />
             </div>
+            <h3 className="font-extrabold text-slate-900 text-base">Min-Cash Debt Settlement</h3>
+            <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Log group expenses in any currency and let our algorithm compute the minimum number of UPI transfers needed to settle up.
+            </p>
+          </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-              <div className="flex items-center gap-2 text-ocean-700 font-semibold text-xs mb-1">
-                <Wallet className="w-4 h-4" /> Expenses & Splits
-              </div>
-              <p className="text-sm font-bold text-slate-900">₹11,600 logged</p>
-              <p className="text-xs text-slate-500 mt-1">Optimal debt solver active</p>
+          {/* Card 3 */}
+          <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
+            <div className="w-10 h-10 rounded-xl bg-red-100 text-red-700 flex items-center justify-center mb-4">
+              <ShieldAlert className="w-5 h-5" />
             </div>
-
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-              <div className="flex items-center gap-2 text-purple-700 font-semibold text-xs mb-1">
-                <CheckSquare className="w-4 h-4" /> Responsibilities
-              </div>
-              <p className="text-sm font-bold text-slate-900">4 Tasks Assigned</p>
-              <p className="text-xs text-slate-500 mt-1">Cab, First aid & Tickets</p>
-            </div>
-
-            <div className="p-4 rounded-xl bg-red-50/70 border border-red-100">
-              <div className="flex items-center gap-2 text-red-700 font-semibold text-xs mb-1">
-                <ShieldAlert className="w-4 h-4" /> Emergency Ready
-              </div>
-              <p className="text-sm font-bold text-slate-900">Sadar Hospital & Police</p>
-              <p className="text-xs text-slate-500 mt-1">Offline emergency pack ready</p>
-            </div>
+            <h3 className="font-extrabold text-slate-900 text-base">Offline Emergency Hub</h3>
+            <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Instant access to local hospitals, emergency contacts, hotel addresses, and group member phone numbers even without cell service.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Core Highlights Section */}
-      <section className="py-16 bg-slate-100/70 border-y border-slate-200/80">
+      {/* Feature Walkthrough Banner */}
+      <section className="py-16 bg-slate-900 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-              Everything Your Travel Group Needs
-            </h2>
-            <p className="text-sm sm:text-base text-slate-600 mt-2">
-              Designed from real group travel pain points — from sunrise wakeups to splitting the dinner bill.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-4">
-                <Calendar className="w-6 h-6" />
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 text-xs font-semibold uppercase tracking-wider mb-4">
+                <Users className="w-3.5 h-3.5" />
+                <span>Seamless Team Roles</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Collaborative Itinerary</h3>
-              <p className="text-sm text-slate-600 mt-2">
-                Plan day-by-day activities, assign responsible leads, organize timings, and reorder events in real-time.
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                Designed for Owners, Admins, Travelers, and Viewers
+              </h2>
+              <p className="text-sm text-slate-300 mt-3 leading-relaxed">
+                Generate 1-click universal shareable invite links, assign roles with granular permissions, and manage your group travel effortlessly.
               </p>
             </div>
 
-            {/* Card 2 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-xl bg-ocean-100 text-ocean-700 flex items-center justify-center mb-4">
-                <Split className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Debt Minimization Engine</h3>
-              <p className="text-sm text-slate-600 mt-2">
-                Our greedy min-cash-flow algorithm transforms messy multi-payer bills into the fewest possible direct transfers.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 rounded-xl bg-red-100 text-red-700 flex items-center justify-center mb-4">
-                <ShieldAlert className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900">Offline Emergency Mode</h3>
-              <p className="text-sm text-slate-600 mt-2">
-                Instant access to local hospitals, emergency contacts, hotel addresses, and group member phones even without cell service.
-              </p>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs shadow-lg transition-all"
+              >
+                Launch Workspace
+              </Link>
             </div>
           </div>
         </div>

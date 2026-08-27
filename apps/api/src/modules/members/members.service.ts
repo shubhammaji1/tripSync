@@ -26,10 +26,34 @@ export class MembersService {
   }
 
   async getTripMembers(tripId: string) {
-    return this.db.query.tripMembers.findMany({
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, tripId),
+      with: { owner: true },
+    });
+    const members = await this.db.query.tripMembers.findMany({
       where: eq(tripMembers.tripId, tripId),
       with: { user: true },
     });
+    if (!trip) return members;
+
+    const mapped = members.map((m: any) => {
+      if (m.userId === trip.ownerId) {
+        return { ...m, role: TripRole.OWNER };
+      }
+      return m;
+    });
+
+    const hasOwner = mapped.some((m: any) => m.userId === trip.ownerId);
+    if (!hasOwner && trip.owner) {
+      mapped.unshift({
+        tripId: trip.id,
+        userId: trip.ownerId,
+        role: TripRole.OWNER,
+        joinedAt: trip.createdAt,
+        user: trip.owner,
+      } as any);
+    }
+    return mapped;
   }
 
   async inviteMember(tripId: string, invitedBy: string, input: InviteMemberInput) {
@@ -186,6 +210,18 @@ export class MembersService {
           .where(and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, memberUserId)))
           .returning();
     return updated;
+  }
+
+  async updateMemberPhone(tripId: string, actingUserId: string, memberUserId: string, phone: string | null) {
+    if (actingUserId !== memberUserId) {
+      await this.requireManager(tripId, actingUserId);
+    }
+    const cleanPhone = phone ? phone.trim() : null;
+    const [updated] = await (this.db
+      .update(profiles)
+      .set({ phone: cleanPhone, updatedAt: new Date() } as any)
+      .where(eq(profiles.id, memberUserId)) as any).returning();
+    return updated || { id: memberUserId, phone: cleanPhone };
   }
 
   async removeMember(tripId: string, actingUserId: string, memberUserId: string) {

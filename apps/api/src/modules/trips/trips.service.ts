@@ -67,17 +67,28 @@ export class TripsService {
             expenses: true,
           },
         });
-        return result.map((t) => ({
-          ...t,
-          budget: t.budget ? Number(t.budget) : null,
-          memberCount: t.members.length,
-          totalExpenses: t.expenses.reduce((sum, e) => sum + Number(e.amount), 0),
-        }));
+        return result.map((t) => {
+          const isOwner = t.ownerId === userId;
+          const userMember = (t.members || []).find((m: any) => m.userId === userId);
+          const currentUserRole = isOwner ? TripRole.OWNER : (userMember?.role || TripRole.VIEWER);
+          return {
+            ...t,
+            budget: t.budget ? Number(t.budget) : null,
+            memberCount: t.members.length,
+            totalExpenses: t.expenses.reduce((sum, e) => sum + Number(e.amount), 0),
+            role: currentUserRole,
+            isOwner,
+          };
+        });
       } catch (err) {
         throw err;
       }
     }
-    return Array.from(this.mockTrips.values());
+    return Array.from(this.mockTrips.values()).map((t) => ({
+      ...t,
+      role: t.ownerId === userId ? TripRole.OWNER : TripRole.MEMBER,
+      isOwner: t.ownerId === userId,
+    }));
   }
 
   async getTripById(tripId: string, userId: string) {
@@ -103,7 +114,28 @@ export class TripsService {
             emergencyContacts: true,
           },
         });
-        if (trip) return trip;
+        if (trip) {
+          const mappedMembers = (trip.members || []).map((m: any) => {
+            if (m.userId === trip.ownerId) {
+              return { ...m, role: TripRole.OWNER };
+            }
+            return m;
+          });
+          const hasOwner = mappedMembers.some((m: any) => m.userId === trip.ownerId);
+          if (!hasOwner && trip.owner) {
+            mappedMembers.unshift({
+              tripId: trip.id,
+              userId: trip.ownerId,
+              role: TripRole.OWNER,
+              joinedAt: trip.createdAt,
+              user: trip.owner,
+            } as any);
+          }
+          return {
+            ...trip,
+            members: mappedMembers,
+          };
+        }
       } catch (err) {
         throw err;
       }

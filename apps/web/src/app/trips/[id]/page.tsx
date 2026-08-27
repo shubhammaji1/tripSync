@@ -40,6 +40,13 @@ import {
   Mail,
   RefreshCw,
   X,
+  Printer,
+  Star,
+  HeartPulse,
+  Download,
+  Pencil,
+  Activity,
+  Flame,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -86,11 +93,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   // Members list with dynamic roles
   const [members, setMembers] = useState<MemberState[]>([]);
 
-  // Role is derived from this trip's persisted member list. The backend
-  // re-checks every mutation regardless of what `can()` returns here.
+  // Role is derived from this trip's persisted member list and trip creator ownership.
+  const isTripOwner = Boolean(
+    (user?.id && tripDetails?.ownerId && user.id === tripDetails.ownerId) ||
+    (user?.email && tripDetails?.owner?.email && user.email === tripDetails.owner.email) ||
+    (user?.id && tripDetails?.owner?.id && user.id === tripDetails.owner.id)
+  );
   const myMembership = members.find((m) => m.id === user?.id);
-  const currentRole: TripRole = myMembership?.role
-    ?? (tripDetails?.ownerId === user?.id ? TripRole.OWNER : TripRole.VIEWER);
+  const currentRole: TripRole = isTripOwner
+    ? TripRole.OWNER
+    : (myMembership?.role ?? (tripDetails?.ownerId === user?.id ? TripRole.OWNER : TripRole.VIEWER));
   const can = (permission: Parameters<typeof canForRole>[1]) => canForRole(currentRole, permission);
 
   const [newMemberEmail, setNewMemberEmail] = useState('');
@@ -109,9 +121,35 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [isSendingBulk, setIsSendingBulk] = useState(false);
   const [recentInvites, setRecentInvites] = useState<{ email: string; link: string; emailSent?: boolean }[]>([]);
 
-  const [emergencyContacts, setEmergencyContacts] = useState<{ id: string; name: string; phone: string; relationship: string }[]>([]);
-  const [newEmergencyContact, setNewEmergencyContact] = useState({ name: '', phone: '', relationship: '' });
-  const [emergencyStatus, setEmergencyStatus] = useState<string | null>(null);
+  const [emergencyContacts, setEmergencyContacts] = useState<{
+    id: string;
+    tripId?: string;
+    name: string;
+    relationship: string;
+    phone: string;
+    altPhone?: string | null;
+    notes?: string | null;
+    isPrimary?: boolean;
+    createdAt?: string;
+  }[]>([]);
+  const [isLoadingEmergency, setIsLoadingEmergency] = useState(false);
+  const [showAddEmergencyModal, setShowAddEmergencyModal] = useState(false);
+  const [showEditEmergencyModal, setShowEditEmergencyModal] = useState(false);
+  const [editingEmergencyContact, setEditingEmergencyContact] = useState<any>(null);
+  const [emergencyFilter, setEmergencyFilter] = useState<string>('ALL');
+  const [emergencyForm, setEmergencyForm] = useState({
+    name: '',
+    relationship: 'Primary Hospital & 24x7 Ambulance',
+    phone: '',
+    altPhone: '',
+    notes: '',
+    isPrimary: false,
+  });
+
+  // Traveler Phone Edit Modal state
+  const [showEditMemberPhoneModal, setShowEditMemberPhoneModal] = useState(false);
+  const [editingMemberForPhone, setEditingMemberForPhone] = useState<any>(null);
+  const [memberPhoneInput, setMemberPhoneInput] = useState('');
 
   // Edit Trip Modal state
   const [showEditTripModal, setShowEditTripModal] = useState(false);
@@ -133,12 +171,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   useEffect(() => {
     api.getTripById(params.id).then((trip) => {
       setTripDetails(trip);
-      const mapMember = (member: any) => ({
-        id: member.userId || member.user?.id || member.id,
-        name: member.user?.fullName || member.user?.email || 'Trip Member',
-        role: member.role,
-        phone: member.user?.phone || '',
-      });
+      const mapMember = (member: any) => {
+        const memberId = member.userId || member.user?.id || member.id;
+        const isThisOwner = memberId === trip.ownerId || (trip.owner?.email && member.user?.email === trip.owner.email) || member.role === TripRole.OWNER;
+        return {
+          id: memberId,
+          name: member.user?.fullName || member.user?.email || member.name || 'Trip Member',
+          role: isThisOwner ? TripRole.OWNER : (member.role || TripRole.MEMBER),
+          phone: member.user?.phone || member.phone || '',
+        };
+      };
       const apiMembers = (trip.members || []).map(mapMember);
       if (apiMembers.length) {
         setMembers(apiMembers);
@@ -193,12 +235,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         priority: task.priority,
         status: task.status,
       })));
-      setEmergencyContacts((trip.emergencyContacts || []).map((contact: any) => ({
-        id: contact.id,
-        name: contact.name,
-        phone: contact.phone,
-        relationship: contact.relationship,
-      })));
+      if (trip.emergencyContacts && trip.emergencyContacts.length > 0) {
+        setEmergencyContacts(trip.emergencyContacts);
+      } else {
+        api.getEmergencyContacts(params.id).then((contacts) => {
+          if (contacts && contacts.length > 0) {
+            setEmergencyContacts(contacts);
+          }
+        }).catch(() => {});
+      }
     }).catch((reason: any) => setActionAlert(reason.message || 'Trip data could not be loaded.'));
   }, [params.id]);
 
@@ -780,23 +825,214 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     }
   };
 
-  const handleAddEmergencyContact = async (e: React.FormEvent) => {
+  const loadEmergencyContacts = async () => {
+    setIsLoadingEmergency(true);
+    try {
+      const data = await api.getEmergencyContacts(params.id);
+      setEmergencyContacts(data || []);
+    } catch (err: any) {
+      console.error('Failed to load emergency contacts:', err);
+    } finally {
+      setIsLoadingEmergency(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'emergency') {
+      loadEmergencyContacts();
+    }
+  }, [activeTab, params.id]);
+
+  const handleOpenAddEmergency = () => {
+    if (!can('EDIT_TRIP')) {
+      showPermissionWarning('add emergency contacts');
+      return;
+    }
+    setEmergencyForm({
+      name: '',
+      relationship: 'Primary Hospital & 24x7 Ambulance',
+      phone: '',
+      altPhone: '',
+      notes: '',
+      isPrimary: false,
+    });
+    setShowAddEmergencyModal(true);
+  };
+
+  const handleSaveNewEmergencyContact = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newEmergencyContact.name.trim() || !newEmergencyContact.phone.trim() || !newEmergencyContact.relationship.trim()) {
-      setEmergencyStatus('Enter a name, phone number, and relationship.');
+    if (!can('EDIT_TRIP')) {
+      showPermissionWarning('add emergency contacts');
+      return;
+    }
+    if (!emergencyForm.name.trim() || !emergencyForm.phone.trim() || !emergencyForm.relationship.trim()) {
+      setActionAlert('Please provide a name, phone number, and category/relationship.');
       return;
     }
 
-    const newContact = { id: `emergency-${Date.now()}`, ...newEmergencyContact };
     try {
-      const saved = await api.createEmergencyContact(params.id, newEmergencyContact);
-      setEmergencyContacts((current) => [...current, { ...newContact, id: saved.id || newContact.id }]);
-    } catch (reason: any) {
-      setEmergencyStatus(reason.message || 'Emergency contact could not be saved.');
+      const created = await api.createEmergencyContact(params.id, emergencyForm);
+      setEmergencyContacts((prev) => {
+        let updated = [...prev];
+        if (emergencyForm.isPrimary) {
+          updated = updated.map((c) => ({ ...c, isPrimary: false }));
+        }
+        return [created, ...updated];
+      });
+      setShowAddEmergencyModal(false);
+      setEmergencyForm({
+        name: '',
+        relationship: 'Primary Hospital & 24x7 Ambulance',
+        phone: '',
+        altPhone: '',
+        notes: '',
+        isPrimary: false,
+      });
+      setActionAlert('Emergency contact added successfully.');
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to save emergency contact.');
+    } finally {
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handleOpenEditEmergency = (contact: any) => {
+    if (!can('EDIT_TRIP')) {
+      showPermissionWarning('edit emergency contacts');
       return;
     }
-    setNewEmergencyContact({ name: '', phone: '', relationship: '' });
-    setEmergencyStatus('Emergency contact saved.');
+    setEditingEmergencyContact(contact);
+    setEmergencyForm({
+      name: contact.name || '',
+      relationship: contact.relationship || '',
+      phone: contact.phone || '',
+      altPhone: contact.altPhone || '',
+      notes: contact.notes || '',
+      isPrimary: Boolean(contact.isPrimary),
+    });
+    setShowEditEmergencyModal(true);
+  };
+
+  const handleSaveEditEmergencyContact = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!can('EDIT_TRIP') || !editingEmergencyContact) {
+      showPermissionWarning('edit emergency contacts');
+      return;
+    }
+    if (!emergencyForm.name.trim() || !emergencyForm.phone.trim() || !emergencyForm.relationship.trim()) {
+      setActionAlert('Please provide a name, phone number, and relationship.');
+      return;
+    }
+
+    try {
+      const updated = await api.updateEmergencyContact(params.id, editingEmergencyContact.id, emergencyForm);
+      setEmergencyContacts((prev) =>
+        prev.map((c) => {
+          if (c.id === editingEmergencyContact.id) {
+            return { ...c, ...updated };
+          }
+          if (emergencyForm.isPrimary) {
+            return { ...c, isPrimary: false };
+          }
+          return c;
+        })
+      );
+      setShowEditEmergencyModal(false);
+      setEditingEmergencyContact(null);
+      setActionAlert('Emergency contact updated successfully.');
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to update emergency contact.');
+    } finally {
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handleDeleteEmergencyContact = async (contactId: string) => {
+    if (!can('EDIT_TRIP')) {
+      showPermissionWarning('delete emergency contacts');
+      return;
+    }
+    if (!window.confirm('Are you sure you want to remove this emergency contact?')) return;
+
+    try {
+      await api.deleteEmergencyContact(params.id, contactId);
+      setEmergencyContacts((prev) => prev.filter((c) => c.id !== contactId));
+      setActionAlert('Emergency contact removed.');
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to delete emergency contact.');
+    } finally {
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handleSeedStarterContacts = async () => {
+    if (!can('EDIT_TRIP')) {
+      showPermissionWarning('manage emergency contacts');
+      return;
+    }
+    setIsLoadingEmergency(true);
+    try {
+      const seeded = await api.seedStarterEmergencyContacts(params.id);
+      setEmergencyContacts(seeded || []);
+      setActionAlert('Starter emergency directory created.');
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to seed starter contacts.');
+    } finally {
+      setIsLoadingEmergency(false);
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handlePrintEmergencySheet = () => {
+    window.print();
+  };
+
+  const handleOpenEditMemberPhone = (member: any) => {
+    if (!can('EDIT_TRIP') && user?.id !== member.id) {
+      showPermissionWarning('update traveler phone numbers');
+      return;
+    }
+    setEditingMemberForPhone(member);
+    setMemberPhoneInput(member.phone || '');
+    setShowEditMemberPhoneModal(true);
+  };
+
+  const handleSaveMemberPhone = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingMemberForPhone) return;
+    try {
+      const cleanPhone = memberPhoneInput.trim();
+      await api.updateMemberPhone(params.id, editingMemberForPhone.id, cleanPhone || null);
+      setMembers((prev) =>
+        prev.map((m) => (m.id === editingMemberForPhone.id ? { ...m, phone: cleanPhone } : m))
+      );
+      setShowEditMemberPhoneModal(false);
+      setEditingMemberForPhone(null);
+      setActionAlert(`Phone number updated for ${editingMemberForPhone.name}.`);
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to update phone number.');
+    } finally {
+      setTimeout(() => setActionAlert(null), 3000);
+    }
+  };
+
+  const handleDeleteMemberPhone = async (member: any) => {
+    if (!can('EDIT_TRIP') && user?.id !== member.id) {
+      showPermissionWarning('delete traveler phone numbers');
+      return;
+    }
+    if (!window.confirm(`Clear phone number for ${member.name}?`)) return;
+    try {
+      await api.updateMemberPhone(params.id, member.id, null);
+      setMembers((prev) =>
+        prev.map((m) => (m.id === member.id ? { ...m, phone: '' } : m))
+      );
+      setActionAlert(`Phone number cleared for ${member.name}.`);
+    } catch (err: any) {
+      setActionAlert(err.message || 'Failed to clear phone number.');
+    } finally {
+      setTimeout(() => setActionAlert(null), 3000);
+    }
   };
 
   const handleOpenEditTrip = () => {
@@ -987,41 +1223,61 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-full pb-16">
       {/* ========================================================= */}
-      {/* INTERACTIVE RBAC ROLE SIMULATOR BANNER */}
+      {/* ROLE-AWARE ACCESS BANNER */}
       {/* ========================================================= */}
-      <div className="bg-slate-950 text-white border-b border-slate-800 py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center border border-brand-500/30">
-              <Shield className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-200">Active RBAC Persona:</span>
-                <span
-                  className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase ${
-                    currentRole === 'OWNER'
-                      ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
-                      : currentRole === 'ADMIN'
-                      ? 'bg-sky-400/20 text-sky-300 border border-sky-400/40'
-                      : currentRole === 'MEMBER'
-                      ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/40'
-                      : 'bg-purple-400/20 text-purple-300 border border-purple-400/40'
-                  }`}
-                >
-                  {user?.fullName || 'Traveler'} • {currentRole}
-                </span>
+      {currentRole === 'VIEWER' ? (
+        <div className="bg-indigo-950 text-indigo-100 border-b border-indigo-800/80 py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-500/30 shrink-0">
+                <Eye className="w-4 h-4" />
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                {currentRole === 'OWNER' && '👑 Full Access: Manage all settings, roles, delete trip, full CRUD.'}
-                {currentRole === 'ADMIN' && '🛡️ Admin Access: Manage itinerary, expenses, tasks & members. Trip deletion locked.'}
-                {currentRole === 'MEMBER' && '👥 Traveler Access: Log group expenses, suggest activities, resolve tasks.'}
-                {currentRole === 'VIEWER' && '👁️ Read-Only Mode: View schedules & emergency info. All mutation actions disabled.'}
-              </p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-white">Guest View-Only Access</span>
+                  <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
+                    VIEWER
+                  </span>
+                </div>
+                <p className="text-[11px] text-indigo-300 mt-0.5">
+                  You are viewing this trip in read-only guest mode. You can browse the full itinerary, explore expense splits, and download offline emergency safety cards.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-slate-950 text-white border-b border-slate-800 py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center border border-brand-500/30">
+                <Shield className="w-4 h-4" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-slate-200">Active Access Role:</span>
+                  <span
+                    className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase ${
+                      currentRole === 'OWNER'
+                        ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
+                        : currentRole === 'ADMIN'
+                        ? 'bg-sky-400/20 text-sky-300 border border-sky-400/40'
+                        : 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/40'
+                    }`}
+                  >
+                    {user?.fullName || 'Traveler'} • {currentRole}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  {currentRole === 'OWNER' && '👑 Organizer & Owner: Full control over trip details, member roles, budget, and settings.'}
+                  {currentRole === 'ADMIN' && '🛡️ Co-Organizer & Admin: Manage itinerary, expenses, tasks & travelers.'}
+                  {currentRole === 'MEMBER' && '🎒 Active Traveler: Log shared expenses, complete assigned tasks, and participate in planning.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Floating Permission Warning Alert */}
       {actionAlert && (
@@ -1657,213 +1913,430 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         )}
 
         {/* ========================================================= */}
-        {/* 5. EMERGENCY MODE TAB */}
+        {/* 5. EMERGENCY MODE TAB (Dynamic & Editable) */}
         {/* ========================================================= */}
         {activeTab === 'emergency' && (
           <div className="space-y-6">
-            {/* Alert Banner */}
-            <div className="bg-red-600 text-white rounded-2xl p-6 shadow-xl border-2 border-red-700">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white">
-                  <ShieldAlert className="w-7 h-7 animate-bounce" />
+            {/* Alert & Actions Hero Banner */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 p-6 md:p-8 text-white shadow-xl border-2 border-red-500/50">
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shrink-0 shadow-inner">
+                    <ShieldAlert className="w-8 h-8 animate-pulse" />
+                  </div>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-[11px] font-black uppercase tracking-wider text-white backdrop-blur-sm">
+                        24/7 Safety Command
+                      </span>
+                      {tripDetails?.destination && (
+                        <span className="px-2.5 py-0.5 rounded-full bg-black/20 text-[11px] font-bold text-red-100 flex items-center gap-1">
+                          <MapPin className="w-3 h-3" /> {tripDetails.destination}
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-black uppercase tracking-wide mt-1">
+                      Emergency & Safety Directory
+                    </h2>
+                    <p className="text-xs sm:text-sm text-red-100 max-w-xl mt-1">
+                      High-contrast, offline-ready emergency services, insurance policies, and traveler contacts for{' '}
+                      <strong className="underline text-white">{tripDetails?.destination || tripDetails?.name || 'this trip'}</strong>.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-black uppercase tracking-wide">
-                    Emergency Safety Dashboard
-                  </h2>
-                  <p className="text-xs sm:text-sm text-red-100">
-                    High-contrast, offline-ready emergency contact information for Darjeeling trip.
-                  </p>
+
+                <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handlePrintEmergencySheet}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs shadow-sm transition-all border border-white/20"
+                    title="Print or save as offline PDF"
+                  >
+                    <Printer className="w-4 h-4" />
+                    <span>Print Offline Sheet</span>
+                  </button>
+
+                  {can('EDIT_TRIP') && (
+                    <button
+                      type="button"
+                      onClick={handleOpenAddEmergency}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-red-700 hover:bg-red-50 font-extrabold text-xs shadow-md transition-all"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add Emergency Contact</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Emergency Contacts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Hospital */}
-              <div className="bg-white rounded-2xl p-5 border-2 border-red-200 shadow-md">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-xl bg-red-100 text-red-700 font-bold">🏥</span>
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900">Darjeeling Sadar District Hospital</h3>
-                      <p className="text-xs text-slate-500 font-medium">24/7 Casualty, Ambulance & Blood Bank</p>
-                    </div>
+            {/* Quick SOS Dial Grid (Universal local emergency lines) */}
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                <Flame className="w-3.5 h-3.5 text-red-600" />
+                Universal Emergency Quick Dials
+              </h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <a
+                  href="tel:112"
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-red-50 border border-red-200 hover:bg-red-100/80 transition-all group"
+                >
+                  <div>
+                    <span className="text-[10px] font-black tracking-wider text-red-600 uppercase">National SOS</span>
+                    <p className="text-base font-black text-red-950 font-mono">112</p>
                   </div>
-                  <span className="px-2 py-0.5 text-[10px] font-bold bg-red-100 text-red-800 rounded">
-                    PRIMARY
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 mt-3">
-                  Located near Bhanu Bhakta Sarani & Raj Bhavan, Darjeeling.
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <a
-                    href="tel:+913542252218"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow"
-                  >
+                  <div className="w-8 h-8 rounded-xl bg-red-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Phone className="w-4 h-4" />
-                    <span>Call: +91 354 225 2218</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard('+913542252218')}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>{copiedText === '+913542252218' ? 'Copied!' : 'Copy Phone'}</span>
-                  </button>
-                </div>
-              </div>
+                  </div>
+                </a>
 
-              {/* Police */}
-              <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-md">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-xl bg-blue-100 text-blue-700 font-bold">👮</span>
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900">Tourist Police & Chowrasta Station</h3>
-                      <p className="text-xs text-slate-500 font-medium">Mountain Safety & Lost Documents</p>
-                    </div>
+                <a
+                  href="tel:108"
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-rose-50 border border-rose-200 hover:bg-rose-100/80 transition-all group"
+                >
+                  <div>
+                    <span className="text-[10px] font-black tracking-wider text-rose-600 uppercase">Ambulance</span>
+                    <p className="text-base font-black text-rose-950 font-mono">108</p>
                   </div>
-                </div>
-                <p className="text-xs text-slate-600 mt-3">
-                  Assistance booth located right at Chowrasta Mall Center.
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <a
-                    href="tel:+913542254422"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span>Call: +91 354 225 4422</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard('+913542254422')}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>{copiedText === '+913542254422' ? 'Copied!' : 'Copy'}</span>
-                  </button>
-                </div>
-              </div>
+                  <div className="w-8 h-8 rounded-xl bg-rose-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <HeartPulse className="w-4 h-4" />
+                  </div>
+                </a>
 
-              {/* Accommodation */}
-              <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-md">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-xl bg-amber-100 text-amber-700 font-bold">🏨</span>
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900">Summit Hermon Hotel Front Desk</h3>
-                      <p className="text-xs text-slate-500 font-medium">Group Accommodation & Driver Desk</p>
-                    </div>
+                <a
+                  href="tel:100"
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-blue-50 border border-blue-200 hover:bg-blue-100/80 transition-all group"
+                >
+                  <div>
+                    <span className="text-[10px] font-black tracking-wider text-blue-600 uppercase">Police</span>
+                    <p className="text-base font-black text-blue-950 font-mono">100</p>
                   </div>
-                </div>
-                <p className="text-xs text-slate-600 mt-3">
-                  Address: Bhanu Sarani, Darjeeling. Booking ID: SH-2026-DARJ-8941
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <a
-                    href="tel:+913542256789"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span>Call Desk: +91 354 225 6789</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard('Summit Hermon Hotel, Bhanu Sarani, Darjeeling 734101')}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy Address</span>
-                  </button>
-                </div>
-              </div>
+                  <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <Shield className="w-4 h-4" />
+                  </div>
+                </a>
 
-              {/* Insurance */}
-              <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-md">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="p-2 rounded-xl bg-purple-100 text-purple-700 font-bold">🛡️</span>
-                    <div>
-                      <h3 className="font-extrabold text-base text-slate-900">Group Travel Insurance</h3>
-                      <p className="text-xs text-slate-500 font-medium">Policy #BA-TRIP-998822 (Bajaj Allianz)</p>
-                    </div>
+                <a
+                  href="tel:101"
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-amber-50 border border-amber-200 hover:bg-amber-100/80 transition-all group"
+                >
+                  <div>
+                    <span className="text-[10px] font-black tracking-wider text-amber-700 uppercase">Fire Dept</span>
+                    <p className="text-base font-black text-amber-950 font-mono">101</p>
                   </div>
-                </div>
-                <p className="text-xs text-slate-600 mt-3">
-                  Emergency Medical Evacuation & Hospital Cashless Assistance active.
-                </p>
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <a
-                    href="tel:18002095858"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow"
-                  >
+                  <div className="w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center group-hover:scale-105 transition-transform">
                     <Phone className="w-4 h-4" />
-                    <span>Call Toll-Free: 1800 209 5858</span>
-                  </a>
-                  <button
-                    onClick={() => copyToClipboard('BA-TRIP-998822')}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy Policy #</span>
-                  </button>
-                </div>
+                  </div>
+                </a>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h3 className="font-bold text-base text-slate-900">Personal Emergency Contacts</h3>
-              <form onSubmit={handleAddEmergencyContact} className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Name</label>
-                  <input required value={newEmergencyContact.name} onChange={(event) => setNewEmergencyContact({ ...newEmergencyContact, name: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Emergency contact name" />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Phone</label>
-                  <input required type="tel" value={newEmergencyContact.phone} onChange={(event) => setNewEmergencyContact({ ...newEmergencyContact, phone: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="+91 98765 43210" />
-                </div>
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Relationship</label>
-                  <input required value={newEmergencyContact.relationship} onChange={(event) => setNewEmergencyContact({ ...newEmergencyContact, relationship: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Parent, partner..." />
-                </div>
-                <button type="submit" className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white hover:bg-red-700">Save contact</button>
-              </form>
-              {emergencyStatus && <p className="mt-3 text-sm text-emerald-700">{emergencyStatus}</p>}
-              {emergencyContacts.length > 0 && (
-                <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {emergencyContacts.map((contact) => (
-                    <div key={contact.id} className="flex items-center justify-between rounded-lg bg-red-50 px-3 py-2 text-sm">
-                      <span><strong>{contact.name}</strong> <span className="text-slate-500">({contact.relationship})</span></span>
-                      <a href={`tel:${contact.phone.replace(/\s+/g, '')}`} className="font-semibold text-red-700">{contact.phone}</a>
-                    </div>
-                  ))}
-                </div>
+            {/* Filter Pills */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-2xl text-xs font-semibold">
+                {[
+                  { id: 'ALL', label: `All Contacts (${emergencyContacts.length})` },
+                  { id: 'MEDICAL', label: '🏥 Medical' },
+                  { id: 'POLICE', label: '👮 Police' },
+                  { id: 'HOTEL', label: '🏨 Stay & Desk' },
+                  { id: 'INSURANCE', label: '🛡️ Insurance' },
+                  { id: 'PRIMARY', label: '⭐ Primary SOS' },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setEmergencyFilter(tab.id)}
+                    className={`px-3 py-1.5 rounded-xl transition-all ${
+                      emergencyFilter === tab.id
+                        ? 'bg-white text-slate-900 shadow-sm font-bold'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {can('EDIT_TRIP') && emergencyContacts.length === 0 && (
+                <button
+                  type="button"
+                  onClick={handleSeedStarterContacts}
+                  disabled={isLoadingEmergency}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-all shadow-xs"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Seed Quick Starter Contacts</span>
+                </button>
               )}
             </div>
 
-            {/* Offline Travelers Phone Sheet */}
-            <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-xl">
-              <h3 className="font-bold text-base mb-4 flex items-center gap-2">
-                <Users className="w-4 h-4 text-brand-400" />
-                All Travelers Emergency Phone Directory
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-                {members.map((p) => (
-                  <div key={p.id} className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                    <div>
-                      <p className="font-bold text-white">{p.name}</p>
-                      <p className="text-slate-400 text-[11px]">{p.phone}</p>
-                    </div>
-                    <a
-                      href={`tel:${p.phone.replace(/\s+/g, '')}`}
-                      className="p-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-bold"
-                      title="Call"
+            {/* Dynamic Emergency Contacts Grid */}
+            {emergencyContacts.length === 0 ? (
+              <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-white p-8 sm:p-12 text-center">
+                <div className="mx-auto w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mb-3">
+                  <ShieldAlert className="w-7 h-7" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900">No Emergency Contacts Registered Yet</h3>
+                <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-5">
+                  Ensure traveler safety by adding local hospital numbers, nearest police station, accommodation desk, and travel insurance policy details.
+                </p>
+                {can('EDIT_TRIP') && (
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleOpenAddEmergency}
+                      className="px-4 py-2.5 rounded-xl bg-red-600 text-white font-bold text-xs hover:bg-red-700 shadow-sm"
                     >
-                      <Phone className="w-3.5 h-3.5" />
-                    </a>
+                      + Add Emergency Service
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSeedStarterContacts}
+                      disabled={isLoadingEmergency}
+                      className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs hover:bg-slate-200"
+                    >
+                      ⚡ Auto-Populate {tripDetails?.destination || 'Destination'} Contacts
+                    </button>
                   </div>
-                ))}
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {emergencyContacts
+                  .filter((contact) => {
+                    if (emergencyFilter === 'PRIMARY') return contact.isPrimary;
+                    if (emergencyFilter === 'MEDICAL') {
+                      const text = `${contact.name} ${contact.relationship}`.toLowerCase();
+                      return text.includes('hosp') || text.includes('medic') || text.includes('clinic') || text.includes('ambul') || text.includes('doctor');
+                    }
+                    if (emergencyFilter === 'POLICE') {
+                      const text = `${contact.name} ${contact.relationship}`.toLowerCase();
+                      return text.includes('polic') || text.includes('rescue') || text.includes('tourist') || text.includes('security') || text.includes('patrol');
+                    }
+                    if (emergencyFilter === 'HOTEL') {
+                      const text = `${contact.name} ${contact.relationship}`.toLowerCase();
+                      return text.includes('hotel') || text.includes('resort') || text.includes('desk') || text.includes('stay') || text.includes('host') || text.includes('lodge');
+                    }
+                    if (emergencyFilter === 'INSURANCE') {
+                      const text = `${contact.name} ${contact.relationship}`.toLowerCase();
+                      return text.includes('insur') || text.includes('embassy') || text.includes('consul') || text.includes('policy') || text.includes('claim');
+                    }
+                    return true;
+                  })
+                  .map((contact) => {
+                    const desc = `${contact.name} ${contact.relationship}`.toLowerCase();
+                    const isMedical = desc.includes('hosp') || desc.includes('medic') || desc.includes('clinic') || desc.includes('ambul') || desc.includes('doctor');
+                    const isPolice = desc.includes('polic') || desc.includes('rescue') || desc.includes('tourist') || desc.includes('security');
+                    const isHotel = desc.includes('hotel') || desc.includes('resort') || desc.includes('desk') || desc.includes('stay') || desc.includes('host') || desc.includes('lodge');
+                    const isInsurance = desc.includes('insur') || desc.includes('embassy') || desc.includes('consul') || desc.includes('policy');
+
+                    const iconEmoji = isMedical ? '🏥' : isPolice ? '👮' : isHotel ? '🏨' : isInsurance ? '🛡️' : '📞';
+                    const iconBg = isMedical
+                      ? 'bg-red-100 text-red-700'
+                      : isPolice
+                      ? 'bg-blue-100 text-blue-700'
+                      : isHotel
+                      ? 'bg-amber-100 text-amber-700'
+                      : isInsurance
+                      ? 'bg-purple-100 text-purple-700'
+                      : 'bg-emerald-100 text-emerald-700';
+
+                    return (
+                      <div
+                        key={contact.id}
+                        className={`bg-white rounded-2xl p-5 border shadow-sm transition-all hover:shadow-md ${
+                          contact.isPrimary
+                            ? 'border-2 border-red-300 ring-2 ring-red-100'
+                            : 'border-slate-200'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-start gap-3 min-w-0">
+                            <span className={`p-2.5 rounded-xl ${iconBg} font-bold text-base shrink-0`}>
+                              {iconEmoji}
+                            </span>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug truncate">
+                                  {contact.name}
+                                </h3>
+                                {contact.isPrimary && (
+                                  <span className="px-2 py-0.5 text-[9px] font-black bg-red-600 text-white rounded-md uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                                    <Star className="w-2.5 h-2.5 fill-white" /> PRIMARY SOS
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-xs text-slate-500 font-medium mt-0.5">
+                                {contact.relationship}
+                              </p>
+                            </div>
+                          </div>
+
+                          {can('EDIT_TRIP') && (
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => handleOpenEditEmergency(contact)}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                                title="Edit Contact"
+                              >
+                                <Pencil className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteEmergencyContact(contact.id)}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                                title="Delete Contact"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+
+                        {contact.notes && (
+                          <div className="mt-3 text-xs text-slate-600 bg-slate-50 rounded-xl p-2.5 border border-slate-100 flex items-start gap-2">
+                            <Info className="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5" />
+                            <p className="leading-relaxed">{contact.notes}</p>
+                          </div>
+                        )}
+
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={`tel:${contact.phone.replace(/\s+/g, '')}`}
+                              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all"
+                            >
+                              <Phone className="w-3.5 h-3.5" />
+                              <span>Call: {contact.phone}</span>
+                            </a>
+                            <button
+                              type="button"
+                              onClick={() => copyToClipboard(contact.phone)}
+                              className="text-xs font-semibold text-slate-500 hover:text-slate-800 p-2 rounded-lg hover:bg-slate-100 flex items-center gap-1 transition-colors"
+                              title="Copy Phone Number"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                              <span>{copiedText === contact.phone ? 'Copied!' : 'Copy'}</span>
+                            </button>
+                          </div>
+
+                          {contact.altPhone && (
+                            <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-100 px-2.5 py-1.5 rounded-lg font-mono">
+                              <span className="text-[10px] uppercase font-bold text-slate-400">Alt/Policy:</span>
+                              <span className="font-semibold text-slate-800">{contact.altPhone}</span>
+                              <button
+                                type="button"
+                                onClick={() => copyToClipboard(contact.altPhone!)}
+                                className="text-slate-400 hover:text-slate-700 ml-1"
+                                title="Copy Alt Info"
+                              >
+                                <Copy className="w-3 h-3" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+
+            {/* Offline Travelers Phone Sheet with Add / Edit / Delete */}
+            <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-800">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-slate-800">
+                <div>
+                  <h3 className="font-extrabold text-base flex items-center gap-2 text-white">
+                    <Users className="w-4 h-4 text-brand-400" />
+                    All Travelers Emergency Directory ({members.length})
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Direct phone lines for all group participants registered on this expedition. Add or edit numbers below.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                {members.map((p) => {
+                  const isOwner = p.role === TripRole.OWNER;
+                  const canManageThisPhone = can('EDIT_TRIP') || user?.id === p.id;
+                  return (
+                    <div
+                      key={p.id}
+                      className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/10 transition-colors gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <p className="font-bold text-white truncate">{p.name}</p>
+                          <span
+                            className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
+                              isOwner
+                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                                : p.role === TripRole.ADMIN
+                                ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                                : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                            }`}
+                          >
+                            {p.role}
+                          </span>
+                        </div>
+                        {p.phone ? (
+                          <p className="text-slate-300 text-[11px] font-mono mt-0.5 truncate">
+                            📞 {p.phone}
+                          </p>
+                        ) : (
+                          <p className="text-slate-500 text-[11px] italic mt-0.5">
+                            Phone not provided
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {p.phone ? (
+                          <>
+                            <a
+                              href={`tel:${p.phone.replace(/\s+/g, '')}`}
+                              className="p-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition-transform active:scale-95 shadow-sm"
+                              title={`Call ${p.name}`}
+                            >
+                              <Phone className="w-3.5 h-3.5" />
+                            </a>
+                            {canManageThisPhone && (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() => handleOpenEditMemberPhone(p)}
+                                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors"
+                                  title="Edit Phone Number"
+                                >
+                                  <Pencil className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteMemberPhone(p)}
+                                  className="p-2 rounded-xl bg-white/10 hover:bg-red-500/30 text-slate-300 hover:text-red-300 transition-colors"
+                                  title="Delete Phone Number"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          canManageThisPhone && (
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEditMemberPhone(p)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white font-bold text-[11px] transition-colors border border-white/10"
+                            >
+                              <Plus className="w-3 h-3" />
+                              <span>Add Phone</span>
+                            </button>
+                          )
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -2278,7 +2751,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                             </div>
                             <div>
                               <p className="font-bold text-slate-900">{p.name}</p>
-                              <p className="text-[10px] text-slate-500">Joined via Invitation</p>
+                              <p className="text-[10px] text-slate-500">
+                                {isOwner ? 'Trip Creator & Organizer' : 'Joined via Invitation'}
+                              </p>
                             </div>
                           </div>
                         </td>
@@ -2617,6 +3092,361 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 >
                   Save Changes
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Modal: Add Emergency Contact */}
+      {showAddEmergencyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
+                  <ShieldAlert className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-slate-900">Add Emergency Service</h3>
+                  <p className="text-xs text-slate-500">Register rapid contact details for traveler safety</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAddEmergencyModal(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveNewEmergencyContact} className="space-y-4 text-xs">
+              {/* Quick Category Chips */}
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
+                  Quick Category Preset
+                </label>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { label: '🏥 Hospital', rel: 'Primary Hospital & 24x7 Ambulance' },
+                    { label: '👮 Police', rel: 'Tourist Police & Mountain Rescue' },
+                    { label: '🏨 Hotel Desk', rel: 'Accommodation Front Desk & Host' },
+                    { label: '🛡️ Insurance', rel: 'Group Travel Insurance Hotline' },
+                    { label: '🏛️ Embassy', rel: 'Consulate & Diplomatic Emergency' },
+                    { label: '🧭 Guide/Cab', rel: 'Local Transport & Guide Coordinator' },
+                  ].map((preset) => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => setEmergencyForm({ ...emergencyForm, relationship: preset.rel })}
+                      className={`px-2.5 py-1 rounded-lg border font-semibold text-[11px] transition-all ${
+                        emergencyForm.relationship === preset.rel
+                          ? 'bg-slate-900 text-white border-slate-900'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Service / Provider Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Kathmandu CIWEC Clinic & Hospital"
+                  value={emergencyForm.name}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, name: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Department / Relationship <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. 24/7 Casualty & Mountain Evacuation"
+                  value={emergencyForm.relationship}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, relationship: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Primary Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+977 1 4424111 or 112"
+                    value={emergencyForm.phone}
+                    onChange={(e) => setEmergencyForm({ ...emergencyForm, phone: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Alt Phone / Policy Number
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Policy #TRIP-9988 or 108"
+                    value={emergencyForm.altPhone}
+                    onChange={(e) => setEmergencyForm({ ...emergencyForm, altPhone: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Physical Address / Landmark & Notes
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. Opposite British Embassy, Lazimpat. 24h Ambulance on call."
+                  value={emergencyForm.notes}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, notes: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <label className="flex items-center gap-2.5 p-3 rounded-xl bg-red-50/70 border border-red-100 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={emergencyForm.isPrimary}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, isPrimary: e.target.checked })}
+                  className="rounded text-red-600 focus:ring-red-500 w-4 h-4"
+                />
+                <span className="text-xs font-bold text-red-900">
+                  Mark as Primary Emergency SOS Contact
+                </span>
+              </label>
+
+              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowAddEmergencyModal(false)}
+                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-md"
+                >
+                  Save Emergency Contact
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Edit Emergency Contact */}
+      {showEditEmergencyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                  <Pencil className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-slate-900">Edit Emergency Contact</h3>
+                  <p className="text-xs text-slate-500">Update safety provider or emergency numbers</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditEmergencyModal(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditEmergencyContact} className="space-y-4 text-xs">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Service / Provider Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={emergencyForm.name}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, name: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Department / Relationship <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={emergencyForm.relationship}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, relationship: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Primary Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={emergencyForm.phone}
+                    onChange={(e) => setEmergencyForm({ ...emergencyForm, phone: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Alt Phone / Policy Number
+                  </label>
+                  <input
+                    type="text"
+                    value={emergencyForm.altPhone}
+                    onChange={(e) => setEmergencyForm({ ...emergencyForm, altPhone: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Physical Address / Landmark & Notes
+                </label>
+                <textarea
+                  rows={2}
+                  value={emergencyForm.notes}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, notes: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+              </div>
+
+              <label className="flex items-center gap-2.5 p-3 rounded-xl bg-red-50/70 border border-red-100 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={emergencyForm.isPrimary}
+                  onChange={(e) => setEmergencyForm({ ...emergencyForm, isPrimary: e.target.checked })}
+                  className="rounded text-red-600 focus:ring-red-500 w-4 h-4"
+                />
+                <span className="text-xs font-bold text-red-900">
+                  Mark as Primary Emergency SOS Contact
+                </span>
+              </label>
+
+              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowEditEmergencyModal(false)}
+                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-md"
+                >
+                  Update Contact
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Edit Traveler Phone Number */}
+      {showEditMemberPhoneModal && editingMemberForPhone && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center font-bold">
+                  📞
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm text-slate-900">
+                    {editingMemberForPhone.phone ? 'Edit Emergency Phone' : 'Add Emergency Phone'}
+                  </h3>
+                  <p className="text-xs text-slate-500">{editingMemberForPhone.name}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditMemberPhoneModal(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveMemberPhone} className="space-y-4 text-xs">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Traveler Phone Number
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91 98765 43210 or +977 98..."
+                  value={memberPhoneInput}
+                  onChange={(e) => setMemberPhoneInput(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  autoFocus
+                />
+                <p className="text-[11px] text-slate-400 mt-1">
+                  This contact number will be visible to all travelers in the emergency directory and offline print sheet.
+                </p>
+              </div>
+
+              <div className="pt-3 flex items-center justify-between border-t border-slate-100">
+                {editingMemberForPhone.phone ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowEditMemberPhoneModal(false);
+                      handleDeleteMemberPhone(editingMemberForPhone);
+                    }}
+                    className="text-xs font-bold text-red-600 hover:text-red-800"
+                  >
+                    Delete Number
+                  </button>
+                ) : <div />}
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEditMemberPhoneModal(false)}
+                    className="px-3.5 py-2 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-sm"
+                  >
+                    Save Number
+                  </button>
+                </div>
               </div>
             </form>
           </div>
