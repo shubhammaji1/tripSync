@@ -65,7 +65,7 @@ export default function LandingPage() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
           </span>
-          <span>The Next-Gen Operating System for Group Travel</span>
+          <span>Smart Group Travel & Itinerary Platform</span>
         </div>
 
         {/* Dynamic Animated Headline */}

@@ -1019,12 +1019,14 @@ __turbopack_export_namespace__(__TURBOPACK__imported__module__$5b$project$5d2f$a
 
 __turbopack_esm__({
     "default": ()=>RootLayout,
-    "metadata": ()=>metadata
+    "metadata": ()=>metadata,
+    "viewport": ()=>viewport
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/server/future/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f40$clerk$2b$nextjs$40$7$2e$8$2e$2_next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f40$clerk$2f$nextjs$2f$dist$2f$esm$2f$index$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/index.js [app-rsc] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$Navbar$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/Navbar.tsx [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$Footer$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/Footer.tsx [app-rsc] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$PWAInstallPrompt$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/PWAInstallPrompt.tsx [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$auth$2d$context$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/auth-context.tsx [app-rsc] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$ApiAuthBridge$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/ApiAuthBridge.tsx [app-rsc] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
@@ -1035,9 +1037,27 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$compon
 ;
 ;
 ;
+;
 const metadata = {
     title: 'TripSync — Collaborative Group Travel Platform',
-    description: 'Plan together. Travel smarter. Stay connected. The modern operating system for group trips.'
+    description: 'Plan together. Travel smarter. Stay connected. The modern operating system for group trips.',
+    manifest: '/manifest.json',
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'TripSync'
+    },
+    icons: {
+        icon: '/icon.svg',
+        apple: '/icon.svg'
+    }
+};
+const viewport = {
+    themeColor: '#090d16',
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false
 };
 function RootLayout({ children }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
@@ -1050,12 +1070,12 @@ function RootLayout({ children }) {
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$ApiAuthBridge$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ApiAuthBridge"], {}, void 0, false, {
                             fileName: "[project]/apps/web/src/app/layout.tsx",
-                            lineNumber: 25,
+                            lineNumber: 44,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$Navbar$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Navbar"], {}, void 0, false, {
                             fileName: "[project]/apps/web/src/app/layout.tsx",
-                            lineNumber: 26,
+                            lineNumber: 45,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -1063,33 +1083,38 @@ function RootLayout({ children }) {
                             children: children
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/layout.tsx",
-                            lineNumber: 27,
+                            lineNumber: 46,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$Footer$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Footer"], {}, void 0, false, {
                             fileName: "[project]/apps/web/src/app/layout.tsx",
-                            lineNumber: 28,
+                            lineNumber: 47,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$PWAInstallPrompt$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["PWAInstallPrompt"], {}, void 0, false, {
+                            fileName: "[project]/apps/web/src/app/layout.tsx",
+                            lineNumber: 48,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/layout.tsx",
-                    lineNumber: 24,
+                    lineNumber: 43,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/layout.tsx",
-                lineNumber: 23,
+                lineNumber: 42,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/apps/web/src/app/layout.tsx",
-            lineNumber: 22,
+            lineNumber: 41,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/apps/web/src/app/layout.tsx",
-        lineNumber: 21,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 }

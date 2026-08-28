@@ -4,8 +4,13 @@
 
 @layer base {
   :root {
+    color-scheme: light;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+  }
+
+  html {
+    color-scheme: light;
   }
 
   body {
@@ -13,6 +18,26 @@
     color: #0f172a;
     font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
+  }
+
+  /* Browser Dark Mode text visibility & select/option contrast guards */
+  select option {
+    background-color: #ffffff;
+    color: #0f172a;
+  }
+
+  /* WebKit Autofill text contrast protection */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #0f172a !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
   *,

@@ -49,11 +49,29 @@ import {
   Pencil,
   Activity,
   Flame,
+  Smartphone,
+  Route,
+  Layers,
+  FileCheck,
+  Sun,
+  CloudSun,
+  Receipt,
+  Camera,
+  UploadCloud,
+  ImageIcon,
+  MessageSquare,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { canForRole } from '@/lib/auth-context';
 import { TripRole } from '@tripsync/types';
+import { UPISettlementModal } from '@/components/UPISettlementModal';
+import { ItineraryRouteMap } from '@/components/ItineraryRouteMap';
+import { DestinationWeatherWidget } from '@/components/DestinationWeatherWidget';
+import { DocumentVaultSection } from '@/components/DocumentVaultSection';
+import { ReceiptPreviewModal } from '@/components/ReceiptPreviewModal';
+import { CrewChatDrawer } from '@/components/CrewChatDrawer';
+import { SUPPORTED_CURRENCIES, convertCurrency, formatCurrencyWithSymbol } from '@/lib/currencies';
 import {
   PieChart,
   Pie,
@@ -66,7 +84,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-type ActiveTab = 'overview' | 'itinerary' | 'expenses' | 'tasks' | 'emergency' | 'analytics' | 'members';
+type ActiveTab = 'overview' | 'itinerary' | 'expenses' | 'tasks' | 'documents' | 'emergency' | 'analytics' | 'members';
 
 interface MemberState {
   id: string;
@@ -336,6 +354,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       category: 'ACCOMMODATION',
       date: '2026-09-10',
       split: '6 members (₹1,000 each)',
+      receiptUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
     },
     {
       id: 'exp-2',
@@ -354,25 +373,37 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       category: 'FOOD',
       date: '2026-09-11',
       split: '6 members (₹533 each)',
+      receiptUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=800&q=80',
     },
   ]);
 
   const [newExpense, setNewExpense] = useState({
     title: '',
     amount: 1800,
+    currency: 'INR',
     category: 'FOOD',
     date: '',
     paidById: '',
     splitType: 'EQUAL',
+    receiptUrl: '',
   });
+
+  const [selectedReceiptExpense, setSelectedReceiptExpense] = useState<any | null>(null);
 
   const formatExpenseAmount = (amount: number) => new Intl.NumberFormat('en-IN', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(Number(amount) || 0);
 
-  // Settled debts local state
+  // Settled debts & UPI state
   const [settledDebtIds, setSettledDebtIds] = useState<Record<string, boolean>>({});
+  const [selectedUpiDebt, setSelectedUpiDebt] = useState<any | null>(null);
+
+  // Itinerary View Mode (Timeline vs Map)
+  const [itineraryViewMode, setItineraryViewMode] = useState<'timeline' | 'map'>('timeline');
+
+  // Real-Time Crew Chat Drawer State
+  const [showCrewChat, setShowCrewChat] = useState(false);
 
   // Tasks local state
   const [newTask, setNewTask] = useState({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
@@ -484,6 +515,19 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     });
   };
 
+  const handleReceiptFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setNewExpense((prev) => ({ ...prev, receiptUrl: event.target!.result as string }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleAddExpense = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!can('ADD_EXPENSE')) {
@@ -496,20 +540,30 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       ? newExpense.paidById
       : user?.id || newExpense.paidById;
     const payer = members.find((p) => p.id === payerId)?.name || user?.fullName || 'Traveler';
-    const amount = Number(newExpense.amount);
+    const rawAmount = Number(newExpense.amount) || 0;
+    const expenseCurrency = newExpense.currency || 'INR';
+
+    // Auto-convert to INR base currency if logged in foreign currency
+    const baseAmount = expenseCurrency !== 'INR'
+      ? convertCurrency(rawAmount, expenseCurrency, 'INR')
+      : rawAmount;
+
     const newEntry = {
       id: 'exp-' + Date.now(),
       paidById: payerId,
       title: newExpense.title || 'Group Expense',
       paidBy: payer,
-      amount,
+      amount: baseAmount,
+      originalAmount: expenseCurrency !== 'INR' ? rawAmount : undefined,
+      originalCurrency: expenseCurrency !== 'INR' ? expenseCurrency : undefined,
       category: newExpense.category,
+      receiptUrl: newExpense.receiptUrl || undefined,
       date: newExpense.date || tripDetails?.startDate || new Date().toISOString().slice(0, 10),
       participants: members.map((member) => ({
         userId: member.id,
-        shareAmount: amount / Math.max(1, members.length),
+        shareAmount: baseAmount / Math.max(1, members.length),
       })),
-      split: `${members.length} members (₹${formatExpenseAmount(amount / Math.max(1, members.length))} each)`,
+      split: `${members.length} members (₹${formatExpenseAmount(baseAmount / Math.max(1, members.length))} each)`,
     };
 
     if (editingExpenseId) {
@@ -517,7 +571,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       try {
         await api.updateExpense(params.id, editingExpenseId, {
           title: newEntry.title,
-          amount,
+          amount: baseAmount,
           category: newEntry.category,
           currency: tripCurrency,
           splitType: newExpense.splitType,
@@ -538,14 +592,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       const validMembers = members.filter((member) => /^[0-9a-f-]{36}$/i.test(member.id));
       const saved = await api.createExpense(params.id, {
         title: newEntry.title,
-        amount,
+        amount: baseAmount,
         currency: tripCurrency,
         category: newExpense.category,
         splitType: newExpense.splitType,
         date: newEntry.date,
         participants: validMembers.map((member) => ({
           userId: member.id,
-          shareAmount: Math.round((amount / validMembers.length) * 100) / 100,
+          shareAmount: Math.round((baseAmount / validMembers.length) * 100) / 100,
         })),
       });
       setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
@@ -557,10 +611,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setNewExpense({
       title: '',
       amount: 1800,
+      currency: 'INR',
       category: 'FOOD',
       date: '',
       paidById: user?.id || members[0]?.id || '',
       splitType: 'EQUAL',
+      receiptUrl: '',
     });
   };
 
@@ -568,11 +624,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setEditingExpenseId(expense.id);
     setNewExpense({
       title: expense.title || '',
-      amount: Number(expense.amount || 0),
+      amount: Number(expense.originalAmount || expense.amount || 0),
+      currency: expense.originalCurrency || 'INR',
       category: expense.category || 'FOOD',
       date: expense.date || '',
       paidById: expense.paidById || members.find((member) => member.name === expense.paidBy)?.id || user?.id || '',
       splitType: expense.splitType || 'EQUAL',
+      receiptUrl: expense.receiptUrl || '',
     });
     setShowAddExpenseModal(true);
   };
@@ -1336,16 +1394,31 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </p>
             </div>
 
-            {/* Quick Spend Counter */}
-            <div className="w-full md:w-auto flex items-center justify-between gap-3 bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10">
-              <div>
-                <p className="text-[10px] uppercase font-semibold text-slate-400">Total Spent</p>
-                <p className="text-lg font-extrabold text-brand-400">{formatCurrency(tripSpent, tripCurrency)}</p>
-              </div>
-              <div className="h-8 w-px bg-white/20" />
-              <div>
-                <p className="text-[10px] uppercase font-semibold text-slate-400">Budget</p>
-                <p className="text-lg font-extrabold text-white">{formatCurrency(tripBudget, tripCurrency)}</p>
+            {/* Quick Spend Counter & Crew Chat */}
+            <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => setShowCrewChat(true)}
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 backdrop-blur-md text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                title="Open Crew Live Chat & Announcements"
+              >
+                <div className="relative">
+                  <MessageSquare className="w-4 h-4 text-emerald-400" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                </div>
+                <span>Crew Chat</span>
+              </button>
+
+              <div className="flex items-center justify-between gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10">
+                <div>
+                  <p className="text-[10px] uppercase font-semibold text-slate-400">Total Spent</p>
+                  <p className="text-lg font-extrabold text-brand-400">{formatCurrency(tripSpent, tripCurrency)}</p>
+                </div>
+                <div className="h-8 w-px bg-white/20" />
+                <div>
+                  <p className="text-[10px] uppercase font-semibold text-slate-400">Budget</p>
+                  <p className="text-lg font-extrabold text-white">{formatCurrency(tripBudget, tripCurrency)}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1357,6 +1430,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               { id: 'itinerary', label: 'Itinerary', icon: Calendar },
               { id: 'expenses', label: 'Expenses', icon: Wallet },
               { id: 'tasks', label: 'Tasks', icon: CheckSquare },
+              { id: 'documents', label: 'Vault', icon: FileCheck },
               { id: 'emergency', label: '🆘 SOS Hub', icon: ShieldAlert, highlight: true },
               { id: 'analytics', label: 'Analytics', icon: PieChartIcon },
               { id: 'members', label: `Crew (${members.length})`, icon: Users },
@@ -1416,6 +1490,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '2 Completed' : `${tasks.length - pendingTaskCount} Completed`}</p>
               </div>
             </div>
+
+            {/* Live Destination Weather & Sunrise Widget */}
+            <DestinationWeatherWidget destination={displayDestination} startDate={tripDetails?.startDate} />
 
             {/* Next Upcoming Activity Card */}
             <div className="bg-gradient-to-br from-brand-900 to-slate-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
@@ -1495,87 +1572,144 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {/* ========================================================= */}
         {activeTab === 'itinerary' && (
           <div className="space-y-6">
-            {/* Day Selector Pills & Responsive Action Controls */}
-            <div className="space-y-3 pb-3 border-b border-slate-200">
-              {/* Day Pills Bar */}
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                {tripDays.map((d) => (
-                  <button
-                    key={d.num}
-                    onClick={() => setSelectedDay(d.num)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
-                      selectedDay === d.num
-                        ? 'bg-brand-600 text-white shadow-md ring-2 ring-brand-400/40'
-                        : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-                    }`}
-                  >
-                    <span>{d.label}</span>
-                    <span className="block text-[10px] font-normal opacity-80">
-                      {new Date(`${d.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    </span>
-                  </button>
-                ))}
+            {/* View Mode Toggle: Timeline vs Interactive Map */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 text-white p-3.5 rounded-2xl border border-slate-800 shadow-sm">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-xs font-black tracking-wide text-slate-200 uppercase">Expedition Itinerary View</span>
               </div>
-
-              {/* Action Bar: Add Day / Delete Day / Add Activity */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
-                {can('EDIT_TRIP') && (
-                  <form onSubmit={handleAddDay} className="flex flex-wrap items-center gap-2">
-                    <input
-                      type="date"
-                      required
-                      value={newDayDate}
-                      onChange={(event) => setNewDayDate(event.target.value)}
-                      className="flex-1 sm:flex-none rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-                      aria-label="New itinerary day date"
-                    />
-                    <input
-                      value={newDayLabel}
-                      onChange={(event) => setNewDayLabel(event.target.value)}
-                      placeholder="Day title (e.g. Day 3)"
-                      className="flex-1 sm:w-36 rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-                      aria-label="New itinerary day title"
-                    />
-                    <button type="submit" className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors">
-                      <Plus className="h-3.5 w-3.5" />
-                      <span>Add Day</span>
-                    </button>
-                    {tripDays.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={handleDeleteDay}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2 text-xs font-bold text-red-700 transition-colors"
-                        title="Delete selected day"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                        <span className="hidden sm:inline">Delete Day</span>
-                      </button>
-                    )}
-                  </form>
-                )}
-
-                <div className="flex items-center gap-2 self-end sm:self-auto">
-                  {can('ADD_ACTIVITY') ? (
-                    <button
-                      onClick={() => setShowAddActivityModal(true)}
-                      disabled={tripDays.length === 0}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all"
-                    >
-                      <Plus className="w-4 h-4" />
-                      <span>+ Add Activity</span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
-                    >
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>Add Activity (Read-Only)</span>
-                    </button>
-                  )}
-                </div>
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={() => setItineraryViewMode('timeline')}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    itineraryViewMode === 'timeline'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Timeline View</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setItineraryViewMode('map')}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    itineraryViewMode === 'map'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Route className="w-3.5 h-3.5" />
+                  <span>Route Map View</span>
+                </button>
               </div>
             </div>
+
+            {/* If Route Map View is active */}
+            {itineraryViewMode === 'map' ? (
+              <ItineraryRouteMap
+                days={tripDays.map((d) => ({
+                  id: `day-${d.num}`,
+                  dayNumber: d.num,
+                  date: d.date,
+                  title: d.label,
+                  items: activitiesList
+                    .filter((a) => a.dayNumber === d.num)
+                    .map((a) => ({
+                      id: a.id,
+                      title: a.title,
+                      location: a.location,
+                      startTime: a.time,
+                      notes: a.description,
+                      leadName: a.responsible,
+                    })),
+                }))}
+                tripDestination={displayDestination}
+              />
+            ) : (
+              <>
+                {/* Day Selector Pills & Responsive Action Controls */}
+                <div className="space-y-3 pb-3 border-b border-slate-200">
+                  {/* Day Pills Bar */}
+                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                    {tripDays.map((d) => (
+                      <button
+                        key={d.num}
+                        onClick={() => setSelectedDay(d.num)}
+                        className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+                          selectedDay === d.num
+                            ? 'bg-brand-600 text-white shadow-md ring-2 ring-brand-400/40'
+                            : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                        }`}
+                      >
+                        <span>{d.label}</span>
+                        <span className="block text-[10px] font-normal opacity-80">
+                          {new Date(`${d.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Action Bar: Add Day / Delete Day / Add Activity */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+                    {can('EDIT_TRIP') && (
+                      <form onSubmit={handleAddDay} className="flex flex-wrap items-center gap-2">
+                        <input
+                          type="date"
+                          required
+                          value={newDayDate}
+                          onChange={(event) => setNewDayDate(event.target.value)}
+                          className="flex-1 sm:flex-none rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                          aria-label="New itinerary day date"
+                        />
+                        <input
+                          value={newDayLabel}
+                          onChange={(event) => setNewDayLabel(event.target.value)}
+                          placeholder="Day title (e.g. Day 3)"
+                          className="flex-1 sm:w-36 rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                          aria-label="New itinerary day title"
+                        />
+                        <button type="submit" className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors">
+                          <Plus className="h-3.5 w-3.5" />
+                          <span>Add Day</span>
+                        </button>
+                        {tripDays.length > 0 && (
+                          <button
+                            type="button"
+                            onClick={handleDeleteDay}
+                            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2 text-xs font-bold text-red-700 transition-colors"
+                            title="Delete selected day"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            <span className="hidden sm:inline">Delete Day</span>
+                          </button>
+                        )}
+                      </form>
+                    )}
+
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      {can('ADD_ACTIVITY') ? (
+                        <button
+                          onClick={() => setShowAddActivityModal(true)}
+                          disabled={tripDays.length === 0}
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>+ Add Activity</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
+                        >
+                          <Lock className="w-3.5 h-3.5" />
+                          <span>Add Activity (Read-Only)</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
             {/* Timeline for Selected Day */}
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
@@ -1641,6 +1775,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 )}
               </div>
             </div>
+            </>
+            )}
           </div>
         )}
 
@@ -1720,21 +1856,30 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                         <span className="text-base font-extrabold text-white">
                           ₹{dt.amount.toLocaleString()}
                         </span>
-                        {can('ADD_EXPENSE') ? (
+                        <div className="flex items-center gap-1.5">
                           <button
-                            onClick={() => setSettledDebtIds({ ...settledDebtIds, [dt.id]: !isSettled })}
-                            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
-                              isSettled
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-white/10 hover:bg-brand-500 text-slate-200 hover:text-white'
-                            }`}
+                            type="button"
+                            onClick={() => setSelectedUpiDebt(dt)}
+                            className="px-2.5 py-1 rounded-lg text-[11px] font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white flex items-center gap-1 shadow-sm transition-all active:scale-95"
                           >
-                            <Check className="w-3 h-3" />
-                            <span>{isSettled ? 'Settled' : 'Mark Paid'}</span>
+                            <Smartphone className="w-3 h-3" />
+                            <span>Pay UPI</span>
                           </button>
-                        ) : (
-                          <span className="text-[10px] text-slate-400 italic">Read-Only</span>
-                        )}
+                          {can('ADD_EXPENSE') && (
+                            <button
+                              type="button"
+                              onClick={() => setSettledDebtIds({ ...settledDebtIds, [dt.id]: !isSettled })}
+                              className={`px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
+                                isSettled
+                                  ? 'bg-emerald-500 text-white'
+                                  : 'bg-white/10 hover:bg-slate-700 text-slate-300 hover:text-white'
+                              }`}
+                            >
+                              <Check className="w-3 h-3" />
+                              <span>{isSettled ? 'Settled' : 'Mark Paid'}</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -1759,9 +1904,26 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
                         <h4 className="font-bold text-sm text-slate-900 leading-snug truncate">{exp.title}</h4>
-                        <span className="inline-block mt-1 text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200/60">
-                          {exp.category}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                          <span className="text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200/60">
+                            {exp.category}
+                          </span>
+                          {exp.originalCurrency && exp.originalAmount && (
+                            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
+                              {formatCurrencyWithSymbol(exp.originalAmount, exp.originalCurrency)}
+                            </span>
+                          )}
+                          {exp.receiptUrl && (
+                            <button
+                              type="button"
+                              onClick={() => setSelectedReceiptExpense(exp)}
+                              className="text-[10px] font-black text-emerald-700 bg-emerald-100/80 hover:bg-emerald-200 px-2 py-0.5 rounded-md border border-emerald-300 flex items-center gap-1 transition-colors"
+                            >
+                              <Receipt className="w-3 h-3" />
+                              <span>Receipt</span>
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div className="text-right shrink-0">
                         <span className="text-base font-extrabold text-slate-900">₹{formatExpenseAmount(exp.amount)}</span>
@@ -1805,6 +1967,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <thead>
                     <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
                       <th className="pb-3">Title & Category</th>
+                      <th className="pb-3">Receipt</th>
                       <th className="pb-3">Paid By</th>
                       <th className="pb-3">Date</th>
                       <th className="pb-3">Split Details</th>
@@ -1817,9 +1980,31 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       <tr key={exp.id} className="hover:bg-slate-50 transition-colors">
                         <td className="py-3.5">
                           <p className="font-bold text-slate-900">{exp.title}</p>
-                          <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">
-                            {exp.category}
-                          </span>
+                          <div className="flex items-center gap-1.5 mt-0.5">
+                            <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded">
+                              {exp.category}
+                            </span>
+                            {exp.originalCurrency && exp.originalAmount && (
+                              <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200/60">
+                                {formatCurrencyWithSymbol(exp.originalAmount, exp.originalCurrency)}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3.5">
+                          {exp.receiptUrl ? (
+                            <button
+                              type="button"
+                              onClick={() => setSelectedReceiptExpense(exp)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 text-[11px] font-bold transition-all shadow-2xs"
+                              title="View Attached Receipt"
+                            >
+                              <Receipt className="w-3.5 h-3.5" />
+                              <span>View</span>
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-[11px] italic">—</span>
+                          )}
                         </td>
                         <td className="py-3.5 font-medium text-slate-700">{exp.paidBy}</td>
                         <td className="py-3.5 text-slate-500">{exp.date}</td>
@@ -1994,7 +2179,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         )}
 
         {/* ========================================================= */}
-        {/* 5. EMERGENCY MODE TAB (Dynamic & Editable) */}
+        {/* 5. DOCUMENTS & TICKET VAULT TAB */}
+        {/* ========================================================= */}
+        {activeTab === 'documents' && (
+          <DocumentVaultSection canEdit={can('EDIT_TRIP')} tripId={params.id} tripName={displayTripName} />
+        )}
+
+        {/* ========================================================= */}
+        {/* 6. EMERGENCY MODE TAB (Dynamic & Editable) */}
         {/* ========================================================= */}
         {activeTab === 'emergency' && (
           <div className="space-y-6">
@@ -2973,19 +3165,29 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Modal: Add Activity */}
       {showAddActivityModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-            <h3 className="font-bold text-base text-slate-900 mb-4">Add Activity to Day {selectedDay}</h3>
-            <form onSubmit={handleAddActivity} className="space-y-3 text-xs">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
+              <h3 className="font-extrabold text-base text-slate-900">Add Activity to Day {selectedDay}</h3>
+              <button
+                type="button"
+                onClick={() => setShowAddActivityModal(false)}
+                className="p-1 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddActivity} className="overflow-y-auto flex-1 my-4 space-y-3.5 text-xs pr-1">
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Activity Title</label>
+                <label className="block font-semibold text-slate-700 mb-1">Activity Title *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Batasia Loop War Memorial"
                   value={newActivity.title}
                   onChange={(e) => setNewActivity({ ...newActivity, title: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
@@ -2995,7 +3197,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     type="time"
                     value={newActivity.startTime}
                     onChange={(e) => setNewActivity({ ...newActivity, startTime: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 <div>
@@ -3004,19 +3206,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     type="time"
                     value={newActivity.endTime}
                     onChange={(e) => setNewActivity({ ...newActivity, endTime: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
-              </div>
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Expense Date</label>
-                <input
-                  type="date"
-                  required
-                  value={newExpense.date || tripDetails?.startDate || ''}
-                  onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                />
               </div>
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">Location Name</label>
@@ -3025,7 +3217,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   placeholder="e.g. Batasia Loop, Darjeeling"
                   value={newActivity.locationName}
                   onChange={(e) => setNewActivity({ ...newActivity, locationName: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
               <div>
@@ -3034,20 +3226,21 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   type="number"
                   value={newActivity.estimatedCost}
                   onChange={(e) => setNewActivity({ ...newActivity, estimatedCost: Number(e.target.value) })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
-              <div className="pt-3 flex justify-end gap-2">
+
+              <div className="pt-3 flex justify-end gap-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowAddActivityModal(false)}
-                  className="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold shadow"
+                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-md cursor-pointer transition-all active:scale-95"
                 >
                   Save Activity
                 </button>
@@ -3059,79 +3252,175 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Modal: Add Expense */}
       {showAddExpenseModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-            <h3 className="font-bold text-base text-slate-900 mb-4">
-              {editingExpenseId ? 'Edit Group Expense' : 'Add Group Expense'}
-            </h3>
-            <form onSubmit={handleAddExpense} className="space-y-3 text-xs">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">Expense Title</label>
+                <h3 className="font-extrabold text-base text-slate-900">
+                  {editingExpenseId ? 'Edit Group Expense' : 'Log Group Expense'}
+                </h3>
+                <p className="text-xs text-slate-500">Split automatically among trip crew</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAddExpenseModal(false)}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddExpense} className="overflow-y-auto flex-1 my-4 space-y-3.5 text-xs pr-1">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Expense Description *</label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Tea Estate Lunch & Snacks"
+                  placeholder="e.g. Glenary's Dinner, Innova Fuel, Museum Tickets"
                   value={newExpense.title}
                   onChange={(e) => setNewExpense({ ...newExpense, title: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Amount (₹)</label>
+
+              {/* Amount & Multi-Currency Selector */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                <div className="sm:col-span-7">
+                  <label className="block font-bold text-slate-700 mb-1">Amount *</label>
                   <input
                     type="number"
                     required
+                    min="1"
+                    step="any"
                     value={newExpense.amount}
                     onChange={(e) => setNewExpense({ ...newExpense, amount: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
-                <div>
-                  <label className="block font-semibold text-slate-700 mb-1">Category</label>
+
+                <div className="sm:col-span-5">
+                  <label className="block font-bold text-slate-700 mb-1">Currency</label>
                   <select
-                    value={newExpense.category}
-                    onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value as any })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    value={newExpense.currency || 'INR'}
+                    onChange={(e) => setNewExpense({ ...newExpense, currency: e.target.value })}
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
-                    <option value="FOOD">FOOD & DINING</option>
-                    <option value="ACCOMMODATION">HOTEL</option>
-                    <option value="TRANSPORT">CAB & TRANSPORT</option>
-                    <option value="ACTIVITIES">TICKETS & ENTRY</option>
-                    <option value="SHOPPING">SHOPPING</option>
+                    {Object.values(SUPPORTED_CURRENCIES).map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.flag} {c.code} ({c.symbol})
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
-              <div>
-                <label className="block font-semibold text-slate-700 mb-1">Paid By</label>
-                <select
-                  value={newExpense.paidById}
-                  onChange={(e) => setNewExpense({ ...newExpense, paidById: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                >
-                  {members.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name} ({p.role})
-                    </option>
-                  ))}
-                </select>
+
+              {/* Currency Conversion Preview Badge (if foreign currency) */}
+              {newExpense.currency && newExpense.currency !== 'INR' && (
+                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] flex items-center justify-between">
+                  <span>
+                    Auto-converted: <strong>≈ ₹{formatExpenseAmount(convertCurrency(newExpense.amount, newExpense.currency, 'INR'))} INR</strong>
+                  </span>
+                  <span className="text-[10px] text-amber-600 font-semibold">
+                    1 {newExpense.currency} = ₹{SUPPORTED_CURRENCIES[newExpense.currency]?.rateToInr}
+                  </span>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Category</label>
+                  <select
+                    value={newExpense.category}
+                    onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value as any })}
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  >
+                    <option value="FOOD">🍔 FOOD & DINING</option>
+                    <option value="ACCOMMODATION">🏨 HOTEL / STAY</option>
+                    <option value="TRANSPORT">🚗 CAB & TRANSIT</option>
+                    <option value="ACTIVITIES">🎟️ TICKETS & ENTRY</option>
+                    <option value="SHOPPING">🛍️ SHOPPING</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Paid By</label>
+                  <select
+                    value={newExpense.paidById}
+                    onChange={(e) => setNewExpense({ ...newExpense, paidById: e.target.value })}
+                    className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  >
+                    {members.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name} ({p.role})
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <p className="text-[11px] text-slate-500 italic">
-                Split equally among all {members.length} active travelers (₹{formatExpenseAmount(newExpense.amount / Math.max(1, members.length))} per person).
-              </p>
-              <div className="pt-3 flex justify-end gap-2">
+
+              {/* Receipt Photo Attachment Section */}
+              <div className="space-y-1.5 pt-1">
+                <label className="block font-bold text-slate-700">Receipt / Bill Attachment</label>
+                {newExpense.receiptUrl ? (
+                  <div className="relative p-2 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={newExpense.receiptUrl}
+                        alt="Receipt preview"
+                        className="w-12 h-12 rounded-xl object-cover border border-slate-300 shrink-0"
+                      />
+                      <div className="truncate">
+                        <p className="text-xs font-bold text-slate-800 flex items-center gap-1">
+                          <Receipt className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Receipt attached</span>
+                        </p>
+                        <p className="text-[10px] text-slate-400 truncate">Photo saved with expense record</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setNewExpense({ ...newExpense, receiptUrl: '' })}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                      title="Remove receipt"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex items-center justify-center gap-2 p-3 rounded-2xl border-2 border-dashed border-slate-200 hover:border-emerald-500 bg-slate-50/60 hover:bg-emerald-50/20 text-slate-600 text-xs font-bold cursor-pointer transition-colors">
+                    <Camera className="w-4 h-4 text-emerald-600" />
+                    <span>Snap / Upload Receipt Photo</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleReceiptFileChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 flex items-center justify-between">
+                <span>Split equally:</span>
+                <strong className="text-slate-900 font-extrabold">
+                  ₹{formatExpenseAmount((newExpense.currency !== 'INR' ? convertCurrency(newExpense.amount, newExpense.currency, 'INR') : newExpense.amount) / Math.max(1, members.length))} per traveler
+                </strong>
+              </div>
+
+              <div className="pt-3 flex justify-end gap-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowAddExpenseModal(false)}
-                  className="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100"
+                  className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold shadow"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer"
                 >
-                  {editingExpenseId ? 'Save Changes' : 'Save & Split'}
+                  {editingExpenseId ? 'Save Changes' : 'Save & Split Bill'}
                 </button>
               </div>
             </form>
@@ -3141,9 +3430,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Edit Trip Details Modal */}
       {showEditTripModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
                   <Edit className="w-4 h-4" />
@@ -3153,13 +3442,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <button
                 type="button"
                 onClick={() => setShowEditTripModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEditTrip} className="mt-4 space-y-4">
+            <form onSubmit={handleSaveEditTrip} className="overflow-y-auto flex-1 my-4 space-y-4 pr-1">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Trip Name</label>
                 <input
@@ -3168,7 +3457,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   placeholder="e.g. Nepal Himalayan Expedition"
                   value={editTripForm.name}
                   onChange={(e) => setEditTripForm({ ...editTripForm, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
@@ -3180,7 +3469,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   placeholder="e.g. Kathmandu, Nepal"
                   value={editTripForm.destination}
                   onChange={(e) => setEditTripForm({ ...editTripForm, destination: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
@@ -3192,7 +3481,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     required
                     value={editTripForm.startDate}
                     onChange={(e) => setEditTripForm({ ...editTripForm, startDate: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 <div>
@@ -3202,7 +3491,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     required
                     value={editTripForm.endDate}
                     onChange={(e) => setEditTripForm({ ...editTripForm, endDate: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
               </div>
@@ -3214,7 +3503,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     type="number"
                     value={editTripForm.budget}
                     onChange={(e) => setEditTripForm({ ...editTripForm, budget: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 <div>
@@ -3222,7 +3511,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <select
                     value={editTripForm.status}
                     onChange={(e) => setEditTripForm({ ...editTripForm, status: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   >
                     <option value="PLANNING">Planning</option>
                     <option value="ACTIVE">Active</option>
@@ -3238,21 +3527,21 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   placeholder="Key goals or highlights..."
                   value={editTripForm.description}
                   onChange={(e) => setEditTripForm({ ...editTripForm, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
-              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowEditTripModal(false)}
-                  className="px-4 py-2 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100"
+                  className="px-4 py-2.5 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm"
+                  className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm cursor-pointer"
                 >
                   Save Changes
                 </button>
@@ -3261,11 +3550,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           </div>
         </div>
       )}
+
       {/* Modal: Add Emergency Contact */}
       {showAddEmergencyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center">
                   <ShieldAlert className="w-5 h-5" />
@@ -3278,13 +3568,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <button
                 type="button"
                 onClick={() => setShowAddEmergencyModal(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveNewEmergencyContact} className="space-y-4 text-xs">
+            <form onSubmit={handleSaveNewEmergencyContact} className="overflow-y-auto flex-1 my-4 space-y-4 text-xs pr-1">
               {/* Quick Category Chips */}
               <div>
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
@@ -3303,7 +3593,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       key={preset.label}
                       type="button"
                       onClick={() => setEmergencyForm({ ...emergencyForm, relationship: preset.rel })}
-                      className={`px-2.5 py-1 rounded-lg border font-semibold text-[11px] transition-all ${
+                      className={`px-2.5 py-1 rounded-lg border font-semibold text-[11px] transition-all cursor-pointer ${
                         emergencyForm.relationship === preset.rel
                           ? 'bg-slate-900 text-white border-slate-900'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -3397,17 +3687,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </span>
               </label>
 
-              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowAddEmergencyModal(false)}
-                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-md"
+                  className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-md cursor-pointer transition-all active:scale-95"
                 >
                   Save Emergency Contact
                 </button>
@@ -3419,9 +3709,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Modal: Edit Emergency Contact */}
       {showEditEmergencyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
                   <Pencil className="w-5 h-5" />
@@ -3434,13 +3724,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <button
                 type="button"
                 onClick={() => setShowEditEmergencyModal(false)}
-                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEditEmergencyContact} className="space-y-4 text-xs">
+            <form onSubmit={handleSaveEditEmergencyContact} className="overflow-y-auto flex-1 my-4 space-y-4 text-xs pr-1">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   Service / Provider Name <span className="text-red-500">*</span>
@@ -3518,17 +3808,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </span>
               </label>
 
-              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowEditEmergencyModal(false)}
-                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                  className="px-4 py-2.5 rounded-xl text-slate-600 font-semibold hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-md"
+                  className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-md cursor-pointer transition-all active:scale-95"
                 >
                   Update Contact
                 </button>
@@ -3540,9 +3830,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Modal: Edit Traveler Phone Number */}
       {showEditMemberPhoneModal && editingMemberForPhone && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-150">
-            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center font-bold">
                   📞
@@ -3557,13 +3847,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <button
                 type="button"
                 onClick={() => setShowEditMemberPhoneModal(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveMemberPhone} className="space-y-4 text-xs">
+            <form onSubmit={handleSaveMemberPhone} className="overflow-y-auto flex-1 my-4 space-y-4 text-xs pr-1">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
                   Traveler Phone Number
@@ -3582,7 +3872,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </p>
               </div>
 
-              <div className="pt-3 flex items-center justify-between border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-between border-t border-slate-100 shrink-0">
                 {editingMemberForPhone.phone ? (
                   <button
                     type="button"
@@ -3590,7 +3880,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       setShowEditMemberPhoneModal(false);
                       handleDeleteMemberPhone(editingMemberForPhone);
                     }}
-                    className="text-xs font-bold text-red-600 hover:text-red-800"
+                    className="text-xs font-bold text-red-600 hover:text-red-800 cursor-pointer"
                   >
                     Delete Number
                   </button>
@@ -3600,13 +3890,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <button
                     type="button"
                     onClick={() => setShowEditMemberPhoneModal(false)}
-                    className="px-3.5 py-2 rounded-xl text-slate-600 font-semibold hover:bg-slate-100"
+                    className="px-3.5 py-2 rounded-xl text-slate-600 font-semibold hover:bg-slate-100 cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-sm"
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-sm cursor-pointer transition-all active:scale-95"
                   >
                     Save Number
                   </button>
@@ -3802,10 +4092,109 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <p className="text-[10px] text-purple-300/80">Check packing & tickets</p>
                 </div>
               </button>
+
+              {/* View Document Vault */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setActiveTab('documents');
+                }}
+                className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <FileCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white">Document Vault</h4>
+                  <p className="text-[10px] text-teal-300/80">Flight, hotel & PNR tickets</p>
+                </div>
+              </button>
+
+              {/* Crew Live Chat */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setShowCrewChat(true);
+                }}
+                className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left flex flex-col justify-between gap-3 group transition-all col-span-2 sm:col-span-1"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>Crew Live Chat</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  </h4>
+                  <p className="text-[10px] text-emerald-300/80">Announcements & quick chat</p>
+                </div>
+              </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Floating Crew Chat Button (Bottom Left) */}
+      <button
+        type="button"
+        onClick={() => setShowCrewChat(true)}
+        className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 p-3 sm:px-4 sm:py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-xl hover:shadow-2xl shadow-emerald-500/20 active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer backdrop-blur-md"
+        title="Open Real-Time Crew Chat"
+      >
+        <div className="relative">
+          <MessageSquare className="w-4 h-4" />
+          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping" />
+        </div>
+        <span className="text-xs font-black hidden sm:inline">Crew Chat</span>
+        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-black/20 text-emerald-100">
+          Live
+        </span>
+      </button>
+
+      {/* 1-Tap UPI Settlement Modal */}
+      {selectedUpiDebt && (
+        <UPISettlementModal
+          isOpen={!!selectedUpiDebt}
+          onClose={() => setSelectedUpiDebt(null)}
+          fromUser={selectedUpiDebt.from}
+          toUser={selectedUpiDebt.to}
+          amount={selectedUpiDebt.amount}
+          tripName={displayTripName}
+          onMarkSettled={() => {
+            setSettledDebtIds({ ...settledDebtIds, [selectedUpiDebt.id]: true });
+          }}
+        />
+      )}
+
+      {/* Full-Screen Receipt Inspection Modal */}
+      {selectedReceiptExpense && (
+        <ReceiptPreviewModal
+          isOpen={!!selectedReceiptExpense}
+          onClose={() => setSelectedReceiptExpense(null)}
+          receiptUrl={selectedReceiptExpense.receiptUrl}
+          expenseTitle={selectedReceiptExpense.title}
+          amount={selectedReceiptExpense.amount}
+          currency={tripCurrency}
+          payerName={selectedReceiptExpense.paidBy}
+          category={selectedReceiptExpense.category}
+        />
+      )}
+
+      {/* Real-Time Crew Chat Drawer */}
+      <CrewChatDrawer
+        isOpen={showCrewChat}
+        onClose={() => setShowCrewChat(false)}
+        tripId={params.id}
+        tripName={displayTripName}
+        currentUser={{
+          id: user?.id || 'user-me',
+          name: user?.fullName || 'You',
+          role: currentRole,
+        }}
+        members={members}
+      />
     </div>
   );
 }

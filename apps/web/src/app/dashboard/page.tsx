@@ -1190,21 +1190,21 @@ function DashboardContent() {
 
       {/* 1. JOIN VIA CODE / LINK MODAL */}
       {showJoinModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
                   <Link2 className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-base text-slate-900">Join a Trip</h3>
               </div>
-              <button onClick={() => setShowJoinModal(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setShowJoinModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleJoinViaLink} className="mt-4 space-y-3">
+            <form onSubmit={handleJoinViaLink} className="overflow-y-auto flex-1 mt-4 space-y-3 pr-1">
               <p className="text-xs text-slate-500">
                 Paste an invitation link or token from a trip organizer:
               </p>
@@ -1217,7 +1217,7 @@ function DashboardContent() {
                   setJoinLinkInput(e.target.value);
                   setJoinError(null);
                 }}
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
               {joinError && <p className="text-xs text-red-600 font-medium">{joinError}</p>}
 
@@ -1225,13 +1225,13 @@ function DashboardContent() {
                 <button
                   type="button"
                   onClick={() => setShowJoinModal(false)}
-                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-sm"
+                  className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-sm cursor-pointer"
                 >
                   Join Trip
                 </button>
@@ -1243,21 +1243,24 @@ function DashboardContent() {
 
       {/* 2. PACKING CHECKLIST MODAL */}
       {showPackingModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-ocean-100 text-ocean-700 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-ocean-100 text-ocean-700 flex items-center justify-center shadow-xs">
                   <Luggage className="w-4 h-4" />
                 </div>
-                <h3 className="font-bold text-base text-slate-900">Trip Packing Checklist</h3>
+                <div>
+                  <h3 className="font-extrabold text-base text-slate-900">Trip Packing Checklist</h3>
+                  <p className="text-[11px] text-slate-500">Essential travel gear & documents</p>
+                </div>
               </div>
-              <button onClick={() => setShowPackingModal(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setShowPackingModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="mt-4 space-y-2">
+            <div className="overflow-y-auto flex-1 my-4 space-y-2.5 pr-1">
               {packingList.map((item) => (
                 <div
                   key={item.id}
@@ -1266,8 +1269,8 @@ function DashboardContent() {
                       prev.map((i) => (i.id === item.id ? { ...i, checked: !i.checked } : i))
                     );
                   }}
-                  className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-colors ${
-                    item.checked ? 'bg-emerald-50/60 border-emerald-200 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700'
+                  className={`p-3.5 rounded-2xl border flex items-center justify-between cursor-pointer transition-colors ${
+                    item.checked ? 'bg-emerald-50/70 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -1278,7 +1281,7 @@ function DashboardContent() {
                       className="rounded text-brand-600 focus:ring-brand-500 h-4 w-4 pointer-events-none"
                     />
                     <div>
-                      <p className={`text-xs font-semibold ${item.checked ? 'line-through opacity-80' : ''}`}>
+                      <p className={`text-xs font-bold ${item.checked ? 'line-through opacity-75' : ''}`}>
                         {item.name}
                       </p>
                       <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
@@ -1290,11 +1293,11 @@ function DashboardContent() {
               ))}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-100 flex justify-end">
+            <div className="pt-3 border-t border-slate-100 flex justify-end shrink-0">
               <button
                 type="button"
                 onClick={() => setShowPackingModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs"
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm cursor-pointer transition-all active:scale-95"
               >
                 Done
               </button>
@@ -1305,21 +1308,21 @@ function DashboardContent() {
 
       {/* 3. SPLIT CALCULATOR MODAL */}
       {showSplitCalcModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
                   <Calculator className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-base text-slate-900">Quick Bill Splitter</h3>
               </div>
-              <button onClick={() => setShowSplitCalcModal(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setShowSplitCalcModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="mt-4 space-y-3 text-xs">
+            <div className="overflow-y-auto flex-1 my-4 space-y-3 text-xs pr-1">
               <div>
                 <label className="block text-slate-600 font-semibold mb-1">Total Bill Amount (₹)</label>
                 <input
@@ -1365,11 +1368,11 @@ function DashboardContent() {
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-100 flex justify-end">
+            <div className="pt-3 border-t border-slate-100 flex justify-end shrink-0">
               <button
                 type="button"
                 onClick={() => setShowSplitCalcModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs"
+                className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs cursor-pointer"
               >
                 Close
               </button>
@@ -1380,9 +1383,9 @@ function DashboardContent() {
 
       {/* 4. EDIT TRIP MODAL */}
       {showEditModal && editingTrip && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
                   <Pencil className="w-4 h-4" />
@@ -1394,13 +1397,13 @@ function DashboardContent() {
                   setShowEditModal(false);
                   setEditingTrip(null);
                 }}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEditTrip} className="mt-4 space-y-4">
+            <form onSubmit={handleSaveEditTrip} className="overflow-y-auto flex-1 my-4 space-y-4 pr-1">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Trip Name</label>
                 <input
@@ -1409,7 +1412,7 @@ function DashboardContent() {
                   placeholder="e.g. Nepal Himalayan Expedition"
                   value={editingTrip.name}
                   onChange={(e) => setEditingTrip({ ...editingTrip, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
@@ -1427,10 +1430,10 @@ function DashboardContent() {
                       setEditingTrip({ ...editingTrip, destination: e.target.value, coverImage: null });
                       setDestinationSuggestions([]);
                     }}
-                    className="w-full rounded-full border border-slate-300 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full rounded-xl border border-slate-300 py-2.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                   {(destinationSuggestions.length > 0 || isLoadingSuggestions) && (
-                    <div className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+                    <div className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg max-h-48 overflow-y-auto">
                       {isLoadingSuggestions && <div className="px-3 py-2 text-xs text-slate-500">Finding places...</div>}
                       {destinationSuggestions.map((place) => (
                         <button
@@ -1443,10 +1446,10 @@ function DashboardContent() {
                             <img
                               src={place.imageUrl}
                               alt=""
-                              className="h-14 w-14 shrink-0 rounded-md object-cover"
+                              className="h-12 w-12 shrink-0 rounded-md object-cover"
                             />
                           ) : (
-                            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700">
                               <MapPin className="h-5 w-5" />
                             </div>
                           )}
@@ -1454,7 +1457,7 @@ function DashboardContent() {
                             <span className="block truncate text-sm font-bold text-slate-900">
                               {place.display_name.split(',')[0]}
                             </span>
-                            <span className="mt-1 block truncate text-xs text-slate-500">
+                            <span className="mt-0.5 block truncate text-xs text-slate-500">
                               {place.display_name.split(',').slice(1).join(',').trim() || 'Location'}
                             </span>
                           </span>
@@ -1523,21 +1526,21 @@ function DashboardContent() {
                 />
               </div>
 
-              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => {
                     setShowEditModal(false);
                     setEditingTrip(null);
                   }}
-                  className="px-4 py-2 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100"
+                  className="px-4 py-2 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isResolvingImage}
-                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-xs font-bold shadow-sm"
+                  className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-xs font-bold shadow-sm cursor-pointer"
                 >
                   Save Changes
                 </button>
@@ -1549,38 +1552,41 @@ function DashboardContent() {
 
       {/* 5. CREATE TRIP MODAL */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center">
-                  <Compass className="w-4 h-4" />
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center shadow-xs">
+                  <Compass className="w-5 h-5" />
                 </div>
-                <h2 className="font-bold text-lg text-slate-900">Plan a New Group Trip</h2>
+                <div>
+                  <h2 className="font-extrabold text-lg text-slate-900">Plan a New Group Trip</h2>
+                  <p className="text-[11px] text-slate-500">Collaborate with your travel crew</p>
+                </div>
               </div>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateTrip} className="mt-4 space-y-4">
+            <form onSubmit={handleCreateTrip} className="overflow-y-auto flex-1 my-4 space-y-4 pr-1">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Trip Name</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Trip Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Manali Snow Expedition"
                   value={newTrip.name}
                   onChange={(e) => setNewTrip({ ...newTrip, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Destination</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Destination *</label>
                 <div className="relative">
                   <Search className="pointer-events-none absolute left-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-600" />
                   <input
@@ -1593,10 +1599,10 @@ function DashboardContent() {
                       setNewTrip({ ...newTrip, destination: e.target.value, coverImage: null });
                       setDestinationSuggestions([]);
                     }}
-                    className="w-full rounded-full border border-slate-300 py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full rounded-xl border border-slate-300 py-2.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                   {(destinationSuggestions.length > 0 || isLoadingSuggestions) && (
-                    <div className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+                    <div className="absolute left-0 right-0 top-full z-10 mt-1 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg max-h-48 overflow-y-auto">
                       {isLoadingSuggestions && <div className="px-3 py-2 text-xs text-slate-500">Finding places...</div>}
                       {destinationSuggestions.map((place) => (
                         <button
@@ -1609,10 +1615,10 @@ function DashboardContent() {
                             <img
                               src={place.imageUrl}
                               alt=""
-                              className="h-14 w-14 shrink-0 rounded-md object-cover"
+                              className="h-12 w-12 shrink-0 rounded-md object-cover"
                             />
                           ) : (
-                            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-700">
                               <MapPin className="h-5 w-5" />
                             </div>
                           )}
@@ -1620,7 +1626,7 @@ function DashboardContent() {
                             <span className="block truncate text-sm font-bold text-slate-900">
                               {place.display_name.split(',')[0]}
                             </span>
-                            <span className="mt-1 block truncate text-xs text-slate-500">
+                            <span className="mt-0.5 block truncate text-xs text-slate-500">
                               {place.display_name.split(',').slice(1).join(',').trim() || 'Location'}
                             </span>
                           </span>
@@ -1640,7 +1646,7 @@ function DashboardContent() {
                     required
                     value={newTrip.startDate}
                     onChange={(e) => setNewTrip({ ...newTrip, startDate: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 <div>
@@ -1650,7 +1656,7 @@ function DashboardContent() {
                     required
                     value={newTrip.endDate}
                     onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
               </div>
@@ -1662,7 +1668,7 @@ function DashboardContent() {
                     type="number"
                     value={newTrip.budget}
                     onChange={(e) => setNewTrip({ ...newTrip, budget: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
                 <div>
@@ -1671,7 +1677,7 @@ function DashboardContent() {
                     type="text"
                     value={newTrip.currency}
                     onChange={(e) => setNewTrip({ ...newTrip, currency: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
               </div>
@@ -1683,22 +1689,22 @@ function DashboardContent() {
                   placeholder="Key goals or highlights for the group..."
                   value={newTrip.description}
                   onChange={(e) => setNewTrip({ ...newTrip, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
 
-              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+              <div className="pt-3 flex items-center justify-end gap-2 border-t border-slate-100 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 rounded-lg text-slate-600 text-xs font-semibold hover:bg-slate-100"
+                  className="px-4 py-2.5 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isResolvingImage}
-                  className="px-5 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 disabled:cursor-wait disabled:opacity-60 text-white text-xs font-semibold shadow-md"
+                  className="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:cursor-wait disabled:opacity-60 text-white text-xs font-bold shadow-md cursor-pointer transition-all active:scale-95"
                 >
                   {isResolvingImage ? 'Finding photo...' : 'Create Trip'}
                 </button>

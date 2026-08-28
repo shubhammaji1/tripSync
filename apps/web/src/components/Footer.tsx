@@ -17,14 +17,11 @@ export function Footer() {
                 <span className="text-base font-black tracking-tight text-white group-hover:text-emerald-400 transition-colors">
                   TripSync
                 </span>
-                <span className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-400 -mt-1">
-                  Travel OS
-                </span>
               </div>
             </Link>
 
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              The collaborative operating system for modern group travel. Plan itineraries together, eliminate awkward bill splits with automated settlements, and keep everyone safe in real time.
+              The collaborative platform for modern group travel. Plan itineraries together, eliminate awkward bill splits with automated settlements, and keep everyone safe in real time.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">

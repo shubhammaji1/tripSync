@@ -29,9 +29,6 @@ export function Navbar() {
               <span className="truncate text-xl sm:text-2xl font-black tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
                 TripSync
               </span>
-              <span className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.2em] text-emerald-600">
-                Travel OS
-              </span>
             </div>
           </Link>
 
