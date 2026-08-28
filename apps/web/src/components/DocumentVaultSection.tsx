@@ -26,10 +26,12 @@ import {
   Paperclip,
 } from 'lucide-react';
 
+import { emitTripActivity } from '@/components/LiveActivityFeedDrawer';
+
 export interface TravelDocument {
   id: string;
   title: string;
-  category: 'FLIGHT' | 'HOTEL' | 'TRANSPORT' | 'PERMIT' | 'PASS' | 'OTHER';
+  category: 'FLIGHT' | 'HOTEL' | 'TRANSPORT' | 'PERMIT' | 'PASS' | 'INSURANCE' | 'ACTIVITY' | 'VISA' | 'OTHER';
   provider: string;
   referenceNumber: string; // PNR, Booking ID, Permit ID
   travelDate?: string;
@@ -38,7 +40,7 @@ export interface TravelDocument {
   fileName?: string;
   fileSize?: string;
   addedBy?: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 interface DocumentVaultSectionProps {
@@ -155,6 +157,14 @@ export function DocumentVaultSection({
     };
 
     saveDocuments([doc, ...documents]);
+    if (tripId) {
+      emitTripActivity(tripId, {
+        type: 'DOC_UPLOAD',
+        title: 'Document Added to Vault',
+        description: `"${doc.title}" (${doc.category}) registered with ref ${doc.referenceNumber}`,
+        actorName: 'Traveler',
+      });
+    }
     setShowAddModal(false);
     setNewDoc({
       title: '',

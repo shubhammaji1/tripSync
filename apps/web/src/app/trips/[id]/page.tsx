@@ -60,6 +60,7 @@ import {
   UploadCloud,
   ImageIcon,
   MessageSquare,
+  Bell,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -71,6 +72,7 @@ import { DestinationWeatherWidget } from '@/components/DestinationWeatherWidget'
 import { DocumentVaultSection } from '@/components/DocumentVaultSection';
 import { ReceiptPreviewModal } from '@/components/ReceiptPreviewModal';
 import { CrewChatDrawer } from '@/components/CrewChatDrawer';
+import { LiveActivityFeedDrawer, emitTripActivity } from '@/components/LiveActivityFeedDrawer';
 import { SUPPORTED_CURRENCIES, convertCurrency, formatCurrencyWithSymbol } from '@/lib/currencies';
 import {
   PieChart,
@@ -405,6 +407,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   // Real-Time Crew Chat Drawer State
   const [showCrewChat, setShowCrewChat] = useState(false);
 
+  // Real-Time Live Activity Feed Drawer State
+  const [showActivityFeed, setShowActivityFeed] = useState(false);
+
   // Tasks local state
   const [newTask, setNewTask] = useState({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
   const [tasks, setTasks] = useState([
@@ -499,6 +504,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         sortOrder: activitiesList.length,
       });
       setActivitiesList((current) => [...current, { ...newAct, id: saved.id || newAct.id }]);
+      emitTripActivity(params.id, {
+        type: 'SCHEDULE_CHANGE',
+        title: 'Schedule Updated',
+        description: `Added "${newAct.title}" to Day ${selectedDay}${newActivity.startTime ? ` (${newActivity.startTime})` : ''}`,
+        actorName: user?.fullName || user?.name || 'Organizer',
+      });
     } catch (reason: any) {
       setActionAlert(reason.message || 'Activity could not be saved.');
       return;
@@ -603,6 +614,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         })),
       });
       setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
+      emitTripActivity(params.id, {
+        type: 'NEW_EXPENSE',
+        title: 'New Group Bill Logged',
+        description: `₹${baseAmount.toLocaleString('en-IN')} for "${newEntry.title}" (Paid by ${payer})`,
+        actorName: user?.fullName || user?.name || payer,
+      });
     } catch (reason: any) {
       setActionAlert(reason.message || 'Expense could not be saved.');
       return;
@@ -1394,8 +1411,21 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </p>
             </div>
 
-            {/* Quick Spend Counter & Crew Chat */}
-            <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-3">
+            {/* Quick Spend Counter, Live Activity Feed & Crew Chat */}
+            <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5">
+              <button
+                type="button"
+                onClick={() => setShowActivityFeed(true)}
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 backdrop-blur-md text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
+                title="Open Real-Time Activity Feed & Notifications"
+              >
+                <div className="relative">
+                  <Bell className="w-4 h-4 text-sky-400" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                </div>
+                <span>Activity Feed</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setShowCrewChat(true)}
@@ -4194,6 +4224,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           role: currentRole,
         }}
         members={members}
+      />
+
+      {/* Real-Time Live Activity Feed & Push Notifications Drawer */}
+      <LiveActivityFeedDrawer
+        tripId={params.id}
+        isOpen={showActivityFeed}
+        onClose={() => setShowActivityFeed(false)}
+        currentUser={user}
       />
     </div>
   );

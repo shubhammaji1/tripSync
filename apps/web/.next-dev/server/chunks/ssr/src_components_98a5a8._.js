@@ -1973,8 +1973,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lu
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FileCheck$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/file-check.js [app-ssr] (ecmascript) <export default as FileCheck>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cloud$2d$upload$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UploadCloud$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/cloud-upload.js [app-ssr] (ecmascript) <export default as UploadCloud>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$paperclip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Paperclip$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/paperclip.js [app-ssr] (ecmascript) <export default as Paperclip>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/LiveActivityFeedDrawer.tsx [app-ssr] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
 'use client';
+;
 ;
 ;
 ;
@@ -2067,6 +2069,14 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
             doc,
             ...documents
         ]);
+        if (tripId) {
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["emitTripActivity"])(tripId, {
+                type: 'DOC_UPLOAD',
+                title: 'Document Added to Vault',
+                description: `"${doc.title}" (${doc.category}) registered with ref ${doc.referenceNumber}`,
+                actorName: 'Traveler'
+            });
+        }
         setShowAddModal(false);
         setNewDoc({
             title: '',
@@ -2099,7 +2109,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 190,
+                        lineNumber: 200,
                         columnNumber: 41
                     }, this),
                     color: 'bg-sky-500/20 text-sky-300 border-sky-500/30'
@@ -2111,7 +2121,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 192,
+                        lineNumber: 202,
                         columnNumber: 48
                     }, this),
                     color: 'bg-purple-500/20 text-purple-300 border-purple-500/30'
@@ -2123,7 +2133,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 194,
+                        lineNumber: 204,
                         columnNumber: 48
                     }, this),
                     color: 'bg-amber-500/20 text-amber-300 border-amber-500/30'
@@ -2135,7 +2145,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 196,
+                        lineNumber: 206,
                         columnNumber: 47
                     }, this),
                     color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
@@ -2147,7 +2157,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 198,
+                        lineNumber: 208,
                         columnNumber: 50
                     }, this),
                     color: 'bg-rose-500/20 text-rose-300 border-rose-500/30'
@@ -2159,7 +2169,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                         className: "w-3.5 h-3.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 200,
+                        lineNumber: 210,
                         columnNumber: 43
                     }, this),
                     color: 'bg-slate-500/20 text-slate-300 border-slate-500/30'
@@ -2185,14 +2195,14 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                 className: "w-3 h-3 inline mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 221,
                                                 columnNumber: 15
                                             }, this),
                                             "Document Vault"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 220,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2205,13 +2215,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 214,
+                                        lineNumber: 224,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 209,
+                                lineNumber: 219,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2221,7 +2231,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                         children: "Group Travel Tickets & Vouchers"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 219,
+                                        lineNumber: 229,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2229,13 +2239,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                         children: "📁"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 220,
+                                        lineNumber: 230,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 218,
+                                lineNumber: 228,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2243,13 +2253,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 children: "Upload actual PDF boarding passes, hotel confirmation vouchers, transport agreements, and entry permits for everyone in your trip."
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 222,
+                                lineNumber: 232,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 208,
+                        lineNumber: 218,
                         columnNumber: 9
                     }, this),
                     canEdit ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2260,20 +2270,20 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 className: "w-4 h-4"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 233,
+                                lineNumber: 243,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Upload Ticket / Document"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 234,
+                                lineNumber: 244,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 229,
+                        lineNumber: 239,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400",
@@ -2282,26 +2292,26 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 className: "w-3.5 h-3.5"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 238,
+                                lineNumber: 248,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Viewer Access (Read-Only)"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 239,
+                                lineNumber: 249,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 237,
+                        lineNumber: 247,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                lineNumber: 207,
+                lineNumber: 217,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2336,12 +2346,12 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 children: cat.label
                             }, cat.id, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 255,
+                                lineNumber: 265,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 247,
+                        lineNumber: 257,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2351,7 +2361,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 className: "w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 271,
+                                lineNumber: 281,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2362,19 +2372,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 className: "w-full pl-9 pr-3.5 py-2 rounded-xl border border-slate-300 bg-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 272,
+                                lineNumber: 282,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 270,
+                        lineNumber: 280,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                lineNumber: 245,
+                lineNumber: 255,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2400,13 +2410,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: badge.label
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 299,
+                                                            lineNumber: 309,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 295,
+                                                    lineNumber: 305,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2414,13 +2424,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: doc.travelDate
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 302,
+                                                    lineNumber: 312,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 294,
+                                            lineNumber: 304,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2430,7 +2440,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: doc.title
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 308,
+                                                    lineNumber: 318,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2442,19 +2452,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: doc.provider
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 312,
+                                                            lineNumber: 322,
                                                             columnNumber: 31
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 311,
+                                                    lineNumber: 321,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 317,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2467,7 +2477,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "PNR / Booking Reference"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 319,
+                                                            lineNumber: 329,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2475,13 +2485,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: doc.referenceNumber
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 322,
+                                                            lineNumber: 332,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 318,
+                                                    lineNumber: 328,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2493,32 +2503,32 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             className: "w-3.5 h-3.5 text-emerald-600"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 332,
+                                                            lineNumber: 342,
                                                             columnNumber: 33
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$copy$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Copy$3e$__["Copy"], {
                                                             className: "w-3.5 h-3.5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 332,
+                                                            lineNumber: 342,
                                                             columnNumber: 86
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: isCopied ? 'Copied' : 'Copy'
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 333,
+                                                            lineNumber: 343,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 327,
+                                                    lineNumber: 337,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 317,
+                                            lineNumber: 327,
                                             columnNumber: 17
                                         }, this),
                                         doc.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2529,7 +2539,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 338,
+                                            lineNumber: 348,
                                             columnNumber: 19
                                         }, this),
                                         doc.fileName && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2542,7 +2552,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             className: "w-3.5 h-3.5 text-emerald-600 shrink-0"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 346,
+                                                            lineNumber: 356,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -2550,13 +2560,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: doc.fileName
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 347,
+                                                            lineNumber: 357,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 345,
+                                                    lineNumber: 355,
                                                     columnNumber: 21
                                                 }, this),
                                                 doc.fileSize && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2564,19 +2574,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: doc.fileSize
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 350,
+                                                    lineNumber: 360,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 344,
+                                            lineNumber: 354,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 293,
+                                    lineNumber: 303,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2590,7 +2600,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 358,
+                                            lineNumber: 368,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2605,20 +2615,20 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             className: "w-3.5 h-3.5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 369,
+                                                            lineNumber: 379,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Download"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 370,
+                                                            lineNumber: 380,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 364,
+                                                    lineNumber: 374,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2629,20 +2639,20 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             className: "w-3.5 h-3.5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 378,
+                                                            lineNumber: 388,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "View"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 379,
+                                                            lineNumber: 389,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 374,
+                                                    lineNumber: 384,
                                                     columnNumber: 19
                                                 }, this),
                                                 canEdit && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2653,30 +2663,30 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                         className: "w-3.5 h-3.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                        lineNumber: 388,
+                                                        lineNumber: 398,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 383,
+                                                    lineNumber: 393,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 362,
+                                            lineNumber: 372,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 357,
+                                    lineNumber: 367,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, doc.id, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 289,
+                            lineNumber: 299,
                             columnNumber: 13
                         }, this);
                     }),
@@ -2689,12 +2699,12 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                     className: "w-6 h-6"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 400,
+                                    lineNumber: 410,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 399,
+                                lineNumber: 409,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -2702,7 +2712,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 children: "No documents uploaded yet"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 402,
+                                lineNumber: 412,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2710,19 +2720,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                 children: 'Click "Upload Ticket / Document" above to attach real PDF boarding passes, hotel vouchers, and permits.'
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                lineNumber: 403,
+                                lineNumber: 413,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                        lineNumber: 398,
+                        lineNumber: 408,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                lineNumber: 283,
+                lineNumber: 293,
                 columnNumber: 7
             }, this),
             showAddModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2741,7 +2751,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Upload Ticket or Voucher"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 418,
+                                            lineNumber: 428,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2749,13 +2759,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Attach real files & reference numbers for your crew"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 419,
+                                            lineNumber: 429,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 417,
+                                    lineNumber: 427,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2765,18 +2775,18 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 425,
+                                        lineNumber: 435,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 421,
+                                    lineNumber: 431,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 416,
+                            lineNumber: 426,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -2791,7 +2801,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Attach File (PDF, Image, Voucher)"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 432,
+                                            lineNumber: 442,
                                             columnNumber: 17
                                         }, this),
                                         newDoc.fileName ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2804,7 +2814,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             className: "w-4 h-4 text-emerald-400 shrink-0"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 436,
+                                                            lineNumber: 446,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2815,7 +2825,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                                     children: newDoc.fileName
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                                    lineNumber: 438,
+                                                                    lineNumber: 448,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2823,19 +2833,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                                     children: newDoc.fileSize
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                                    lineNumber: 439,
+                                                                    lineNumber: 449,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 437,
+                                                            lineNumber: 447,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 435,
+                                                    lineNumber: 445,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2851,18 +2861,18 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                        lineNumber: 447,
+                                                        lineNumber: 457,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 442,
+                                                    lineNumber: 452,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 434,
+                                            lineNumber: 444,
                                             columnNumber: 19
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                             className: "flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 border-dashed border-slate-700 hover:border-emerald-500 bg-slate-950/60 hover:bg-emerald-950/20 text-slate-400 hover:text-emerald-300 text-xs font-semibold cursor-pointer transition-colors",
@@ -2871,14 +2881,14 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     className: "w-6 h-6 text-emerald-400"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 452,
+                                                    lineNumber: 462,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "Click to select PDF or image ticket from your phone/laptop"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 453,
+                                                    lineNumber: 463,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2888,19 +2898,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     className: "hidden"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 454,
+                                                    lineNumber: 464,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 451,
+                                            lineNumber: 461,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 431,
+                                    lineNumber: 441,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2911,7 +2921,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Document Title *"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 465,
+                                            lineNumber: 475,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2926,13 +2936,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             className: "w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 466,
+                                            lineNumber: 476,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 464,
+                                    lineNumber: 474,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2946,7 +2956,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: "Category"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 478,
+                                                    lineNumber: 488,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -2962,7 +2972,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "✈️ Flight Boarding Pass"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 484,
+                                                            lineNumber: 494,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2970,7 +2980,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "🏨 Hotel Voucher"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 485,
+                                                            lineNumber: 495,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2978,7 +2988,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "🚗 Cab / Train Ticket"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 486,
+                                                            lineNumber: 496,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2986,7 +2996,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "🏔️ Entry Permit"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 487,
+                                                            lineNumber: 497,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -2994,7 +3004,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "🎟️ Attraction Pass"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 488,
+                                                            lineNumber: 498,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3002,19 +3012,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                             children: "📄 General Document"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                            lineNumber: 489,
+                                                            lineNumber: 499,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 479,
+                                                    lineNumber: 489,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 477,
+                                            lineNumber: 487,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3025,7 +3035,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: "PNR / Reference Code *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 494,
+                                                    lineNumber: 504,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3040,19 +3050,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     className: "w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white font-mono placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 495,
+                                                    lineNumber: 505,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 493,
+                                            lineNumber: 503,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 476,
+                                    lineNumber: 486,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3066,7 +3076,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: "Provider / Airline / Hotel"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 508,
+                                                    lineNumber: 518,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3080,13 +3090,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     className: "w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 509,
+                                                    lineNumber: 519,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 507,
+                                            lineNumber: 517,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3097,7 +3107,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     children: "Travel Date / Time"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 519,
+                                                    lineNumber: 529,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3111,19 +3121,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                                     className: "w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                                    lineNumber: 520,
+                                                    lineNumber: 530,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 518,
+                                            lineNumber: 528,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 506,
+                                    lineNumber: 516,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3134,7 +3144,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Notes / Seat Numbers / Instructions"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 531,
+                                            lineNumber: 541,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -3148,13 +3158,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             className: "w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 532,
+                                            lineNumber: 542,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 530,
+                                    lineNumber: 540,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3167,7 +3177,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 542,
+                                            lineNumber: 552,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3176,30 +3186,30 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Save to Group Vault"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 549,
+                                            lineNumber: 559,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 541,
+                                    lineNumber: 551,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 429,
+                            lineNumber: 439,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                    lineNumber: 415,
+                    lineNumber: 425,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                lineNumber: 414,
+                lineNumber: 424,
                 columnNumber: 9
             }, this),
             previewDoc && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3220,7 +3230,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 569,
+                                            lineNumber: 579,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -3228,7 +3238,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.title
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 572,
+                                            lineNumber: 582,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3236,13 +3246,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.provider
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 573,
+                                            lineNumber: 583,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 568,
+                                    lineNumber: 578,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3252,18 +3262,18 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                        lineNumber: 579,
+                                        lineNumber: 589,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 575,
+                                    lineNumber: 585,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 567,
+                            lineNumber: 577,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3277,7 +3287,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "PNR / Ref:"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 585,
+                                            lineNumber: 595,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3285,13 +3295,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.referenceNumber
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 586,
+                                            lineNumber: 596,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 584,
+                                    lineNumber: 594,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3302,7 +3312,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Travel Date:"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 589,
+                                            lineNumber: 599,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3310,13 +3320,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.travelDate || 'Trip Dates'
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 590,
+                                            lineNumber: 600,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 588,
+                                    lineNumber: 598,
                                     columnNumber: 15
                                 }, this),
                                 previewDoc.fileName && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3327,7 +3337,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "File:"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 594,
+                                            lineNumber: 604,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3335,13 +3345,13 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.fileName
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 595,
+                                            lineNumber: 605,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 593,
+                                    lineNumber: 603,
                                     columnNumber: 17
                                 }, this),
                                 previewDoc.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3352,7 +3362,7 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: "Notes:"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 600,
+                                            lineNumber: 610,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3360,19 +3370,19 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             children: previewDoc.notes
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 601,
+                                            lineNumber: 611,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 599,
+                                    lineNumber: 609,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 583,
+                            lineNumber: 593,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3386,20 +3396,20 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             className: "w-3.5 h-3.5"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 611,
+                                            lineNumber: 621,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: copiedId === previewDoc.id ? 'Copied' : 'Copy Reference'
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 612,
+                                            lineNumber: 622,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 607,
+                                    lineNumber: 617,
                                     columnNumber: 15
                                 }, this),
                                 previewDoc.fileUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -3411,43 +3421,43 @@ function DocumentVaultSection({ canEdit, tripId, tripName = 'Expedition' }) {
                                             className: "w-3.5 h-3.5"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 620,
+                                            lineNumber: 630,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             children: "Download File"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                            lineNumber: 621,
+                                            lineNumber: 631,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                                    lineNumber: 615,
+                                    lineNumber: 625,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                            lineNumber: 606,
+                            lineNumber: 616,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                    lineNumber: 566,
+                    lineNumber: 576,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-                lineNumber: 565,
+                lineNumber: 575,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/web/src/components/DocumentVaultSection.tsx",
-        lineNumber: 205,
+        lineNumber: 215,
         columnNumber: 5
     }, this);
 }

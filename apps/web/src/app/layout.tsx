@@ -5,6 +5,7 @@ import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PWAInstallPrompt } from '@/components/PWAInstallPrompt';
+import { MountainOfflineSentinel } from '@/components/MountainOfflineSentinel';
 import { AuthProvider } from '@/lib/auth-context';
 import { ApiAuthBridge } from '@/components/ApiAuthBridge';
 
@@ -47,6 +48,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
             <PWAInstallPrompt />
+            <MountainOfflineSentinel />
           </AuthProvider>
         </ClerkProvider>
       </body>

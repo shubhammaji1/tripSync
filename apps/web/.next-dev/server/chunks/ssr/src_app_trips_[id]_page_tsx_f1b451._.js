@@ -46,6 +46,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lu
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$receipt$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Receipt$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/receipt.js [app-ssr] (ecmascript) <export default as Receipt>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$camera$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Camera$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/camera.js [app-ssr] (ecmascript) <export default as Camera>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/message-square.js [app-ssr] (ecmascript) <export default as MessageSquare>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bell$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/bell.js [app-ssr] (ecmascript) <export default as Bell>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/utils.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$api$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/api.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$auth$2d$context$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/auth-context.tsx [app-ssr] (ecmascript)");
@@ -56,6 +57,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$compon
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$DocumentVaultSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/DocumentVaultSection.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$ReceiptPreviewModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/ReceiptPreviewModal.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$CrewChatDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/CrewChatDrawer.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/components/LiveActivityFeedDrawer.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$currencies$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/currencies.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$PieChart$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/recharts@2.15.4_react-dom@18.3.1_react@18.3.1/node_modules/recharts/es6/chart/PieChart.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$polar$2f$Pie$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/recharts@2.15.4_react-dom@18.3.1_react@18.3.1/node_modules/recharts/es6/polar/Pie.js [app-ssr] (ecmascript)");
@@ -68,6 +70,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/.pnpm/recharts@2.15.4_react-dom@18.3.1_react@18.3.1/node_modules/recharts/es6/component/Tooltip.js [app-ssr] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
 'use client';
+;
 ;
 ;
 ;
@@ -352,6 +355,8 @@ function TripWorkspaceContent({ params }) {
     const [itineraryViewMode, setItineraryViewMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('timeline');
     // Real-Time Crew Chat Drawer State
     const [showCrewChat, setShowCrewChat] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Real-Time Live Activity Feed Drawer State
+    const [showActivityFeed, setShowActivityFeed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     // Tasks local state
     const [newTask, setNewTask] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         title: '',
@@ -453,6 +458,12 @@ function TripWorkspaceContent({ params }) {
                         id: saved.id || newAct.id
                     }
                 ]);
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["emitTripActivity"])(params.id, {
+                type: 'SCHEDULE_CHANGE',
+                title: 'Schedule Updated',
+                description: `Added "${newAct.title}" to Day ${selectedDay}${newActivity.startTime ? ` (${newActivity.startTime})` : ''}`,
+                actorName: user?.fullName || user?.name || 'Organizer'
+            });
         } catch (reason) {
             setActionAlert(reason.message || 'Activity could not be saved.');
             return;
@@ -558,6 +569,12 @@ function TripWorkspaceContent({ params }) {
                     },
                     ...current
                 ]);
+            (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["emitTripActivity"])(params.id, {
+                type: 'NEW_EXPENSE',
+                title: 'New Group Bill Logged',
+                description: `₹${baseAmount.toLocaleString('en-IN')} for "${newEntry.title}" (Paid by ${payer})`,
+                actorName: user?.fullName || user?.name || payer
+            });
         } catch (reason) {
             setActionAlert(reason.message || 'Expense could not be saved.');
             return;
@@ -1243,12 +1260,12 @@ function TripWorkspaceContent({ params }) {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 1294,
+                                    lineNumber: 1311,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1293,
+                                lineNumber: 1310,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1261,7 +1278,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Guest View-Only Access"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1298,
+                                                lineNumber: 1315,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1269,13 +1286,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "VIEWER"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1299,
+                                                lineNumber: 1316,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1297,
+                                        lineNumber: 1314,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1283,29 +1300,29 @@ function TripWorkspaceContent({ params }) {
                                         children: "You are viewing this trip in read-only guest mode. You can browse the full itinerary, explore expense splits, and download offline emergency safety cards."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1303,
+                                        lineNumber: 1320,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1296,
+                                lineNumber: 1313,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1292,
+                        lineNumber: 1309,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 1291,
+                    lineNumber: 1308,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 1290,
+                lineNumber: 1307,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "bg-slate-950 text-white border-b border-slate-800 py-3 px-4 sm:px-6 lg:px-8 shadow-inner",
@@ -1320,12 +1337,12 @@ function TripWorkspaceContent({ params }) {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 1315,
+                                    lineNumber: 1332,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1314,
+                                lineNumber: 1331,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1338,7 +1355,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Active Access Role:"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1319,
+                                                lineNumber: 1336,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1350,13 +1367,13 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1320,
+                                                lineNumber: 1337,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1318,
+                                        lineNumber: 1335,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1368,29 +1385,29 @@ function TripWorkspaceContent({ params }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1332,
+                                        lineNumber: 1349,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1317,
+                                lineNumber: 1334,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1313,
+                        lineNumber: 1330,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 1312,
+                    lineNumber: 1329,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 1311,
+                lineNumber: 1328,
                 columnNumber: 9
             }, this),
             actionAlert && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1400,7 +1417,7 @@ function TripWorkspaceContent({ params }) {
                         className: "w-5 h-5 text-amber-400 shrink-0 mt-0.5"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1346,
+                        lineNumber: 1363,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1409,18 +1426,18 @@ function TripWorkspaceContent({ params }) {
                             children: actionAlert
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 1348,
+                            lineNumber: 1365,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1347,
+                        lineNumber: 1364,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 1345,
+                lineNumber: 1362,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1434,19 +1451,19 @@ function TripWorkspaceContent({ params }) {
                             className: "w-full h-full object-cover"
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 1356,
+                            lineNumber: 1373,
                             columnNumber: 33
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1355,
+                        lineNumber: 1372,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1358,
+                        lineNumber: 1375,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1466,7 +1483,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🏔️ Mountain Expedition"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1365,
+                                                            lineNumber: 1382,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1474,14 +1491,14 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🌤️ 18°C Sunny in Darjeeling"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1368,
+                                                            lineNumber: 1385,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1363,
+                                                lineNumber: 1380,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1492,7 +1509,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: displayTripName
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1374,
+                                                        lineNumber: 1391,
                                                         columnNumber: 17
                                                     }, this),
                                                     can('EDIT_TRIP') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1504,18 +1521,18 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1384,
+                                                            lineNumber: 1401,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1378,
+                                                        lineNumber: 1395,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1373,
+                                                lineNumber: 1390,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1525,52 +1542,94 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-4 h-4 text-brand-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1389,
+                                                        lineNumber: 1406,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: displayDestination
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1390,
+                                                        lineNumber: 1407,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "•"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1391,
+                                                        lineNumber: 1408,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__["Calendar"], {
                                                         className: "w-4 h-4 text-slate-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1392,
+                                                        lineNumber: 1409,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: displayDates
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1393,
+                                                        lineNumber: 1410,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1388,
+                                                lineNumber: 1405,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1362,
+                                        lineNumber: 1379,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "w-full md:w-auto flex flex-wrap items-center justify-between gap-3",
+                                        className: "w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5",
                                         children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "button",
+                                                onClick: ()=>setShowActivityFeed(true),
+                                                className: "flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 backdrop-blur-md text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer",
+                                                title: "Open Real-Time Activity Feed & Notifications",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "relative",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bell$3e$__["Bell"], {
+                                                                className: "w-4 h-4 text-sky-400"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                                                                lineNumber: 1423,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                className: "absolute -top-1 -right-1 w-2 h-2 rounded-full bg-sky-400 animate-pulse"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                                                                lineNumber: 1424,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                                                        lineNumber: 1422,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        children: "Activity Feed"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                                                        lineNumber: 1426,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                                                lineNumber: 1416,
+                                                columnNumber: 15
+                                            }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 type: "button",
                                                 onClick: ()=>setShowCrewChat(true),
@@ -1584,33 +1643,33 @@ function TripWorkspaceContent({ params }) {
                                                                 className: "w-4 h-4 text-emerald-400"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1406,
+                                                                lineNumber: 1436,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 className: "absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1407,
+                                                                lineNumber: 1437,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1405,
+                                                        lineNumber: 1435,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Crew Chat"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1409,
+                                                        lineNumber: 1439,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1399,
+                                                lineNumber: 1429,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1623,7 +1682,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Total Spent"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1414,
+                                                                lineNumber: 1444,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1631,20 +1690,20 @@ function TripWorkspaceContent({ params }) {
                                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(tripSpent, tripCurrency)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1415,
+                                                                lineNumber: 1445,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1413,
+                                                        lineNumber: 1443,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "h-8 w-px bg-white/20"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1417,
+                                                        lineNumber: 1447,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1654,7 +1713,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Budget"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1419,
+                                                                lineNumber: 1449,
                                                                 columnNumber: 19
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1662,31 +1721,31 @@ function TripWorkspaceContent({ params }) {
                                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(tripBudget, tripCurrency)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1420,
+                                                                lineNumber: 1450,
                                                                 columnNumber: 19
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1418,
+                                                        lineNumber: 1448,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1412,
+                                                lineNumber: 1442,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1398,
+                                        lineNumber: 1415,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1361,
+                                lineNumber: 1378,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1744,38 +1803,38 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-3.5 h-3.5 sm:w-4 sm:h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1454,
+                                                lineNumber: 1484,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: tab.label
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1455,
+                                                lineNumber: 1485,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, tab.id, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1441,
+                                        lineNumber: 1471,
                                         columnNumber: 17
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1427,
+                                lineNumber: 1457,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1360,
+                        lineNumber: 1377,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 1354,
+                lineNumber: 1371,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1795,7 +1854,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Days Countdown"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1473,
+                                                lineNumber: 1503,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1803,7 +1862,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: countdownLabel
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1474,
+                                                lineNumber: 1504,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1811,13 +1870,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : tripDetails?.startDate ? `Starts ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(tripDetails.startDate)}` : 'Add trip dates'
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1475,
+                                                lineNumber: 1505,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1472,
+                                        lineNumber: 1502,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1828,7 +1887,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Itinerary Items"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1478,
+                                                lineNumber: 1508,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1839,7 +1898,7 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1479,
+                                                lineNumber: 1509,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1851,13 +1910,13 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1480,
+                                                lineNumber: 1510,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1477,
+                                        lineNumber: 1507,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1868,7 +1927,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Split Status"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1483,
+                                                lineNumber: 1513,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1876,7 +1935,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrency"])(tripSpent, tripCurrency)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1484,
+                                                lineNumber: 1514,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1884,13 +1943,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : `${debtTransfers.length} transfer${debtTransfers.length === 1 ? '' : 's'} pending`
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1485,
+                                                lineNumber: 1515,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1482,
+                                        lineNumber: 1512,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1901,7 +1960,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Pending Tasks"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1488,
+                                                lineNumber: 1518,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1909,7 +1968,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : `${pendingTaskCount} Left`
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1489,
+                                                lineNumber: 1519,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1917,19 +1976,19 @@ function TripWorkspaceContent({ params }) {
                                                 children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : `${tasks.length - pendingTaskCount} Completed`
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1490,
+                                                lineNumber: 1520,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1487,
+                                        lineNumber: 1517,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1471,
+                                lineNumber: 1501,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$DestinationWeatherWidget$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DestinationWeatherWidget"], {
@@ -1937,7 +1996,7 @@ function TripWorkspaceContent({ params }) {
                                 startDate: tripDetails?.startDate
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1495,
+                                lineNumber: 1525,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1952,7 +2011,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : 'Trip workspace ready'
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1501,
+                                                    lineNumber: 1531,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1960,7 +2019,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : 'No upcoming activities yet'
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1504,
+                                                    lineNumber: 1534,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1968,13 +2027,13 @@ function TripWorkspaceContent({ params }) {
                                                     children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : 'Add an itinerary activity to start planning this trip.'
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1507,
+                                                    lineNumber: 1537,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 1500,
+                                            lineNumber: 1530,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1983,18 +2042,18 @@ function TripWorkspaceContent({ params }) {
                                             children: ("TURBOPACK compile-time falsy", 0) ? ("TURBOPACK unreachable", undefined) : 'Open Itinerary'
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 1511,
+                                            lineNumber: 1541,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 1499,
+                                    lineNumber: 1529,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1498,
+                                lineNumber: 1528,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2010,7 +2069,7 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-5 h-5 text-brand-600"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1524,
+                                                        lineNumber: 1554,
                                                         columnNumber: 19
                                                     }, this),
                                                     "Trip Members Roster (",
@@ -2019,7 +2078,7 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1523,
+                                                lineNumber: 1553,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2028,13 +2087,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Manage Roles →"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1527,
+                                                lineNumber: 1557,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1522,
+                                        lineNumber: 1552,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2050,7 +2109,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: p.name[0]
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1542,
+                                                                lineNumber: 1572,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2060,7 +2119,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: p.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1546,
+                                                                        lineNumber: 1576,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2068,19 +2127,19 @@ function TripWorkspaceContent({ params }) {
                                                                         children: p.phone
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1547,
+                                                                        lineNumber: 1577,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1545,
+                                                                lineNumber: 1575,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1541,
+                                                        lineNumber: 1571,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2088,30 +2147,30 @@ function TripWorkspaceContent({ params }) {
                                                         children: p.role
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1550,
+                                                        lineNumber: 1580,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, p.id, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1537,
+                                                lineNumber: 1567,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1535,
+                                        lineNumber: 1565,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1521,
+                                lineNumber: 1551,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1469,
+                        lineNumber: 1499,
                         columnNumber: 11
                     }, this),
                     activeTab === 'itinerary' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2127,7 +2186,7 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1578,
+                                                lineNumber: 1608,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2135,13 +2194,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Expedition Itinerary View"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1579,
+                                                lineNumber: 1609,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1577,
+                                        lineNumber: 1607,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2156,20 +2215,20 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-3.5 h-3.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1591,
+                                                        lineNumber: 1621,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Timeline View"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1592,
+                                                        lineNumber: 1622,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1582,
+                                                lineNumber: 1612,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2181,32 +2240,32 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-3.5 h-3.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1603,
+                                                        lineNumber: 1633,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Route Map View"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1604,
+                                                        lineNumber: 1634,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1594,
+                                                lineNumber: 1624,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1581,
+                                        lineNumber: 1611,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1576,
+                                lineNumber: 1606,
                                 columnNumber: 13
                             }, this),
                             itineraryViewMode === 'map' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$ItineraryRouteMap$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ItineraryRouteMap"], {
@@ -2227,7 +2286,7 @@ function TripWorkspaceContent({ params }) {
                                 tripDestination: displayDestination
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1611,
+                                lineNumber: 1641,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                 children: [
@@ -2244,7 +2303,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: d.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1646,
+                                                                lineNumber: 1676,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2255,18 +2314,18 @@ function TripWorkspaceContent({ params }) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1647,
+                                                                lineNumber: 1677,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, d.num, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1637,
+                                                        lineNumber: 1667,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1635,
+                                                lineNumber: 1665,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2285,7 +2344,7 @@ function TripWorkspaceContent({ params }) {
                                                                 "aria-label": "New itinerary day date"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1658,
+                                                                lineNumber: 1688,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2296,7 +2355,7 @@ function TripWorkspaceContent({ params }) {
                                                                 "aria-label": "New itinerary day title"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1666,
+                                                                lineNumber: 1696,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2307,20 +2366,20 @@ function TripWorkspaceContent({ params }) {
                                                                         className: "h-3.5 w-3.5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1674,
+                                                                        lineNumber: 1704,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         children: "Add Day"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1675,
+                                                                        lineNumber: 1705,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1673,
+                                                                lineNumber: 1703,
                                                                 columnNumber: 25
                                                             }, this),
                                                             tripDays.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2333,7 +2392,7 @@ function TripWorkspaceContent({ params }) {
                                                                         className: "h-3.5 w-3.5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1684,
+                                                                        lineNumber: 1714,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2341,19 +2400,19 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Delete Day"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1685,
+                                                                        lineNumber: 1715,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1678,
+                                                                lineNumber: 1708,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1657,
+                                                        lineNumber: 1687,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2367,20 +2426,20 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1698,
+                                                                    lineNumber: 1728,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     children: "+ Add Activity"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1699,
+                                                                    lineNumber: 1729,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1693,
+                                                            lineNumber: 1723,
                                                             columnNumber: 25
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                             onClick: ()=>showPermissionWarning('add activities (Viewer role is read-only)'),
@@ -2390,37 +2449,37 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-3.5 h-3.5"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1706,
+                                                                    lineNumber: 1736,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     children: "Add Activity (Read-Only)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1707,
+                                                                    lineNumber: 1737,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1702,
+                                                            lineNumber: 1732,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1691,
+                                                        lineNumber: 1721,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1655,
+                                                lineNumber: 1685,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1633,
+                                        lineNumber: 1663,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2433,7 +2492,7 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-4 h-4 text-brand-600"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1717,
+                                                        lineNumber: 1747,
                                                         columnNumber: 17
                                                     }, this),
                                                     tripDays.find((day)=>day.num === selectedDay)?.label || 'Itinerary',
@@ -2441,7 +2500,7 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1716,
+                                                lineNumber: 1746,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2454,7 +2513,7 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "absolute left-2.5 top-2 w-3.5 h-3.5 rounded-full bg-brand-500 ring-4 ring-white"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1726,
+                                                                    lineNumber: 1756,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2470,7 +2529,7 @@ function TripWorkspaceContent({ params }) {
                                                                                             className: "w-3.5 h-3.5 text-brand-600"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1730,
+                                                                                            lineNumber: 1760,
                                                                                             columnNumber: 29
                                                                                         }, this),
                                                                                         " ",
@@ -2478,7 +2537,7 @@ function TripWorkspaceContent({ params }) {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1729,
+                                                                                    lineNumber: 1759,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2486,13 +2545,13 @@ function TripWorkspaceContent({ params }) {
                                                                                     children: act.status
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1732,
+                                                                                    lineNumber: 1762,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1728,
+                                                                            lineNumber: 1758,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2500,7 +2559,7 @@ function TripWorkspaceContent({ params }) {
                                                                             children: act.title
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1737,
+                                                                            lineNumber: 1767,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2508,7 +2567,7 @@ function TripWorkspaceContent({ params }) {
                                                                             children: act.description
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1738,
+                                                                            lineNumber: 1768,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2524,7 +2583,7 @@ function TripWorkspaceContent({ params }) {
                                                                                                     className: "w-3.5 h-3.5 text-brand-500 shrink-0"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                                    lineNumber: 1743,
+                                                                                                    lineNumber: 1773,
                                                                                                     columnNumber: 31
                                                                                                 }, this),
                                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2532,13 +2591,13 @@ function TripWorkspaceContent({ params }) {
                                                                                                     children: act.location
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                                    lineNumber: 1744,
+                                                                                                    lineNumber: 1774,
                                                                                                     columnNumber: 31
                                                                                                 }, this)
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1742,
+                                                                                            lineNumber: 1772,
                                                                                             columnNumber: 29
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2549,7 +2608,7 @@ function TripWorkspaceContent({ params }) {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1746,
+                                                                                            lineNumber: 1776,
                                                                                             columnNumber: 29
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2560,13 +2619,13 @@ function TripWorkspaceContent({ params }) {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1749,
+                                                                                            lineNumber: 1779,
                                                                                             columnNumber: 29
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1741,
+                                                                                    lineNumber: 1771,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 act.location && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -2579,38 +2638,38 @@ function TripWorkspaceContent({ params }) {
                                                                                             className: "w-3.5 h-3.5 text-brand-500"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1762,
+                                                                                            lineNumber: 1792,
                                                                                             columnNumber: 31
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: "Map Directions"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1763,
+                                                                                            lineNumber: 1793,
                                                                                             columnNumber: 31
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1756,
+                                                                                    lineNumber: 1786,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1740,
+                                                                            lineNumber: 1770,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1727,
+                                                                    lineNumber: 1757,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, act.id, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1725,
+                                                            lineNumber: 1755,
                                                             columnNumber: 21
                                                         }, this)),
                                                     activitiesList.filter((a)=>a.dayNumber === selectedDay).length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2618,19 +2677,19 @@ function TripWorkspaceContent({ params }) {
                                                         children: 'No activities scheduled for this day yet. Click "Add Activity" above to schedule.'
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1772,
+                                                        lineNumber: 1802,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1721,
+                                                lineNumber: 1751,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1715,
+                                        lineNumber: 1745,
                                         columnNumber: 13
                                     }, this)
                                 ]
@@ -2638,7 +2697,7 @@ function TripWorkspaceContent({ params }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1574,
+                        lineNumber: 1604,
                         columnNumber: 11
                     }, this),
                     activeTab === 'expenses' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2654,7 +2713,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Expenses & Settlements"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1791,
+                                                lineNumber: 1821,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2662,13 +2721,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Track group bills and minimize debt transfers automatically."
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1792,
+                                                lineNumber: 1822,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1790,
+                                        lineNumber: 1820,
                                         columnNumber: 15
                                     }, this),
                                     can('ADD_EXPENSE') ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2679,20 +2738,20 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1802,
+                                                lineNumber: 1832,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: "Add Group Expense"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1803,
+                                                lineNumber: 1833,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1798,
+                                        lineNumber: 1828,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>showPermissionWarning('add expenses (Viewers have read-only access)'),
@@ -2702,26 +2761,26 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1810,
+                                                lineNumber: 1840,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: "Add Expense (Read-Only)"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1811,
+                                                lineNumber: 1841,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1806,
+                                        lineNumber: 1836,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1789,
+                                lineNumber: 1819,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2739,12 +2798,12 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1821,
+                                                            lineNumber: 1851,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1820,
+                                                        lineNumber: 1850,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2754,7 +2813,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Optimal Debt Settlement Engine"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1824,
+                                                                lineNumber: 1854,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2762,19 +2821,19 @@ function TripWorkspaceContent({ params }) {
                                                                 children: debtTransfers.length > 0 ? `Reduced shared expenses into ${debtTransfers.length} minimal direct transfer${debtTransfers.length === 1 ? '' : 's'}.` : 'Everyone is settled. New shared expenses will appear here.'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1825,
+                                                                lineNumber: 1855,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1823,
+                                                        lineNumber: 1853,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1819,
+                                                lineNumber: 1849,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2782,13 +2841,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Greedy Min-Cash-Flow"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1832,
+                                                lineNumber: 1862,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1818,
+                                        lineNumber: 1848,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2807,14 +2866,14 @@ function TripWorkspaceContent({ params }) {
                                                                     children: dt.from
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1851,
+                                                                    lineNumber: 1881,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
                                                                     className: "w-3.5 h-3.5 text-brand-400"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1852,
+                                                                    lineNumber: 1882,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2822,13 +2881,13 @@ function TripWorkspaceContent({ params }) {
                                                                     children: dt.to
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1853,
+                                                                    lineNumber: 1883,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1850,
+                                                            lineNumber: 1880,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2842,7 +2901,7 @@ function TripWorkspaceContent({ params }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1856,
+                                                                    lineNumber: 1886,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2857,20 +2916,20 @@ function TripWorkspaceContent({ params }) {
                                                                                     className: "w-3 h-3"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1865,
+                                                                                    lineNumber: 1895,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     children: "Pay UPI"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1866,
+                                                                                    lineNumber: 1896,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1860,
+                                                                            lineNumber: 1890,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         can('ADD_EXPENSE') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2885,38 +2944,38 @@ function TripWorkspaceContent({ params }) {
                                                                                     className: "w-3 h-3"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1878,
+                                                                                    lineNumber: 1908,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     children: isSettled ? 'Settled' : 'Mark Paid'
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1879,
+                                                                                    lineNumber: 1909,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1869,
+                                                                            lineNumber: 1899,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1859,
+                                                                    lineNumber: 1889,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1855,
+                                                            lineNumber: 1885,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, dt.id, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1842,
+                                                    lineNumber: 1872,
                                                     columnNumber: 21
                                                 }, this);
                                             }),
@@ -2925,19 +2984,19 @@ function TripWorkspaceContent({ params }) {
                                                 children: "No outstanding settlements."
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1888,
+                                                lineNumber: 1918,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1838,
+                                        lineNumber: 1868,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1817,
+                                lineNumber: 1847,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2950,7 +3009,7 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-4 h-4 text-brand-600"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1896,
+                                                lineNumber: 1926,
                                                 columnNumber: 17
                                             }, this),
                                             "Logged Expenses (",
@@ -2959,7 +3018,7 @@ function TripWorkspaceContent({ params }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1895,
+                                        lineNumber: 1925,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2979,7 +3038,7 @@ function TripWorkspaceContent({ params }) {
                                                                             children: exp.title
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1906,
+                                                                            lineNumber: 1936,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2990,7 +3049,7 @@ function TripWorkspaceContent({ params }) {
                                                                                     children: exp.category
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1908,
+                                                                                    lineNumber: 1938,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 exp.originalCurrency && exp.originalAmount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2998,7 +3057,7 @@ function TripWorkspaceContent({ params }) {
                                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$currencies$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrencyWithSymbol"])(exp.originalAmount, exp.originalCurrency)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1912,
+                                                                                    lineNumber: 1942,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 exp.receiptUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3010,32 +3069,32 @@ function TripWorkspaceContent({ params }) {
                                                                                             className: "w-3 h-3"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1922,
+                                                                                            lineNumber: 1952,
                                                                                             columnNumber: 31
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: "Receipt"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                            lineNumber: 1923,
+                                                                                            lineNumber: 1953,
                                                                                             columnNumber: 31
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1917,
+                                                                                    lineNumber: 1947,
                                                                                     columnNumber: 29
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1907,
+                                                                            lineNumber: 1937,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1905,
+                                                                    lineNumber: 1935,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3049,7 +3108,7 @@ function TripWorkspaceContent({ params }) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1929,
+                                                                            lineNumber: 1959,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3057,19 +3116,19 @@ function TripWorkspaceContent({ params }) {
                                                                             children: exp.date
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1930,
+                                                                            lineNumber: 1960,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1928,
+                                                                    lineNumber: 1958,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1904,
+                                                            lineNumber: 1934,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3084,13 +3143,13 @@ function TripWorkspaceContent({ params }) {
                                                                             children: exp.paidBy
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1935,
+                                                                            lineNumber: 1965,
                                                                             columnNumber: 79
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1935,
+                                                                    lineNumber: 1965,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3098,13 +3157,13 @@ function TripWorkspaceContent({ params }) {
                                                                     children: exp.split
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1936,
+                                                                    lineNumber: 1966,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1934,
+                                                            lineNumber: 1964,
                                                             columnNumber: 21
                                                         }, this),
                                                         can('ADD_EXPENSE') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3117,7 +3176,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: "Edit"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1941,
+                                                                    lineNumber: 1971,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3127,19 +3186,19 @@ function TripWorkspaceContent({ params }) {
                                                                     children: "Delete"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1948,
+                                                                    lineNumber: 1978,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1940,
+                                                            lineNumber: 1970,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, exp.id, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1903,
+                                                    lineNumber: 1933,
                                                     columnNumber: 19
                                                 }, this)),
                                             expensesList.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3147,13 +3206,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "No expenses recorded yet."
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 1960,
+                                                lineNumber: 1990,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1901,
+                                        lineNumber: 1931,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3170,7 +3229,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Title & Category"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1969,
+                                                                lineNumber: 1999,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3178,7 +3237,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Receipt"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1970,
+                                                                lineNumber: 2000,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3186,7 +3245,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Paid By"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1971,
+                                                                lineNumber: 2001,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3194,7 +3253,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Date"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1972,
+                                                                lineNumber: 2002,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3202,7 +3261,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Split Details"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1973,
+                                                                lineNumber: 2003,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3210,7 +3269,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Amount"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1974,
+                                                                lineNumber: 2004,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -3218,18 +3277,18 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Actions"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 1975,
+                                                                lineNumber: 2005,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 1968,
+                                                        lineNumber: 1998,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1967,
+                                                    lineNumber: 1997,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -3245,7 +3304,7 @@ function TripWorkspaceContent({ params }) {
                                                                             children: exp.title
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1982,
+                                                                            lineNumber: 2012,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3256,7 +3315,7 @@ function TripWorkspaceContent({ params }) {
                                                                                     children: exp.category
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1984,
+                                                                                    lineNumber: 2014,
                                                                                     columnNumber: 29
                                                                                 }, this),
                                                                                 exp.originalCurrency && exp.originalAmount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3264,19 +3323,19 @@ function TripWorkspaceContent({ params }) {
                                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$currencies$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatCurrencyWithSymbol"])(exp.originalAmount, exp.originalCurrency)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                    lineNumber: 1988,
+                                                                                    lineNumber: 2018,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 1983,
+                                                                            lineNumber: 2013,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1981,
+                                                                    lineNumber: 2011,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3291,32 +3350,32 @@ function TripWorkspaceContent({ params }) {
                                                                                 className: "w-3.5 h-3.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2002,
+                                                                                lineNumber: 2032,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                 children: "View"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2003,
+                                                                                lineNumber: 2033,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 1996,
+                                                                        lineNumber: 2026,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "text-slate-400 text-[11px] italic",
                                                                         children: "—"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2006,
+                                                                        lineNumber: 2036,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 1994,
+                                                                    lineNumber: 2024,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3324,7 +3383,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: exp.paidBy
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2009,
+                                                                    lineNumber: 2039,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3332,7 +3391,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: exp.date
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2010,
+                                                                    lineNumber: 2040,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3340,7 +3399,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: exp.split
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2011,
+                                                                    lineNumber: 2041,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3351,7 +3410,7 @@ function TripWorkspaceContent({ params }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2012,
+                                                                    lineNumber: 2042,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -3366,7 +3425,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "Edit"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2017,
+                                                                                lineNumber: 2047,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3376,52 +3435,52 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "Delete"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2024,
+                                                                                lineNumber: 2054,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2016,
+                                                                        lineNumber: 2046,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2015,
+                                                                    lineNumber: 2045,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, exp.id, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 1980,
+                                                            lineNumber: 2010,
                                                             columnNumber: 23
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 1978,
+                                                    lineNumber: 2008,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 1966,
+                                            lineNumber: 1996,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 1965,
+                                        lineNumber: 1995,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 1894,
+                                lineNumber: 1924,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 1787,
+                        lineNumber: 1817,
                         columnNumber: 11
                     }, this),
                     activeTab === 'tasks' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3436,7 +3495,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Trip Responsibilities"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2049,
+                                            lineNumber: 2079,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3444,18 +3503,18 @@ function TripWorkspaceContent({ params }) {
                                             children: "Assign and track who is managing what."
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2050,
+                                            lineNumber: 2080,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 2048,
+                                    lineNumber: 2078,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2047,
+                                lineNumber: 2077,
                                 columnNumber: 13
                             }, this),
                             can('MANAGE_TASKS') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -3470,7 +3529,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Task"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2057,
+                                                lineNumber: 2087,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3484,13 +3543,13 @@ function TripWorkspaceContent({ params }) {
                                                 placeholder: "e.g. Book train tickets, Pack first-aid"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2058,
+                                                lineNumber: 2088,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2056,
+                                        lineNumber: 2086,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3500,7 +3559,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Assignee"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2061,
+                                                lineNumber: 2091,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3516,7 +3575,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: "Unassigned"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2063,
+                                                        lineNumber: 2093,
                                                         columnNumber: 21
                                                     }, this),
                                                     members.map((member)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3524,19 +3583,19 @@ function TripWorkspaceContent({ params }) {
                                                             children: member.name
                                                         }, member.id, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2064,
+                                                            lineNumber: 2094,
                                                             columnNumber: 46
                                                         }, this))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2062,
+                                                lineNumber: 2092,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2060,
+                                        lineNumber: 2090,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3546,7 +3605,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Due date"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2068,
+                                                lineNumber: 2098,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -3559,13 +3618,13 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2069,
+                                                lineNumber: 2099,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2067,
+                                        lineNumber: 2097,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3575,7 +3634,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Priority"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2072,
+                                                lineNumber: 2102,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -3591,7 +3650,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: "Low"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2074,
+                                                        lineNumber: 2104,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3599,7 +3658,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: "Medium"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2074,
+                                                        lineNumber: 2104,
                                                         columnNumber: 53
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3607,7 +3666,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: "High"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2074,
+                                                        lineNumber: 2104,
                                                         columnNumber: 91
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -3615,19 +3674,19 @@ function TripWorkspaceContent({ params }) {
                                                         children: "Urgent"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2074,
+                                                        lineNumber: 2104,
                                                         columnNumber: 125
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2073,
+                                                lineNumber: 2103,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2071,
+                                        lineNumber: 2101,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3636,13 +3695,13 @@ function TripWorkspaceContent({ params }) {
                                         children: "Add task"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2077,
+                                        lineNumber: 2107,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2055,
+                                lineNumber: 2085,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3658,12 +3717,12 @@ function TripWorkspaceContent({ params }) {
                                                     children: "To Do"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2085,
+                                                    lineNumber: 2115,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2084,
+                                                lineNumber: 2114,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3679,7 +3738,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: t.priority
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2093,
+                                                                        lineNumber: 2123,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3690,13 +3749,13 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2096,
+                                                                        lineNumber: 2126,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2092,
+                                                                lineNumber: 2122,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -3704,7 +3763,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: t.title
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2098,
+                                                                lineNumber: 2128,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3718,7 +3777,7 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2100,
+                                                                        lineNumber: 2130,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     can('MANAGE_TASKS') ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3727,37 +3786,37 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Start →"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2102,
+                                                                        lineNumber: 2132,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "text-[10px] text-slate-400 italic",
                                                                         children: "Read-Only"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2109,
+                                                                        lineNumber: 2139,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2099,
+                                                                lineNumber: 2129,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, t.id, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2091,
+                                                        lineNumber: 2121,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2087,
+                                                lineNumber: 2117,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2083,
+                                        lineNumber: 2113,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3770,12 +3829,12 @@ function TripWorkspaceContent({ params }) {
                                                     children: "In Progress"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2120,
+                                                    lineNumber: 2150,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2119,
+                                                lineNumber: 2149,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3791,7 +3850,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: t.priority
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2128,
+                                                                        lineNumber: 2158,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3802,13 +3861,13 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2131,
+                                                                        lineNumber: 2161,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2127,
+                                                                lineNumber: 2157,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -3816,7 +3875,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: t.title
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2133,
+                                                                lineNumber: 2163,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3830,7 +3889,7 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2135,
+                                                                        lineNumber: 2165,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     can('MANAGE_TASKS') ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3839,37 +3898,37 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Done ✓"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2137,
+                                                                        lineNumber: 2167,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "text-[10px] text-slate-400 italic",
                                                                         children: "Read-Only"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2144,
+                                                                        lineNumber: 2174,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2134,
+                                                                lineNumber: 2164,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, t.id, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2126,
+                                                        lineNumber: 2156,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2122,
+                                                lineNumber: 2152,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2118,
+                                        lineNumber: 2148,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3882,12 +3941,12 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Completed"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2155,
+                                                    lineNumber: 2185,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2154,
+                                                lineNumber: 2184,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3903,7 +3962,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "RESOLVED"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2163,
+                                                                        lineNumber: 2193,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3914,13 +3973,13 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2166,
+                                                                        lineNumber: 2196,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2162,
+                                                                lineNumber: 2192,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -3928,7 +3987,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: t.title
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2168,
+                                                                lineNumber: 2198,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3942,49 +4001,49 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2170,
+                                                                        lineNumber: 2200,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$check$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircle2$3e$__["CheckCircle2"], {
                                                                         className: "w-4 h-4 text-emerald-600"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2171,
+                                                                        lineNumber: 2201,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2169,
+                                                                lineNumber: 2199,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, t.id, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2161,
+                                                        lineNumber: 2191,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2157,
+                                                lineNumber: 2187,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2153,
+                                        lineNumber: 2183,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2081,
+                                lineNumber: 2111,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 2046,
+                        lineNumber: 2076,
                         columnNumber: 11
                     }, this),
                     activeTab === 'documents' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$DocumentVaultSection$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DocumentVaultSection"], {
@@ -3993,7 +4052,7 @@ function TripWorkspaceContent({ params }) {
                         tripName: displayTripName
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 2185,
+                        lineNumber: 2215,
                         columnNumber: 11
                     }, this),
                     activeTab === 'emergency' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4013,12 +4072,12 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-8 h-8 animate-pulse"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2198,
+                                                        lineNumber: 2228,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2197,
+                                                    lineNumber: 2227,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4031,7 +4090,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: "24/7 Safety Command"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2202,
+                                                                    lineNumber: 2232,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 tripDetails?.destination && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4041,7 +4100,7 @@ function TripWorkspaceContent({ params }) {
                                                                             className: "w-3 h-3"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 2207,
+                                                                            lineNumber: 2237,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         " ",
@@ -4049,13 +4108,13 @@ function TripWorkspaceContent({ params }) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2206,
+                                                                    lineNumber: 2236,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2201,
+                                                            lineNumber: 2231,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -4063,7 +4122,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "Emergency & Safety Directory"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2211,
+                                                            lineNumber: 2241,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4076,26 +4135,26 @@ function TripWorkspaceContent({ params }) {
                                                                     children: tripDetails?.destination || tripDetails?.name || 'this trip'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2216,
+                                                                    lineNumber: 2246,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 "."
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2214,
+                                                            lineNumber: 2244,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2200,
+                                                    lineNumber: 2230,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2196,
+                                            lineNumber: 2226,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4111,20 +4170,20 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2228,
+                                                            lineNumber: 2258,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Print Offline Sheet"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2229,
+                                                            lineNumber: 2259,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2222,
+                                                    lineNumber: 2252,
                                                     columnNumber: 19
                                                 }, this),
                                                 can('EDIT_TRIP') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4136,37 +4195,37 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2238,
+                                                            lineNumber: 2268,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Add Emergency Contact"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2239,
+                                                            lineNumber: 2269,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2233,
+                                                    lineNumber: 2263,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2221,
+                                            lineNumber: 2251,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 2195,
+                                    lineNumber: 2225,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2194,
+                                lineNumber: 2224,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4178,14 +4237,14 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-3.5 h-3.5 text-red-600"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2249,
+                                                lineNumber: 2279,
                                                 columnNumber: 17
                                             }, this),
                                             "Universal Emergency Quick Dials"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2248,
+                                        lineNumber: 2278,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4202,7 +4261,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "National SOS"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2258,
+                                                                lineNumber: 2288,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4210,13 +4269,13 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "112"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2259,
+                                                                lineNumber: 2289,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2257,
+                                                        lineNumber: 2287,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4225,18 +4284,18 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2262,
+                                                            lineNumber: 2292,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2261,
+                                                        lineNumber: 2291,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2253,
+                                                lineNumber: 2283,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -4250,7 +4309,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Ambulance"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2271,
+                                                                lineNumber: 2301,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4258,13 +4317,13 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "108"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2272,
+                                                                lineNumber: 2302,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2270,
+                                                        lineNumber: 2300,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4273,18 +4332,18 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2275,
+                                                            lineNumber: 2305,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2274,
+                                                        lineNumber: 2304,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2266,
+                                                lineNumber: 2296,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -4298,7 +4357,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Police"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2284,
+                                                                lineNumber: 2314,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4306,13 +4365,13 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "100"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2285,
+                                                                lineNumber: 2315,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2283,
+                                                        lineNumber: 2313,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4321,18 +4380,18 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2288,
+                                                            lineNumber: 2318,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2287,
+                                                        lineNumber: 2317,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2279,
+                                                lineNumber: 2309,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -4346,7 +4405,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Fire Dept"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2297,
+                                                                lineNumber: 2327,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4354,13 +4413,13 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "101"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2298,
+                                                                lineNumber: 2328,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2296,
+                                                        lineNumber: 2326,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4369,30 +4428,30 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2301,
+                                                            lineNumber: 2331,
                                                             columnNumber: 21
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2300,
+                                                        lineNumber: 2330,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2292,
+                                                lineNumber: 2322,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2252,
+                                        lineNumber: 2282,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2247,
+                                lineNumber: 2277,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4431,12 +4490,12 @@ function TripWorkspaceContent({ params }) {
                                                 children: tab.label
                                             }, tab.id, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2318,
+                                                lineNumber: 2348,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2309,
+                                        lineNumber: 2339,
                                         columnNumber: 15
                                     }, this),
                                     can('EDIT_TRIP') && emergencyContacts.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4449,26 +4508,26 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-3.5 h-3.5 text-amber-300"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2339,
+                                                lineNumber: 2369,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: "Seed Quick Starter Contacts"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2340,
+                                                lineNumber: 2370,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2333,
+                                        lineNumber: 2363,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2308,
+                                lineNumber: 2338,
                                 columnNumber: 13
                             }, this),
                             emergencyContacts.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4480,12 +4539,12 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-7 h-7"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2349,
+                                            lineNumber: 2379,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2348,
+                                        lineNumber: 2378,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -4493,7 +4552,7 @@ function TripWorkspaceContent({ params }) {
                                         children: "No Emergency Contacts Registered Yet"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2351,
+                                        lineNumber: 2381,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4501,7 +4560,7 @@ function TripWorkspaceContent({ params }) {
                                         children: "Ensure traveler safety by adding local hospital numbers, nearest police station, accommodation desk, and travel insurance policy details."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2352,
+                                        lineNumber: 2382,
                                         columnNumber: 17
                                     }, this),
                                     can('EDIT_TRIP') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4514,7 +4573,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "+ Add Emergency Service"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2357,
+                                                lineNumber: 2387,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4529,19 +4588,19 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2364,
+                                                lineNumber: 2394,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2356,
+                                        lineNumber: 2386,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2347,
+                                lineNumber: 2377,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "grid grid-cols-1 md:grid-cols-2 gap-4",
@@ -4586,7 +4645,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: iconEmoji
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2427,
+                                                                lineNumber: 2457,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4600,7 +4659,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: contact.name
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2432,
+                                                                                lineNumber: 2462,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             contact.isPrimary && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4610,20 +4669,20 @@ function TripWorkspaceContent({ params }) {
                                                                                         className: "w-2.5 h-2.5 fill-white"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                        lineNumber: 2437,
+                                                                                        lineNumber: 2467,
                                                                                         columnNumber: 37
                                                                                     }, this),
                                                                                     " PRIMARY SOS"
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2436,
+                                                                                lineNumber: 2466,
                                                                                 columnNumber: 35
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2431,
+                                                                        lineNumber: 2461,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4631,19 +4690,19 @@ function TripWorkspaceContent({ params }) {
                                                                         children: contact.relationship
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2441,
+                                                                        lineNumber: 2471,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2430,
+                                                                lineNumber: 2460,
                                                                 columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2426,
+                                                        lineNumber: 2456,
                                                         columnNumber: 27
                                                     }, this),
                                                     can('EDIT_TRIP') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4658,12 +4717,12 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-3.5 h-3.5"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2455,
+                                                                    lineNumber: 2485,
                                                                     columnNumber: 33
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2449,
+                                                                lineNumber: 2479,
                                                                 columnNumber: 31
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4675,24 +4734,24 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-3.5 h-3.5"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2463,
+                                                                    lineNumber: 2493,
                                                                     columnNumber: 33
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2457,
+                                                                lineNumber: 2487,
                                                                 columnNumber: 31
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2448,
+                                                        lineNumber: 2478,
                                                         columnNumber: 29
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2425,
+                                                lineNumber: 2455,
                                                 columnNumber: 25
                                             }, this),
                                             contact.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4702,7 +4761,7 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2471,
+                                                        lineNumber: 2501,
                                                         columnNumber: 29
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4710,13 +4769,13 @@ function TripWorkspaceContent({ params }) {
                                                         children: contact.notes
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2472,
+                                                        lineNumber: 2502,
                                                         columnNumber: 29
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2470,
+                                                lineNumber: 2500,
                                                 columnNumber: 27
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4733,7 +4792,7 @@ function TripWorkspaceContent({ params }) {
                                                                         className: "w-3.5 h-3.5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2482,
+                                                                        lineNumber: 2512,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4743,13 +4802,13 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2483,
+                                                                        lineNumber: 2513,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2478,
+                                                                lineNumber: 2508,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4762,26 +4821,26 @@ function TripWorkspaceContent({ params }) {
                                                                         className: "w-3.5 h-3.5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2491,
+                                                                        lineNumber: 2521,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         children: copiedText === contact.phone ? 'Copied!' : 'Copy'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2492,
+                                                                        lineNumber: 2522,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2485,
+                                                                lineNumber: 2515,
                                                                 columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2477,
+                                                        lineNumber: 2507,
                                                         columnNumber: 27
                                                     }, this),
                                                     contact.altPhone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4792,7 +4851,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Alt/Policy:"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2498,
+                                                                lineNumber: 2528,
                                                                 columnNumber: 31
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4800,7 +4859,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: contact.altPhone
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2499,
+                                                                lineNumber: 2529,
                                                                 columnNumber: 31
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4812,36 +4871,36 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-3 h-3"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2506,
+                                                                    lineNumber: 2536,
                                                                     columnNumber: 33
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2500,
+                                                                lineNumber: 2530,
                                                                 columnNumber: 31
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2497,
+                                                        lineNumber: 2527,
                                                         columnNumber: 29
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2476,
+                                                lineNumber: 2506,
                                                 columnNumber: 25
                                             }, this)
                                         ]
                                     }, contact.id, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2417,
+                                        lineNumber: 2447,
                                         columnNumber: 23
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2376,
+                                lineNumber: 2406,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4858,7 +4917,7 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4 text-brand-400"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2522,
+                                                            lineNumber: 2552,
                                                             columnNumber: 21
                                                         }, this),
                                                         "All Travelers Emergency Directory (",
@@ -4867,7 +4926,7 @@ function TripWorkspaceContent({ params }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2521,
+                                                    lineNumber: 2551,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4875,18 +4934,18 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Direct phone lines for all group participants registered on this expedition. Add or edit numbers below."
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2525,
+                                                    lineNumber: 2555,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 2520,
+                                            lineNumber: 2550,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2519,
+                                        lineNumber: 2549,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4908,7 +4967,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: p.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2542,
+                                                                        lineNumber: 2572,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4916,13 +4975,13 @@ function TripWorkspaceContent({ params }) {
                                                                         children: p.role
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2543,
+                                                                        lineNumber: 2573,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2541,
+                                                                lineNumber: 2571,
                                                                 columnNumber: 25
                                                             }, this),
                                                             p.phone ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -4933,20 +4992,20 @@ function TripWorkspaceContent({ params }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2556,
+                                                                lineNumber: 2586,
                                                                 columnNumber: 27
                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 className: "text-slate-500 text-[11px] italic mt-0.5",
                                                                 children: "Phone not provided"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2560,
+                                                                lineNumber: 2590,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2540,
+                                                        lineNumber: 2570,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4961,12 +5020,12 @@ function TripWorkspaceContent({ params }) {
                                                                         className: "w-3.5 h-3.5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2574,
+                                                                        lineNumber: 2604,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2569,
+                                                                    lineNumber: 2599,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 canManageThisPhone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -4980,12 +5039,12 @@ function TripWorkspaceContent({ params }) {
                                                                                 className: "w-3.5 h-3.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2584,
+                                                                                lineNumber: 2614,
                                                                                 columnNumber: 35
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 2578,
+                                                                            lineNumber: 2608,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4997,12 +5056,12 @@ function TripWorkspaceContent({ params }) {
                                                                                 className: "w-3.5 h-3.5"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 2592,
+                                                                                lineNumber: 2622,
                                                                                 columnNumber: 35
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 2586,
+                                                                            lineNumber: 2616,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     ]
@@ -5017,49 +5076,49 @@ function TripWorkspaceContent({ params }) {
                                                                     className: "w-3 h-3"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2604,
+                                                                    lineNumber: 2634,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     children: "Add Phone"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 2605,
+                                                                    lineNumber: 2635,
                                                                     columnNumber: 31
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2599,
+                                                            lineNumber: 2629,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2566,
+                                                        lineNumber: 2596,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, p.id, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2536,
+                                                lineNumber: 2566,
                                                 columnNumber: 21
                                             }, this);
                                         })
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2531,
+                                        lineNumber: 2561,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2518,
+                                lineNumber: 2548,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 2192,
+                        lineNumber: 2222,
                         columnNumber: 11
                     }, this),
                     activeTab === 'analytics' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5070,7 +5129,7 @@ function TripWorkspaceContent({ params }) {
                                 children: "Trip Spending Analytics"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2623,
+                                lineNumber: 2653,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5084,7 +5143,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Expense Category Distribution"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2628,
+                                                lineNumber: 2658,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5106,42 +5165,42 @@ function TripWorkspaceContent({ params }) {
                                                                         fill: entry.color
                                                                     }, `cell-${index}`, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2645,
+                                                                        lineNumber: 2675,
                                                                         columnNumber: 29
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2635,
+                                                                lineNumber: 2665,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {
                                                                 formatter: (value)=>`₹${value.toLocaleString()}`
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2648,
+                                                                lineNumber: 2678,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2634,
+                                                        lineNumber: 2664,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2633,
+                                                    lineNumber: 2663,
                                                     columnNumber: 21
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex h-full items-center justify-center text-sm text-slate-400",
                                                     children: "No expenses recorded yet."
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2652,
+                                                    lineNumber: 2682,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2631,
+                                                lineNumber: 2661,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5156,7 +5215,7 @@ function TripWorkspaceContent({ params }) {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2660,
+                                                                lineNumber: 2690,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5167,24 +5226,24 @@ function TripWorkspaceContent({ params }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2661,
+                                                                lineNumber: 2691,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, c.name, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2659,
+                                                        lineNumber: 2689,
                                                         columnNumber: 21
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2657,
+                                                lineNumber: 2687,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2627,
+                                        lineNumber: 2657,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5199,7 +5258,7 @@ function TripWorkspaceContent({ params }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2671,
+                                                lineNumber: 2701,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5217,7 +5276,7 @@ function TripWorkspaceContent({ params }) {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2678,
+                                                                lineNumber: 2708,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -5226,14 +5285,14 @@ function TripWorkspaceContent({ params }) {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2679,
+                                                                lineNumber: 2709,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {
                                                                 formatter: (val)=>`₹${val.toLocaleString()}`
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2680,
+                                                                lineNumber: 2710,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$recharts$40$2$2e$15$2e$4_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$Bar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Bar"], {
@@ -5248,30 +5307,30 @@ function TripWorkspaceContent({ params }) {
                                                                 name: "Paid"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2681,
+                                                                lineNumber: 2711,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2677,
+                                                        lineNumber: 2707,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2676,
+                                                    lineNumber: 2706,
                                                     columnNumber: 21
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex h-full items-center justify-center text-sm text-slate-400",
                                                     children: "No members or expenses recorded yet."
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2685,
+                                                    lineNumber: 2715,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2674,
+                                                lineNumber: 2704,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5279,25 +5338,25 @@ function TripWorkspaceContent({ params }) {
                                                 children: memberSpendingData.length > 0 ? 'Compare each member\'s payments with their equal share.' : 'Member contribution data will appear after members and expenses are added.'
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2690,
+                                                lineNumber: 2720,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2670,
+                                        lineNumber: 2700,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2625,
+                                lineNumber: 2655,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 2622,
+                        lineNumber: 2652,
                         columnNumber: 11
                     }, this),
                     activeTab === 'members' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5313,7 +5372,7 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Trip Members & RBAC Roles"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2707,
+                                                lineNumber: 2737,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5321,13 +5380,13 @@ function TripWorkspaceContent({ params }) {
                                                 children: "Manage traveler permissions: OWNER (Lead), ADMIN (Co-organizer), MEMBER (Traveler), VIEWER (Guest)."
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2708,
+                                                lineNumber: 2738,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2706,
+                                        lineNumber: 2736,
                                         columnNumber: 15
                                     }, this),
                                     can('INVITE_MEMBERS') && shareableLink ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5339,14 +5398,14 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-4 h-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2720,
+                                                    lineNumber: 2750,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "Group Link Copied!"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2721,
+                                                    lineNumber: 2751,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
@@ -5356,27 +5415,27 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-4 h-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2725,
+                                                    lineNumber: 2755,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "Copy Group Invite Link"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2726,
+                                                    lineNumber: 2756,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2714,
+                                        lineNumber: 2744,
                                         columnNumber: 17
                                     }, this) : null
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2705,
+                                lineNumber: 2735,
                                 columnNumber: 13
                             }, this),
                             can('INVITE_MEMBERS') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5394,12 +5453,12 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-5 h-5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2739,
+                                                            lineNumber: 2769,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2738,
+                                                        lineNumber: 2768,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5412,7 +5471,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Universal Group Invite Link"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2743,
+                                                                        lineNumber: 2773,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -5420,13 +5479,13 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Active & Ready to Share"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2744,
+                                                                        lineNumber: 2774,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2742,
+                                                                lineNumber: 2772,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5437,7 +5496,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "20–50+ travelers"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2749,
+                                                                        lineNumber: 2779,
                                                                         columnNumber: 57
                                                                     }, this),
                                                                     " in your ",
@@ -5445,26 +5504,26 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "WhatsApp group, Telegram, Slack, or email thread"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 2749,
+                                                                        lineNumber: 2779,
                                                                         columnNumber: 99
                                                                     }, this),
                                                                     ". Anyone with the link can join the trip instantly with one click!"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2748,
+                                                                lineNumber: 2778,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2741,
+                                                        lineNumber: 2771,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2737,
+                                                lineNumber: 2767,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5475,7 +5534,7 @@ function TripWorkspaceContent({ params }) {
                                                         children: "Join as:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2755,
+                                                        lineNumber: 2785,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -5489,7 +5548,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Member (Traveler)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2762,
+                                                                lineNumber: 2792,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -5497,25 +5556,25 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Viewer (Guest)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 2763,
+                                                                lineNumber: 2793,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2756,
+                                                        lineNumber: 2786,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2754,
+                                                lineNumber: 2784,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2736,
+                                        lineNumber: 2766,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5531,12 +5590,12 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-xs font-mono text-slate-800 shadow-inner focus:outline-none focus:ring-2 focus:ring-brand-500 selection:bg-brand-100"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 2770,
+                                                    lineNumber: 2800,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2769,
+                                                lineNumber: 2799,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5550,14 +5609,14 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4 text-emerald-400"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2786,
+                                                            lineNumber: 2816,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Link Copied to Clipboard!"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2787,
+                                                            lineNumber: 2817,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
@@ -5567,27 +5626,27 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-4 h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2791,
+                                                            lineNumber: 2821,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: "Copy Group Invite Link"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 2792,
+                                                            lineNumber: 2822,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2778,
+                                                lineNumber: 2808,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2768,
+                                        lineNumber: 2798,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5601,20 +5660,20 @@ function TripWorkspaceContent({ params }) {
                                                         children: "1"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2801,
+                                                        lineNumber: 2831,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Copy link above"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2802,
+                                                        lineNumber: 2832,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2800,
+                                                lineNumber: 2830,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5625,20 +5684,20 @@ function TripWorkspaceContent({ params }) {
                                                         children: "2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2805,
+                                                        lineNumber: 2835,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Paste in WhatsApp / Slack"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2806,
+                                                        lineNumber: 2836,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2804,
+                                                lineNumber: 2834,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5649,32 +5708,32 @@ function TripWorkspaceContent({ params }) {
                                                         children: "3"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2809,
+                                                        lineNumber: 2839,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         children: "Travelers click & join instantly"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 2810,
+                                                        lineNumber: 2840,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 2808,
+                                                lineNumber: 2838,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 2799,
+                                        lineNumber: 2829,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 2735,
+                                lineNumber: 2765,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5699,7 +5758,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: p.name[0]
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3015,
+                                                                        lineNumber: 3045,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5709,7 +5768,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: p.name
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3019,
+                                                                                lineNumber: 3049,
                                                                                 columnNumber: 29
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5717,19 +5776,19 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: isOwner ? '👑 Trip Creator & Owner' : 'Joined via Invitation'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3020,
+                                                                                lineNumber: 3050,
                                                                                 columnNumber: 29
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3018,
+                                                                        lineNumber: 3048,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3014,
+                                                                lineNumber: 3044,
                                                                 columnNumber: 25
                                                             }, this),
                                                             !isOwner && can('INVITE_MEMBERS') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5739,13 +5798,13 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Remove"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3027,
+                                                                lineNumber: 3057,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 3013,
+                                                        lineNumber: 3043,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5759,7 +5818,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Emergency Contact:"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3040,
+                                                                        lineNumber: 3070,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     p.phone ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -5770,7 +5829,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 className: "w-3 h-3"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3043,
+                                                                                lineNumber: 3073,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             " ",
@@ -5778,20 +5837,20 @@ function TripWorkspaceContent({ params }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3042,
+                                                                        lineNumber: 3072,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "text-slate-400 italic",
                                                                         children: "No phone added"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3046,
+                                                                        lineNumber: 3076,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3039,
+                                                                lineNumber: 3069,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5802,7 +5861,7 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Access Role:"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3051,
+                                                                        lineNumber: 3081,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     canEditThisRole && !isOwner ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -5815,7 +5874,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "🛡️ ADMIN (Co-Organizer)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3058,
+                                                                                lineNumber: 3088,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -5823,7 +5882,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "🎒 MEMBER (Active Traveler)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3059,
+                                                                                lineNumber: 3089,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -5831,44 +5890,44 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "👁️ VIEWER (Read-Only Guest)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3060,
+                                                                                lineNumber: 3090,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3053,
+                                                                        lineNumber: 3083,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: `text-[11px] font-extrabold px-2.5 py-1 rounded-lg ${p.role === 'OWNER' ? 'bg-amber-100 text-amber-900 border border-amber-200' : p.role === 'ADMIN' ? 'bg-blue-100 text-blue-900 border border-blue-200' : p.role === 'MEMBER' ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}`,
                                                                         children: p.role === 'OWNER' ? '👑 OWNER' : p.role === 'ADMIN' ? '🛡️ ADMIN' : p.role === 'MEMBER' ? '🎒 MEMBER' : '👁️ VIEWER'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3063,
+                                                                        lineNumber: 3093,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3050,
+                                                                lineNumber: 3080,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 3038,
+                                                        lineNumber: 3068,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, p.id, true, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 3012,
+                                                lineNumber: 3042,
                                                 columnNumber: 21
                                             }, this);
                                         })
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3006,
+                                        lineNumber: 3036,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5885,7 +5944,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Member"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3089,
+                                                                lineNumber: 3119,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5893,7 +5952,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Contact"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3090,
+                                                                lineNumber: 3120,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5901,7 +5960,7 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Active RBAC Role"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3091,
+                                                                lineNumber: 3121,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -5909,18 +5968,18 @@ function TripWorkspaceContent({ params }) {
                                                                 children: "Actions"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                lineNumber: 3092,
+                                                                lineNumber: 3122,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 3088,
+                                                        lineNumber: 3118,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3087,
+                                                    lineNumber: 3117,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -5941,7 +6000,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: p.name[0]
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3104,
+                                                                                lineNumber: 3134,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -5951,7 +6010,7 @@ function TripWorkspaceContent({ params }) {
                                                                                         children: p.name
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                        lineNumber: 3108,
+                                                                                        lineNumber: 3138,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5959,24 +6018,24 @@ function TripWorkspaceContent({ params }) {
                                                                                         children: isOwner ? 'Trip Creator & Organizer' : 'Joined via Invitation'
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                        lineNumber: 3109,
+                                                                                        lineNumber: 3139,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3107,
+                                                                                lineNumber: 3137,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3103,
+                                                                        lineNumber: 3133,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3102,
+                                                                    lineNumber: 3132,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5984,7 +6043,7 @@ function TripWorkspaceContent({ params }) {
                                                                     children: p.phone || '—'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3115,
+                                                                    lineNumber: 3145,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -5999,7 +6058,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "ADMIN (Co-Organizer)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3123,
+                                                                                lineNumber: 3153,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6007,7 +6066,7 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "MEMBER (Active Traveler)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3124,
+                                                                                lineNumber: 3154,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6015,25 +6074,25 @@ function TripWorkspaceContent({ params }) {
                                                                                 children: "VIEWER (Read-Only Guest)"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                                lineNumber: 3125,
+                                                                                lineNumber: 3155,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3118,
+                                                                        lineNumber: 3148,
                                                                         columnNumber: 31
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: `text-[10px] font-bold px-2 py-0.5 rounded-md ${p.role === 'OWNER' ? 'bg-amber-100 text-amber-800' : p.role === 'ADMIN' ? 'bg-blue-100 text-blue-800' : p.role === 'MEMBER' ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-purple-800'}`,
                                                                         children: p.role
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3128,
+                                                                        lineNumber: 3158,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3116,
+                                                                    lineNumber: 3146,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -6044,60 +6103,60 @@ function TripWorkspaceContent({ params }) {
                                                                         children: "Remove"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3145,
+                                                                        lineNumber: 3175,
                                                                         columnNumber: 31
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                         className: "text-[11px] text-slate-400",
                                                                         children: "—"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                        lineNumber: 3152,
+                                                                        lineNumber: 3182,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3143,
+                                                                    lineNumber: 3173,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, p.id, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3101,
+                                                            lineNumber: 3131,
                                                             columnNumber: 25
                                                         }, this);
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3095,
+                                                    lineNumber: 3125,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3086,
+                                            lineNumber: 3116,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3085,
+                                        lineNumber: 3115,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 3004,
+                                lineNumber: 3034,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 2704,
+                        lineNumber: 2734,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 1464,
+                lineNumber: 1494,
                 columnNumber: 7
             }, this),
             showAddActivityModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6116,7 +6175,7 @@ function TripWorkspaceContent({ params }) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3171,
+                                    lineNumber: 3201,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6127,18 +6186,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3177,
+                                        lineNumber: 3207,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3172,
+                                    lineNumber: 3202,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3170,
+                            lineNumber: 3200,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -6152,7 +6211,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Activity Title *"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3183,
+                                            lineNumber: 3213,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6167,13 +6226,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3184,
+                                            lineNumber: 3214,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3182,
+                                    lineNumber: 3212,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6186,7 +6245,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Start Time"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3195,
+                                                    lineNumber: 3225,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6199,13 +6258,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3196,
+                                                    lineNumber: 3226,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3194,
+                                            lineNumber: 3224,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6215,7 +6274,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "End Time"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3204,
+                                                    lineNumber: 3234,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6228,19 +6287,19 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3205,
+                                                    lineNumber: 3235,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3203,
+                                            lineNumber: 3233,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3193,
+                                    lineNumber: 3223,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6250,7 +6309,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Location Name"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3214,
+                                            lineNumber: 3244,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6264,13 +6323,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3215,
+                                            lineNumber: 3245,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3213,
+                                    lineNumber: 3243,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6280,7 +6339,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Estimated Cost (₹)"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3224,
+                                            lineNumber: 3254,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6293,13 +6352,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3225,
+                                            lineNumber: 3255,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3223,
+                                    lineNumber: 3253,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6312,7 +6371,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3234,
+                                            lineNumber: 3264,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6321,30 +6380,30 @@ function TripWorkspaceContent({ params }) {
                                             children: "Save Activity"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3241,
+                                            lineNumber: 3271,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3233,
+                                    lineNumber: 3263,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3181,
+                            lineNumber: 3211,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3169,
+                    lineNumber: 3199,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3168,
+                lineNumber: 3198,
                 columnNumber: 9
             }, this),
             showAddExpenseModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6362,7 +6421,7 @@ function TripWorkspaceContent({ params }) {
                                             children: editingExpenseId ? 'Edit Group Expense' : 'Log Group Expense'
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3259,
+                                            lineNumber: 3289,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -6370,13 +6429,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "Split automatically among trip crew"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3262,
+                                            lineNumber: 3292,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3258,
+                                    lineNumber: 3288,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6387,18 +6446,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3269,
+                                        lineNumber: 3299,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3264,
+                                    lineNumber: 3294,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3257,
+                            lineNumber: 3287,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -6412,7 +6471,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Expense Description *"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3275,
+                                            lineNumber: 3305,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6427,13 +6486,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3276,
+                                            lineNumber: 3306,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3274,
+                                    lineNumber: 3304,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6447,7 +6506,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Amount *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3289,
+                                                    lineNumber: 3319,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6463,13 +6522,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3290,
+                                                    lineNumber: 3320,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3288,
+                                            lineNumber: 3318,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6480,7 +6539,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Currency"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3302,
+                                                    lineNumber: 3332,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -6502,24 +6561,24 @@ function TripWorkspaceContent({ params }) {
                                                             ]
                                                         }, c.code, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3309,
+                                                            lineNumber: 3339,
                                                             columnNumber: 23
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3303,
+                                                    lineNumber: 3333,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3301,
+                                            lineNumber: 3331,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3287,
+                                    lineNumber: 3317,
                                     columnNumber: 15
                                 }, this),
                                 newExpense.currency && newExpense.currency !== 'INR' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6536,13 +6595,13 @@ function TripWorkspaceContent({ params }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3321,
+                                                    lineNumber: 3351,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3320,
+                                            lineNumber: 3350,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -6555,13 +6614,13 @@ function TripWorkspaceContent({ params }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3323,
+                                            lineNumber: 3353,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3319,
+                                    lineNumber: 3349,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6574,7 +6633,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Category"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3331,
+                                                    lineNumber: 3361,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -6590,7 +6649,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🍔 FOOD & DINING"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3337,
+                                                            lineNumber: 3367,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6598,7 +6657,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🏨 HOTEL / STAY"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3338,
+                                                            lineNumber: 3368,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6606,7 +6665,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🚗 CAB & TRANSIT"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3339,
+                                                            lineNumber: 3369,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6614,7 +6673,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🎟️ TICKETS & ENTRY"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3340,
+                                                            lineNumber: 3370,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -6622,19 +6681,19 @@ function TripWorkspaceContent({ params }) {
                                                             children: "🛍️ SHOPPING"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3341,
+                                                            lineNumber: 3371,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3332,
+                                                    lineNumber: 3362,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3330,
+                                            lineNumber: 3360,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6644,7 +6703,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Paid By"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3346,
+                                                    lineNumber: 3376,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -6664,24 +6723,24 @@ function TripWorkspaceContent({ params }) {
                                                             ]
                                                         }, p.id, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3353,
+                                                            lineNumber: 3383,
                                                             columnNumber: 23
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3347,
+                                                    lineNumber: 3377,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3345,
+                                            lineNumber: 3375,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3329,
+                                    lineNumber: 3359,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6692,7 +6751,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Receipt / Bill Attachment"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3363,
+                                            lineNumber: 3393,
                                             columnNumber: 17
                                         }, this),
                                         newExpense.receiptUrl ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6707,7 +6766,7 @@ function TripWorkspaceContent({ params }) {
                                                             className: "w-12 h-12 rounded-xl object-cover border border-slate-300 shrink-0"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3368,
+                                                            lineNumber: 3398,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6720,20 +6779,20 @@ function TripWorkspaceContent({ params }) {
                                                                             className: "w-3.5 h-3.5 text-emerald-600"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 3375,
+                                                                            lineNumber: 3405,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             children: "Receipt attached"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                            lineNumber: 3376,
+                                                                            lineNumber: 3406,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3374,
+                                                                    lineNumber: 3404,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -6741,19 +6800,19 @@ function TripWorkspaceContent({ params }) {
                                                                     children: "Photo saved with expense record"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                                    lineNumber: 3378,
+                                                                    lineNumber: 3408,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3373,
+                                                            lineNumber: 3403,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3366,
+                                                    lineNumber: 3396,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6768,18 +6827,18 @@ function TripWorkspaceContent({ params }) {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                        lineNumber: 3387,
+                                                        lineNumber: 3417,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3381,
+                                                    lineNumber: 3411,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3365,
+                                            lineNumber: 3395,
                                             columnNumber: 19
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                             className: "flex items-center justify-center gap-2 p-3 rounded-2xl border-2 border-dashed border-slate-200 hover:border-emerald-500 bg-slate-50/60 hover:bg-emerald-50/20 text-slate-600 text-xs font-bold cursor-pointer transition-colors",
@@ -6788,14 +6847,14 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-4 h-4 text-emerald-600"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3392,
+                                                    lineNumber: 3422,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "Snap / Upload Receipt Photo"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3393,
+                                                    lineNumber: 3423,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6805,19 +6864,19 @@ function TripWorkspaceContent({ params }) {
                                                     className: "hidden"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3394,
+                                                    lineNumber: 3424,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3391,
+                                            lineNumber: 3421,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3362,
+                                    lineNumber: 3392,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6827,7 +6886,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Split equally:"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3405,
+                                            lineNumber: 3435,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -6839,13 +6898,13 @@ function TripWorkspaceContent({ params }) {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3406,
+                                            lineNumber: 3436,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3404,
+                                    lineNumber: 3434,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6858,7 +6917,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3412,
+                                            lineNumber: 3442,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6867,30 +6926,30 @@ function TripWorkspaceContent({ params }) {
                                             children: editingExpenseId ? 'Save Changes' : 'Save & Split Bill'
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3419,
+                                            lineNumber: 3449,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3411,
+                                    lineNumber: 3441,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3273,
+                            lineNumber: 3303,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3256,
+                    lineNumber: 3286,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3255,
+                lineNumber: 3285,
                 columnNumber: 9
             }, this),
             showEditTripModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6910,12 +6969,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 3438,
+                                                lineNumber: 3468,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3437,
+                                            lineNumber: 3467,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -6923,13 +6982,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "Edit Trip Details"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3440,
+                                            lineNumber: 3470,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3436,
+                                    lineNumber: 3466,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -6940,18 +6999,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3447,
+                                        lineNumber: 3477,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3442,
+                                    lineNumber: 3472,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3435,
+                            lineNumber: 3465,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -6965,7 +7024,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Trip Name"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3453,
+                                            lineNumber: 3483,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6980,13 +7039,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3454,
+                                            lineNumber: 3484,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3452,
+                                    lineNumber: 3482,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6996,7 +7055,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Destination"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3465,
+                                            lineNumber: 3495,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7011,13 +7070,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3466,
+                                            lineNumber: 3496,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3464,
+                                    lineNumber: 3494,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7030,7 +7089,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Start Date"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3478,
+                                                    lineNumber: 3508,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7044,13 +7103,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3479,
+                                                    lineNumber: 3509,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3477,
+                                            lineNumber: 3507,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7060,7 +7119,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "End Date"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3488,
+                                                    lineNumber: 3518,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7074,19 +7133,19 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3489,
+                                                    lineNumber: 3519,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3487,
+                                            lineNumber: 3517,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3476,
+                                    lineNumber: 3506,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7099,7 +7158,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Budget (₹)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3501,
+                                                    lineNumber: 3531,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7112,13 +7171,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3502,
+                                                    lineNumber: 3532,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3500,
+                                            lineNumber: 3530,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7128,7 +7187,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Status"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3510,
+                                                    lineNumber: 3540,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -7144,7 +7203,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "Planning"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3516,
+                                                            lineNumber: 3546,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -7152,7 +7211,7 @@ function TripWorkspaceContent({ params }) {
                                                             children: "Active"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3517,
+                                                            lineNumber: 3547,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -7160,25 +7219,25 @@ function TripWorkspaceContent({ params }) {
                                                             children: "Completed"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3518,
+                                                            lineNumber: 3548,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3511,
+                                                    lineNumber: 3541,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3509,
+                                            lineNumber: 3539,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3499,
+                                    lineNumber: 3529,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7188,7 +7247,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Description / Notes"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3524,
+                                            lineNumber: 3554,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -7202,13 +7261,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3525,
+                                            lineNumber: 3555,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3523,
+                                    lineNumber: 3553,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7221,7 +7280,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3535,
+                                            lineNumber: 3565,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -7230,30 +7289,30 @@ function TripWorkspaceContent({ params }) {
                                             children: "Save Changes"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3542,
+                                            lineNumber: 3572,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3534,
+                                    lineNumber: 3564,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3451,
+                            lineNumber: 3481,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3434,
+                    lineNumber: 3464,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3433,
+                lineNumber: 3463,
                 columnNumber: 9
             }, this),
             showAddEmergencyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7273,12 +7332,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 3561,
+                                                lineNumber: 3591,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3560,
+                                            lineNumber: 3590,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7288,7 +7347,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Add Emergency Service"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3564,
+                                                    lineNumber: 3594,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -7296,19 +7355,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Register rapid contact details for traveler safety"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3565,
+                                                    lineNumber: 3595,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3563,
+                                            lineNumber: 3593,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3559,
+                                    lineNumber: 3589,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -7319,18 +7378,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3573,
+                                        lineNumber: 3603,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3568,
+                                    lineNumber: 3598,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3558,
+                            lineNumber: 3588,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -7344,7 +7403,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Quick Category Preset"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3580,
+                                            lineNumber: 3610,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7384,18 +7443,18 @@ function TripWorkspaceContent({ params }) {
                                                     children: preset.label
                                                 }, preset.label, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3592,
+                                                    lineNumber: 3622,
                                                     columnNumber: 21
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3583,
+                                            lineNumber: 3613,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3579,
+                                    lineNumber: 3609,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7409,13 +7468,13 @@ function TripWorkspaceContent({ params }) {
                                                     children: "*"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3610,
+                                                    lineNumber: 3640,
                                                     columnNumber: 43
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3609,
+                                            lineNumber: 3639,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7430,13 +7489,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3612,
+                                            lineNumber: 3642,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3608,
+                                    lineNumber: 3638,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7450,13 +7509,13 @@ function TripWorkspaceContent({ params }) {
                                                     children: "*"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3624,
+                                                    lineNumber: 3654,
                                                     columnNumber: 45
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3623,
+                                            lineNumber: 3653,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7471,13 +7530,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3626,
+                                            lineNumber: 3656,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3622,
+                                    lineNumber: 3652,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7494,13 +7553,13 @@ function TripWorkspaceContent({ params }) {
                                                             children: "*"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3639,
+                                                            lineNumber: 3669,
                                                             columnNumber: 42
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3638,
+                                                    lineNumber: 3668,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7515,13 +7574,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3641,
+                                                    lineNumber: 3671,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3637,
+                                            lineNumber: 3667,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7531,7 +7590,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Alt Phone / Policy Number"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3652,
+                                                    lineNumber: 3682,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7545,19 +7604,19 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3655,
+                                                    lineNumber: 3685,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3651,
+                                            lineNumber: 3681,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3636,
+                                    lineNumber: 3666,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7567,7 +7626,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Physical Address / Landmark & Notes"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3666,
+                                            lineNumber: 3696,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -7581,13 +7640,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3669,
+                                            lineNumber: 3699,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3665,
+                                    lineNumber: 3695,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -7603,7 +7662,7 @@ function TripWorkspaceContent({ params }) {
                                             className: "rounded text-red-600 focus:ring-red-500 w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3679,
+                                            lineNumber: 3709,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -7611,13 +7670,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "Mark as Primary Emergency SOS Contact"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3685,
+                                            lineNumber: 3715,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3678,
+                                    lineNumber: 3708,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7630,7 +7689,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3691,
+                                            lineNumber: 3721,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -7639,30 +7698,30 @@ function TripWorkspaceContent({ params }) {
                                             children: "Save Emergency Contact"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3698,
+                                            lineNumber: 3728,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3690,
+                                    lineNumber: 3720,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3577,
+                            lineNumber: 3607,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3557,
+                    lineNumber: 3587,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3556,
+                lineNumber: 3586,
                 columnNumber: 9
             }, this),
             showEditEmergencyModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7682,12 +7741,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 3717,
+                                                lineNumber: 3747,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3716,
+                                            lineNumber: 3746,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7697,7 +7756,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Edit Emergency Contact"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3720,
+                                                    lineNumber: 3750,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -7705,19 +7764,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Update safety provider or emergency numbers"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3721,
+                                                    lineNumber: 3751,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3719,
+                                            lineNumber: 3749,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3715,
+                                    lineNumber: 3745,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -7728,18 +7787,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3729,
+                                        lineNumber: 3759,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3724,
+                                    lineNumber: 3754,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3714,
+                            lineNumber: 3744,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -7757,13 +7816,13 @@ function TripWorkspaceContent({ params }) {
                                                     children: "*"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3736,
+                                                    lineNumber: 3766,
                                                     columnNumber: 43
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3735,
+                                            lineNumber: 3765,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7777,13 +7836,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3738,
+                                            lineNumber: 3768,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3734,
+                                    lineNumber: 3764,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7797,13 +7856,13 @@ function TripWorkspaceContent({ params }) {
                                                     children: "*"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3749,
+                                                    lineNumber: 3779,
                                                     columnNumber: 45
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3748,
+                                            lineNumber: 3778,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7817,13 +7876,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3751,
+                                            lineNumber: 3781,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3747,
+                                    lineNumber: 3777,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7840,13 +7899,13 @@ function TripWorkspaceContent({ params }) {
                                                             children: "*"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 3763,
+                                                            lineNumber: 3793,
                                                             columnNumber: 42
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3762,
+                                                    lineNumber: 3792,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7860,13 +7919,13 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3765,
+                                                    lineNumber: 3795,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3761,
+                                            lineNumber: 3791,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7876,7 +7935,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Alt Phone / Policy Number"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3775,
+                                                    lineNumber: 3805,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -7889,19 +7948,19 @@ function TripWorkspaceContent({ params }) {
                                                     className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3778,
+                                                    lineNumber: 3808,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3774,
+                                            lineNumber: 3804,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3760,
+                                    lineNumber: 3790,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7911,7 +7970,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Physical Address / Landmark & Notes"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3788,
+                                            lineNumber: 3818,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -7924,13 +7983,13 @@ function TripWorkspaceContent({ params }) {
                                             className: "w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3791,
+                                            lineNumber: 3821,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3787,
+                                    lineNumber: 3817,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -7946,7 +8005,7 @@ function TripWorkspaceContent({ params }) {
                                             className: "rounded text-red-600 focus:ring-red-500 w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3800,
+                                            lineNumber: 3830,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -7954,13 +8013,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "Mark as Primary Emergency SOS Contact"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3806,
+                                            lineNumber: 3836,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3799,
+                                    lineNumber: 3829,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -7973,7 +8032,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3812,
+                                            lineNumber: 3842,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -7982,30 +8041,30 @@ function TripWorkspaceContent({ params }) {
                                             children: "Update Contact"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3819,
+                                            lineNumber: 3849,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3811,
+                                    lineNumber: 3841,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3733,
+                            lineNumber: 3763,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3713,
+                    lineNumber: 3743,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3712,
+                lineNumber: 3742,
                 columnNumber: 9
             }, this),
             showEditMemberPhoneModal && editingMemberForPhone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8024,7 +8083,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "📞"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3837,
+                                            lineNumber: 3867,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8034,7 +8093,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: editingMemberForPhone.phone ? 'Edit Emergency Phone' : 'Add Emergency Phone'
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3841,
+                                                    lineNumber: 3871,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8042,19 +8101,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: editingMemberForPhone.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3844,
+                                                    lineNumber: 3874,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3840,
+                                            lineNumber: 3870,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3836,
+                                    lineNumber: 3866,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8065,18 +8124,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3852,
+                                        lineNumber: 3882,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3847,
+                                    lineNumber: 3877,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3835,
+                            lineNumber: 3865,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -8090,7 +8149,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "Traveler Phone Number"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3858,
+                                            lineNumber: 3888,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -8103,7 +8162,7 @@ function TripWorkspaceContent({ params }) {
                                             autoFocus: true
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3861,
+                                            lineNumber: 3891,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8111,13 +8170,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "This contact number will be visible to all travelers in the emergency directory and offline print sheet."
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3870,
+                                            lineNumber: 3900,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3857,
+                                    lineNumber: 3887,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8133,11 +8192,11 @@ function TripWorkspaceContent({ params }) {
                                             children: "Delete Number"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3877,
+                                            lineNumber: 3907,
                                             columnNumber: 19
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {}, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3887,
+                                            lineNumber: 3917,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8150,7 +8209,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Cancel"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3890,
+                                                    lineNumber: 3920,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8159,36 +8218,36 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Save Number"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 3897,
+                                                    lineNumber: 3927,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 3889,
+                                            lineNumber: 3919,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3875,
+                                    lineNumber: 3905,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3856,
+                            lineNumber: 3886,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3834,
+                    lineNumber: 3864,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3833,
+                lineNumber: 3863,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -8208,12 +8267,12 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3924,
+                                        lineNumber: 3954,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3923,
+                                    lineNumber: 3953,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8221,13 +8280,13 @@ function TripWorkspaceContent({ params }) {
                                     children: "Plan"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3926,
+                                    lineNumber: 3956,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3916,
+                            lineNumber: 3946,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8241,12 +8300,12 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3938,
+                                        lineNumber: 3968,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3937,
+                                    lineNumber: 3967,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8254,13 +8313,13 @@ function TripWorkspaceContent({ params }) {
                                     children: "Spend"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3940,
+                                    lineNumber: 3970,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3930,
+                            lineNumber: 3960,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8277,22 +8336,22 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-5 h-5 text-emerald-400"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3953,
+                                        lineNumber: 3983,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3952,
+                                    lineNumber: 3982,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 3945,
+                                lineNumber: 3975,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3944,
+                            lineNumber: 3974,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8306,12 +8365,12 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4 text-red-400"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3967,
+                                        lineNumber: 3997,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3966,
+                                    lineNumber: 3996,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8319,20 +8378,20 @@ function TripWorkspaceContent({ params }) {
                                     children: "SOS Hub"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3969,
+                                    lineNumber: 3999,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: "absolute top-1 right-2.5 w-2 h-2 rounded-full bg-red-500 animate-ping"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3970,
+                                    lineNumber: 4000,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3959,
+                            lineNumber: 3989,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8346,12 +8405,12 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 3982,
+                                        lineNumber: 4012,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3981,
+                                    lineNumber: 4011,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8359,24 +8418,24 @@ function TripWorkspaceContent({ params }) {
                                     children: "Crew"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 3984,
+                                    lineNumber: 4014,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 3974,
+                            lineNumber: 4004,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 3914,
+                    lineNumber: 3944,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3913,
+                lineNumber: 3943,
                 columnNumber: 7
             }, this),
             showMobileQuickActions && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8393,7 +8452,7 @@ function TripWorkspaceContent({ params }) {
                             className: "w-12 h-1.5 rounded-full bg-slate-700 mx-auto mb-1"
                         }, void 0, false, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 4004,
+                            lineNumber: 4034,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8406,7 +8465,7 @@ function TripWorkspaceContent({ params }) {
                                             children: "On-The-Road Quick Actions"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4007,
+                                            lineNumber: 4037,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8414,13 +8473,13 @@ function TripWorkspaceContent({ params }) {
                                             children: "Fast 1-tap shortcuts for active travel"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4008,
+                                            lineNumber: 4038,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4006,
+                                    lineNumber: 4036,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8431,18 +8490,18 @@ function TripWorkspaceContent({ params }) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                        lineNumber: 4015,
+                                        lineNumber: 4045,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4010,
+                                    lineNumber: 4040,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 4005,
+                            lineNumber: 4035,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8462,12 +8521,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4031,
+                                                lineNumber: 4061,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4030,
+                                            lineNumber: 4060,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8477,7 +8536,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Log Expense"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4034,
+                                                    lineNumber: 4064,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8485,19 +8544,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Snap / split group bill"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4035,
+                                                    lineNumber: 4065,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4033,
+                                            lineNumber: 4063,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4022,
+                                    lineNumber: 4052,
                                     columnNumber: 17
                                 }, this),
                                 can('ADD_ACTIVITY') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8514,12 +8573,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4051,
+                                                lineNumber: 4081,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4050,
+                                            lineNumber: 4080,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8529,7 +8588,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Add Place / Stop"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4054,
+                                                    lineNumber: 4084,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8537,19 +8596,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Add to today's schedule"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4055,
+                                                    lineNumber: 4085,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4053,
+                                            lineNumber: 4083,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4042,
+                                    lineNumber: 4072,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8566,12 +8625,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4070,
+                                                lineNumber: 4100,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4069,
+                                            lineNumber: 4099,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8581,7 +8640,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Emergency SOS"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4073,
+                                                    lineNumber: 4103,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8589,19 +8648,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Direct dial police & doctor"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4074,
+                                                    lineNumber: 4104,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4072,
+                                            lineNumber: 4102,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4061,
+                                    lineNumber: 4091,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8618,12 +8677,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4088,
+                                                lineNumber: 4118,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4087,
+                                            lineNumber: 4117,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8633,7 +8692,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Trip Tasks"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4091,
+                                                    lineNumber: 4121,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8641,19 +8700,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Check packing & tickets"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4092,
+                                                    lineNumber: 4122,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4090,
+                                            lineNumber: 4120,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4079,
+                                    lineNumber: 4109,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8670,12 +8729,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4106,
+                                                lineNumber: 4136,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4105,
+                                            lineNumber: 4135,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8685,7 +8744,7 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Document Vault"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4109,
+                                                    lineNumber: 4139,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8693,19 +8752,19 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Flight, hotel & PNR tickets"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4110,
+                                                    lineNumber: 4140,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4108,
+                                            lineNumber: 4138,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4097,
+                                    lineNumber: 4127,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8722,12 +8781,12 @@ function TripWorkspaceContent({ params }) {
                                                 className: "w-5 h-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                lineNumber: 4124,
+                                                lineNumber: 4154,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4123,
+                                            lineNumber: 4153,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8739,20 +8798,20 @@ function TripWorkspaceContent({ params }) {
                                                             children: "Crew Live Chat"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 4128,
+                                                            lineNumber: 4158,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                            lineNumber: 4129,
+                                                            lineNumber: 4159,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4127,
+                                                    lineNumber: 4157,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8760,36 +8819,36 @@ function TripWorkspaceContent({ params }) {
                                                     children: "Announcements & quick chat"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                                    lineNumber: 4131,
+                                                    lineNumber: 4161,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                            lineNumber: 4126,
+                                            lineNumber: 4156,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                    lineNumber: 4115,
+                                    lineNumber: 4145,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                            lineNumber: 4019,
+                            lineNumber: 4049,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                    lineNumber: 4000,
+                    lineNumber: 4030,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 3993,
+                lineNumber: 4023,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8805,20 +8864,20 @@ function TripWorkspaceContent({ params }) {
                                 className: "w-4 h-4"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 4147,
+                                lineNumber: 4177,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                                lineNumber: 4148,
+                                lineNumber: 4178,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 4146,
+                        lineNumber: 4176,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8826,7 +8885,7 @@ function TripWorkspaceContent({ params }) {
                         children: "Crew Chat"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 4150,
+                        lineNumber: 4180,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -8834,13 +8893,13 @@ function TripWorkspaceContent({ params }) {
                         children: "Live"
                     }, void 0, false, {
                         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                        lineNumber: 4151,
+                        lineNumber: 4181,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 4140,
+                lineNumber: 4170,
                 columnNumber: 7
             }, this),
             selectedUpiDebt && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$UPISettlementModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["UPISettlementModal"], {
@@ -8858,7 +8917,7 @@ function TripWorkspaceContent({ params }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 4158,
+                lineNumber: 4188,
                 columnNumber: 9
             }, this),
             selectedReceiptExpense && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$ReceiptPreviewModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ReceiptPreviewModal"], {
@@ -8872,7 +8931,7 @@ function TripWorkspaceContent({ params }) {
                 category: selectedReceiptExpense.category
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 4173,
+                lineNumber: 4203,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$CrewChatDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CrewChatDrawer"], {
@@ -8888,13 +8947,23 @@ function TripWorkspaceContent({ params }) {
                 members: members
             }, void 0, false, {
                 fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-                lineNumber: 4186,
+                lineNumber: 4216,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$components$2f$LiveActivityFeedDrawer$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["LiveActivityFeedDrawer"], {
+                tripId: params.id,
+                isOpen: showActivityFeed,
+                onClose: ()=>setShowActivityFeed(false),
+                currentUser: user
+            }, void 0, false, {
+                fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
+                lineNumber: 4230,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-        lineNumber: 1285,
+        lineNumber: 1302,
         columnNumber: 5
     }, this);
 }
@@ -8905,19 +8974,19 @@ function TripWorkspacePage({ params }) {
             children: "Loading Trip Workspace..."
         }, void 0, false, {
             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-            lineNumber: 4204,
+            lineNumber: 4242,
             columnNumber: 25
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TripWorkspaceContent, {
             params: params
         }, void 0, false, {
             fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-            lineNumber: 4205,
+            lineNumber: 4243,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/apps/web/src/app/trips/[id]/page.tsx",
-        lineNumber: 4204,
+        lineNumber: 4242,
         columnNumber: 5
     }, this);
 }

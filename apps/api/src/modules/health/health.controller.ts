@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject, Optional } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
+import { sql } from 'drizzle-orm';
 
 @ApiTags('Root')
 @Controller()
@@ -21,9 +23,26 @@ export class RootController {
 @ApiTags('Health')
 @Controller('health')
 export class HealthController {
+  constructor(@Optional() @Inject(DRIZZLE_PROVIDER) private readonly db?: DrizzleDB) {}
+
   @Get()
-  @ApiOperation({ summary: 'Liveness probe for hosting platforms (Render, Railway, etc.)' })
-  check() {
-    return { status: 'ok', timestamp: new Date().toISOString() };
+  @ApiOperation({ summary: 'Liveness and database keep-alive probe (Render + Supabase)' })
+  async check() {
+    let dbStatus = 'skipped';
+    if (this.db) {
+      try {
+        await this.db.execute(sql`SELECT 1`);
+        dbStatus = 'connected';
+      } catch (err: any) {
+        dbStatus = 'error: ' + (err.message || 'database unreachable');
+      }
+    }
+
+    return {
+      status: 'ok',
+      service: 'TripSync API (Render)',
+      database: dbStatus,
+      timestamp: new Date().toISOString(),
+    };
   }
 }
