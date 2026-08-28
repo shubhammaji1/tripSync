@@ -2,6 +2,10 @@
   "/page": "app/page.js",
   "/icon.svg/route": "app/icon.svg/route.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/safety/page": "app/safety/page.js",
+  "/support/page": "app/support/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/trips/[id]/page": "app/trips/[id]/page.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/terms/page": "app/terms/page.js"
 }
