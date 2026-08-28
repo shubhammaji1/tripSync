@@ -15,6 +15,8 @@ import {
   Plus,
   ArrowRight,
   Phone,
+  PhoneCall,
+  Navigation,
   Copy,
   Check,
   CheckCircle2,
@@ -253,6 +255,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [newDayDate, setNewDayDate] = useState('');
   const [newDayLabel, setNewDayLabel] = useState('');
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
+  const [showMobileQuickActions, setShowMobileQuickActions] = useState(false);
   const [activitiesList, setActivitiesList] = useState([
     {
       id: 'act-1',
@@ -1221,7 +1224,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           : 'Trip started';
 
   return (
-    <div className="min-h-full pb-16">
+    <div className="min-h-full pb-28 md:pb-16">
       {/* ========================================================= */}
       {/* ROLE-AWARE ACCESS BANNER */}
       {/* ========================================================= */}
@@ -1347,16 +1350,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {/* Navigation Tab Bar */}
-          <div className="flex items-center gap-1 sm:gap-2 mt-8 overflow-x-auto no-scrollbar border-b border-white/10 pb-px">
+          {/* Navigation Tab Bar (Clean swipeable pills) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-6 sm:mt-8 overflow-x-auto no-scrollbar border-b border-white/10 pb-2.5 sm:pb-px">
             {[
               { id: 'overview', label: 'Overview', icon: Sparkles },
               { id: 'itinerary', label: 'Itinerary', icon: Calendar },
-              { id: 'expenses', label: 'Expenses & Splits', icon: Wallet },
+              { id: 'expenses', label: 'Expenses', icon: Wallet },
               { id: 'tasks', label: 'Tasks', icon: CheckSquare },
-              { id: 'emergency', label: '🆘 Emergency Mode', icon: ShieldAlert, highlight: true },
+              { id: 'emergency', label: '🆘 SOS Hub', icon: ShieldAlert, highlight: true },
               { id: 'analytics', label: 'Analytics', icon: PieChartIcon },
-              { id: 'members', label: `Members (${members.length})`, icon: Users },
+              { id: 'members', label: `Crew (${members.length})`, icon: Users },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1364,17 +1367,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as ActiveTab)}
-                  className={`flex items-center gap-1.5 px-4 py-2.5 rounded-t-xl text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-t-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
                     tab.highlight
                       ? isActive
                         ? 'bg-red-600 text-white shadow-lg'
-                        : 'text-red-400 hover:text-white hover:bg-red-950/60'
+                        : 'text-red-300 hover:text-white bg-red-500/10 sm:bg-transparent border border-red-500/30 sm:border-0'
                       : isActive
                       ? 'bg-white text-slate-900 shadow-md font-bold'
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      : 'text-slate-300 hover:text-white hover:bg-white/10 bg-white/5 sm:bg-transparent'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -1492,16 +1495,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {/* ========================================================= */}
         {activeTab === 'itinerary' && (
           <div className="space-y-6">
-            {/* Day Selector Pills & Action */}
-            <div className="flex items-center justify-between gap-4 pb-2 border-b border-slate-200">
-              <div className="flex items-center gap-2 overflow-x-auto">
+            {/* Day Selector Pills & Responsive Action Controls */}
+            <div className="space-y-3 pb-3 border-b border-slate-200">
+              {/* Day Pills Bar */}
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
                 {tripDays.map((d) => (
                   <button
                     key={d.num}
                     onClick={() => setSelectedDay(d.num)}
-                    className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                    className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
                       selectedDay === d.num
-                        ? 'bg-brand-600 text-white shadow-md'
+                        ? 'bg-brand-600 text-white shadow-md ring-2 ring-brand-400/40'
                         : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
                     }`}
                   >
@@ -1513,58 +1517,63 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* Action Bar: Add Day / Delete Day / Add Activity */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
                 {can('EDIT_TRIP') && (
-                  <form onSubmit={handleAddDay} className="flex items-center gap-1.5">
+                  <form onSubmit={handleAddDay} className="flex flex-wrap items-center gap-2">
                     <input
                       type="date"
                       required
                       value={newDayDate}
                       onChange={(event) => setNewDayDate(event.target.value)}
-                      className="rounded-lg border border-slate-300 px-2 py-2 text-xs"
+                      className="flex-1 sm:flex-none rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
                       aria-label="New itinerary day date"
                     />
                     <input
                       value={newDayLabel}
                       onChange={(event) => setNewDayLabel(event.target.value)}
-                      placeholder="Day title"
-                      className="w-28 rounded-lg border border-slate-300 px-2 py-2 text-xs"
+                      placeholder="Day title (e.g. Day 3)"
+                      className="flex-1 sm:w-36 rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
                       aria-label="New itinerary day title"
                     />
-                    <button type="submit" className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white">
+                    <button type="submit" className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors">
                       <Plus className="h-3.5 w-3.5" />
-                      Add day
+                      <span>Add Day</span>
                     </button>
+                    {tripDays.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={handleDeleteDay}
+                        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2 text-xs font-bold text-red-700 transition-colors"
+                        title="Delete selected day"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span className="hidden sm:inline">Delete Day</span>
+                      </button>
+                    )}
                   </form>
                 )}
-                {can('EDIT_TRIP') && tripDays.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={handleDeleteDay}
-                    className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                    Delete day
-                  </button>
-                )}
-                {can('ADD_ACTIVITY') ? (
-                  <button
-                    onClick={() => setShowAddActivityModal(true)}
-                    disabled={tripDays.length === 0}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Activity</span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-semibold border border-slate-200 cursor-not-allowed"
-                  >
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>Add Activity (Read-Only)</span>
-                  </button>
-                )}
+
+                <div className="flex items-center gap-2 self-end sm:self-auto">
+                  {can('ADD_ACTIVITY') ? (
+                    <button
+                      onClick={() => setShowAddActivityModal(true)}
+                      disabled={tripDays.length === 0}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>+ Add Activity</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Add Activity (Read-Only)</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -1579,23 +1588,47 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 {activitiesList
                   .filter((a) => a.dayNumber === selectedDay)
                   .map((act) => (
-                    <div key={act.id} className="relative flex items-start gap-4 pl-10">
-                      <div className="absolute left-2.5 top-1.5 w-3.5 h-3.5 rounded-full bg-brand-500 ring-4 ring-white" />
-                      <div className="flex-1 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-800 flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5 text-slate-400" /> {act.time}
+                    <div key={act.id} className="relative flex items-start gap-3 sm:gap-4 pl-8 sm:pl-10">
+                      <div className="absolute left-2.5 top-2 w-3.5 h-3.5 rounded-full bg-brand-500 ring-4 ring-white" />
+                      <div className="flex-1 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all shadow-xs">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-200/80">
+                            <Clock className="w-3.5 h-3.5 text-brand-600" /> {act.time}
                           </span>
-                          <span className="text-[10px] font-bold bg-sky-100 text-sky-800 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-bold bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg">
                             {act.status}
                           </span>
                         </div>
-                        <h3 className="font-bold text-sm text-slate-900 mt-1">{act.title}</h3>
-                        <p className="text-xs text-slate-600 mt-1">{act.description}</p>
-                        <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
-                          <span>📍 {act.location}</span>
-                          <span>👤 {act.responsible}</span>
-                          <span>💰 Est: ₹{act.cost.toLocaleString()}</span>
+
+                        <h3 className="font-bold text-sm sm:text-base text-slate-900 mt-2">{act.title}</h3>
+                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">{act.description}</p>
+
+                        <div className="mt-3.5 pt-3 border-t border-slate-200/70 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+                          <div className="flex flex-wrap items-center gap-3">
+                            <span className="flex items-center gap-1 font-medium text-slate-700">
+                              <MapPin className="w-3.5 h-3.5 text-brand-500 shrink-0" />
+                              <span className="truncate max-w-[150px] sm:max-w-none">{act.location}</span>
+                            </span>
+                            <span className="flex items-center gap-1 text-slate-500">
+                              👤 {act.responsible}
+                            </span>
+                            <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                              ₹{act.cost.toLocaleString()}
+                            </span>
+                          </div>
+
+                          {/* 1-Tap Google Maps Directions Shortcut */}
+                          {act.location && (
+                            <a
+                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${act.location}, ${displayDestination}`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-brand-50 text-slate-700 hover:text-brand-700 border border-slate-200 text-xs font-bold shadow-xs active:scale-95 transition-all"
+                            >
+                              <Navigation className="w-3.5 h-3.5 text-brand-500" />
+                              <span>Map Directions</span>
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1712,14 +1745,62 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </div>
 
-            {/* Expense Log Table */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            {/* Expense Log: Mobile Cards (< md) & Desktop Table (>= md) */}
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-sm">
               <h3 className="font-bold text-base text-slate-900 mb-4 flex items-center gap-2">
                 <CreditCard className="w-4 h-4 text-brand-600" />
                 Logged Expenses ({expensesList.length})
               </h3>
 
-              <div className="overflow-x-auto">
+              {/* Mobile Expense Cards (< md) */}
+              <div className="md:hidden space-y-3">
+                {expensesList.map((exp) => (
+                  <div key={exp.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-bold text-sm text-slate-900 leading-snug truncate">{exp.title}</h4>
+                        <span className="inline-block mt-1 text-[10px] font-bold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200/60">
+                          {exp.category}
+                        </span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="text-base font-extrabold text-slate-900">₹{formatExpenseAmount(exp.amount)}</span>
+                        <span className="block text-[10px] text-slate-400 font-medium">{exp.date}</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-600">
+                      <span className="font-medium text-slate-700">👤 Paid by <strong className="text-slate-900">{exp.paidBy}</strong></span>
+                      <span className="text-[11px] text-slate-500 font-medium">{exp.split}</span>
+                    </div>
+
+                    {can('ADD_EXPENSE') && (
+                      <div className="pt-2 flex items-center justify-end gap-3 text-xs border-t border-slate-200/40">
+                        <button
+                          type="button"
+                          onClick={() => handleEditExpense(exp)}
+                          className="font-bold text-brand-600 hover:text-brand-800 p-1"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteExpense(exp.id)}
+                          className="font-bold text-red-600 hover:text-red-800 p-1"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {expensesList.length === 0 && (
+                  <div className="text-center py-6 text-xs text-slate-400">No expenses recorded yet.</div>
+                )}
+              </div>
+
+              {/* Desktop Table (>= md) */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead>
                     <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
@@ -1786,29 +1867,29 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             </div>
 
             {can('MANAGE_TASKS') && (
-              <form onSubmit={handleAddTask} className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-[1.5fr_1fr_1fr_1fr_auto] md:items-end">
-                <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Task</label>
-                  <input required value={newTask.title} onChange={(event) => setNewTask({ ...newTask, title: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Task to complete" />
+              <form onSubmit={handleAddTask} className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm grid-cols-1 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr_auto] md:items-end">
+                <div className="sm:col-span-2 md:col-span-1">
+                  <label className="mb-1 block text-xs font-bold text-slate-700">Task</label>
+                  <input required value={newTask.title} onChange={(event) => setNewTask({ ...newTask, title: event.target.value })} className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="e.g. Book train tickets, Pack first-aid" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Assignee</label>
-                  <select value={newTask.assignedToId} onChange={(event) => setNewTask({ ...newTask, assignedToId: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <label className="mb-1 block text-xs font-bold text-slate-700">Assignee</label>
+                  <select value={newTask.assignedToId} onChange={(event) => setNewTask({ ...newTask, assignedToId: event.target.value })} className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
                     <option value="">Unassigned</option>
                     {members.map((member) => <option key={member.id} value={member.id}>{member.name}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Due date</label>
-                  <input type="date" value={newTask.dueDate} onChange={(event) => setNewTask({ ...newTask, dueDate: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+                  <label className="mb-1 block text-xs font-bold text-slate-700">Due date</label>
+                  <input type="date" value={newTask.dueDate} onChange={(event) => setNewTask({ ...newTask, dueDate: event.target.value })} className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white" />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-semibold text-slate-700">Priority</label>
-                  <select value={newTask.priority} onChange={(event) => setNewTask({ ...newTask, priority: event.target.value })} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <label className="mb-1 block text-xs font-bold text-slate-700">Priority</label>
+                  <select value={newTask.priority} onChange={(event) => setNewTask({ ...newTask, priority: event.target.value })} className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
                     <option value="LOW">Low</option><option value="MEDIUM">Medium</option><option value="HIGH">High</option><option value="URGENT">Urgent</option>
                   </select>
                 </div>
-                <button type="submit" className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-bold text-white">Add task</button>
+                <button type="submit" className="w-full sm:w-auto rounded-xl bg-slate-900 hover:bg-slate-800 px-5 py-2.5 text-xs font-bold text-white shadow-xs transition-colors">Add task</button>
               </form>
             )}
 
@@ -2727,81 +2808,164 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             )}
             */}
 
+            {/* Members Roster: Mobile Cards (< md) & Desktop Table (>= md) */}
             <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
-                    <th className="py-3 px-4">Member</th>
-                    <th className="py-3 px-4">Contact</th>
-                    <th className="py-3 px-4">Active RBAC Role</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {members.map((p) => {
-                    const isOwner = p.role === TripRole.OWNER;
-                    const canEditThisRole = can('MANAGE_ROLES') && (!isOwner || currentRole === TripRole.OWNER);
+              {/* Mobile Member Cards (< md) */}
+              <div className="md:hidden divide-y divide-slate-100">
+                {members.map((p) => {
+                  const isOwner = p.role === TripRole.OWNER;
+                  const canEditThisRole = can('MANAGE_ROLES') && (!isOwner || currentRole === TripRole.OWNER);
 
-                    return (
-                      <tr key={p.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="py-3.5 px-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center">
-                              {p.name[0]}
-                            </div>
-                            <div>
-                              <p className="font-bold text-slate-900">{p.name}</p>
-                              <p className="text-[10px] text-slate-500">
-                                {isOwner ? 'Trip Creator & Organizer' : 'Joined via Invitation'}
-                              </p>
-                            </div>
+                  return (
+                    <div key={p.id} className="p-4 space-y-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-2xl bg-slate-900 text-white font-black text-sm flex items-center justify-center shrink-0">
+                            {p.name[0]}
                           </div>
-                        </td>
-                        <td className="py-3.5 px-4 text-slate-600">{p.phone}</td>
-                        <td className="py-3.5 px-4">
+                          <div>
+                            <p className="font-bold text-sm text-slate-900">{p.name}</p>
+                            <p className="text-[11px] text-slate-500 font-medium">
+                              {isOwner ? '👑 Trip Creator & Owner' : 'Joined via Invitation'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {!isOwner && can('INVITE_MEMBERS') && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveMember(p.id)}
+                            className="text-xs font-bold text-red-600 hover:text-red-800 p-1.5 rounded-lg hover:bg-red-50"
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Contact info & role on mobile */}
+                      <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-slate-500 font-medium">Emergency Contact:</span>
+                          {p.phone ? (
+                            <a href={`tel:${p.phone.replace(/\s+/g, '')}`} className="font-bold text-brand-600 flex items-center gap-1">
+                              <Phone className="w-3 h-3" /> {p.phone}
+                            </a>
+                          ) : (
+                            <span className="text-slate-400 italic">No phone added</span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs gap-2 pt-1">
+                          <span className="text-slate-500 font-medium shrink-0">Access Role:</span>
                           {canEditThisRole && !isOwner ? (
                             <select
                               value={p.role}
                               onChange={(e) => handleMemberRoleChange(p.id, e.target.value as TripRole)}
-                              className="px-2 py-1 rounded-lg border border-slate-300 font-bold text-[11px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              className="w-full max-w-[200px] px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-slate-50"
                             >
-                              <option value={TripRole.ADMIN}>ADMIN (Co-Organizer)</option>
-                              <option value={TripRole.MEMBER}>MEMBER (Active Traveler)</option>
-                              <option value={TripRole.VIEWER}>VIEWER (Read-Only Guest)</option>
+                              <option value={TripRole.ADMIN}>🛡️ ADMIN (Co-Organizer)</option>
+                              <option value={TripRole.MEMBER}>🎒 MEMBER (Active Traveler)</option>
+                              <option value={TripRole.VIEWER}>👁️ VIEWER (Read-Only Guest)</option>
                             </select>
                           ) : (
                             <span
-                              className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                              className={`text-[11px] font-extrabold px-2.5 py-1 rounded-lg ${
                                 p.role === 'OWNER'
-                                  ? 'bg-amber-100 text-amber-800'
+                                  ? 'bg-amber-100 text-amber-900 border border-amber-200'
                                   : p.role === 'ADMIN'
-                                  ? 'bg-blue-100 text-blue-800'
+                                  ? 'bg-blue-100 text-blue-900 border border-blue-200'
                                   : p.role === 'MEMBER'
-                                  ? 'bg-emerald-100 text-emerald-800'
-                                  : 'bg-purple-100 text-purple-800'
+                                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-200'
+                                  : 'bg-slate-100 text-slate-700 border border-slate-200'
                               }`}
                             >
-                              {p.role}
+                              {p.role === 'OWNER' ? '👑 OWNER' : p.role === 'ADMIN' ? '🛡️ ADMIN' : p.role === 'MEMBER' ? '🎒 MEMBER' : '👁️ VIEWER'}
                             </span>
                           )}
-                        </td>
-                        <td className="py-3.5 px-4 text-right">
-                          {!isOwner && can('INVITE_MEMBERS') ? (
-                            <button
-                              onClick={() => handleRemoveMember(p.id)}
-                              className="text-xs font-semibold text-red-600 hover:text-red-800"
-                            >
-                              Remove
-                            </button>
-                          ) : (
-                            <span className="text-[11px] text-slate-400">—</span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop Table (>= md) */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold">
+                      <th className="py-3 px-4">Member</th>
+                      <th className="py-3 px-4">Contact</th>
+                      <th className="py-3 px-4">Active RBAC Role</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {members.map((p) => {
+                      const isOwner = p.role === TripRole.OWNER;
+                      const canEditThisRole = can('MANAGE_ROLES') && (!isOwner || currentRole === TripRole.OWNER);
+
+                      return (
+                        <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-3.5 px-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center">
+                                {p.name[0]}
+                              </div>
+                              <div>
+                                <p className="font-bold text-slate-900">{p.name}</p>
+                                <p className="text-[10px] text-slate-500">
+                                  {isOwner ? 'Trip Creator & Organizer' : 'Joined via Invitation'}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="py-3.5 px-4 text-slate-600">{p.phone || '—'}</td>
+                          <td className="py-3.5 px-4">
+                            {canEditThisRole && !isOwner ? (
+                              <select
+                                value={p.role}
+                                onChange={(e) => handleMemberRoleChange(p.id, e.target.value as TripRole)}
+                                className="px-2 py-1 rounded-lg border border-slate-300 font-bold text-[11px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                              >
+                                <option value={TripRole.ADMIN}>ADMIN (Co-Organizer)</option>
+                                <option value={TripRole.MEMBER}>MEMBER (Active Traveler)</option>
+                                <option value={TripRole.VIEWER}>VIEWER (Read-Only Guest)</option>
+                              </select>
+                            ) : (
+                              <span
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                                  p.role === 'OWNER'
+                                    ? 'bg-amber-100 text-amber-800'
+                                    : p.role === 'ADMIN'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : p.role === 'MEMBER'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : 'bg-purple-100 text-purple-800'
+                                }`}
+                              >
+                                {p.role}
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3.5 px-4 text-right">
+                            {!isOwner && can('INVITE_MEMBERS') ? (
+                              <button
+                                onClick={() => handleRemoveMember(p.id)}
+                                className="text-xs font-semibold text-red-600 hover:text-red-800"
+                              >
+                                Remove
+                              </button>
+                            ) : (
+                              <span className="text-[11px] text-slate-400">—</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}
@@ -3449,6 +3613,196 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </div>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MOBILE STICKY BOTTOM NAVIGATION DOCK (md:hidden) */}
+      {/* ========================================================= */}
+      <nav aria-label="Mobile trip navigation" className="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/90 px-3 py-1.5 md:hidden shadow-2xl safe-area-bottom">
+        <div className="flex items-center justify-around max-w-md mx-auto relative">
+          {/* 1. Schedule / Itinerary Tab */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('itinerary')}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
+              activeTab === 'itinerary' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <div className={`p-1 rounded-xl ${activeTab === 'itinerary' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+              <Calendar className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] tracking-tight">Plan</span>
+          </button>
+
+          {/* 2. Expenses Tab */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('expenses')}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
+              activeTab === 'expenses' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <div className={`p-1 rounded-xl ${activeTab === 'expenses' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+              <Wallet className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] tracking-tight">Spend</span>
+          </button>
+
+          {/* 3. Center Elevated Quick Action (+) Button */}
+          <div className="flex-1 flex justify-center -mt-6">
+            <button
+              type="button"
+              onClick={() => setShowMobileQuickActions(true)}
+              className="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-600 via-emerald-500 to-teal-400 p-0.5 shadow-lg shadow-emerald-500/30 active:scale-90 transition-transform flex items-center justify-center text-white"
+              title="Quick Action Shortcut"
+              aria-label="Quick Actions"
+            >
+              <div className="w-full h-full rounded-full bg-slate-950 flex items-center justify-center hover:bg-transparent transition-colors">
+                <Plus className="w-5 h-5 text-emerald-400" />
+              </div>
+            </button>
+          </div>
+
+          {/* 4. SOS Emergency Hub Tab */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('emergency')}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 relative transition-all ${
+              activeTab === 'emergency' ? 'text-red-400 font-bold' : 'text-slate-400 hover:text-red-300'
+            }`}
+          >
+            <div className={`p-1 rounded-xl ${activeTab === 'emergency' ? 'bg-red-500/20 text-red-400' : ''}`}>
+              <ShieldAlert className="w-4 h-4 text-red-400" />
+            </div>
+            <span className="text-[10px] tracking-tight font-bold text-red-400">SOS Hub</span>
+            <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-red-500 animate-ping" />
+          </button>
+
+          {/* 5. Members / Crew Tab */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('members')}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
+              activeTab === 'members' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <div className={`p-1 rounded-xl ${activeTab === 'members' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+              <Users className="w-4 h-4" />
+            </div>
+            <span className="text-[10px] tracking-tight">Crew</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* ========================================================= */}
+      {/* MOBILE QUICK ACTION BOTTOM SHEET */}
+      {/* ========================================================= */}
+      {showMobileQuickActions && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="On-the-Road Quick Actions"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-end justify-center p-0 md:hidden animate-in fade-in duration-200"
+          onClick={() => setShowMobileQuickActions(false)}
+        >
+          <div
+            className="w-full bg-slate-900 border-t border-slate-800 rounded-t-3xl p-6 space-y-4 text-white shadow-2xl animate-in slide-in-from-bottom-6 duration-300 pb-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-12 h-1.5 rounded-full bg-slate-700 mx-auto mb-1" />
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-base font-black">On-The-Road Quick Actions</h3>
+                <p className="text-xs text-slate-400">Fast 1-tap shortcuts for active travel</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowMobileQuickActions(false)}
+                className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              {/* Quick Expense */}
+              {can('ADD_EXPENSE') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMobileQuickActions(false);
+                    setShowAddExpenseModal(true);
+                  }}
+                  className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Wallet className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white">Log Expense</h4>
+                    <p className="text-[10px] text-emerald-300/80">Snap / split group bill</p>
+                  </div>
+                </button>
+              )}
+
+              {/* Quick Activity */}
+              {can('ADD_ACTIVITY') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowMobileQuickActions(false);
+                    setShowAddActivityModal(true);
+                  }}
+                  className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-white">Add Place / Stop</h4>
+                    <p className="text-[10px] text-sky-300/80">Add to today's schedule</p>
+                  </div>
+                </button>
+              )}
+
+              {/* Emergency Mode */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setActiveTab('emergency');
+                }}
+                className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ShieldAlert className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white">Emergency SOS</h4>
+                  <p className="text-[10px] text-red-300/80">Direct dial police & doctor</p>
+                </div>
+              </button>
+
+              {/* View Tasks */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setActiveTab('tasks');
+                }}
+                className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 hover:bg-purple-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <CheckSquare className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-white">Trip Tasks</h4>
+                  <p className="text-[10px] text-purple-300/80">Check packing & tickets</p>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       )}
