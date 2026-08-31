@@ -10,8 +10,45 @@ import { AuthProvider } from '@/lib/auth-context';
 import { ApiAuthBridge } from '@/components/ApiAuthBridge';
 
 export const metadata: Metadata = {
-  title: 'TripSync — Collaborative Group Travel Platform',
-  description: 'Plan together. Travel smarter. Stay connected. The modern platform for group trips.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://tripsync.app'),
+  title: {
+    default: 'TripSync — Collaborative Group Travel Platform',
+    template: '%s | TripSync',
+  },
+  description: 'Plan together. Travel smarter. Stay connected. Real-time collaborative itineraries, smart expense splits, document vault, and offline mountain mode.',
+  keywords: [
+    'group travel',
+    'trip planner',
+    'expense split',
+    'travel itinerary',
+    'UPI split',
+    'travel documents',
+    'offline travel app',
+  ],
+  authors: [{ name: 'TripSync' }],
+  openGraph: {
+    title: 'TripSync — Collaborative Group Travel Platform',
+    description: 'Plan together. Travel smarter. Stay connected. The modern platform for group trips.',
+    url: 'https://tripsync.app',
+    siteName: 'TripSync',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'TripSync — Collaborative Group Travel Platform',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TripSync — Collaborative Group Travel Platform',
+    description: 'Plan together. Travel smarter. Stay connected. The modern platform for group trips.',
+    creator: '@tripsync',
+    images: ['/twitter-image'],
+  },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

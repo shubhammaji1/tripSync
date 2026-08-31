@@ -8424,7 +8424,7 @@ class Router {
             const { BloomFilter } = __turbopack_require__("[project]/node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/shared/lib/bloom-filter.js [client] (ecmascript)");
             const routerFilterSValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":10,"errorRate":0.0001,"numBits":192,"numHashes":14,"bitArray":[1,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,1,1,1,0,1,1,1,0,0,1,0,0,0,0,0,0,1,0,1,0,1,1,0,1,0,0,0,1,1,0,0,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,0,0,1,0,0,1,1,1,1,0,1,0,0,0,0,1,0,0,1,0,0,1,1,1,1,1,0,1,0,1,0,0,1,0,1,0,0,1,1,1,0,0,1,0,1,0,1,0,0,1,0,0,0,1,1,0,1,0,1,1,0,0,0,1,1,0,1,0,0,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,0,0,1,1,0,0,0,0,0,0,1,0,1,1,1,0,0,0,0,1,0,0,0,0,1,1,1]}'));
             const staticFilterData = routerFilterSValue ? routerFilterSValue : undefined;
-            const routerFilterDValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":4,"errorRate":0.0001,"numBits":77,"numHashes":14,"bitArray":[0,1,1,1,1,1,1,1,1,0,0,0,1,0,1,0,1,1,1,1,1,1,1,0,0,0,1,1,0,1,1,1,1,1,1,0,0,0,0,1,0,1,0,0,1,0,0,1,1,0,0,0,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,1,1,0,0,1,1]}'));
+            const routerFilterDValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":6,"errorRate":0.0001,"numBits":116,"numHashes":14,"bitArray":[1,0,1,1,0,0,1,0,1,1,0,1,0,1,0,1,0,1,1,0,0,0,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,1,1,0,1,1,1,0,0,1,1,1,0,1,1,0,1,0,1,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,1,1,0,1,1,0,0,1,1,0,0,0,0,1,1,1,1,0,1,0,1,0,0,0,0,0,1]}'));
             const dynamicFilterData = routerFilterDValue ? routerFilterDValue : undefined;
             if (staticFilterData == null ? void 0 : staticFilterData.numHashes) {
                 this._bfl_s = new BloomFilter(staticFilterData.numItems, staticFilterData.errorRate);
@@ -18173,7 +18173,7 @@ function AppContainer(param) {
                             children: /*#__PURE__*/ (0, _jsxruntime.jsx)(_headmanagercontextsharedruntime.HeadManagerContext.Provider, {
                                 value: headManager,
                                 children: /*#__PURE__*/ (0, _jsxruntime.jsx)(_imageconfigcontextsharedruntime.ImageConfigContext.Provider, {
-                                    value: ("TURBOPACK compile-time value", JSON.parse('{"deviceSizes":[640,750,828,1080,1200,1920,2048,3840],"imageSizes":[16,32,48,64,96,128,256,384],"path":"/_next/image","loader":"default","dangerouslyAllowSVG":false,"unoptimized":false,"domains":[],"remotePatterns":[{"protocol":"https","hostname":"images.unsplash.com"}]}')),
+                                    value: ("TURBOPACK compile-time value", JSON.parse('{"deviceSizes":[640,750,828,1080,1200,1920,2048,3840],"imageSizes":[16,32,48,64,96,128,256,384],"path":"/_next/image","loader":"default","dangerouslyAllowSVG":false,"unoptimized":false,"domains":[],"remotePatterns":[{"protocol":"https","hostname":"**"}]}')),
                                     children: children
                                 })
                             })

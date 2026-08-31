@@ -73,6 +73,7 @@ import { DocumentVaultSection } from '@/components/DocumentVaultSection';
 import { ReceiptPreviewModal } from '@/components/ReceiptPreviewModal';
 import { CrewChatDrawer } from '@/components/CrewChatDrawer';
 import { LiveActivityFeedDrawer, emitTripActivity } from '@/components/LiveActivityFeedDrawer';
+import { haptic } from '@/lib/haptics';
 import { SUPPORTED_CURRENCIES, convertCurrency, formatCurrencyWithSymbol } from '@/lib/currencies';
 import {
   PieChart,
@@ -457,11 +458,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    haptic.medium();
     setCopiedText(text);
     setTimeout(() => setCopiedText(null), 2000);
   };
 
   const showPermissionWarning = (actionName: string) => {
+    haptic.warning();
     setActionAlert(`Action Locked: Your current role (${currentRole}) does not have permission to ${actionName}. Switch to OWNER or ADMIN above to unlock.`);
     setTimeout(() => setActionAlert(null), 5000);
   };
@@ -504,6 +507,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         sortOrder: activitiesList.length,
       });
       setActivitiesList((current) => [...current, { ...newAct, id: saved.id || newAct.id }]);
+      haptic.success();
       emitTripActivity(params.id, {
         type: 'SCHEDULE_CHANGE',
         title: 'Schedule Updated',
@@ -511,6 +515,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         actorName: user?.fullName || user?.name || 'Organizer',
       });
     } catch (reason: any) {
+      haptic.error();
       setActionAlert(reason.message || 'Activity could not be saved.');
       return;
     }
@@ -529,6 +534,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const handleReceiptFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setActionAlert('Receipt file exceeds 5MB maximum size limit.');
+        e.target.value = '';
+        return;
+      }
+      const allowed = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+      if (!allowed.includes(file.type) && !/\.(jpg|jpeg|png|webp|pdf)$/i.test(file.name)) {
+        setActionAlert('Invalid receipt file type. Only JPG, PNG, WEBP, and PDF are allowed.');
+        e.target.value = '';
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
@@ -589,7 +605,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           date: newEntry.date,
           participants: newEntry.participants,
         });
+        haptic.success();
       } catch (reason: any) {
+        haptic.error();
         setActionAlert(reason.message || 'Expense could not be updated.');
         return;
       }
@@ -614,6 +632,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         })),
       });
       setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
+      haptic.success();
       emitTripActivity(params.id, {
         type: 'NEW_EXPENSE',
         title: 'New Group Bill Logged',
@@ -621,6 +640,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         actorName: user?.fullName || user?.name || payer,
       });
     } catch (reason: any) {
+      haptic.error();
       setActionAlert(reason.message || 'Expense could not be saved.');
       return;
     }
@@ -638,6 +658,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   };
 
   const handleEditExpense = (expense: any) => {
+    haptic.light();
     setEditingExpenseId(expense.id);
     setNewExpense({
       title: expense.title || '',
@@ -654,9 +675,11 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   const handleDeleteExpense = async (expenseId: string) => {
     if (!window.confirm('Delete this expense?')) return;
+    haptic.warning();
     try {
       if (/^[0-9a-f-]{36}$/i.test(expenseId)) await api.deleteExpense(params.id, expenseId);
     } catch (reason: any) {
+      haptic.error();
       setActionAlert(reason.message || 'Expense could not be deleted.');
       return;
     }
@@ -681,8 +704,11 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     if (task && /^[0-9a-f-]{36}$/i.test(taskId)) {
       try {
         await api.updateTask(params.id, taskId, { status: task.status as any });
+        if (task.status === 'DONE') haptic.success();
+        else haptic.light();
       } catch (reason: any) {
         setTasks(tasks);
+        haptic.error();
         setActionAlert(reason.message || 'Task could not be updated.');
       }
     }
@@ -710,7 +736,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         assignedToId: /^[0-9a-f-]{36}$/i.test(newTask.assignedToId) ? newTask.assignedToId : null,
       });
       setTasks((current) => [{ ...localTask, id: saved.id || localTask.id }, ...current]);
+      haptic.light();
     } catch (reason: any) {
+      haptic.error();
       setActionAlert(reason.message || 'Task could not be saved.');
       return;
     }
@@ -1470,7 +1498,10 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as ActiveTab)}
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab(tab.id as ActiveTab);
+                  }}
                   className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-t-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
                     tab.highlight
                       ? isActive

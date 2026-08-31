@@ -1,11 +1,11 @@
 const CHUNK_PUBLIC_PATH = "server/app/dashboard/page.js";
 const runtime = require("../../chunks/ssr/[turbopack]_runtime.js");
-runtime.loadChunk("server/chunks/ssr/src_42b36f._.js");
-runtime.loadChunk("server/chunks/ssr/81592_next_024dce._.js");
+runtime.loadChunk("server/chunks/ssr/src_3885f7._.js");
+runtime.loadChunk("server/chunks/ssr/81592_next_e55830._.js");
 runtime.loadChunk("server/chunks/ssr/[project]__2a55b3._.js");
 runtime.loadChunk("server/chunks/ssr/39d15_@clerk_shared_dist_05043e._.js");
 runtime.loadChunk("server/chunks/ssr/65579_@clerk_backend_dist_fcd05e._.js");
-runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_977438._.js");
-runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_31aa16._.js");
+runtime.loadChunk("server/chunks/ssr/9bce4_lucide-react_dist_esm_c3c53e._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_d2c629._.js");
 runtime.getOrInstantiateRuntimeModule("[project]/apps/web/.next-internal/server/app/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript, action, ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/.pnpm/@clerk+nextjs@7.8.2_next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH);
-module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/esm/build/templates/app-page.js?page=/dashboard/page { COMPONENT_0 => \"[project]/apps/web/src/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_1 => \"[project]/node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/client/components/not-found-error.js [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_2 => \"[project]/apps/web/src/app/dashboard/page.tsx [app-rsc] (ecmascript, Next.js server component)\", METADATA_3 => \"[project]/apps/web/src/app/icon.svg.mjs { IMAGE => \\\"[project]/apps/web/src/app/icon.svg [app-rsc] (static)\\\" } [app-rsc] (structured image object, ecmascript)\" } [app-rsc] (ecmascript) <facade>", CHUNK_PUBLIC_PATH).exports;
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/.pnpm/next@14.2.35_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/esm/build/templates/app-page.js?page=/dashboard/page { COMPONENT_0 => \"[project]/apps/web/src/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_1 => \"[project]/apps/web/src/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_2 => \"[project]/apps/web/src/app/dashboard/page.tsx [app-rsc] (ecmascript, Next.js server component)\", METADATA_3 => \"[project]/apps/web/src/app/icon.svg.mjs { IMAGE => \\\"[project]/apps/web/src/app/icon.svg [app-rsc] (static)\\\" } [app-rsc] (structured image object, ecmascript)\", METADATA_4 => \"[project]/apps/web/src/app/twitter-image--metadata.js [app-rsc] (ecmascript)\", METADATA_5 => \"[project]/apps/web/src/app/opengraph-image--metadata.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript) <facade>", CHUNK_PUBLIC_PATH).exports;

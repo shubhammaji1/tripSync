@@ -9,7 +9,10 @@ dotenv.config({ path: path.resolve(process.cwd(), '../../.env') });
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import helmet from '@fastify/helmet';
+import rateLimit from '@fastify/rate-limit';
+import compress from '@fastify/compress';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -33,6 +36,39 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: true })
+  );
+
+  // Performance: Response compression (Brotli / Gzip) for slow mobile connections
+  await app.register(compress as any, {
+    encodings: ['gzip', 'deflate', 'br'],
+  });
+
+  // Security: HTTP Security Headers via Helmet
+  await app.register(helmet as any, {
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  });
+
+  // Security: Rate Limiting & Abuse Protection (120 req/min per IP)
+  await app.register(rateLimit as any, {
+    max: 120,
+    timeWindow: '1 minute',
+    allowList: ['127.0.0.1', 'localhost'],
+    errorResponseBuilder: (req: any, context: any) => ({
+      statusCode: 429,
+      error: 'Too Many Requests',
+      message: `Rate limit exceeded. Try again in ${Math.round(context.ttl / 1000)} seconds.`,
+      retryAfter: Math.round(context.ttl / 1000),
+    }),
+  });
+
+  // Security: Global Input Sanitization & Payload Validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    })
   );
 
   // Global API Prefix

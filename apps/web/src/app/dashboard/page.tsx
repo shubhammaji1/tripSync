@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import {
@@ -626,10 +627,12 @@ function DashboardContent() {
         return (
           <div className="relative rounded-3xl overflow-hidden shadow-xl bg-slate-950 text-white border border-slate-800">
             <div className="absolute inset-0 opacity-40 mix-blend-overlay">
-              <img
+              <Image
                 src={spotlightTrip.coverImage || 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80'}
                 alt={spotlightTrip.name}
-                className="w-full h-full object-cover"
+                fill
+                priority
+                className="object-cover"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
@@ -858,10 +861,12 @@ function DashboardContent() {
                 >
                   {/* Header Image */}
                   <div className="relative h-36 w-full bg-slate-100 overflow-hidden">
-                    <img
+                    <Image
                       src={trip.coverImage || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'}
                       alt={trip.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     
@@ -991,11 +996,15 @@ function DashboardContent() {
                   className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-slate-50 cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <img
-                      src={trip.coverImage || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80'}
-                      alt={trip.name}
-                      className="w-16 h-16 rounded-xl object-cover shrink-0"
-                    />
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-slate-100">
+                      <Image
+                        src={trip.coverImage || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80'}
+                        alt={trip.name}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                      />
+                    </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <h3 className="text-sm font-bold text-slate-900 truncate">{trip.name}</h3>
@@ -1152,8 +1161,14 @@ function DashboardContent() {
             >
               <div>
                 <div className="relative h-28 rounded-xl overflow-hidden mb-3">
-                  <img src={tpl.image} alt={tpl.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-bold text-white">
+                  <Image
+                    src={tpl.image}
+                    alt={tpl.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 250px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[10px] font-bold text-white z-10">
                     {tpl.tag}
                   </span>
                 </div>

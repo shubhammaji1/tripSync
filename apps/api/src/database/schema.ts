@@ -146,6 +146,8 @@ export const trips = pgTable(
   (table) => ({
     ownerIdx: index('trips_owner_idx').on(table.ownerId),
     statusIdx: index('trips_status_idx').on(table.status),
+    ownerStatusIdx: index('trips_owner_status_idx').on(table.ownerId, table.status),
+    startDateIdx: index('trips_start_date_idx').on(table.startDate),
   })
 );
 
@@ -164,6 +166,8 @@ export const tripMembers = pgTable(
   (table) => ({
     tripUserIdx: uniqueIndex('trip_user_idx').on(table.tripId, table.userId),
     tripIdx: index('trip_members_trip_idx').on(table.tripId),
+    tripRoleIdx: index('trip_members_trip_role_idx').on(table.tripId, table.role),
+    userRoleIdx: index('trip_members_user_role_idx').on(table.userId, table.role),
   })
 );
 
@@ -234,6 +238,8 @@ export const activities = pgTable(
   (table) => ({
     dayIdx: index('activities_day_idx').on(table.dayId),
     tripIdx: index('activities_trip_idx').on(table.tripId),
+    daySortIdx: index('activities_day_sort_idx').on(table.dayId, table.sortOrder),
+    tripStatusIdx: index('activities_trip_status_idx').on(table.tripId, table.status),
   })
 );
 
@@ -260,6 +266,9 @@ export const expenses = pgTable(
   (table) => ({
     tripIdx: index('expenses_trip_idx').on(table.tripId),
     paidByIdx: index('expenses_paid_by_idx').on(table.paidById),
+    tripDateIdx: index('expenses_trip_date_idx').on(table.tripId, table.date),
+    paidByDateIdx: index('expenses_paid_by_date_idx').on(table.paidById, table.date),
+    tripCategoryIdx: index('expenses_trip_category_idx').on(table.tripId, table.category),
   })
 );
 
@@ -303,6 +312,8 @@ export const settlements = pgTable(
     tripIdx: index('settlements_trip_idx').on(table.tripId),
     fromUserIdx: index('settlements_from_user_idx').on(table.fromUserId),
     toUserIdx: index('settlements_to_user_idx').on(table.toUserId),
+    tripStatusIdx: index('settlements_trip_status_idx').on(table.tripId, table.status),
+    fromToIdx: index('settlements_from_to_idx').on(table.fromUserId, table.toUserId),
   })
 );
 
@@ -326,6 +337,8 @@ export const tasks = pgTable(
   (table) => ({
     tripIdx: index('tasks_trip_idx').on(table.tripId),
     assignedIdx: index('tasks_assigned_idx').on(table.assignedToId),
+    tripStatusIdx: index('tasks_trip_status_idx').on(table.tripId, table.status),
+    assignedDueIdx: index('tasks_assigned_due_idx').on(table.assignedToId, table.dueDate),
   })
 );
 
@@ -368,6 +381,8 @@ export const documents = pgTable(
   },
   (table) => ({
     tripIdx: index('documents_trip_idx').on(table.tripId),
+    tripCatIdx: index('documents_trip_cat_idx').on(table.tripId, table.category),
+    userIdx: index('documents_user_idx').on(table.userId),
   })
 );
 
@@ -383,11 +398,17 @@ export const notifications = pgTable(
     type: notificationTypeEnum('type').default(NotificationType.SYSTEM).notNull(),
     title: text('title').notNull(),
     message: text('message').notNull(),
+    data: text('data'),
     isRead: boolean('is_read').default(false).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
     userIdx: index('notifications_user_idx').on(table.userId),
+    userReadCreatedIdx: index('notifications_user_read_created_idx').on(
+      table.userId,
+      table.isRead,
+      table.createdAt
+    ),
   })
 );
 
