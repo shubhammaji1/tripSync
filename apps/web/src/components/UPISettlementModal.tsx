@@ -28,6 +28,68 @@ interface UPISettlementModalProps {
   onMarkSettled?: () => void;
 }
 
+// 🟢 Official Google Pay Logo Component
+function GooglePayLogo({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none">
+      <path
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+        fill="#4285F4"
+      />
+      <path
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+        fill="#34A853"
+      />
+      <path
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+        fill="#FBBC05"
+      />
+      <path
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+        fill="#EA4335"
+      />
+    </svg>
+  );
+}
+
+// 🟣 Official PhonePe Logo Component
+function PhonePeLogo({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect width="48" height="48" rx="12" fill="#5F259F" />
+      <path
+        d="M26.2 14.5h-8.4c-.6 0-1.1.5-1.1 1.1v15.8c0 .6.5 1.1 1.1 1.1h2.2c.6 0 1.1-.5 1.1-1.1v-4.1h4.4c3.9 0 6.6-2.5 6.6-6s-2.7-3.8-5.3-3.8zm-.2 6.7h-4.2v-3.7h4.2c1.8 0 2.9.8 2.9 1.8 0 1.1-1.1 1.9-2.9 1.9z"
+        fill="#FFFFFF"
+      />
+      <path
+        d="M23.5 32.5l-4.5-6h-1.8v7.2c0 .6.5 1.1 1.1 1.1h2.2c.6 0 1.1-.5 1.1-1.1v-1.2h1.9z"
+        fill="#FFFFFF"
+        opacity="0.95"
+      />
+    </svg>
+  );
+}
+
+// 🔵 Official Paytm Logo Component
+function PaytmLogo({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} fill="none">
+      <rect width="48" height="48" rx="12" fill="#F8FAFC" stroke="#CBD5E1" strokeWidth="1.5" />
+      <text
+        x="6"
+        y="30"
+        fontFamily="system-ui, -apple-system, sans-serif"
+        fontSize="16"
+        fontWeight="900"
+        letterSpacing="-0.5px"
+      >
+        <tspan fill="#002970">Pay</tspan>
+        <tspan fill="#00BAF2">tm</tspan>
+      </text>
+    </svg>
+  );
+}
+
 export function UPISettlementModal({
   isOpen,
   onClose,
@@ -185,28 +247,39 @@ export function UPISettlementModal({
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              {/* Individual App Fallbacks */}
-              <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              {/* Individual App Quick Buttons with Proper Brand Logos */}
+              <div className="grid grid-cols-3 gap-2.5 text-center text-xs">
+                {/* Google Pay */}
                 <a
                   href={`gpay://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
-                  className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold transition-all flex flex-col items-center gap-1 cursor-pointer hover:border-emerald-300"
+                  className="p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
-                  <span className="text-base">🟢</span>
-                  <span className="text-[11px]">Google Pay</span>
+                  <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
+                    <GooglePayLogo className="w-6 h-6" />
+                  </div>
+                  <span className="text-[11px] font-extrabold text-slate-800">Google Pay</span>
                 </a>
+
+                {/* PhonePe */}
                 <a
                   href={`phonepe://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
-                  className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold transition-all flex flex-col items-center gap-1 cursor-pointer hover:border-purple-300"
+                  className="p-3 rounded-2xl bg-white hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
-                  <span className="text-base">🟣</span>
-                  <span className="text-[11px]">PhonePe</span>
+                  <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
+                    <PhonePeLogo className="w-7 h-7" />
+                  </div>
+                  <span className="text-[11px] font-extrabold text-purple-900">PhonePe</span>
                 </a>
+
+                {/* Paytm */}
                 <a
                   href={`paytmmp://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
-                  className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold transition-all flex flex-col items-center gap-1 cursor-pointer hover:border-sky-300"
+                  className="p-3 rounded-2xl bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
-                  <span className="text-base">🔵</span>
-                  <span className="text-[11px]">Paytm</span>
+                  <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
+                    <PaytmLogo className="w-7 h-7" />
+                  </div>
+                  <span className="text-[11px] font-extrabold text-slate-800">Paytm</span>
                 </a>
               </div>
             </div>
