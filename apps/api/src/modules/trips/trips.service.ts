@@ -67,10 +67,18 @@ export class TripsService {
             expenses: true,
           },
         });
-        return result.map((t) => {
+
+        // Strictly filter to trips where the user is either the trip creator/owner or an invited active member
+        const userTrips = result.filter((t) => {
+          const isOwner = t.ownerId === userId;
+          const isMember = (t.members || []).some((m: any) => m.userId === userId);
+          return isOwner || isMember;
+        });
+
+        return userTrips.map((t) => {
           const isOwner = t.ownerId === userId;
           const userMember = (t.members || []).find((m: any) => m.userId === userId);
-          const currentUserRole = isOwner ? TripRole.OWNER : (userMember?.role || TripRole.VIEWER);
+          const currentUserRole = isOwner ? TripRole.OWNER : (userMember?.role || TripRole.MEMBER);
           return {
             ...t,
             budget: t.budget ? Number(t.budget) : null,
@@ -84,11 +92,13 @@ export class TripsService {
         throw err;
       }
     }
-    return Array.from(this.mockTrips.values()).map((t) => ({
-      ...t,
-      role: t.ownerId === userId ? TripRole.OWNER : TripRole.MEMBER,
-      isOwner: t.ownerId === userId,
-    }));
+    return Array.from(this.mockTrips.values())
+      .filter((t) => t.ownerId === userId)
+      .map((t) => ({
+        ...t,
+        role: TripRole.OWNER,
+        isOwner: true,
+      }));
   }
 
   async getTripById(tripId: string, userId: string) {
