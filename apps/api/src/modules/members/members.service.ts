@@ -17,6 +17,21 @@ export class MembersService {
   ) {}
 
   private async requireManager(tripId: string, userId: string): Promise<void> {
+    if (!userId) {
+      throw new ForbiddenException('User not authenticated');
+    }
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, tripId),
+    });
+    if (!trip) {
+      throw new ForbiddenException('Trip not found');
+    }
+
+    // Direct trip creator / owner always has full manager privileges
+    if (trip.ownerId === userId) {
+      return;
+    }
+
     const membership = await this.db.query.tripMembers.findFirst({
       where: and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, userId)),
     });
@@ -148,28 +163,27 @@ export class MembersService {
       return { count: 0, invitations: [] };
     }
 
+    const trip = await this.db.query.trips.findFirst({ where: eq(trips.id, tripId) });
+    const inviter = await this.db.query.profiles.findFirst({ where: eq(profiles.id, invitedBy) });
+
     const baseUrl = (this.configService.get<string>('WEB_URL') || 'http://localhost:3000')
       .split(',')[0]
       .trim()
       .replace(/\/$/, '');
 
-    const expiresAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-    const createdInvites = [];
-
-    // Query trip and inviter once for all bulk invites
-    const trip = await this.db.query.trips.findFirst({ where: eq(trips.id, tripId) });
-    const inviter = await this.db.query.profiles.findFirst({ where: eq(profiles.id, invitedBy) });
-
+    const createdInvites: any[] = [];
     let emailsDelivered = 0;
 
     for (const email of cleanEmails) {
       const token = `inv_${randomUUID().replace(/-/g, '')}`;
+      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
       const [invite] = await (this.db.insert(tripInvitations).values({
         tripId,
         invitedBy,
         email,
         token,
-        role: role || TripRole.MEMBER,
+        role,
         status: InvitationStatus.PENDING,
         expiresAt,
       } as any) as any).returning();
@@ -181,12 +195,12 @@ export class MembersService {
         tripName: trip?.name || 'Group Trip',
         tripDestination: trip?.destination || '',
         inviterName: inviter?.fullName || inviter?.email || 'Trip Organizer',
-        role: role || TripRole.MEMBER,
+        role,
         inviteLink,
       });
 
       if (mailResult.sent) {
-        emailsDelivered++;
+        emailsDelivered += 1;
       }
 
       createdInvites.push({
@@ -205,11 +219,34 @@ export class MembersService {
 
   async updateMemberRole(tripId: string, actingUserId: string, memberUserId: string, input: UpdateMemberRoleInput) {
     await this.requireManager(tripId, actingUserId);
-    const [updated] = await (this.db.update(tripMembers)
-          .set({ role: input.role } as any) as any)
-          .where(and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, memberUserId)))
-          .returning();
-    return updated;
+
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, tripId),
+    });
+
+    if (trip && trip.ownerId === memberUserId) {
+      throw new ForbiddenException('Cannot modify the Trip Owner role');
+    }
+
+    const existing = await this.db.query.tripMembers.findFirst({
+      where: and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, memberUserId)),
+    });
+
+    if (existing) {
+      const [updated] = await (this.db.update(tripMembers)
+            .set({ role: input.role } as any) as any)
+            .where(and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, memberUserId)))
+            .returning();
+      return updated;
+    } else {
+      const [inserted] = await (this.db.insert(tripMembers).values({
+        tripId,
+        userId: memberUserId,
+        role: input.role,
+        joinedAt: new Date(),
+      } as any) as any).returning();
+      return inserted;
+    }
   }
 
   async updateMemberPhone(tripId: string, actingUserId: string, memberUserId: string, phone: string | null) {
@@ -226,6 +263,15 @@ export class MembersService {
 
   async removeMember(tripId: string, actingUserId: string, memberUserId: string) {
     await this.requireManager(tripId, actingUserId);
+
+    const trip = await this.db.query.trips.findFirst({
+      where: eq(trips.id, tripId),
+    });
+
+    if (trip && trip.ownerId === memberUserId) {
+      throw new ForbiddenException('Cannot remove the Trip Owner');
+    }
+
     await this.db.delete(tripMembers)
           .where(and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, memberUserId)));
     return { success: true };

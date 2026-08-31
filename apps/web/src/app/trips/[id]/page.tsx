@@ -62,6 +62,7 @@ import {
   MessageSquare,
   Bell,
   Loader2,
+  Save,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -133,6 +134,11 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [newMemberRole, setNewMemberRole] = useState<TripRole>(TripRole.MEMBER);
   const [inviteStatus, setInviteStatus] = useState<string | null>(null);
   const [lastInviteLink, setLastInviteLink] = useState<string | null>(null);
+
+  // Dynamic role drafting & saving states
+  const [draftRoles, setDraftRoles] = useState<Record<string, TripRole>>({});
+  const [savingRoleId, setSavingRoleId] = useState<string | null>(null);
+  const [savedRoleId, setSavedRoleId] = useState<string | null>(null);
 
   // Universal Shareable Group Invite Link & Bulk Invite state
   const [shareableLink, setShareableLink] = useState<string | null>(null);
@@ -834,30 +840,41 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setNewTask({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
   };
 
-  const handleMemberRoleChange = async (memberId: string, newRole: TripRole) => {
+  const handleMemberRoleChange = async (memberId: string, customRole?: TripRole) => {
     if (!can('MANAGE_ROLES')) {
       showPermissionWarning('change member roles');
       return;
     }
 
-    // Admins cannot change Owner's role
     const targetMember = members.find((m) => m.id === memberId);
+    const newRole = customRole || draftRoles[memberId] || targetMember?.role || TripRole.MEMBER;
+
+    // Admins cannot change Owner's role
     if (targetMember?.role === TripRole.OWNER && currentRole !== TripRole.OWNER) {
       setActionAlert('Security Violation: Only the Trip Owner can modify ownership privileges.');
       setTimeout(() => setActionAlert(null), 4000);
       return;
     }
 
+    setSavingRoleId(memberId);
     try {
       await api.updateMemberRole(params.id, memberId, { role: newRole });
       setMembers((current) => current.map((member) => member.id === memberId ? { ...member, role: newRole } : member));
+      setDraftRoles((prev) => ({ ...prev, [memberId]: newRole }));
+      setSavedRoleId(memberId);
+      haptic.success();
+      setActionAlert(`✅ Saved: Updated ${targetMember?.name || 'Member'}'s role to ${newRole}.`);
+      setTimeout(() => {
+        setSavedRoleId(null);
+        setActionAlert(null);
+      }, 3000);
     } catch (reason: any) {
+      haptic.error();
       setActionAlert(reason.message || 'Member role could not be updated.');
-      return;
+      setTimeout(() => setActionAlert(null), 4000);
+    } finally {
+      setSavingRoleId(null);
     }
-
-    setActionAlert(`Updated ${targetMember?.name}'s role to ${newRole}.`);
-    setTimeout(() => setActionAlert(null), 3000);
   };
 
   const handleRemoveMember = async (memberId: string) => {
@@ -3200,15 +3217,48 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                         <div className="flex items-center justify-between text-xs gap-2 pt-1">
                           <span className="text-slate-500 font-medium shrink-0">Access Role:</span>
                           {canEditThisRole && !isOwner ? (
-                            <select
-                              value={p.role}
-                              onChange={(e) => handleMemberRoleChange(p.id, e.target.value as TripRole)}
-                              className="w-full max-w-[200px] px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-slate-50"
-                            >
-                              <option value={TripRole.ADMIN}>🛡️ ADMIN (Co-Organizer)</option>
-                              <option value={TripRole.MEMBER}>🎒 MEMBER (Active Traveler)</option>
-                              <option value={TripRole.VIEWER}>👁️ VIEWER (Read-Only Guest)</option>
-                            </select>
+                            <div className="flex items-center gap-1.5 w-full max-w-[240px]">
+                              <select
+                                value={draftRoles[p.id] || p.role}
+                                onChange={(e) => {
+                                  const nextRole = e.target.value as TripRole;
+                                  setDraftRoles((prev) => ({ ...prev, [p.id]: nextRole }));
+                                }}
+                                className="w-full px-2.5 py-1.5 rounded-xl border border-slate-300 font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                              >
+                                <option value={TripRole.ADMIN}>🛡️ ADMIN (Co-Organizer)</option>
+                                <option value={TripRole.MEMBER}>🎒 MEMBER (Active Traveler)</option>
+                                <option value={TripRole.VIEWER}>👁️ VIEWER (Read-Only Guest)</option>
+                              </select>
+
+                              <button
+                                type="button"
+                                onClick={() => handleMemberRoleChange(p.id, draftRoles[p.id] || p.role)}
+                                disabled={savingRoleId === p.id}
+                                className={`shrink-0 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow-xs ${
+                                  savedRoleId === p.id
+                                    ? 'bg-emerald-600 text-white'
+                                    : draftRoles[p.id] && draftRoles[p.id] !== p.role
+                                    ? 'bg-brand-600 hover:bg-brand-700 text-white animate-pulse'
+                                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                }`}
+                                title="Save updated role"
+                              >
+                                {savingRoleId === p.id ? (
+                                  <RefreshCw className="w-3 h-3 animate-spin" />
+                                ) : savedRoleId === p.id ? (
+                                  <>
+                                    <Check className="w-3 h-3 text-white" />
+                                    <span>Saved</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Save className="w-3 h-3" />
+                                    <span>Save</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
                           ) : (
                             <span
                               className={`text-[11px] font-extrabold px-2.5 py-1 rounded-lg ${
@@ -3246,6 +3296,10 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     {members.map((p) => {
                       const isOwner = p.role === TripRole.OWNER;
                       const canEditThisRole = can('MANAGE_ROLES') && (!isOwner || currentRole === TripRole.OWNER);
+                      const currentSelectedRole = draftRoles[p.id] || p.role;
+                      const hasUnsavedRole = Boolean(draftRoles[p.id] && draftRoles[p.id] !== p.role);
+                      const isSaving = savingRoleId === p.id;
+                      const isSaved = savedRoleId === p.id;
 
                       return (
                         <tr key={p.id} className="hover:bg-slate-50 transition-colors">
@@ -3265,15 +3319,48 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                           <td className="py-3.5 px-4 text-slate-600">{p.phone || '—'}</td>
                           <td className="py-3.5 px-4">
                             {canEditThisRole && !isOwner ? (
-                              <select
-                                value={p.role}
-                                onChange={(e) => handleMemberRoleChange(p.id, e.target.value as TripRole)}
-                                className="px-2 py-1 rounded-lg border border-slate-300 font-bold text-[11px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
-                              >
-                                <option value={TripRole.ADMIN}>ADMIN (Co-Organizer)</option>
-                                <option value={TripRole.MEMBER}>MEMBER (Active Traveler)</option>
-                                <option value={TripRole.VIEWER}>VIEWER (Read-Only Guest)</option>
-                              </select>
+                              <div className="flex items-center gap-2">
+                                <select
+                                  value={currentSelectedRole}
+                                  onChange={(e) => {
+                                    const nextRole = e.target.value as TripRole;
+                                    setDraftRoles((prev) => ({ ...prev, [p.id]: nextRole }));
+                                  }}
+                                  className="px-2.5 py-1.5 rounded-lg border border-slate-300 font-bold text-[11px] text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
+                                >
+                                  <option value={TripRole.ADMIN}>🛡️ ADMIN (Co-Organizer)</option>
+                                  <option value={TripRole.MEMBER}>🎒 MEMBER (Active Traveler)</option>
+                                  <option value={TripRole.VIEWER}>👁️ VIEWER (Read-Only Guest)</option>
+                                </select>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleMemberRoleChange(p.id, currentSelectedRole)}
+                                  disabled={isSaving}
+                                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer ${
+                                    isSaved
+                                      ? 'bg-emerald-600 text-white'
+                                      : hasUnsavedRole
+                                      ? 'bg-brand-600 hover:bg-brand-700 text-white ring-2 ring-brand-400'
+                                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                  }`}
+                                  title="Save Role Changes"
+                                >
+                                  {isSaving ? (
+                                    <RefreshCw className="w-3 h-3 animate-spin" />
+                                  ) : isSaved ? (
+                                    <>
+                                      <Check className="w-3 h-3 text-white" />
+                                      <span>Saved</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Save className="w-3 h-3" />
+                                      <span>Save</span>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
                             ) : (
                               <span
                                 className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
