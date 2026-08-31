@@ -784,39 +784,479 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lu
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Navigation$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/navigation.js [app-ssr] (ecmascript) <export default as Navigation>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/external-link.js [app-ssr] (ecmascript) <export default as ExternalLink>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$compass$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Compass$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/compass.js [app-ssr] (ecmascript) <export default as Compass>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/user.js [app-ssr] (ecmascript) <export default as User>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/clock.js [app-ssr] (ecmascript) <export default as Clock>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$route$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Route$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/route.js [app-ssr] (ecmascript) <export default as Route>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-ssr] (ecmascript) <export default as Loader2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$locate$2d$fixed$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__LocateFixed$3e$__ = __turbopack_import__("[project]/node_modules/.pnpm/lucide-react@0.460.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/locate-fixed.js [app-ssr] (ecmascript) <export default as LocateFixed>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/apps/web/src/lib/haptics.ts [app-ssr] (ecmascript)");
 "__TURBOPACK__ecmascript__hoisting__location__";
 'use client';
 ;
 ;
 ;
-function ItineraryRouteMap({ days, tripDestination = 'Darjeeling, West Bengal, India' }) {
+;
+// Vibrant Day Colors for Connected Trails & Pins
+const DAY_COLORS = [
+    {
+        stroke: '#10b981',
+        bg: 'bg-emerald-500',
+        text: 'text-emerald-400',
+        border: 'border-emerald-500',
+        name: 'Emerald'
+    },
+    {
+        stroke: '#0284c7',
+        bg: 'bg-sky-500',
+        text: 'text-sky-400',
+        border: 'border-sky-500',
+        name: 'Sky'
+    },
+    {
+        stroke: '#8b5cf6',
+        bg: 'bg-purple-500',
+        text: 'text-purple-400',
+        border: 'border-purple-500',
+        name: 'Purple'
+    },
+    {
+        stroke: '#f59e0b',
+        bg: 'bg-amber-500',
+        text: 'text-amber-400',
+        border: 'border-amber-500',
+        name: 'Amber'
+    },
+    {
+        stroke: '#ec4899',
+        bg: 'bg-pink-500',
+        text: 'text-pink-400',
+        border: 'border-pink-500',
+        name: 'Pink'
+    },
+    {
+        stroke: '#06b6d4',
+        bg: 'bg-cyan-500',
+        text: 'text-cyan-400',
+        border: 'border-cyan-500',
+        name: 'Cyan'
+    }
+];
+function getDayColor(dayNum) {
+    return DAY_COLORS[(dayNum - 1) % DAY_COLORS.length];
+}
+// In-memory geocode cache
+const geoCache = {};
+function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
     const [selectedDayId, setSelectedDayId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('all');
-    const [selectedStop, setSelectedStop] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    // Flatten or filter stops
-    const activeDays = selectedDayId === 'all' ? days : days.filter((d)=>d.id === selectedDayId);
-    const stops = [];
-    activeDays.forEach((day)=>{
-        (day.items || []).forEach((item)=>{
-            stops.push({
+    const [selectedStopId, setSelectedStopId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [resolvedWaypoints, setResolvedWaypoints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [isGeocoding, setIsGeocoding] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
+    const mapContainerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const mapInstanceRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const markersGroupRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const polylinesGroupRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    // 1. Flatten all items from days
+    const allStops = [];
+    days.forEach((day)=>{
+        (day.items || []).forEach((item, idx)=>{
+            allStops.push({
                 dayNum: day.dayNumber,
-                item
+                dayId: day.id,
+                item,
+                stopIdx: idx + 1
             });
         });
     });
+    // 2. Geocode and resolve coordinates for every stop
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        let isCancelled = false;
+        async function geocodeAllStops() {
+            setIsGeocoding(true);
+            const results = [];
+            // Helper to fetch lat/lng from Nominatim
+            const fetchCoords = async (query)=>{
+                if (!query || query.trim().length < 2) return null;
+                const normalized = query.trim().toLowerCase();
+                if (geoCache[normalized]) return geoCache[normalized];
+                try {
+                    // Check localStorage cache
+                    const localStored = localStorage.getItem(`tripsync_geo_${normalized}`);
+                    if (localStored) {
+                        const parsed = JSON.parse(localStored);
+                        geoCache[normalized] = parsed;
+                        return parsed;
+                    }
+                } catch  {}
+                try {
+                    const params = new URLSearchParams({
+                        q: query,
+                        format: 'jsonv2',
+                        limit: '1'
+                    });
+                    const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+                        headers: {
+                            'Accept-Language': 'en'
+                        }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.length > 0) {
+                            const coords = {
+                                lat: parseFloat(data[0].lat),
+                                lng: parseFloat(data[0].lon)
+                            };
+                            geoCache[normalized] = coords;
+                            try {
+                                localStorage.setItem(`tripsync_geo_${normalized}`, JSON.stringify(coords));
+                            } catch  {}
+                            return coords;
+                        }
+                    }
+                } catch  {}
+                return null;
+            };
+            // Fallback destination coordinates
+            let baseDestCoords = {
+                lat: 28.3949,
+                lng: 84.124
+            }; // Default Nepal
+            const resolvedDest = await fetchCoords(tripDestination);
+            if (resolvedDest) baseDestCoords = resolvedDest;
+            for(let i = 0; i < allStops.length; i++){
+                if (isCancelled) return;
+                const { dayNum, dayId, item, stopIdx } = allStops[i];
+                const searchLocation = item.location || item.title;
+                let coords = await fetchCoords(searchLocation);
+                if (!coords && item.location && tripDestination) {
+                    coords = await fetchCoords(`${item.location}, ${tripDestination}`);
+                }
+                if (!coords && item.title && tripDestination) {
+                    coords = await fetchCoords(`${item.title}, ${tripDestination}`);
+                }
+                // If not found, place with slight smart offset around destination
+                if (!coords) {
+                    coords = {
+                        lat: baseDestCoords.lat + Math.sin(i + 1) * 0.08 + (dayNum - 1) * 0.05,
+                        lng: baseDestCoords.lng + Math.cos(i + 1) * 0.08 + (dayNum - 1) * 0.05
+                    };
+                }
+                results.push({
+                    id: item.id,
+                    dayNumber: dayNum,
+                    dayId,
+                    stopIndex: stopIdx,
+                    globalIndex: i + 1,
+                    title: item.title,
+                    locationName: item.location || tripDestination,
+                    startTime: item.startTime,
+                    endTime: item.endTime,
+                    notes: item.notes,
+                    leadName: item.leadName,
+                    lat: coords.lat,
+                    lng: coords.lng
+                });
+            }
+            if (!isCancelled) {
+                setResolvedWaypoints(results);
+                setIsGeocoding(false);
+            }
+        }
+        geocodeAllStops();
+        return ()=>{
+            isCancelled = true;
+        };
+    }, [
+        JSON.stringify(allStops.map((s)=>s.item.id + s.item.location + s.item.title)),
+        tripDestination
+    ]);
+    // 3. Initialize Leaflet Map
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (typeof window === 'undefined' || !mapContainerRef.current) return;
+        let isMounted = true;
+        async function initMap() {
+            const L = (await __turbopack_require__("[project]/node_modules/.pnpm/leaflet@1.9.4/node_modules/leaflet/dist/leaflet-src.js [app-ssr] (ecmascript, async loader)")(__turbopack_import__)).default;
+            if (!mapContainerRef.current || !isMounted) return;
+            // Clean up previous instance
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.remove();
+                mapInstanceRef.current = null;
+            }
+            const defaultCenter = resolvedWaypoints.length > 0 ? [
+                resolvedWaypoints[0].lat,
+                resolvedWaypoints[0].lng
+            ] : [
+                28.3949,
+                84.124
+            ];
+            const map = L.map(mapContainerRef.current, {
+                center: defaultCenter,
+                zoom: 8,
+                zoomControl: false
+            });
+            // Add Zoom Control at bottom right
+            L.control.zoom({
+                position: 'bottomright'
+            }).addTo(map);
+            // OpenStreetMap Official Tiles (Zero watermark, 100% free)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+            markersGroupRef.current = L.layerGroup().addTo(map);
+            polylinesGroupRef.current = L.layerGroup().addTo(map);
+            mapInstanceRef.current = map;
+            renderLayers(L);
+        }
+        initMap();
+        return ()=>{
+            isMounted = false;
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.remove();
+                mapInstanceRef.current = null;
+            }
+        };
+    }, []);
+    // 4. Render Day-Wise Connecting Polylines & Interactive Markers
+    const renderLayers = async (LInstance)=>{
+        const L = LInstance || (await __turbopack_require__("[project]/node_modules/.pnpm/leaflet@1.9.4/node_modules/leaflet/dist/leaflet-src.js [app-ssr] (ecmascript, async loader)")(__turbopack_import__)).default;
+        const map = mapInstanceRef.current;
+        if (!map || !markersGroupRef.current || !polylinesGroupRef.current) return;
+        markersGroupRef.current.clearLayers();
+        polylinesGroupRef.current.clearLayers();
+        if (resolvedWaypoints.length === 0) return;
+        // Filter active waypoints based on day tab
+        const filteredWaypoints = selectedDayId === 'all' ? resolvedWaypoints : resolvedWaypoints.filter((wp)=>wp.dayId === selectedDayId);
+        const latLngBounds = [];
+        // Group waypoints by day for day-wise trail rendering
+        const dayGroups = {};
+        resolvedWaypoints.forEach((wp)=>{
+            if (!dayGroups[wp.dayNumber]) dayGroups[wp.dayNumber] = [];
+            dayGroups[wp.dayNumber].push(wp);
+        });
+        const sortedDayNumbers = Object.keys(dayGroups).map(Number).sort((a, b)=>a - b);
+        // --- A. CONNECTING TRAILS (Connecting Dots Day 1 -> Day 2 -> Day n) ---
+        if (selectedDayId === 'all') {
+            // 1. Draw Intra-Day Solid Glowing Trails
+            sortedDayNumbers.forEach((dayNum)=>{
+                const dayPoints = dayGroups[dayNum];
+                const dayColor = getDayColor(dayNum);
+                if (dayPoints.length >= 2) {
+                    const latLngs = dayPoints.map((wp)=>[
+                            wp.lat,
+                            wp.lng
+                        ]);
+                    // Glow background line
+                    L.polyline(latLngs, {
+                        color: dayColor.stroke,
+                        weight: 6,
+                        opacity: 0.35,
+                        smoothFactor: 1
+                    }).addTo(polylinesGroupRef.current);
+                    // Solid line
+                    L.polyline(latLngs, {
+                        color: dayColor.stroke,
+                        weight: 3.5,
+                        opacity: 0.9,
+                        dashArray: undefined,
+                        smoothFactor: 1
+                    }).addTo(polylinesGroupRef.current);
+                }
+            });
+            // 2. Draw Inter-Day Connecting Dashed Trails (Day 1 End -> Day 2 Start, etc.)
+            for(let i = 0; i < sortedDayNumbers.length - 1; i++){
+                const currentDayNum = sortedDayNumbers[i];
+                const nextDayNum = sortedDayNumbers[i + 1];
+                const currentDayPoints = dayGroups[currentDayNum];
+                const nextDayPoints = dayGroups[nextDayNum];
+                if (currentDayPoints.length > 0 && nextDayPoints.length > 0) {
+                    const lastPointCurrent = currentDayPoints[currentDayPoints.length - 1];
+                    const firstPointNext = nextDayPoints[0];
+                    const interDayLatLngs = [
+                        [
+                            lastPointCurrent.lat,
+                            lastPointCurrent.lng
+                        ],
+                        [
+                            firstPointNext.lat,
+                            firstPointNext.lng
+                        ]
+                    ];
+                    // Dashed connection trail between consecutive days
+                    L.polyline(interDayLatLngs, {
+                        color: '#64748b',
+                        weight: 2.5,
+                        opacity: 0.8,
+                        dashArray: '6, 8'
+                    }).addTo(polylinesGroupRef.current);
+                }
+            }
+        } else {
+            // Single Day Selected - Highlight that Day's specific trail
+            const activeDayNum = days.find((d)=>d.id === selectedDayId)?.dayNumber;
+            if (activeDayNum && dayGroups[activeDayNum] && dayGroups[activeDayNum].length >= 2) {
+                const dayColor = getDayColor(activeDayNum);
+                const latLngs = dayGroups[activeDayNum].map((wp)=>[
+                        wp.lat,
+                        wp.lng
+                    ]);
+                L.polyline(latLngs, {
+                    color: dayColor.stroke,
+                    weight: 8,
+                    opacity: 0.3
+                }).addTo(polylinesGroupRef.current);
+                L.polyline(latLngs, {
+                    color: dayColor.stroke,
+                    weight: 4,
+                    opacity: 1
+                }).addTo(polylinesGroupRef.current);
+            }
+        }
+        // --- B. INTERACTIVE NUMBERED MARKERS (Connecting Dots) ---
+        filteredWaypoints.forEach((wp)=>{
+            latLngBounds.push([
+                wp.lat,
+                wp.lng
+            ]);
+            const dayColor = getDayColor(wp.dayNumber);
+            const isSelected = selectedStopId === wp.id;
+            // Custom Location Pin Icon with written D1 at the bottom
+            const iconHtml = `
+        <div class="relative flex flex-col items-center group cursor-pointer" style="transform: translate(-50%, -100%);">
+          <!-- Pulse ripple if selected -->
+          ${isSelected ? `<div class="absolute bottom-3 w-6 h-2 rounded-full animate-ping opacity-75" style="background-color: ${dayColor.stroke};"></div>` : ''}
+
+          <!-- Location Pin & Day Tag Container -->
+          <div class="relative flex flex-col items-center transition-all duration-200 ${isSelected ? 'scale-125 -translate-y-1.5 drop-shadow-xl' : 'hover:scale-115 hover:-translate-y-0.5'}">
+            <!-- Teardrop Location Pin SVG -->
+            <div class="relative filter drop-shadow-md">
+              <svg width="32" height="38" viewBox="0 0 32 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pin Teardrop Body -->
+                <path
+                  d="M16 0C7.16 0 0 7.16 0 16C0 26.5 14.2 37.1 15.36 37.95C15.74 38.23 16.26 38.23 16.64 37.95C17.8 37.1 32 26.5 32 16C32 7.16 24.84 0 16 0Z"
+                  fill="${dayColor.stroke}"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                />
+                <!-- Inner White Disc -->
+                <circle cx="16" cy="15" r="9" fill="#ffffff" />
+                <!-- Stop Number inside the pin head -->
+                <text
+                  x="16"
+                  y="19"
+                  text-anchor="middle"
+                  fill="${dayColor.stroke}"
+                  font-family="system-ui, -apple-system, sans-serif"
+                  font-weight="900"
+                  font-size="12px"
+                >${wp.stopIndex}</text>
+              </svg>
+            </div>
+
+            <!-- Written D1, D2 badge at the bottom of the location pin -->
+            <div class="-mt-1 px-2 py-0.5 rounded-full text-white text-[9px] font-black tracking-wider shadow-md border border-white flex items-center justify-center whitespace-nowrap z-10" style="background: linear-gradient(135deg, ${dayColor.stroke}, #0f172a);">
+              <span>D${wp.dayNumber}</span>
+            </div>
+          </div>
+        </div>
+      `;
+            const customIcon = L.divIcon({
+                className: 'custom-itinerary-marker',
+                html: iconHtml,
+                iconSize: [
+                    34,
+                    52
+                ],
+                iconAnchor: [
+                    17,
+                    50
+                ],
+                popupAnchor: [
+                    0,
+                    -50
+                ]
+            });
+            const marker = L.marker([
+                wp.lat,
+                wp.lng
+            ], {
+                icon: customIcon
+            }).addTo(markersGroupRef.current);
+            // Popup Content
+            const popupHtml = `
+        <div class="p-1 text-slate-900 font-sans min-w-[190px]">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase text-white" style="background-color: ${dayColor.stroke};">
+              Day ${wp.dayNumber} • Stop ${wp.stopIndex}
+            </span>
+            ${wp.startTime ? `<span class="text-[10px] font-bold text-slate-500">${wp.startTime}</span>` : ''}
+          </div>
+          <h4 class="font-extrabold text-xs text-slate-900 mb-0.5 leading-tight">${wp.title}</h4>
+          <p class="text-[11px] text-slate-500 truncate mb-2">${wp.locationName}</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(wp.locationName)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 text-[11px] font-black text-emerald-600 hover:text-emerald-700"
+          >
+            <span>🧭 Navigate GPS</span> &rarr;
+          </a>
+        </div>
+      `;
+            marker.bindPopup(popupHtml, {
+                closeButton: true,
+                className: 'custom-leaflet-popup'
+            });
+            marker.on('click', ()=>{
+                __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["haptic"].light();
+                setSelectedStopId(wp.id);
+            });
+            if (isSelected) {
+                marker.openPopup();
+            }
+        });
+        // Auto-fit bounds to encompass all active waypoints
+        if (latLngBounds.length > 0) {
+            try {
+                map.fitBounds(latLngBounds, {
+                    padding: [
+                        45,
+                        45
+                    ],
+                    maxZoom: 14
+                });
+            } catch  {}
+        }
+    };
+    // Re-render markers and lines whenever filter or waypoints update
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        renderLayers();
+    }, [
+        selectedDayId,
+        selectedStopId,
+        resolvedWaypoints
+    ]);
+    // Center on specific stop when selected from list
+    const handleSelectStop = (wp)=>{
+        __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["haptic"].selection();
+        setSelectedStopId(wp.id);
+        if (mapInstanceRef.current) {
+            mapInstanceRef.current.flyTo([
+                wp.lat,
+                wp.lng
+            ], 13, {
+                duration: 0.8
+            });
+        }
+    };
     // Construct Multi-Stop Google Maps Route URL
-    const stopsWithLocation = stops.filter((s)=>s.item.location || s.item.title);
-    const routeLocations = stopsWithLocation.map((s)=>s.item.location || s.item.title);
+    const stopsWithLocation = resolvedWaypoints.filter((s)=>s.locationName || s.title);
+    const routeLocations = stopsWithLocation.map((s)=>s.locationName || s.title);
     const fullRouteUrl = routeLocations.length > 1 ? `https://www.google.com/maps/dir/${routeLocations.map((loc)=>encodeURIComponent(loc)).join('/')}` : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(tripDestination)}`;
-    // Default coordinate center or query for embed
-    const currentFocusLocation = selectedStop?.location || selectedStop?.title || tripDestination;
-    const embedMapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(currentFocusLocation)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    const activeWaypointsList = selectedDayId === 'all' ? resolvedWaypoints : resolvedWaypoints.filter((wp)=>wp.dayId === selectedDayId);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-slate-900 text-white rounded-3xl border border-slate-800 shadow-xl overflow-hidden space-y-0",
+        className: "bg-slate-900 text-white rounded-3xl border border-slate-800 shadow-2xl overflow-hidden space-y-0",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "p-4 sm:p-6 bg-slate-950/80 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4",
+                className: "p-4 sm:p-6 bg-slate-950/90 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-1",
@@ -825,39 +1265,46 @@ function ItineraryRouteMap({ days, tripDestination = 'Darjeeling, West Bengal, I
                                 className: "flex items-center gap-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-wider border border-emerald-500/30",
+                                        className: "px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-wider border border-emerald-500/30 flex items-center gap-1",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$route$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Route$3e$__["Route"], {
-                                                className: "w-3 h-3 inline mr-1"
+                                                className: "w-3 h-3"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 517,
                                                 columnNumber: 15
                                             }, this),
-                                            "Route Visualizer"
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "Connected Route Visualizer"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                lineNumber: 518,
+                                                columnNumber: 15
+                                            }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 79,
+                                        lineNumber: 516,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "text-xs text-slate-400 font-medium",
                                         children: [
-                                            stops.length,
-                                            " Waypoint",
-                                            stops.length === 1 ? '' : 's',
-                                            " Mapped"
+                                            resolvedWaypoints.length,
+                                            " Stop",
+                                            resolvedWaypoints.length === 1 ? '' : 's',
+                                            " • Day 1 to Day ",
+                                            days.length || 1
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 83,
+                                        lineNumber: 520,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 78,
+                                lineNumber: 515,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -867,446 +1314,504 @@ function ItineraryRouteMap({ days, tripDestination = 'Darjeeling, West Bengal, I
                                         children: "Interactive Expedition Route"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 88,
+                                        lineNumber: 525,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-sm font-normal text-slate-400",
+                                        className: "text-sm",
                                         children: "🗺️"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 526,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 87,
+                                lineNumber: 524,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 77,
+                        lineNumber: 514,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex flex-wrap items-center gap-2",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs overflow-x-auto no-scrollbar max-w-full",
+                                className: "flex items-center gap-1 bg-slate-900 p-1 rounded-2xl border border-slate-800 text-xs overflow-x-auto no-scrollbar max-w-full",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>{
+                                            __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["haptic"].selection();
                                             setSelectedDayId('all');
-                                            setSelectedStop(null);
+                                            setSelectedStopId(null);
                                         },
-                                        className: `px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 ${selectedDayId === 'all' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`,
-                                        children: "All Days"
+                                        className: `px-3 py-1.5 rounded-xl font-bold transition-all shrink-0 cursor-pointer ${selectedDayId === 'all' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-black' : 'text-slate-400 hover:text-white'}`,
+                                        children: "All Days (Continuous Trail)"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 97,
+                                        lineNumber: 534,
                                         columnNumber: 13
                                     }, this),
-                                    days.map((d)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    days.map((d)=>{
+                                        const dayColor = getDayColor(d.dayNumber);
+                                        const isActive = selectedDayId === d.id;
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>{
+                                                __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["haptic"].selection();
                                                 setSelectedDayId(d.id);
-                                                setSelectedStop(null);
+                                                setSelectedStopId(null);
                                             },
-                                            className: `px-3 py-1.5 rounded-lg font-bold transition-all shrink-0 ${selectedDayId === d.id ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`,
+                                            className: `px-3 py-1.5 rounded-xl font-bold transition-all shrink-0 flex items-center gap-1.5 cursor-pointer ${isActive ? 'bg-white text-slate-950 shadow-md font-black' : 'text-slate-400 hover:text-white'}`,
                                             children: [
-                                                "Day ",
-                                                d.dayNumber
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "w-2 h-2 rounded-full",
+                                                    style: {
+                                                        backgroundColor: dayColor.stroke
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 565,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "Day ",
+                                                        d.dayNumber
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 569,
+                                                    columnNumber: 19
+                                                }, this)
                                             ]
                                         }, d.id, true, {
                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                            lineNumber: 111,
-                                            columnNumber: 15
-                                        }, this))
+                                            lineNumber: 552,
+                                            columnNumber: 17
+                                        }, this);
+                                    })
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 96,
+                                lineNumber: 533,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$web$2f$src$2f$lib$2f$haptics$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["haptic"].light();
+                                    renderLayers();
+                                },
+                                title: "Re-center all waypoints",
+                                className: "p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$locate$2d$fixed$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__LocateFixed$3e$__["LocateFixed"], {
+                                    className: "w-4 h-4"
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                    lineNumber: 584,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                lineNumber: 576,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                 href: fullRouteUrl,
                                 target: "_blank",
                                 rel: "noopener noreferrer",
-                                className: "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 active:scale-95 transition-all",
+                                className: "inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Navigation$3e$__["Navigation"], {
                                         className: "w-3.5 h-3.5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 135,
+                                        lineNumber: 594,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "Open in GPS"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 136,
+                                        lineNumber: 595,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
                                         className: "w-3 h-3"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 137,
+                                        lineNumber: 596,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 129,
+                                lineNumber: 588,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 94,
+                        lineNumber: 531,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                lineNumber: 76,
+                lineNumber: 513,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-1 lg:grid-cols-12 min-h-[480px]",
+                className: "grid grid-cols-1 lg:grid-cols-12 min-h-[520px]",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "lg:col-span-7 relative h-[360px] lg:h-auto min-h-[360px] bg-slate-950",
+                        className: "lg:col-span-7 relative h-[380px] lg:h-auto min-h-[380px] bg-slate-950",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("iframe", {
-                                title: "Interactive Route Map",
-                                src: embedMapUrl,
-                                className: "w-full h-full border-0 grayscale-[20%] contrast-[110%] opacity-90 hover:opacity-100 transition-opacity",
-                                loading: "lazy",
-                                allowFullScreen: true
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: mapContainerRef,
+                                className: "w-full h-full min-h-[380px] z-10"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 146,
+                                lineNumber: 605,
                                 columnNumber: 11
                             }, this),
-                            selectedStop && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "absolute bottom-4 left-4 right-4 bg-slate-900/95 backdrop-blur-md border border-emerald-500/50 p-4 rounded-2xl shadow-2xl flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2 duration-200",
+                            isGeocoding && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "absolute top-4 left-4 z-20 px-3 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-emerald-400 text-xs font-bold flex items-center gap-2 shadow-lg",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "min-w-0",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "text-[10px] font-bold uppercase tracking-wider text-emerald-400",
-                                                children: selectedStop.startTime ? `${selectedStop.startTime} • Scheduled Stop` : 'Selected Waypoint'
-                                            }, void 0, false, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 158,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                className: "font-extrabold text-sm text-white truncate",
-                                                children: selectedStop.title
-                                            }, void 0, false, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 161,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-xs text-slate-400 truncate",
-                                                children: selectedStop.location || tripDestination
-                                            }, void 0, false, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 162,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                        className: "w-3.5 h-3.5 animate-spin"
+                                    }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 157,
+                                        lineNumber: 610,
                                         columnNumber: 15
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                        href: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(selectedStop.location || selectedStop.title)}`,
-                                        target: "_blank",
-                                        rel: "noopener noreferrer",
-                                        className: "px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black flex items-center gap-1.5 shrink-0 shadow-md",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Navigation$3e$__["Navigation"], {
-                                                className: "w-3.5 h-3.5"
-                                            }, void 0, false, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 173,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                children: "Navigate"
-                                            }, void 0, false, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 174,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        children: "Plotting connected day routes..."
+                                    }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 611,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 156,
+                                lineNumber: 609,
                                 columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "absolute bottom-4 left-4 z-20 bg-slate-950/85 backdrop-blur-md border border-slate-800 p-2.5 rounded-2xl shadow-xl hidden sm:flex items-center gap-3 text-[11px] font-bold",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-slate-400 text-[10px] uppercase font-black tracking-wider",
+                                        children: "Day Trails:"
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                        lineNumber: 617,
+                                        columnNumber: 13
+                                    }, this),
+                                    days.slice(0, 5).map((d)=>{
+                                        const dayColor = getDayColor(d.dayNumber);
+                                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-1.5",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "w-2.5 h-2.5 rounded-full shadow-xs",
+                                                    style: {
+                                                        backgroundColor: dayColor.stroke
+                                                    }
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 622,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-slate-300",
+                                                    children: [
+                                                        "Day ",
+                                                        d.dayNumber
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 626,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, d.id, true, {
+                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                            lineNumber: 621,
+                                            columnNumber: 17
+                                        }, this);
+                                    })
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                lineNumber: 616,
+                                columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 145,
+                        lineNumber: 604,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "lg:col-span-5 bg-slate-900/95 border-t lg:border-t-0 lg:border-l border-slate-800 p-4 sm:p-5 flex flex-col max-h-[500px] overflow-y-auto",
+                        className: "lg:col-span-5 bg-slate-900/95 border-t lg:border-t-0 lg:border-l border-slate-800 p-4 sm:p-5 flex flex-col max-h-[520px] overflow-y-auto",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex items-center justify-between pb-3 border-b border-slate-800 mb-3",
+                                className: "flex items-center justify-between pb-3 border-b border-slate-800 mb-3 shrink-0",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "text-xs font-black uppercase tracking-wider text-slate-300",
-                                        children: "Scheduled Stops & Waypoints"
+                                        children: selectedDayId === 'all' ? 'Full Expedition Route' : 'Day Stops & Route'
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 183,
+                                        lineNumber: 636,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "text-[11px] font-bold text-emerald-400",
                                         children: [
-                                            stops.length,
-                                            " location",
-                                            stops.length === 1 ? '' : 's'
+                                            activeWaypointsList.length,
+                                            " Connected Waypoint",
+                                            activeWaypointsList.length === 1 ? '' : 's'
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 186,
+                                        lineNumber: 639,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 182,
+                                lineNumber: 635,
                                 columnNumber: 11
                             }, this),
-                            stops.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            activeWaypointsList.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400 space-y-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$compass$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Compass$3e$__["Compass"], {
-                                        className: "w-8 h-8 text-slate-600 animate-spin-slow"
+                                        className: "w-8 h-8 text-slate-600 animate-spin",
+                                        style: {
+                                            animationDuration: '6s'
+                                        }
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 193,
+                                        lineNumber: 646,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "text-xs font-bold",
+                                        className: "text-xs font-bold text-slate-300",
                                         children: "No stops scheduled for this day yet."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 194,
+                                        lineNumber: 647,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-[11px] text-slate-500",
-                                        children: "Add activities in the itinerary to view mapped routes."
+                                        children: 'Go to the Timeline View and click "+ Add Activity" with a location to plot it on the map.'
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 648,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 192,
+                                lineNumber: 645,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "space-y-2.5 flex-1",
-                                children: stops.map(({ dayNum, item }, idx)=>{
-                                    const isSelected = selectedStop?.id === item.id;
+                                className: "space-y-0 flex-1 relative",
+                                children: activeWaypointsList.map((wp, idx)=>{
+                                    const isSelected = selectedStopId === wp.id;
+                                    const dayColor = getDayColor(wp.dayNumber);
+                                    const isLast = idx === activeWaypointsList.length - 1;
                                     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        onClick: ()=>setSelectedStop(item),
-                                        className: `p-3.5 rounded-2xl border transition-all cursor-pointer ${isSelected ? 'bg-emerald-950/60 border-emerald-500/70 shadow-lg' : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-950'}`,
+                                        className: "relative flex gap-3 pb-3 group",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-start justify-between gap-2",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center gap-2.5",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: `w-7 h-7 rounded-xl font-black text-xs flex items-center justify-center shrink-0 ${isSelected ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'}`,
-                                                                children: idx + 1
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                lineNumber: 213,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "min-w-0",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "flex items-center gap-1.5",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider",
-                                                                                children: [
-                                                                                    "Day ",
-                                                                                    dayNum
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                                lineNumber: 224,
-                                                                                columnNumber: 29
-                                                                            }, this),
-                                                                            item.startTime && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "text-[10px] text-slate-400 font-medium",
-                                                                                children: [
-                                                                                    "• ",
-                                                                                    item.startTime
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                                lineNumber: 228,
-                                                                                columnNumber: 31
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                        lineNumber: 223,
-                                                                        columnNumber: 27
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                                        className: "font-bold text-sm text-white truncate",
-                                                                        children: item.title
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                        lineNumber: 233,
-                                                                        columnNumber: 27
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                lineNumber: 222,
-                                                                columnNumber: 25
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 212,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                        href: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(item.location || item.title)}`,
-                                                        target: "_blank",
-                                                        rel: "noopener noreferrer",
-                                                        onClick: (e)=>e.stopPropagation(),
-                                                        className: "p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-400 hover:text-white transition-colors shrink-0",
-                                                        title: "Open turn-by-turn directions in Google Maps",
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Navigation$3e$__["Navigation"], {
-                                                            className: "w-3.5 h-3.5"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                            lineNumber: 245,
-                                                            columnNumber: 25
-                                                        }, this)
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 237,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            !isLast && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute left-4 top-8 bottom-0 w-0.5 transition-colors",
+                                                style: {
+                                                    backgroundColor: selectedDayId === 'all' && activeWaypointsList[idx + 1]?.dayNumber !== wp.dayNumber ? '#475569' : dayColor.stroke,
+                                                    opacity: 0.6
+                                                }
+                                            }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 663,
+                                                columnNumber: 23
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "button",
+                                                onClick: ()=>handleSelectStop(wp),
+                                                className: `w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-white font-black text-xs transition-all shadow-md cursor-pointer z-10 ${isSelected ? 'scale-115 ring-2 ring-white shadow-emerald-500/50' : 'hover:scale-110'}`,
+                                                style: {
+                                                    backgroundColor: dayColor.stroke
+                                                },
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: wp.stopIndex
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 686,
+                                                    columnNumber: 23
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                lineNumber: 676,
                                                 columnNumber: 21
                                             }, this),
-                                            item.location && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "text-xs text-slate-400 mt-2 pl-9 flex items-center gap-1 truncate",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
-                                                        className: "w-3 h-3 text-red-400 shrink-0"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 251,
-                                                        columnNumber: 25
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "truncate",
-                                                        children: item.location
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 252,
-                                                        columnNumber: 25
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                onClick: ()=>handleSelectStop(wp),
+                                                className: `flex-1 p-3 rounded-2xl border transition-all cursor-pointer ${isSelected ? 'bg-slate-800/90 border-emerald-500 shadow-md ring-1 ring-emerald-500/50' : 'bg-slate-950/60 hover:bg-slate-800/60 border-slate-800/80 hover:border-slate-700'}`,
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-start justify-between gap-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "min-w-0",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex items-center gap-1.5 mb-1",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "px-2 py-0.5 rounded-md text-[9px] font-black uppercase text-white",
+                                                                            style: {
+                                                                                backgroundColor: dayColor.stroke
+                                                                            },
+                                                                            children: [
+                                                                                "Day ",
+                                                                                wp.dayNumber
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                            lineNumber: 701,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        wp.startTime && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            className: "text-[10px] font-bold text-slate-400 flex items-center gap-1",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
+                                                                                    className: "w-3 h-3 text-slate-500"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                                    lineNumber: 709,
+                                                                                    columnNumber: 33
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                    children: wp.startTime
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                                    lineNumber: 710,
+                                                                                    columnNumber: 33
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                            lineNumber: 708,
+                                                                            columnNumber: 31
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                    lineNumber: 700,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                    className: "font-extrabold text-xs text-white group-hover:text-emerald-400 transition-colors truncate",
+                                                                    children: wp.title
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                    lineNumber: 714,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-[11px] text-slate-400 truncate flex items-center gap-1 mt-0.5",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                                                            className: "w-3 h-3 text-slate-500 shrink-0"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                            lineNumber: 718,
+                                                                            columnNumber: 29
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                            children: wp.locationName
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                            lineNumber: 719,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                    lineNumber: 717,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                            lineNumber: 699,
+                                                            columnNumber: 25
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                            href: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(wp.locationName)}`,
+                                                            target: "_blank",
+                                                            rel: "noopener noreferrer",
+                                                            onClick: (e)=>e.stopPropagation(),
+                                                            className: "p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-400 hover:text-white transition-colors shrink-0",
+                                                            title: "Navigate in Google Maps",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Navigation$3e$__["Navigation"], {
+                                                                className: "w-3.5 h-3.5"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                                lineNumber: 731,
+                                                                columnNumber: 27
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                            lineNumber: 723,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
+                                                    lineNumber: 698,
+                                                    columnNumber: 23
+                                                }, this)
+                                            }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 250,
-                                                columnNumber: 23
-                                            }, this),
-                                            item.leadName && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "mt-2 pl-9 flex items-center gap-1.5 text-[11px] text-slate-500",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__["User"], {
-                                                        className: "w-3 h-3 text-slate-400"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 258,
-                                                        columnNumber: 25
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: [
-                                                            "Lead: ",
-                                                            item.leadName
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                        lineNumber: 259,
-                                                        columnNumber: 25
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 257,
-                                                columnNumber: 23
+                                                lineNumber: 690,
+                                                columnNumber: 21
                                             }, this)
                                         ]
-                                    }, item.id || idx, true, {
+                                    }, wp.id, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 202,
+                                        lineNumber: 660,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 198,
+                                lineNumber: 653,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 181,
+                        lineNumber: 634,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                lineNumber: 143,
+                lineNumber: 602,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-        lineNumber: 74,
+        lineNumber: 511,
         columnNumber: 5
     }, this);
 }
