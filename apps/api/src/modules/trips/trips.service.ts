@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateTripInput, UpdateTripInput } from '@tripsync/validation';
 import { Trip, TripRole, TripStatus, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
@@ -210,7 +210,52 @@ export class TripsService {
     return tripData;
   }
 
-  async updateTrip(tripId: string, input: UpdateTripInput) {
+  private async requireTripManager(tripId: string, userId: string) {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+      });
+      if (!trip) throw new NotFoundException('Trip not found');
+      if (trip.ownerId === userId) return trip;
+
+      const membership = await this.db.query.tripMembers.findFirst({
+        where: and(eq(tripMembers.tripId, tripId), eq(tripMembers.userId, userId)),
+      });
+      if (!membership || ![TripRole.OWNER, TripRole.ADMIN].includes(membership.role)) {
+        throw new ForbiddenException('Only trip owners and admins can update trip details');
+      }
+      return trip;
+    }
+    const mock = this.mockTrips.get(tripId);
+    if (!mock) throw new NotFoundException('Trip not found');
+    if (mock.ownerId !== userId) {
+      throw new ForbiddenException('Only trip owners and admins can update trip details');
+    }
+    return mock;
+  }
+
+  private async requireTripOwner(tripId: string, userId: string) {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+      });
+      if (!trip) throw new NotFoundException('Trip not found');
+      if (trip.ownerId !== userId) {
+        throw new ForbiddenException('Only the trip creator and owner can delete this trip');
+      }
+      return trip;
+    }
+    const mock = this.mockTrips.get(tripId);
+    if (!mock) throw new NotFoundException('Trip not found');
+    if (mock.ownerId !== userId) {
+      throw new ForbiddenException('Only the trip creator and owner can delete this trip');
+    }
+    return mock;
+  }
+
+  async updateTrip(tripId: string, userId: string, input: UpdateTripInput) {
+    await this.requireTripManager(tripId, userId);
+
     if (this.db) {
       try {
         const [updated] = await (this.db.update(trips)
@@ -234,7 +279,9 @@ export class TripsService {
     return updated;
   }
 
-  async deleteTrip(tripId: string) {
+  async deleteTrip(tripId: string, userId: string) {
+    await this.requireTripOwner(tripId, userId);
+
     if (this.db) {
       try {
         await this.db.delete(trips).where(eq(trips.id, tripId));

@@ -505,8 +505,41 @@ function DashboardContent() {
 
   if (!isClerkLoaded || !isSignedIn) {
     return (
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-24 flex items-center justify-center">
-        <p className="text-sm text-slate-500">Checking your session...</p>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-6 animate-in fade-in duration-300">
+        {/* Top Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
+          <div className="space-y-2">
+            <div className="h-5 w-32 bg-slate-200 rounded-full animate-pulse" />
+            <div className="h-8 w-64 bg-slate-200 rounded-2xl animate-pulse" />
+            <div className="h-4 w-48 bg-slate-100 rounded-xl animate-pulse" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-28 bg-slate-100 rounded-xl animate-pulse" />
+            <div className="h-10 w-28 bg-slate-100 rounded-xl animate-pulse" />
+          </div>
+        </div>
+
+        {/* Central Syncing Beacon */}
+        <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shadow-inner animate-spin">
+            <Compass className="w-7 h-7" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm font-black text-slate-800 tracking-tight">Checking your session...</p>
+            <p className="text-xs text-slate-400 font-medium">Connecting to TripSync travel cloud</p>
+          </div>
+        </div>
+
+        {/* KPI & Banner Skeletons */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
+              <div className="h-3 w-20 bg-slate-100 rounded-md animate-pulse" />
+              <div className="h-7 w-16 bg-slate-200 rounded-xl animate-pulse" />
+              <div className="h-2.5 w-24 bg-slate-100 rounded-md animate-pulse" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

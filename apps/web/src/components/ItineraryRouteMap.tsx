@@ -298,67 +298,45 @@ export function ItineraryRouteMap({
 
     // --- A. CONNECTING TRAILS (Connecting Dots Day 1 -> Day 2 -> Day n) ---
     if (selectedDayId === 'all') {
-      // 1. Draw Intra-Day Solid Glowing Trails
-      sortedDayNumbers.forEach((dayNum) => {
-        const dayPoints = dayGroups[dayNum];
-        const dayColor = getDayColor(dayNum);
-        if (dayPoints.length >= 2) {
-          const latLngs = dayPoints.map((wp) => [wp.lat, wp.lng] as [number, number]);
-          
-          // Glow background line
-          L.polyline(latLngs, {
-            color: dayColor.stroke,
-            weight: 6,
-            opacity: 0.35,
-            smoothFactor: 1,
-          }).addTo(polylinesGroupRef.current);
+      // Connect all waypoints sequentially across the full expedition
+      for (let i = 0; i < resolvedWaypoints.length - 1; i++) {
+        const p1 = resolvedWaypoints[i];
+        const p2 = resolvedWaypoints[i + 1];
+        const segmentLatLngs: [number, number][] = [
+          [p1.lat, p1.lng],
+          [p2.lat, p2.lng],
+        ];
+        const p1Color = getDayColor(p1.dayNumber);
+        const isSameDay = p1.dayNumber === p2.dayNumber;
 
-          // Solid line
-          L.polyline(latLngs, {
-            color: dayColor.stroke,
-            weight: 3.5,
-            opacity: 0.9,
-            dashArray: undefined,
-            smoothFactor: 1,
-          }).addTo(polylinesGroupRef.current);
-        }
-      });
+        // Outer Glow Line
+        L.polyline(segmentLatLngs, {
+          color: p1Color.stroke,
+          weight: 8,
+          opacity: 0.4,
+          smoothFactor: 1,
+        }).addTo(polylinesGroupRef.current);
 
-      // 2. Draw Inter-Day Connecting Dashed Trails (Day 1 End -> Day 2 Start, etc.)
-      for (let i = 0; i < sortedDayNumbers.length - 1; i++) {
-        const currentDayNum = sortedDayNumbers[i];
-        const nextDayNum = sortedDayNumbers[i + 1];
-        const currentDayPoints = dayGroups[currentDayNum];
-        const nextDayPoints = dayGroups[nextDayNum];
-
-        if (currentDayPoints.length > 0 && nextDayPoints.length > 0) {
-          const lastPointCurrent = currentDayPoints[currentDayPoints.length - 1];
-          const firstPointNext = nextDayPoints[0];
-          const interDayLatLngs: [number, number][] = [
-            [lastPointCurrent.lat, lastPointCurrent.lng],
-            [firstPointNext.lat, firstPointNext.lng],
-          ];
-
-          // Dashed connection trail between consecutive days
-          L.polyline(interDayLatLngs, {
-            color: '#64748b',
-            weight: 2.5,
-            opacity: 0.8,
-            dashArray: '6, 8',
-          }).addTo(polylinesGroupRef.current);
-        }
+        // Inner Bold Trail Line (Solid for intra-day, high-visibility dashed for inter-day)
+        L.polyline(segmentLatLngs, {
+          color: p1Color.stroke,
+          weight: 4,
+          opacity: 1,
+          dashArray: isSameDay ? undefined : '10, 8',
+          smoothFactor: 1,
+        }).addTo(polylinesGroupRef.current);
       }
     } else {
       // Single Day Selected - Highlight that Day's specific trail
-      const activeDayNum = days.find((d) => d.id === selectedDayId)?.dayNumber;
-      if (activeDayNum && dayGroups[activeDayNum] && dayGroups[activeDayNum].length >= 2) {
-        const dayColor = getDayColor(activeDayNum);
-        const latLngs = dayGroups[activeDayNum].map((wp) => [wp.lat, wp.lng] as [number, number]);
+      const activeDayPoints = filteredWaypoints;
+      if (activeDayPoints.length >= 2) {
+        const dayColor = getDayColor(activeDayPoints[0].dayNumber);
+        const latLngs = activeDayPoints.map((wp) => [wp.lat, wp.lng] as [number, number]);
 
         L.polyline(latLngs, {
           color: dayColor.stroke,
           weight: 8,
-          opacity: 0.3,
+          opacity: 0.35,
         }).addTo(polylinesGroupRef.current);
 
         L.polyline(latLngs, {
@@ -374,8 +352,9 @@ export function ItineraryRouteMap({
       latLngBounds.push([wp.lat, wp.lng]);
       const dayColor = getDayColor(wp.dayNumber);
       const isSelected = selectedStopId === wp.id;
+      const displayWaypointNumber = selectedDayId === 'all' ? (wp.globalIndex || wp.stopIndex) : wp.stopIndex;
 
-      // Custom Location Pin Icon with written D1 at the bottom
+      // Custom Location Pin Icon with written D1, D2 at the bottom
       const iconHtml = `
         <div class="relative flex flex-col items-center group cursor-pointer" style="transform: translate(-50%, -100%);">
           <!-- Pulse ripple if selected -->
@@ -410,7 +389,7 @@ export function ItineraryRouteMap({
                   font-family="system-ui, -apple-system, sans-serif"
                   font-weight="900"
                   font-size="12px"
-                >${wp.stopIndex}</text>
+                >${displayWaypointNumber}</text>
               </svg>
             </div>
 
@@ -661,13 +640,10 @@ export function ItineraryRouteMap({
                     {/* Connecting Vertical Trail Line on Timeline */}
                     {!isLast && (
                       <div
-                        className="absolute left-4 top-8 bottom-0 w-0.5 transition-colors"
+                        className="absolute left-4 top-8 bottom-0 w-1 transition-all rounded-full"
                         style={{
-                          backgroundColor:
-                            selectedDayId === 'all' && activeWaypointsList[idx + 1]?.dayNumber !== wp.dayNumber
-                              ? '#475569'
-                              : dayColor.stroke,
-                          opacity: 0.6,
+                          backgroundColor: dayColor.stroke,
+                          opacity: 0.85,
                         }}
                       />
                     )}
@@ -683,7 +659,7 @@ export function ItineraryRouteMap({
                       }`}
                       style={{ backgroundColor: dayColor.stroke }}
                     >
-                      <span>{wp.stopIndex}</span>
+                      <span>{selectedDayId === 'all' ? (wp.globalIndex || idx + 1) : wp.stopIndex}</span>
                     </button>
 
                     {/* Stop Card */}

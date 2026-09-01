@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Wifi, WifiOff, Mountain, CheckCircle2, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Wifi, WifiOff, Mountain, CheckCircle2, RefreshCw, AlertTriangle, X } from 'lucide-react';
 
 export function MountainOfflineSentinel() {
   const [isOnline, setIsOnline] = useState(true);
@@ -104,25 +104,35 @@ export function MountainOfflineSentinel() {
       {!isOnline ? (
         // Offline / Mountain Mode Active Banner
         <div className="pointer-events-auto p-3 sm:px-4 sm:py-3 rounded-2xl bg-slate-900/95 border-2 border-emerald-500/80 text-white shadow-2xl backdrop-blur-xl flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
               <Mountain className="w-4 h-4" />
             </div>
-            <div className="text-left">
+            <div className="text-left min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-white">Mountain Offline Mode</span>
-                <span className="px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-400 text-[9px] font-black uppercase">
+                <span className="text-xs font-black text-white truncate">Mountain Offline Mode</span>
+                <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 text-[9px] font-black uppercase shrink-0">
                   Active
                 </span>
               </div>
-              <p className="text-[11px] text-slate-300">
-                Itineraries, expenses & emergency SOS numbers cached locally.
+              <p className="text-[11px] text-slate-300 truncate">
+                Itineraries, expenses & emergency SOS cached locally.
               </p>
             </div>
           </div>
-          <div className="shrink-0 flex items-center gap-1 text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-1 rounded-lg border border-emerald-500/30">
-            <WifiOff className="w-3 h-3" />
-            <span>No Signal</span>
+          <div className="shrink-0 flex items-center gap-1.5">
+            <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-bold bg-emerald-950/60 px-2 py-1 rounded-lg border border-emerald-500/30">
+              <WifiOff className="w-3 h-3" />
+              <span className="hidden sm:inline">No Signal</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowBanner(false)}
+              className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              title="Dismiss banner"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
         </div>
       ) : syncStatus === 'syncing' ? (

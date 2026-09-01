@@ -6,6 +6,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { PWAInstallPrompt } from '@/components/PWAInstallPrompt';
 import { MountainOfflineSentinel } from '@/components/MountainOfflineSentinel';
+import { TravelPreloader } from '@/components/TravelPreloader';
 import { AuthProvider } from '@/lib/auth-context';
 import { ApiAuthBridge } from '@/components/ApiAuthBridge';
 
@@ -84,6 +85,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
+            <TravelPreloader />
             <PWAInstallPrompt />
             <MountainOfflineSentinel />
           </AuthProvider>

@@ -1819,48 +1819,52 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   </div>
 
                   {/* Action Bar: Add Day / Delete Day / Add Activity */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-1">
+                  <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-2">
                     {can('EDIT_TRIP') && (
-                      <form onSubmit={handleAddDay} className="flex flex-wrap items-center gap-2">
-                        <input
-                          type="date"
-                          required
-                          value={newDayDate}
-                          onChange={(event) => setNewDayDate(event.target.value)}
-                          className="flex-1 sm:flex-none rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-                          aria-label="New itinerary day date"
-                        />
-                        <input
-                          value={newDayLabel}
-                          onChange={(event) => setNewDayLabel(event.target.value)}
-                          placeholder="Day title (e.g. Day 3)"
-                          className="flex-1 sm:w-36 rounded-xl border border-slate-300 px-3 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-                          aria-label="New itinerary day title"
-                        />
-                        <button type="submit" className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors">
-                          <Plus className="h-3.5 w-3.5" />
-                          <span>Add Day</span>
-                        </button>
-                        {tripDays.length > 0 && (
-                          <button
-                            type="button"
-                            onClick={handleDeleteDay}
-                            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2 text-xs font-bold text-red-700 transition-colors"
-                            title="Delete selected day"
-                          >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            <span className="hidden sm:inline">Delete Day</span>
+                      <form onSubmit={handleAddDay} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
+                        <div className="grid grid-cols-2 sm:flex items-center gap-2 flex-1">
+                          <input
+                            type="date"
+                            required
+                            value={newDayDate}
+                            onChange={(event) => setNewDayDate(event.target.value)}
+                            className="w-full sm:w-auto rounded-xl border border-slate-300 px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
+                            aria-label="New itinerary day date"
+                          />
+                          <input
+                            value={newDayLabel}
+                            onChange={(event) => setNewDayLabel(event.target.value)}
+                            placeholder="Day title (e.g. Day 3)"
+                            className="w-full sm:w-44 rounded-xl border border-slate-300 px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
+                            aria-label="New itinerary day title"
+                          />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button type="submit" className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-white shadow-xs transition-colors active:scale-95">
+                            <Plus className="h-4 w-4 text-emerald-400" />
+                            <span>Add Day</span>
                           </button>
-                        )}
+                          {tripDays.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={handleDeleteDay}
+                              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2.5 text-xs font-bold text-red-700 transition-colors active:scale-95"
+                              title="Delete selected day"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              <span className="hidden sm:inline">Delete Day</span>
+                            </button>
+                          )}
+                        </div>
                       </form>
                     )}
 
-                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                    <div className="flex items-center gap-2 shrink-0">
                       {can('ADD_ACTIVITY') ? (
                         <button
                           onClick={() => setShowAddActivityModal(true)}
                           disabled={tripDays.length === 0}
-                          className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all active:scale-95"
                         >
                           <Plus className="w-4 h-4" />
                           <span>Add Activity</span>
@@ -1868,7 +1872,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       ) : (
                         <button
                           onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
-                          className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
                         >
                           <Lock className="w-3.5 h-3.5" />
                           <span>Add Activity (Read-Only)</span>
@@ -4445,18 +4449,18 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         </div>
       )}
 
-      {/* Floating Crew Chat Button (Bottom Left) */}
+      {/* Floating Crew Chat Button (Desktop Bottom Left) */}
       <button
         type="button"
         onClick={() => setShowCrewChat(true)}
-        className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-40 p-3 sm:px-4 sm:py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-xl hover:shadow-2xl shadow-emerald-500/20 active:scale-95 transition-all flex items-center gap-2.5 cursor-pointer backdrop-blur-md"
+        className="hidden md:flex fixed md:bottom-6 md:left-6 z-40 px-4 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-xl hover:shadow-2xl shadow-emerald-500/20 active:scale-95 transition-all items-center gap-2.5 cursor-pointer backdrop-blur-md"
         title="Open Real-Time Crew Chat"
       >
         <div className="relative">
           <MessageSquare className="w-4 h-4" />
           <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping" />
         </div>
-        <span className="text-xs font-black hidden sm:inline">Crew Chat</span>
+        <span className="text-xs font-black">Crew Chat</span>
         <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-black/20 text-emerald-100">
           Live
         </span>

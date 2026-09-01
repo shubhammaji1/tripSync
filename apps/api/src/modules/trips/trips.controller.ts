@@ -53,17 +53,21 @@ export class TripsController {
   }
 
   @Patch(':tripId')
-  @ApiOperation({ summary: 'Update trip details' })
+  @ApiOperation({ summary: 'Update trip details (Owner or Admin)' })
   async updateTrip(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(updateTripSchema)) body: UpdateTripInput
   ) {
-    return this.tripsService.updateTrip(tripId, body);
+    return this.tripsService.updateTrip(tripId, userId, body);
   }
 
   @Delete(':tripId')
-  @ApiOperation({ summary: 'Delete or archive a trip' })
-  async deleteTrip(@Param('tripId') tripId: string) {
-    return this.tripsService.deleteTrip(tripId);
+  @ApiOperation({ summary: 'Delete or archive a trip (Owner only)' })
+  async deleteTrip(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.tripsService.deleteTrip(tripId, userId);
   }
 }
