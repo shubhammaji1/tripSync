@@ -1032,7 +1032,8 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
             if (!dayGroups[wp.dayNumber]) dayGroups[wp.dayNumber] = [];
             dayGroups[wp.dayNumber].push(wp);
         });
-        // --- INTERACTIVE NUMBERED MARKERS ---
+        const sortedDayNumbers = Object.keys(dayGroups).map(Number).sort((a, b)=>a - b);
+        // --- INTERACTIVE NUMBERED MARKERS (Location Pins D1, D2...) ---
         filteredWaypoints.forEach((wp)=>{
             latLngBounds.push([
                 wp.lat,
@@ -1194,20 +1195,20 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                 className: "w-3 h-3"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 441,
+                                                lineNumber: 445,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: "Connected Route Visualizer"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 442,
+                                                lineNumber: 446,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 440,
+                                        lineNumber: 444,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1221,13 +1222,13 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 444,
+                                        lineNumber: 448,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 439,
+                                lineNumber: 443,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1237,7 +1238,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: "Interactive Expedition Route"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 449,
+                                        lineNumber: 453,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1245,19 +1246,19 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: "🗺️"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 450,
+                                        lineNumber: 454,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 448,
+                                lineNumber: 452,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 438,
+                        lineNumber: 442,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1276,7 +1277,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: "All Days (Continuous Trail)"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 458,
+                                        lineNumber: 462,
                                         columnNumber: 13
                                     }, this),
                                     days.map((d)=>{
@@ -1297,7 +1298,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 489,
+                                                    lineNumber: 493,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1307,20 +1308,20 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 493,
+                                                    lineNumber: 497,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, d.id, true, {
                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                            lineNumber: 476,
+                                            lineNumber: 480,
                                             columnNumber: 17
                                         }, this);
                                     })
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 457,
+                                lineNumber: 461,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1334,12 +1335,12 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                     className: "w-4 h-4"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                    lineNumber: 508,
+                                    lineNumber: 512,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 500,
+                                lineNumber: 504,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1352,39 +1353,39 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         className: "w-3.5 h-3.5"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 518,
+                                        lineNumber: 522,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "Open in GPS"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 519,
+                                        lineNumber: 523,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$460$2e$0_react$40$18$2e$3$2e$1$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$external$2d$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ExternalLink$3e$__["ExternalLink"], {
                                         className: "w-3 h-3"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 520,
+                                        lineNumber: 524,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 512,
+                                lineNumber: 516,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 455,
+                        lineNumber: 459,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                lineNumber: 437,
+                lineNumber: 441,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1398,7 +1399,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                 className: "w-full h-full min-h-[380px] z-10"
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 529,
+                                lineNumber: 533,
                                 columnNumber: 11
                             }, this),
                             isGeocoding && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1408,20 +1409,20 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         className: "w-3.5 h-3.5 animate-spin"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 534,
+                                        lineNumber: 538,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "Plotting connected day routes..."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 535,
+                                        lineNumber: 539,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 533,
+                                lineNumber: 537,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1432,7 +1433,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: "Day Trails:"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 541,
+                                        lineNumber: 545,
                                         columnNumber: 13
                                     }, this),
                                     days.slice(0, 5).map((d)=>{
@@ -1447,7 +1448,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 546,
+                                                    lineNumber: 550,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1458,26 +1459,26 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 550,
+                                                    lineNumber: 554,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, d.id, true, {
                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                            lineNumber: 545,
+                                            lineNumber: 549,
                                             columnNumber: 17
                                         }, this);
                                     })
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 540,
+                                lineNumber: 544,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 528,
+                        lineNumber: 532,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1491,7 +1492,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: selectedDayId === 'all' ? 'Full Expedition Route' : 'Day Stops & Route'
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 560,
+                                        lineNumber: 564,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1503,13 +1504,13 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 563,
+                                        lineNumber: 567,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 559,
+                                lineNumber: 563,
                                 columnNumber: 11
                             }, this),
                             activeWaypointsList.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1522,7 +1523,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 570,
+                                        lineNumber: 574,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1530,7 +1531,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: "No stops scheduled for this day yet."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 571,
+                                        lineNumber: 575,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1538,13 +1539,13 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                         children: 'Go to the Timeline View and click "+ Add Activity" with a location to plot it on the map.'
                                     }, void 0, false, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 572,
+                                        lineNumber: 576,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 569,
+                                lineNumber: 573,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-0 flex-1 relative",
@@ -1563,7 +1564,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 587,
+                                                lineNumber: 591,
                                                 columnNumber: 23
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1577,12 +1578,12 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                     children: selectedDayId === 'all' ? wp.globalIndex || idx + 1 : wp.stopIndex
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 607,
+                                                    lineNumber: 611,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 597,
+                                                lineNumber: 601,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1608,7 +1609,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                            lineNumber: 622,
+                                                                            lineNumber: 626,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         wp.startTime && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1618,26 +1619,26 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                                                     className: "w-3 h-3 text-slate-500"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                                    lineNumber: 630,
+                                                                                    lineNumber: 634,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                     children: wp.startTime
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                                    lineNumber: 631,
+                                                                                    lineNumber: 635,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                            lineNumber: 629,
+                                                                            lineNumber: 633,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                    lineNumber: 621,
+                                                                    lineNumber: 625,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -1645,7 +1646,7 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                                     children: wp.title
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                    lineNumber: 635,
+                                                                    lineNumber: 639,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1655,26 +1656,26 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                                             className: "w-3 h-3 text-slate-500 shrink-0"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                            lineNumber: 639,
+                                                                            lineNumber: 643,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             children: wp.locationName
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                            lineNumber: 640,
+                                                                            lineNumber: 644,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                    lineNumber: 638,
+                                                                    lineNumber: 642,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                            lineNumber: 620,
+                                                            lineNumber: 624,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f2e$pnpm$2f$next$40$14$2e$2$2e$35_react$2d$dom$40$18$2e$3$2e$1_react$40$18$2e$3$2e$1$2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1688,53 +1689,53 @@ function ItineraryRouteMap({ days, tripDestination = 'Nepal' }) {
                                                                 className: "w-3.5 h-3.5"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                                lineNumber: 652,
+                                                                lineNumber: 656,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                            lineNumber: 644,
+                                                            lineNumber: 648,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                    lineNumber: 619,
+                                                    lineNumber: 623,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                                lineNumber: 611,
+                                                lineNumber: 615,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, wp.id, true, {
                                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                        lineNumber: 584,
+                                        lineNumber: 588,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                                lineNumber: 577,
+                                lineNumber: 581,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                        lineNumber: 558,
+                        lineNumber: 562,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-                lineNumber: 526,
+                lineNumber: 530,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/web/src/components/ItineraryRouteMap.tsx",
-        lineNumber: 435,
+        lineNumber: 439,
         columnNumber: 5
     }, this);
 }

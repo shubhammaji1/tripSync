@@ -292,7 +292,11 @@ export function ItineraryRouteMap({
       dayGroups[wp.dayNumber].push(wp);
     });
 
-    // --- INTERACTIVE NUMBERED MARKERS ---
+    const sortedDayNumbers = Object.keys(dayGroups)
+      .map(Number)
+      .sort((a, b) => a - b);
+
+    // --- INTERACTIVE NUMBERED MARKERS (Location Pins D1, D2...) ---
     filteredWaypoints.forEach((wp) => {
       latLngBounds.push([wp.lat, wp.lng]);
       const dayColor = getDayColor(wp.dayNumber);
