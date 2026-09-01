@@ -63,6 +63,7 @@ import {
   Bell,
   Loader2,
   Save,
+  Tag,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -1822,23 +1823,40 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-2">
                     {can('EDIT_TRIP') && (
                       <form onSubmit={handleAddDay} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
-                        <div className="grid grid-cols-2 sm:flex items-center gap-2 flex-1">
-                          <input
-                            type="date"
-                            required
-                            value={newDayDate}
-                            onChange={(event) => setNewDayDate(event.target.value)}
-                            className="w-full sm:w-auto rounded-xl border border-slate-300 px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
-                            aria-label="New itinerary day date"
-                          />
-                          <input
-                            value={newDayLabel}
-                            onChange={(event) => setNewDayLabel(event.target.value)}
-                            placeholder="Day title (e.g. Day 3)"
-                            className="w-full sm:w-44 rounded-xl border border-slate-300 px-3 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
-                            aria-label="New itinerary day title"
-                          />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
+                          {/* Calendar Date Input with Icon and Visual Placeholder */}
+                          <div className="relative flex items-center">
+                            <div className="absolute left-3 pointer-events-none flex items-center gap-1.5 z-10">
+                              <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
+                              {!newDayDate && (
+                                <span className="text-xs font-bold text-slate-500">Pick Date</span>
+                              )}
+                            </div>
+                            <input
+                              type="date"
+                              required
+                              value={newDayDate}
+                              onChange={(event) => setNewDayDate(event.target.value)}
+                              className={`w-full ${!newDayDate ? 'text-transparent' : 'text-slate-900 font-bold'} pl-9 sm:pl-24 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs cursor-pointer`}
+                              aria-label="New itinerary day date"
+                            />
+                          </div>
+
+                          {/* Day Title Input with Icon */}
+                          <div className="relative flex items-center">
+                            <div className="absolute left-3 pointer-events-none text-slate-400 z-10">
+                              <Tag className="w-4 h-4 text-slate-400" />
+                            </div>
+                            <input
+                              value={newDayLabel}
+                              onChange={(event) => setNewDayLabel(event.target.value)}
+                              placeholder="Day title (e.g. Day 3)"
+                              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
+                              aria-label="New itinerary day title"
+                            />
+                          </div>
                         </div>
+
                         <div className="flex items-center gap-2">
                           <button type="submit" className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-white shadow-xs transition-colors active:scale-95">
                             <Plus className="h-4 w-4 text-emerald-400" />

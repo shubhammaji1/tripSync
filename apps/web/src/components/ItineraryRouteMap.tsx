@@ -292,62 +292,7 @@ export function ItineraryRouteMap({
       dayGroups[wp.dayNumber].push(wp);
     });
 
-    const sortedDayNumbers = Object.keys(dayGroups)
-      .map(Number)
-      .sort((a, b) => a - b);
-
-    // --- A. CONNECTING TRAILS (Connecting Dots Day 1 -> Day 2 -> Day n) ---
-    if (selectedDayId === 'all') {
-      // Connect all waypoints sequentially across the full expedition
-      for (let i = 0; i < resolvedWaypoints.length - 1; i++) {
-        const p1 = resolvedWaypoints[i];
-        const p2 = resolvedWaypoints[i + 1];
-        const segmentLatLngs: [number, number][] = [
-          [p1.lat, p1.lng],
-          [p2.lat, p2.lng],
-        ];
-        const p1Color = getDayColor(p1.dayNumber);
-        const isSameDay = p1.dayNumber === p2.dayNumber;
-
-        // Outer Glow Line
-        L.polyline(segmentLatLngs, {
-          color: p1Color.stroke,
-          weight: 8,
-          opacity: 0.4,
-          smoothFactor: 1,
-        }).addTo(polylinesGroupRef.current);
-
-        // Inner Bold Trail Line (Solid for intra-day, high-visibility dashed for inter-day)
-        L.polyline(segmentLatLngs, {
-          color: p1Color.stroke,
-          weight: 4,
-          opacity: 1,
-          dashArray: isSameDay ? undefined : '10, 8',
-          smoothFactor: 1,
-        }).addTo(polylinesGroupRef.current);
-      }
-    } else {
-      // Single Day Selected - Highlight that Day's specific trail
-      const activeDayPoints = filteredWaypoints;
-      if (activeDayPoints.length >= 2) {
-        const dayColor = getDayColor(activeDayPoints[0].dayNumber);
-        const latLngs = activeDayPoints.map((wp) => [wp.lat, wp.lng] as [number, number]);
-
-        L.polyline(latLngs, {
-          color: dayColor.stroke,
-          weight: 8,
-          opacity: 0.35,
-        }).addTo(polylinesGroupRef.current);
-
-        L.polyline(latLngs, {
-          color: dayColor.stroke,
-          weight: 4,
-          opacity: 1,
-        }).addTo(polylinesGroupRef.current);
-      }
-    }
-
-    // --- B. INTERACTIVE NUMBERED MARKERS (Connecting Dots) ---
+    // --- INTERACTIVE NUMBERED MARKERS ---
     filteredWaypoints.forEach((wp) => {
       latLngBounds.push([wp.lat, wp.lng]);
       const dayColor = getDayColor(wp.dayNumber);

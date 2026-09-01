@@ -5003,6 +5003,10 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     padding-top: 5rem;
   }
 
+  .sm\:pl-24 {
+    padding-left: 6rem;
+  }
+
   .sm\:text-center {
     text-align: center;
   }
