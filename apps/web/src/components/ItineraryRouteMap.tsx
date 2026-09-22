@@ -20,6 +20,7 @@ import {
   LocateFixed,
 } from 'lucide-react';
 import { haptic } from '@/lib/haptics';
+import { TripSyncLogo } from './TripSyncLogo';
 
 interface ItineraryItem {
   id: string;
@@ -534,8 +535,10 @@ export function ItineraryRouteMap({
 
           {/* Geocoding Loading Shimmer Indicator */}
           {isGeocoding && (
-            <div className="absolute top-4 left-4 z-20 px-3 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-emerald-400 text-xs font-bold flex items-center gap-2 shadow-lg">
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            <div className="absolute top-4 left-4 z-20 px-3.5 py-2 rounded-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-emerald-400 text-xs font-bold flex items-center gap-2.5 shadow-xl">
+              <div className="w-4 h-4 animate-spin">
+                <TripSyncLogo className="w-full h-full" />
+              </div>
               <span>Plotting connected day routes...</span>
             </div>
           )}
@@ -571,7 +574,9 @@ export function ItineraryRouteMap({
 
           {activeWaypointsList.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400 space-y-2">
-              <Compass className="w-8 h-8 text-slate-600 animate-spin" style={{ animationDuration: '6s' }} />
+              <div className="w-8 h-8 opacity-60">
+                <TripSyncLogo className="w-full h-full" />
+              </div>
               <p className="text-xs font-bold text-slate-300">No stops scheduled for this day yet.</p>
               <p className="text-[11px] text-slate-500">
                 Go to the Timeline View and click &quot;+ Add Activity&quot; with a location to plot it on the map.

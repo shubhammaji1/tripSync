@@ -38,6 +38,7 @@ import {
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
+import { TripSyncLoader } from '@/components/TripSyncLoader';
 
 type PlaceSuggestion = {
   display_name: string;
@@ -150,14 +151,18 @@ function DashboardContent() {
   // Modals state
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showPackingModal, setShowPackingModal] = useState(false);
   const [showSplitCalcModal, setShowSplitCalcModal] = useState(false);
+  const [tripToDelete, setTripToDelete] = useState<any | null>(null);
+  const [tripToInvite, setTripToInvite] = useState<any | null>(null);
 
   // Quick Calculator state
-  const [calcBill, setCalcBill] = useState(4800);
-  const [calcPeople, setCalcPeople] = useState(4);
-  const [calcTipPercent, setCalcTipPercent] = useState(10);
+  const [calcBill, setCalcBill] = useState<number | string>(4800);
+  const [calcPeople, setCalcPeople] = useState<number | string>(4);
+  const [calcTipPercent, setCalcTipPercent] = useState<number | string>(10);
 
   // Packing Checklist state
   const [packingList, setPackingList] = useState(DEFAULT_PACKING_ITEMS);
@@ -180,7 +185,16 @@ function DashboardContent() {
   }, [isClerkLoaded, isSignedIn, router]);
 
   // Form state for creating a new trip
-  const [newTrip, setNewTrip] = useState({
+  const [newTrip, setNewTrip] = useState<{
+    name: string;
+    destination: string;
+    startDate: string;
+    endDate: string;
+    budget: number | string;
+    currency: string;
+    description: string;
+    coverImage: string | null;
+  }>({
     name: '',
     destination: '',
     startDate: '2026-11-15',
@@ -188,7 +202,7 @@ function DashboardContent() {
     budget: 30000,
     currency: 'INR',
     description: '',
-    coverImage: null as string | null,
+    coverImage: null,
   });
 
   // Form state for editing an existing trip
@@ -198,7 +212,7 @@ function DashboardContent() {
     destination: string;
     startDate: string;
     endDate: string;
-    budget: number;
+    budget: number | string;
     currency: string;
     description: string;
     status: string;
@@ -505,38 +519,19 @@ function DashboardContent() {
 
   if (!isClerkLoaded || !isSignedIn) {
     return (
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-6 animate-in fade-in duration-300">
-        {/* Top Header Skeleton */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
-          <div className="space-y-2">
-            <div className="h-5 w-32 bg-slate-200 rounded-full animate-pulse" />
-            <div className="h-8 w-64 bg-slate-200 rounded-2xl animate-pulse" />
-            <div className="h-4 w-48 bg-slate-100 rounded-xl animate-pulse" />
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-10 w-28 bg-slate-100 rounded-xl animate-pulse" />
-            <div className="h-10 w-28 bg-slate-100 rounded-xl animate-pulse" />
-          </div>
-        </div>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 flex flex-col items-center justify-center min-h-[60vh] space-y-6">
+        <TripSyncLoader
+          size="lg"
+          text="Checking your travel session..."
+          subtext="Connecting to TripSync collaborative cloud"
+        />
 
-        {/* Central Syncing Beacon */}
-        <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shadow-inner animate-spin">
-            <Compass className="w-7 h-7" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-sm font-black text-slate-800 tracking-tight">Checking your session...</p>
-            <p className="text-xs text-slate-400 font-medium">Connecting to TripSync travel cloud</p>
-          </div>
-        </div>
-
-        {/* KPI & Banner Skeletons */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {/* Minimalist Dashboard Skeleton Cards */}
+        <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-8 opacity-60 pointer-events-none">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs space-y-3">
-              <div className="h-3 w-20 bg-slate-100 rounded-md animate-pulse" />
-              <div className="h-7 w-16 bg-slate-200 rounded-xl animate-pulse" />
-              <div className="h-2.5 w-24 bg-slate-100 rounded-md animate-pulse" />
+            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+              <div className="h-3 w-16 bg-slate-100 rounded-md animate-pulse" />
+              <div className="h-6 w-24 bg-slate-200 rounded-xl animate-pulse" />
             </div>
           ))}
         </div>
@@ -1375,8 +1370,13 @@ function DashboardContent() {
                 <label className="block text-slate-600 font-semibold mb-1">Total Bill Amount (₹)</label>
                 <input
                   type="number"
-                  value={calcBill}
-                  onChange={(e) => setCalcBill(Math.max(0, Number(e.target.value)))}
+                  min={0}
+                  placeholder="0"
+                  value={calcBill === '' ? '' : calcBill}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                    setCalcBill(clean === '' ? ('' as any) : Math.max(0, Number(clean)));
+                  }}
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
               </div>
@@ -1387,8 +1387,12 @@ function DashboardContent() {
                   <input
                     type="number"
                     min={1}
-                    value={calcPeople}
-                    onChange={(e) => setCalcPeople(Math.max(1, Number(e.target.value)))}
+                    placeholder="1"
+                    value={calcPeople === '' ? '' : calcPeople}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setCalcPeople(clean === '' ? ('' as any) : Math.max(1, Number(clean)));
+                    }}
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
@@ -1397,8 +1401,12 @@ function DashboardContent() {
                   <input
                     type="number"
                     min={0}
-                    value={calcTipPercent}
-                    onChange={(e) => setCalcTipPercent(Math.max(0, Number(e.target.value)))}
+                    placeholder="0"
+                    value={calcTipPercent === '' ? '' : calcTipPercent}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setCalcTipPercent(clean === '' ? ('' as any) : Math.max(0, Number(clean)));
+                    }}
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
                   />
                 </div>
@@ -1408,10 +1416,10 @@ function DashboardContent() {
               <div className="mt-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-center">
                 <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Each Person Pays</span>
                 <p className="text-2xl font-black text-emerald-900 mt-1">
-                  ₹{Math.round(((calcBill + (calcBill * calcTipPercent) / 100) / Math.max(1, calcPeople)) * 100) / 100}
+                  ₹{Math.round((((Number(calcBill) || 0) + ((Number(calcBill) || 0) * (Number(calcTipPercent) || 0)) / 100) / Math.max(1, Number(calcPeople) || 1)) * 100) / 100}
                 </p>
                 <span className="text-[10px] text-emerald-600 mt-0.5 block">
-                  Total with tip: ₹{Math.round((calcBill + (calcBill * calcTipPercent) / 100) * 100) / 100}
+                  Total with tip: ₹{Math.round(((Number(calcBill) || 0) + ((Number(calcBill) || 0) * (Number(calcTipPercent) || 0)) / 100) * 100) / 100}
                 </span>
               </div>
             </div>
@@ -1544,9 +1552,14 @@ function DashboardContent() {
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Budget (₹)</label>
                   <input
                     type="number"
-                    value={editingTrip.budget}
-                    onChange={(e) => setEditingTrip({ ...editingTrip, budget: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    min={0}
+                    placeholder="0"
+                    value={editingTrip.budget === '' ? '' : editingTrip.budget}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setEditingTrip({ ...editingTrip, budget: clean === '' ? ('' as any) : Number(clean) });
+                    }}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold"
                   />
                 </div>
                 <div>
@@ -1714,9 +1727,14 @@ function DashboardContent() {
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Est. Budget (₹)</label>
                   <input
                     type="number"
-                    value={newTrip.budget}
-                    onChange={(e) => setNewTrip({ ...newTrip, budget: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    min={0}
+                    placeholder="0"
+                    value={newTrip.budget === '' ? '' : newTrip.budget}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setNewTrip({ ...newTrip, budget: clean === '' ? ('' as any) : Number(clean) });
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold"
                   />
                 </div>
                 <div>

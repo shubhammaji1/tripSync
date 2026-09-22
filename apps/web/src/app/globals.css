@@ -74,3 +74,12 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Safe Area insets for iOS & Android gesture navigation bars */
+.safe-area-bottom {
+  padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+}
+
+.safe-area-top {
+  padding-top: max(12px, env(safe-area-inset-top, 12px));
+}

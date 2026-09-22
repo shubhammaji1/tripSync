@@ -26,6 +26,8 @@ import {
   Building,
   Split,
   ChevronRight,
+  ChevronLeft,
+  ArrowLeft,
   Sparkles,
   ExternalLink,
   DollarSign,
@@ -76,6 +78,7 @@ import { DocumentVaultSection } from '@/components/DocumentVaultSection';
 import { ReceiptPreviewModal } from '@/components/ReceiptPreviewModal';
 import { CrewChatDrawer } from '@/components/CrewChatDrawer';
 import { LiveActivityFeedDrawer, emitTripActivity } from '@/components/LiveActivityFeedDrawer';
+import { TripSyncLogo } from '@/components/TripSyncLogo';
 import { haptic } from '@/lib/haptics';
 import { SUPPORTED_CURRENCIES, convertCurrency, formatCurrencyWithSymbol } from '@/lib/currencies';
 import {
@@ -184,7 +187,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   // Edit Trip Modal state
   const [showEditTripModal, setShowEditTripModal] = useState(false);
-  const [editTripForm, setEditTripForm] = useState({
+  const [editTripForm, setEditTripForm] = useState<{
+    name: string;
+    destination: string;
+    budget: number | string;
+    currency: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+    status: string;
+  }>({
     name: '',
     destination: '',
     budget: 0,
@@ -283,6 +295,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [tripDays, setTripDays] = useState<TripDayState[]>([]);
   const [newDayDate, setNewDayDate] = useState('');
   const [newDayLabel, setNewDayLabel] = useState('');
+  const [showAddDayForm, setShowAddDayForm] = useState(false);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
   const [showMobileQuickActions, setShowMobileQuickActions] = useState(false);
   const [activitiesList, setActivitiesList] = useState([
@@ -343,7 +356,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     },
   ]);
 
-  const [newActivity, setNewActivity] = useState({
+  const [newActivity, setNewActivity] = useState<{
+    title: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+    locationName: string;
+    estimatedCost: number | string;
+    responsibleMemberId: string;
+  }>({
     title: '',
     description: '',
     startTime: '10:00',
@@ -441,6 +462,108 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setActivityLocationSuggestions([]);
   };
 
+  // Edit Activity Modal & Autocomplete State
+  const [showEditActivityModal, setShowEditActivityModal] = useState(false);
+  const [editingActivity, setEditingActivity] = useState<any>({
+    id: '',
+    dayId: '',
+    dayNumber: 1,
+    title: '',
+    description: '',
+    startTime: '10:00',
+    endTime: '12:00',
+    locationName: '',
+    estimatedCost: 0,
+    responsibleMemberId: '',
+    status: 'PLANNED',
+  });
+  const [editActivityLocationSuggestions, setEditActivityLocationSuggestions] = useState<any[]>([]);
+  const [isLoadingEditLocations, setIsLoadingEditLocations] = useState(false);
+  const [showEditLocationSuggestions, setShowEditLocationSuggestions] = useState(false);
+  const selectedEditLocationRef = React.useRef<string>('');
+
+  useEffect(() => {
+    const query = editingActivity.locationName?.trim();
+    if (!query || query === selectedEditLocationRef.current) {
+      setEditActivityLocationSuggestions([]);
+      setIsLoadingEditLocations(false);
+      return;
+    }
+    if (query.length < 2) {
+      setEditActivityLocationSuggestions([]);
+      setIsLoadingEditLocations(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setIsLoadingEditLocations(true);
+      try {
+        const dest = tripDetails?.destination || '';
+        const searchQuery = dest && !query.toLowerCase().includes(dest.toLowerCase())
+          ? `${query}, ${dest}`
+          : query;
+
+        const params = new URLSearchParams({
+          q: searchQuery,
+          format: 'jsonv2',
+          addressdetails: '1',
+          limit: '6',
+        });
+
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {
+          signal: controller.signal,
+          headers: { 'Accept-Language': 'en' },
+        });
+
+        if (response.ok) {
+          let places: any[] = await response.json();
+          if (places.length === 0 && searchQuery !== query) {
+            const rawParams = new URLSearchParams({
+              q: query,
+              format: 'jsonv2',
+              addressdetails: '1',
+              limit: '6',
+            });
+            const rawRes = await fetch(`https://nominatim.openstreetmap.org/search?${rawParams}`, {
+              signal: controller.signal,
+              headers: { 'Accept-Language': 'en' },
+            });
+            if (rawRes.ok) places = await rawRes.json();
+          }
+          if (!controller.signal.aborted) {
+            setEditActivityLocationSuggestions(places);
+            setShowEditLocationSuggestions(true);
+          }
+        }
+      } catch {
+        if (!controller.signal.aborted) setEditActivityLocationSuggestions([]);
+      } finally {
+        if (!controller.signal.aborted) setIsLoadingEditLocations(false);
+      }
+    }, 280);
+
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [editingActivity.locationName, tripDetails?.destination]);
+
+  const selectEditActivityLocation = (place: any) => {
+    haptic.light();
+    const primaryName = place.name || place.display_name.split(',')[0].trim();
+    const formattedLocation = place.display_name;
+    selectedEditLocationRef.current = formattedLocation;
+
+    setEditingActivity((curr: any) => ({
+      ...curr,
+      locationName: formattedLocation,
+      title: curr.title?.trim() ? curr.title : primaryName,
+    }));
+    setShowEditLocationSuggestions(false);
+    setEditActivityLocationSuggestions([]);
+  };
+
   // Expense & Split state
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null);
@@ -476,7 +599,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     },
   ]);
 
-  const [newExpense, setNewExpense] = useState({
+  const [newExpense, setNewExpense] = useState<{
+    title: string;
+    amount: number | string;
+    currency: string;
+    category: string;
+    date: string;
+    paidById: string;
+    splitType: string;
+    receiptUrl: string;
+  }>({
     title: '',
     amount: 1800,
     currency: 'INR',
@@ -624,6 +756,124 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       locationName: '',
       estimatedCost: 1000,
       responsibleMemberId: '',
+    });
+  };
+
+  const handleOpenEditActivity = (act: any) => {
+    if (!can('EDIT_TRIP') && !can('ADD_ACTIVITY')) {
+      showPermissionWarning('edit activities');
+      return;
+    }
+    haptic.light();
+    const [start, end] = (act.time || '').split(' - ').map((s: string) => s.trim());
+    const matchedMember = members.find((m) => m.name === act.responsible);
+    const day = tripDays.find((d) => d.num === act.dayNumber);
+
+    setEditingActivity({
+      id: act.id,
+      dayId: day?.id || '',
+      dayNumber: act.dayNumber || selectedDay,
+      title: act.title || '',
+      description: act.description || '',
+      startTime: start || '10:00',
+      endTime: end || '12:00',
+      locationName: act.location || '',
+      estimatedCost: Number(act.cost) || 0,
+      responsibleMemberId: matchedMember?.id || '',
+      status: act.status || 'PLANNED',
+    });
+    selectedEditLocationRef.current = act.location || '';
+    setShowEditActivityModal(true);
+  };
+
+  const handleUpdateActivity = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!can('EDIT_TRIP') && !can('ADD_ACTIVITY')) {
+      showPermissionWarning('edit activities');
+      setShowEditActivityModal(false);
+      return;
+    }
+
+    const responsiblePerson = members.find((m) => m.id === editingActivity.responsibleMemberId)?.name ||
+      (editingActivity.responsibleMemberId ? 'Traveler' : 'Unassigned');
+
+    const updatedTime = [editingActivity.startTime, editingActivity.endTime].filter(Boolean).join(' - ');
+
+    const updatedAct = {
+      id: editingActivity.id,
+      dayNumber: editingActivity.dayNumber,
+      time: updatedTime,
+      title: editingActivity.title || 'Updated Activity',
+      description: editingActivity.description || '',
+      location: editingActivity.locationName || '',
+      responsible: responsiblePerson,
+      cost: Number(editingActivity.estimatedCost || 0),
+      status: editingActivity.status || 'PLANNED',
+    };
+
+    try {
+      if (editingActivity.id && /^[0-9a-f-]{36}$/i.test(editingActivity.id)) {
+        await api.updateActivity(params.id, editingActivity.id, {
+          title: updatedAct.title,
+          description: updatedAct.description,
+          startTime: editingActivity.startTime,
+          endTime: editingActivity.endTime,
+          locationName: updatedAct.location,
+          estimatedCost: updatedAct.cost,
+          currency: tripDetails?.currency || 'INR',
+          responsibleMemberId: /^[0-9a-f-]{36}$/i.test(editingActivity.responsibleMemberId)
+            ? editingActivity.responsibleMemberId
+            : null,
+          status: updatedAct.status,
+        });
+      }
+
+      setActivitiesList((current) =>
+        current.map((act) => (act.id === editingActivity.id ? updatedAct : act))
+      );
+      haptic.success();
+      emitTripActivity(params.id, {
+        type: 'SCHEDULE_CHANGE',
+        title: 'Activity Updated',
+        description: `Modified "${updatedAct.title}" (${updatedAct.status})`,
+        actorName: user?.fullName || user?.name || 'Organizer',
+      });
+      setShowEditActivityModal(false);
+    } catch (reason: any) {
+      haptic.error();
+      setActionAlert(reason.message || 'Activity could not be updated.');
+    }
+  };
+
+  const handleDeleteActivity = async (actId: string, actTitle: string) => {
+    if (!can('EDIT_TRIP') && !can('ADD_ACTIVITY')) {
+      showPermissionWarning('delete activities');
+      return;
+    }
+
+    if (!window.confirm(`Are you sure you want to delete "${actTitle}"?`)) {
+      return;
+    }
+
+    haptic.warning();
+
+    if (actId && /^[0-9a-f-]{36}$/i.test(actId)) {
+      try {
+        await api.deleteActivity(params.id, actId);
+      } catch (reason: any) {
+        haptic.error();
+        setActionAlert(reason.message || 'Activity could not be deleted.');
+        return;
+      }
+    }
+
+    setActivitiesList((current) => current.filter((act) => act.id !== actId));
+    haptic.success();
+    emitTripActivity(params.id, {
+      type: 'SCHEDULE_CHANGE',
+      title: 'Activity Deleted',
+      description: `Removed "${actTitle}" from itinerary`,
+      actorName: user?.fullName || user?.name || 'Organizer',
     });
   };
 
@@ -1266,7 +1516,10 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const handleSaveEditTrip = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const updated = await api.updateTrip(params.id, editTripForm);
+      const updated = await api.updateTrip(params.id, {
+        ...editTripForm,
+        budget: Number(editTripForm.budget) || 0,
+      });
       setTripDetails((curr: any) => ({ ...curr, ...updated }));
       setShowEditTripModal(false);
       setActionAlert('Trip details updated successfully.');
@@ -1304,6 +1557,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     ]);
     setNewDayDate('');
     setNewDayLabel('');
+    setShowAddDayForm(false);
   };
 
   const handleDeleteDay = async () => {
@@ -1434,25 +1688,25 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           : 'Trip started';
 
   return (
-    <div className="min-h-full pb-28 md:pb-16">
+    <div className="min-h-full pb-36 md:pb-16">
       {/* ========================================================= */}
-      {/* ROLE-AWARE ACCESS BANNER */}
+      {/* ROLE-AWARE ACCESS BANNER (Compact on mobile) */}
       {/* ========================================================= */}
       {currentRole === 'VIEWER' ? (
-        <div className="bg-indigo-950 text-indigo-100 border-b border-indigo-800/80 py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-500/30 shrink-0">
-                <Eye className="w-4 h-4" />
+        <div className="bg-indigo-950 text-indigo-100 border-b border-indigo-800/80 py-2 sm:py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center border border-indigo-500/30 shrink-0">
+                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-white">Guest View-Only Access</span>
-                  <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="text-xs font-bold text-white truncate">Guest Access</span>
+                  <span className="text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
                     VIEWER
                   </span>
                 </div>
-                <p className="text-[11px] text-indigo-300 mt-0.5">
+                <p className="hidden md:block text-[11px] text-indigo-300 mt-0.5">
                   You are viewing this trip in read-only guest mode. You can browse the full itinerary, explore expense splits, and download offline emergency safety cards.
                 </p>
               </div>
@@ -1460,17 +1714,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           </div>
         </div>
       ) : (
-        <div className="bg-slate-950 text-white border-b border-slate-800 py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center border border-brand-500/30">
-                <Shield className="w-4 h-4" />
+        <div className="bg-slate-950 text-white border-b border-slate-800 py-2 sm:py-3 px-4 sm:px-6 lg:px-8 shadow-inner">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 shrink-0">
+                <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-slate-200">Active Access Role:</span>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="text-xs font-bold text-slate-300 hidden sm:inline">Active Access Role:</span>
                   <span
-                    className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase ${
+                    className={`text-[10px] sm:text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase truncate ${
                       currentRole === 'OWNER'
                         ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40'
                         : currentRole === 'ADMIN'
@@ -1481,7 +1735,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     {user?.fullName || 'Traveler'} • {currentRole}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 mt-0.5">
+                <p className="hidden md:block text-[11px] text-slate-400 mt-0.5">
                   {currentRole === 'OWNER' && '👑 Organizer & Owner: Full control over trip details, member roles, budget, and settings.'}
                   {currentRole === 'ADMIN' && '🛡️ Co-Organizer & Admin: Manage itinerary, expenses, tasks & travelers.'}
                   {currentRole === 'MEMBER' && '🎒 Active Traveler: Log shared expenses, complete assigned tasks, and participate in planning.'}
@@ -1494,36 +1748,36 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Floating Permission Warning Alert */}
       {actionAlert && (
-        <div className="fixed top-20 right-4 z-50 max-w-md bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-brand-500/50 animate-in fade-in slide-in-from-top-4 flex items-start gap-3">
-          <Info className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-          <div>
-            <p className="text-xs font-semibold leading-relaxed">{actionAlert}</p>
-          </div>
+        <div className="fixed top-16 right-4 z-50 max-w-sm bg-slate-900 text-white p-3.5 rounded-2xl shadow-2xl border border-emerald-500/50 animate-in fade-in slide-in-from-top-4 flex items-start gap-3">
+          <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <p className="text-xs font-semibold leading-snug">{actionAlert}</p>
         </div>
       )}
 
       {/* Trip Top Hero Banner */}
       <div className="relative bg-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-30 mix-blend-overlay">
+        <div className="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none">
           {displayCoverImage && <img src={displayCoverImage} alt={displayTripName} className="w-full h-full object-cover" />}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/85 to-transparent pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                {isDemoSession && <>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/40">
-                    🏔️ Mountain Expedition
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/40">
-                    🌤️ 18°C Sunny in Darjeeling
-                  </span>
-                </>}
-              </div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-3 sm:pb-4">
+          {/* Back to Dashboard Navigation Link */}
+          <div className="mb-2.5">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white text-xs font-bold transition-all border border-white/10 backdrop-blur-md active:scale-95 shadow-2xs group"
+            >
+              <ChevronLeft className="w-4 h-4 text-emerald-400 group-hover:-translate-x-0.5 transition-transform" />
+              <span>Back to Dashboard</span>
+            </Link>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Trip Identity & Meta */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white line-clamp-1">
                   {displayTripName}
                 </h1>
                 {can('EDIT_TRIP') && (
@@ -1531,65 +1785,73 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     type="button"
                     onClick={handleOpenEditTrip}
                     title="Edit trip name & details"
-                    className="rounded-xl p-2 bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white backdrop-blur-md transition-colors"
+                    className="rounded-xl p-1.5 sm:p-2 bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white backdrop-blur-md transition-colors shrink-0"
                   >
-                    <Edit className="w-4 h-4" />
+                    <Edit className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 )}
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5">
-                <MapPin className="w-4 h-4 text-brand-400" />
-                <span>{displayDestination}</span>
-                <span>•</span>
-                <Calendar className="w-4 h-4 text-slate-400" />
-                <span>{displayDates}</span>
-              </p>
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-slate-300 font-medium">
+                <span className="flex items-center gap-1 text-emerald-400 font-bold">
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>{displayDestination}</span>
+                </span>
+                <span className="text-slate-500">•</span>
+                <span className="flex items-center gap-1 text-slate-300">
+                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{displayDates}</span>
+                </span>
+              </div>
             </div>
 
-            {/* Quick Spend Counter, Live Activity Feed & Crew Chat */}
-            <div className="w-full md:w-auto flex flex-wrap items-center justify-between gap-2.5">
-              <button
-                type="button"
-                onClick={() => setShowActivityFeed(true)}
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 backdrop-blur-md text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
-                title="Open Real-Time Activity Feed & Notifications"
-              >
-                <div className="relative">
-                  <Bell className="w-4 h-4 text-sky-400" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                </div>
-                <span>Activity Feed</span>
-              </button>
+            {/* Mobile-Optimized Quick Action Strip & Spend Counter */}
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 pt-1 lg:pt-0">
+              {/* Feed & Chat Quick Triggers */}
+              <div className="flex items-center gap-2 flex-1 sm:flex-none">
+                <button
+                  type="button"
+                  onClick={() => setShowActivityFeed(true)}
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 backdrop-blur-md text-xs font-bold transition-all active:scale-95 cursor-pointer"
+                  title="Open Real-Time Activity Feed"
+                >
+                  <div className="relative">
+                    <Bell className="w-3.5 h-3.5 text-sky-400" />
+                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+                  </div>
+                  <span>Feed</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setShowCrewChat(true)}
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 backdrop-blur-md text-xs font-bold transition-all shadow-sm active:scale-95 cursor-pointer"
-                title="Open Crew Live Chat & Announcements"
-              >
-                <div className="relative">
-                  <MessageSquare className="w-4 h-4 text-emerald-400" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                </div>
-                <span>Crew Chat</span>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCrewChat(true)}
+                  className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 backdrop-blur-md text-xs font-bold transition-all active:scale-95 cursor-pointer"
+                  title="Open Crew Live Chat"
+                >
+                  <div className="relative">
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  </div>
+                  <span>Chat</span>
+                </button>
+              </div>
 
-              <div className="flex items-center justify-between gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10">
-                <div>
-                  <p className="text-[10px] uppercase font-semibold text-slate-400">Total Spent</p>
-                  <p className="text-lg font-extrabold text-brand-400">{formatCurrency(tripSpent, tripCurrency)}</p>
+              {/* Compact Unified Spend Counter */}
+              <div className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 bg-white/10 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 text-xs shrink-0">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Spent:</span>
+                  <span className="text-sm font-black text-emerald-400">{formatCurrency(tripSpent, tripCurrency)}</span>
                 </div>
-                <div className="h-8 w-px bg-white/20" />
-                <div>
-                  <p className="text-[10px] uppercase font-semibold text-slate-400">Budget</p>
-                  <p className="text-lg font-extrabold text-white">{formatCurrency(tripBudget, tripCurrency)}</p>
+                <div className="h-3 w-px bg-white/20" />
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Budget:</span>
+                  <span className="text-sm font-black text-white">{formatCurrency(tripBudget, tripCurrency)}</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Navigation Tab Bar (Clean swipeable pills) */}
-          <div className="flex items-center gap-1.5 sm:gap-2 mt-6 sm:mt-8 overflow-x-auto no-scrollbar border-b border-white/10 pb-2.5 sm:pb-px">
+          {/* Navigation Tab Bar (Touch-friendly horizontal scroll with smooth indicators) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-4 sm:mt-6 overflow-x-auto no-scrollbar border-b border-white/10 pb-2 sm:pb-px">
             {[
               { id: 'overview', label: 'Overview', icon: Sparkles },
               { id: 'itinerary', label: 'Itinerary', icon: Calendar },
@@ -1609,17 +1871,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     haptic.selection();
                     setActiveTab(tab.id as ActiveTab);
                   }}
-                  className={`flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-t-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-t-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
                     tab.highlight
                       ? isActive
                         ? 'bg-red-600 text-white shadow-lg'
                         : 'text-red-300 hover:text-white bg-red-500/10 sm:bg-transparent border border-red-500/30 sm:border-0'
                       : isActive
-                      ? 'bg-white text-slate-900 shadow-md font-bold'
+                      ? 'bg-white text-slate-900 shadow-md font-extrabold'
                       : 'text-slate-300 hover:text-white hover:bg-white/10 bg-white/5 sm:bg-transparent'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -1634,93 +1896,302 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {/* 1. OVERVIEW TAB */}
         {/* ========================================================= */}
         {activeTab === 'overview' && (
-          <div className="space-y-6">
-            {/* Quick Metrics */}
-            <div className="grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                <p className="text-xs text-slate-500 font-medium">Days Countdown</p>
-                <p className="text-2xl font-black text-slate-900 mt-1">{countdownLabel}</p>
-                <p className="text-[11px] text-brand-600 font-semibold mt-0.5">{isDemoSession ? 'Departing Sep 10' : tripDetails?.startDate ? `Starts ${formatDate(tripDetails.startDate)}` : 'Add trip dates'}</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                <p className="text-xs text-slate-500 font-medium">Itinerary Items</p>
-                <p className="text-2xl font-black text-slate-900 mt-1">{activitiesList.length} Activities</p>
-                <p className="text-[11px] text-ocean-600 font-semibold mt-0.5">Across {tripDays.length} Days</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                <p className="text-xs text-slate-500 font-medium">Split Status</p>
-                <p className="text-2xl font-black text-emerald-600 mt-1">{formatCurrency(tripSpent, tripCurrency)}</p>
-                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '5 Transfers pending' : `${debtTransfers.length} transfer${debtTransfers.length === 1 ? '' : 's'} pending`}</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                <p className="text-xs text-slate-500 font-medium">Pending Tasks</p>
-                <p className="text-2xl font-black text-amber-600 mt-1">{isDemoSession ? '2 Left' : `${pendingTaskCount} Left`}</p>
-                <p className="text-[11px] text-slate-500 font-semibold mt-0.5">{isDemoSession ? '2 Completed' : `${tasks.length - pendingTaskCount} Completed`}</p>
-              </div>
+          <div className="space-y-5">
+            {/* 1. Trip Pulse Status Grid (4 interactive, touch-friendly metric cards) */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {/* Countdown Card */}
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.selection();
+                  setActiveTab('itinerary');
+                }}
+                className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 shadow-2xs text-left transition-all active:scale-98 group cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Countdown</span>
+                  <div className="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Calendar className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-lg sm:text-xl font-black text-slate-900 leading-tight">{countdownLabel}</p>
+                <p className="text-[11px] text-emerald-600 font-semibold truncate mt-0.5">
+                  {isDemoSession ? 'Departing Sep 10' : tripDetails?.startDate ? `Starts ${formatDate(tripDetails.startDate)}` : 'Set trip dates'}
+                </p>
+              </button>
+
+              {/* Itinerary Items Card */}
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.selection();
+                  setActiveTab('itinerary');
+                }}
+                className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-sky-300 shadow-2xs text-left transition-all active:scale-98 group cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Schedule</span>
+                  <div className="w-7 h-7 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <MapPin className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-lg sm:text-xl font-black text-slate-900 leading-tight">
+                  {activitiesList.length} <span className="text-xs font-bold text-slate-500">Stops</span>
+                </p>
+                <p className="text-[11px] text-sky-600 font-semibold truncate mt-0.5">
+                  Across {tripDays.length} planned day{tripDays.length === 1 ? '' : 's'}
+                </p>
+              </button>
+
+              {/* Spend & Split Card */}
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.selection();
+                  setActiveTab('expenses');
+                }}
+                className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-emerald-300 shadow-2xs text-left transition-all active:scale-98 group cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Total Spent</span>
+                  <div className="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Wallet className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-lg sm:text-xl font-black text-emerald-600 leading-tight">
+                  {formatCurrency(tripSpent, tripCurrency)}
+                </p>
+                <div className="mt-1 flex items-center gap-1.5">
+                  <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-emerald-500 rounded-full"
+                      style={{ width: `${Math.min(100, (tripSpent / Math.max(1, tripBudget)) * 100)}%` }}
+                    />
+                  </div>
+                  <span className="text-[10px] font-bold text-slate-400">
+                    {Math.round((tripSpent / Math.max(1, tripBudget)) * 100)}%
+                  </span>
+                </div>
+              </button>
+
+              {/* Crew & Tasks Card */}
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.selection();
+                  setActiveTab('tasks');
+                }}
+                className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-amber-300 shadow-2xs text-left transition-all active:scale-98 group cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Crew Tasks</span>
+                  <div className="w-7 h-7 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <CheckSquare className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-lg sm:text-xl font-black text-amber-600 leading-tight">
+                  {pendingTaskCount} <span className="text-xs font-bold text-slate-500">Pending</span>
+                </p>
+                <p className="text-[11px] text-slate-500 font-semibold truncate mt-0.5">
+                  {tasks.length - pendingTaskCount} completed • {members.length} travelers
+                </p>
+              </button>
             </div>
 
-            {/* Live Destination Weather & Sunrise Widget */}
+            {/* 2. Quick Action Shortcut Pills (Mobile-First 4-Button Grid) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.light();
+                  setShowAddActivityModal(true);
+                }}
+                className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <Plus className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Add Activity</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.light();
+                  setShowAddExpenseModal(true);
+                }}
+                className="p-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200/80 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <CreditCard className="w-3.5 h-3.5 text-sky-600" />
+                <span>Log Expense</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.light();
+                  setActiveTab('members');
+                }}
+                className="p-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200/80 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <UserPlus className="w-3.5 h-3.5 text-purple-600" />
+                <span>Invite Crew</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  haptic.warning();
+                  setActiveTab('emergency');
+                }}
+                className="p-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-800 border border-red-200/80 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <ShieldAlert className="w-3.5 h-3.5 text-red-600" />
+                <span>SOS Hub</span>
+              </button>
+            </div>
+
+            {/* 3. Next Upcoming Activity Highlight (Smart & Dynamic) */}
+            {(() => {
+              const nextAct = activitiesList.find((a) => a.status === 'PLANNED' || a.status === 'IN_PROGRESS') || activitiesList[0];
+              if (nextAct) {
+                return (
+                  <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-xl border border-slate-800 relative overflow-hidden space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold text-[10px] uppercase tracking-wider border border-emerald-500/30 flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-emerald-400" />
+                          <span>Next Planned Stop</span>
+                        </span>
+                        <span className="text-xs font-bold text-slate-300">
+                          Day {nextAct.dayNumber} {nextAct.time ? `• ${nextAct.time}` : ''}
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-white/10 text-emerald-300 border border-white/10">
+                        {nextAct.status}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-base sm:text-xl font-black text-white">{nextAct.title}</h3>
+                      {nextAct.description && (
+                        <p className="text-xs text-slate-300 mt-1 line-clamp-2 leading-relaxed">{nextAct.description}</p>
+                      )}
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+                      <div className="flex flex-wrap items-center gap-3 text-slate-400">
+                        {nextAct.location && (
+                          <span className="flex items-center gap-1 font-semibold text-slate-200">
+                            <MapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                            <span className="truncate max-w-[150px] sm:max-w-none">{nextAct.location}</span>
+                          </span>
+                        )}
+                        {nextAct.responsible && (
+                          <span className="text-slate-400 text-[11px]">👤 {nextAct.responsible}</span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {nextAct.location && (
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${nextAct.location}, ${displayDestination}`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold backdrop-blur-md transition-all active:scale-95"
+                          >
+                            <Navigation className="w-3 h-3 text-emerald-400" />
+                            <span>Directions</span>
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedDay(nextAct.dayNumber);
+                            setActiveTab('itinerary');
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-500/20 transition-all active:scale-95 cursor-pointer"
+                        >
+                          View Schedule →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 shadow-xl border border-slate-800 text-center space-y-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                    <Calendar className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-extrabold text-base text-white">No activities planned yet</h3>
+                  <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                    Start scheduling your group stops, sights, and reservations to see your live timeline here.
+                  </p>
+                  {can('ADD_ACTIVITY') && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAddActivityModal(true)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Schedule First Activity</span>
+                    </button>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* 4. Live Destination Weather & Sunrise Widget */}
             <DestinationWeatherWidget destination={displayDestination} startDate={tripDetails?.startDate} />
 
-            {/* Next Upcoming Activity Card */}
-            <div className="bg-gradient-to-br from-brand-900 to-slate-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
-              <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                  <span className="px-2.5 py-1 rounded-md bg-brand-500/30 text-brand-300 font-semibold text-xs border border-brand-400/40">
-                    {isDemoSession ? 'Next Key Highlight' : 'Trip workspace ready'}
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-bold mt-2">
-                    {isDemoSession ? 'Tiger Hill Early Morning Sunrise & Kanchenjunga View' : 'No upcoming activities yet'}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                    {isDemoSession ? 'Day 2 • 04:30 AM - 07:30 AM • Private Innova Cab Lead by Rahul' : 'Add an itinerary activity to start planning this trip.'}
-                  </p>
+            {/* 5. Travelers Roster */}
+            <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-2xs space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <Users className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-sm sm:text-base text-slate-900">
+                      Travel Crew ({members.length})
+                    </h3>
+                    <p className="text-[11px] text-slate-500">Collaborating in real time</p>
+                  </div>
                 </div>
                 <button
-                  onClick={() => setActiveTab('itinerary')}
-                  className="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs shadow-md transition-all"
+                  type="button"
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('members');
+                  }}
+                  className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-xl transition-colors cursor-pointer"
                 >
-                  {isDemoSession ? 'View Full Schedule' : 'Open Itinerary'}
-                </button>
-              </div>
-            </div>
-
-            {/* Travelers Roster */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h2 className="font-bold text-base text-slate-900 flex items-center gap-2">
-                  <Users className="w-5 h-5 text-brand-600" />
-                  Trip Members Roster ({members.length})
-                </h2>
-                <button
-                  onClick={() => setActiveTab('members')}
-                  className="text-xs font-semibold text-brand-600 hover:text-brand-700"
-                >
-                  Manage Roles →
+                  <span>Manage Crew</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {members.map((p) => (
                   <div
                     key={p.id}
-                    className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between"
+                    className="p-3 rounded-2xl bg-slate-50 hover:bg-white border border-slate-200/80 hover:border-slate-300 transition-all flex items-center justify-between shadow-2xs"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center">
-                        {p.name[0]}
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-xl bg-slate-900 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        {p.name[0]?.toUpperCase() || 'T'}
                       </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-900">{p.name}</p>
-                        <p className="text-[10px] text-slate-500">{p.phone}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-slate-900 truncate">{p.name}</p>
+                        <p className="text-[10px] text-slate-500 truncate">{p.phone || 'No phone set'}</p>
                       </div>
                     </div>
                     <span
-                      className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md shrink-0 ${
                         p.role === 'OWNER'
                           ? 'bg-amber-100 text-amber-800'
                           : p.role === 'ADMIN'
-                          ? 'bg-blue-100 text-blue-800'
+                          ? 'bg-sky-100 text-sky-800'
                           : p.role === 'MEMBER'
                           ? 'bg-emerald-100 text-emerald-800'
                           : 'bg-purple-100 text-purple-800'
@@ -1740,19 +2211,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {/* ========================================================= */}
         {activeTab === 'itinerary' && (
           <div className="space-y-6">
-            {/* View Mode Toggle: Timeline vs Interactive Map */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 text-white p-3.5 rounded-2xl border border-slate-800 shadow-sm">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-black tracking-wide text-slate-200 uppercase">Expedition Itinerary View</span>
-              </div>
-              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
+            {/* View Mode Toggle: Timeline vs Interactive Map & Primary Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 text-white p-3 sm:p-3.5 rounded-2xl border border-slate-800 shadow-sm">
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 self-stretch sm:self-auto">
                 <button
                   type="button"
                   onClick={() => setItineraryViewMode('timeline')}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                     itineraryViewMode === 'timeline'
-                      ? 'bg-emerald-600 text-white shadow-sm'
+                      ? 'bg-emerald-600 text-white shadow-sm font-black'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -1762,15 +2229,37 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <button
                   type="button"
                   onClick={() => setItineraryViewMode('map')}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                  className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                     itineraryViewMode === 'map'
-                      ? 'bg-emerald-600 text-white shadow-sm'
+                      ? 'bg-emerald-600 text-white shadow-sm font-black'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   <Route className="w-3.5 h-3.5" />
                   <span>Route Map View</span>
                 </button>
+              </div>
+
+              {/* Primary Add Activity Button */}
+              <div className="flex items-center gap-2 shrink-0">
+                {can('ADD_ACTIVITY') ? (
+                  <button
+                    onClick={() => setShowAddActivityModal(true)}
+                    disabled={tripDays.length === 0}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all active:scale-95"
+                  >
+                    <Plus className="w-4 h-4 text-emerald-200" />
+                    <span>Add Activity</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 text-slate-400 text-xs font-bold border border-slate-700 cursor-not-allowed"
+                  >
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Add Activity (Read-Only)</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1797,174 +2286,248 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               />
             ) : (
               <>
-                {/* Day Selector Pills & Responsive Action Controls */}
-                <div className="space-y-3 pb-3 border-b border-slate-200">
-                  {/* Day Pills Bar */}
-                  <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-                    {tripDays.map((d) => (
-                      <button
-                        key={d.num}
-                        onClick={() => setSelectedDay(d.num)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${
-                          selectedDay === d.num
-                            ? 'bg-brand-600 text-white shadow-md ring-2 ring-brand-400/40'
-                            : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-                        }`}
-                      >
-                        <span>{d.label}</span>
-                        <span className="block text-[10px] font-normal opacity-80">
-                          {new Date(`${d.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
 
-                  {/* Action Bar: Add Day / Delete Day / Add Activity */}
-                  <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-2">
-                    {can('EDIT_TRIP') && (
-                      <form onSubmit={handleAddDay} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
-                          {/* Calendar Date Input with Icon and Visual Placeholder */}
-                          <div className="relative flex items-center">
-                            <div className="absolute left-3 pointer-events-none flex items-center gap-1.5 z-10">
-                              <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
-                              {!newDayDate && (
-                                <span className="text-xs font-bold text-slate-500">Pick Date</span>
-                              )}
-                            </div>
-                            <input
-                              type="date"
-                              required
-                              value={newDayDate}
-                              onChange={(event) => setNewDayDate(event.target.value)}
-                              className={`w-full ${!newDayDate ? 'text-transparent' : 'text-slate-900 font-bold'} pl-9 sm:pl-24 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs cursor-pointer`}
-                              aria-label="New itinerary day date"
-                            />
-                          </div>
-
-                          {/* Day Title Input with Icon */}
-                          <div className="relative flex items-center">
-                            <div className="absolute left-3 pointer-events-none text-slate-400 z-10">
-                              <Tag className="w-4 h-4 text-slate-400" />
-                            </div>
-                            <input
-                              value={newDayLabel}
-                              onChange={(event) => setNewDayLabel(event.target.value)}
-                              placeholder="Day title (e.g. Day 3)"
-                              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
-                              aria-label="New itinerary day title"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <button type="submit" className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-white shadow-xs transition-colors active:scale-95">
-                            <Plus className="h-4 w-4 text-emerald-400" />
-                            <span>Add Day</span>
-                          </button>
-                          {tripDays.length > 0 && (
-                            <button
-                              type="button"
-                              onClick={handleDeleteDay}
-                              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2.5 text-xs font-bold text-red-700 transition-colors active:scale-95"
-                              title="Delete selected day"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              <span className="hidden sm:inline">Delete Day</span>
-                            </button>
-                          )}
-                        </div>
-                      </form>
-                    )}
-
-                    <div className="flex items-center gap-2 shrink-0">
-                      {can('ADD_ACTIVITY') ? (
-                        <button
-                          onClick={() => setShowAddActivityModal(true)}
-                          disabled={tripDays.length === 0}
-                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50 transition-all active:scale-95"
-                        >
-                          <Plus className="w-4 h-4" />
-                          <span>Add Activity</span>
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => showPermissionWarning('add activities (Viewer role is read-only)')}
-                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-400 text-xs font-bold border border-slate-200 cursor-not-allowed"
-                        >
-                          <Lock className="w-3.5 h-3.5" />
-                          <span>Add Activity (Read-Only)</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-            {/* Timeline for Selected Day */}
-            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-              <h2 className="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-brand-600" />
-                {tripDays.find((day) => day.num === selectedDay)?.label || 'Itinerary'} Schedule
-              </h2>
-
-              <div className="space-y-6 relative before:absolute before:inset-0 before:left-4 before:h-full before:w-0.5 before:bg-slate-200">
-                {activitiesList
-                  .filter((a) => a.dayNumber === selectedDay)
-                  .map((act) => (
-                    <div key={act.id} className="relative flex items-start gap-3 sm:gap-4 pl-8 sm:pl-10">
-                      <div className="absolute left-2.5 top-2 w-3.5 h-3.5 rounded-full bg-brand-500 ring-4 ring-white" />
-                      <div className="flex-1 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all shadow-xs">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-200/80">
-                            <Clock className="w-3.5 h-3.5 text-brand-600" /> {act.time}
-                          </span>
-                          <span className="text-[10px] font-bold bg-sky-100 text-sky-800 px-2.5 py-1 rounded-lg">
-                            {act.status}
-                          </span>
-                        </div>
-
-                        <h3 className="font-bold text-sm sm:text-base text-slate-900 mt-2">{act.title}</h3>
-                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">{act.description}</p>
-
-                        <div className="mt-3.5 pt-3 border-t border-slate-200/70 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
-                          <div className="flex flex-wrap items-center gap-3">
-                            <span className="flex items-center gap-1 font-medium text-slate-700">
-                              <MapPin className="w-3.5 h-3.5 text-brand-500 shrink-0" />
-                              <span className="truncate max-w-[150px] sm:max-w-none">{act.location}</span>
-                            </span>
-                            <span className="flex items-center gap-1 text-slate-500">
-                              👤 {act.responsible}
-                            </span>
-                            <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                              ₹{act.cost.toLocaleString()}
-                            </span>
-                          </div>
-
-                          {/* 1-Tap Google Maps Directions Shortcut */}
-                          {act.location && (
-                            <a
-                              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${act.location}, ${displayDestination}`)}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-brand-50 text-slate-700 hover:text-brand-700 border border-slate-200 text-xs font-bold shadow-xs active:scale-95 transition-all"
-                            >
-                              <Navigation className="w-3.5 h-3.5 text-brand-500" />
-                              <span>Map Directions</span>
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                {/* Day Selector Pills Bar with Inline Add Day */}
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                  {tripDays.map((d) => (
+                    <button
+                      key={d.num}
+                      onClick={() => {
+                        haptic.selection();
+                        setSelectedDay(d.num);
+                      }}
+                      className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 text-left ${
+                        selectedDay === d.num
+                          ? 'bg-slate-900 text-white shadow-md ring-2 ring-emerald-500/50'
+                          : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200 shadow-2xs'
+                      }`}
+                    >
+                      <span className="block font-black">{d.label}</span>
+                      <span className="block text-[10px] font-medium opacity-75">
+                        {new Date(`${d.date}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      </span>
+                    </button>
                   ))}
 
-                {activitiesList.filter((a) => a.dayNumber === selectedDay).length === 0 && (
-                  <div className="pl-10 text-xs text-slate-500 italic py-4">
-                    No activities scheduled for this day yet. Click "Add Activity" above to schedule.
+                  {/* Add Day Button */}
+                  {can('EDIT_TRIP') && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAddDayForm((prev) => !prev)}
+                      className={`px-3.5 py-2.5 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all shrink-0 flex items-center gap-1.5 border border-dashed ${
+                        showAddDayForm
+                          ? 'bg-emerald-50 text-emerald-800 border-emerald-400'
+                          : 'bg-white text-emerald-700 hover:bg-emerald-50 border-emerald-300'
+                      }`}
+                    >
+                      <Plus className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Add Day</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Expandable Add Day Form */}
+                {showAddDayForm && can('EDIT_TRIP') && (
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-emerald-200 shadow-xs space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-slate-800 flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4 text-emerald-600" />
+                        <span>Schedule New Expedition Day</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddDayForm(false)}
+                        className="text-slate-400 hover:text-slate-600 p-1"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <form onSubmit={handleAddDay} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                      {/* Calendar Date Input with Icon and Visual Placeholder */}
+                      <div className="relative flex items-center flex-1">
+                        <div className="absolute left-3 pointer-events-none flex items-center gap-1.5 z-10">
+                          <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
+                          {!newDayDate && (
+                            <span className="text-xs font-bold text-slate-500">Pick Date</span>
+                          )}
+                        </div>
+                        <input
+                          type="date"
+                          required
+                          value={newDayDate}
+                          onChange={(event) => setNewDayDate(event.target.value)}
+                          className={`w-full ${!newDayDate ? 'text-transparent' : 'text-slate-900 font-bold'} pl-9 sm:pl-24 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs cursor-pointer`}
+                          aria-label="New itinerary day date"
+                        />
+                      </div>
+
+                      {/* Day Title Input with Icon */}
+                      <div className="relative flex items-center flex-1">
+                        <div className="absolute left-3 pointer-events-none text-slate-400 z-10">
+                          <Tag className="w-4 h-4 text-slate-400" />
+                        </div>
+                        <input
+                          value={newDayLabel}
+                          onChange={(event) => setNewDayLabel(event.target.value)}
+                          placeholder="Day title (e.g. Day 3)"
+                          className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white shadow-xs"
+                          aria-label="New itinerary day title"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button type="submit" className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-white shadow-xs transition-colors active:scale-95">
+                          <Plus className="h-4 w-4 text-emerald-400" />
+                          <span>Save Day</span>
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 )}
-              </div>
-            </div>
-            </>
+
+                {/* Timeline for Selected Day */}
+                <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <h2 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-emerald-600" />
+                      <span>{tripDays.find((day) => day.num === selectedDay)?.label || 'Day'} Schedule</span>
+                    </h2>
+
+                    {can('EDIT_TRIP') && tripDays.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={handleDeleteDay}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold text-red-600 hover:bg-red-50 border border-red-200 transition-colors"
+                        title="Delete selected day"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                        <span>Delete Day</span>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4 relative before:absolute before:inset-0 before:left-3.5 sm:before:left-4 before:h-full before:w-0.5 before:bg-slate-200">
+                    {activitiesList
+                      .filter((a) => a.dayNumber === selectedDay)
+                      .map((act) => (
+                        <div key={act.id} className="relative flex items-start gap-3 sm:gap-4 pl-7 sm:pl-9">
+                          <div className="absolute left-2 sm:left-2.5 top-2.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-4 ring-white shadow-xs" />
+                          <div className="flex-1 bg-slate-50 p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 hover:border-slate-300 transition-all shadow-2xs space-y-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-xs font-black text-slate-800 flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-lg border border-slate-200/80 shadow-2xs">
+                                <Clock className="w-3.5 h-3.5 text-emerald-600" /> {act.time}
+                              </span>
+                              <div className="flex items-center gap-1.5">
+                                <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${
+                                  act.status === 'COMPLETED'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : act.status === 'CANCELLED'
+                                    ? 'bg-red-100 text-red-800'
+                                    : act.status === 'IN_PROGRESS'
+                                    ? 'bg-amber-100 text-amber-800'
+                                    : 'bg-slate-200 text-slate-700'
+                                }`}>
+                                  {act.status}
+                                </span>
+                                {(can('EDIT_TRIP') || can('ADD_ACTIVITY')) && (
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenEditActivity(act)}
+                                      className="p-1 rounded-lg text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 border border-transparent hover:border-emerald-200 transition-colors cursor-pointer"
+                                      title="Edit Activity"
+                                    >
+                                      <Pencil className="w-3.5 h-3.5" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteActivity(act.id, act.title)}
+                                      className="p-1 rounded-lg text-slate-400 hover:text-red-700 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors cursor-pointer"
+                                      title="Delete Activity"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 leading-snug">{act.title}</h3>
+                            {act.description && (
+                              <p className="text-xs text-slate-600 leading-relaxed">{act.description}</p>
+                            )}
+
+                            <div className="pt-2 border-t border-slate-200/60 flex flex-wrap items-center justify-between gap-2 text-xs">
+                              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-slate-600">
+                                {act.location && (
+                                  <span className="flex items-center gap-1 font-semibold text-slate-700">
+                                    <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                                    <span className="truncate max-w-[130px] sm:max-w-none">{act.location}</span>
+                                  </span>
+                                )}
+                                {act.responsible && (
+                                  <span className="flex items-center gap-1 text-slate-500 text-[11px]">
+                                    👤 {act.responsible}
+                                  </span>
+                                )}
+                                {act.cost > 0 && (
+                                  <span className="font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/50">
+                                    ₹{act.cost.toLocaleString()}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Action Buttons: Directions & Quick Edit */}
+                              <div className="flex items-center gap-1.5">
+                                {act.location && (
+                                  <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${act.location}, ${displayDestination}`)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 text-xs font-bold shadow-2xs active:scale-95 transition-all"
+                                  >
+                                    <Navigation className="w-3 h-3 text-emerald-600" />
+                                    <span>Directions</span>
+                                  </a>
+                                )}
+                                {(can('EDIT_TRIP') || can('ADD_ACTIVITY')) && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenEditActivity(act)}
+                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 text-xs font-bold shadow-2xs active:scale-95 transition-all cursor-pointer"
+                                  >
+                                    <Pencil className="w-3 h-3 text-emerald-600" />
+                                    <span>Edit</span>
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                    {activitiesList.filter((a) => a.dayNumber === selectedDay).length === 0 && (
+                      <div className="p-8 text-center text-slate-500 space-y-3">
+                        <div className="w-10 h-10 mx-auto opacity-40">
+                          <TripSyncLogo className="w-full h-full" />
+                        </div>
+                        <p className="text-xs font-bold text-slate-700">No activities scheduled for this day yet.</p>
+                        {can('ADD_ACTIVITY') && (
+                          <button
+                            type="button"
+                            onClick={() => setShowAddActivityModal(true)}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-extrabold transition-all"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Schedule First Activity</span>
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
             )}
           </div>
         )}
@@ -3555,9 +4118,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <label className="block font-semibold text-slate-700 mb-1">Estimated Cost (₹)</label>
                 <input
                   type="number"
-                  value={newActivity.estimatedCost}
-                  onChange={(e) => setNewActivity({ ...newActivity, estimatedCost: Number(e.target.value) })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  min="0"
+                  placeholder="0"
+                  value={newActivity.estimatedCost === '' ? '' : newActivity.estimatedCost}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                    setNewActivity({ ...newActivity, estimatedCost: clean === '' ? ('' as any) : Number(clean) });
+                  }}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900"
                 />
               </div>
 
@@ -3575,6 +4143,258 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 >
                   Save Activity
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Edit Activity */}
+      {showEditActivityModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+          <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                  <Pencil className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-base text-slate-900">Edit Activity</h3>
+                  <p className="text-[11px] text-slate-500 font-medium">Day {editingActivity.dayNumber} Schedule</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEditActivityModal(false)}
+                className="p-1 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateActivity} className="overflow-y-auto flex-1 my-4 space-y-3.5 text-xs pr-1">
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Activity Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Batasia Loop War Memorial"
+                  value={editingActivity.title}
+                  onChange={(e) => setEditingActivity({ ...editingActivity, title: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900"
+                />
+              </div>
+
+              {/* Day selection */}
+              {tripDays.length > 1 && (
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Assigned Day</label>
+                  <select
+                    value={editingActivity.dayNumber}
+                    onChange={(e) => setEditingActivity({ ...editingActivity, dayNumber: Number(e.target.value) })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-900 bg-white"
+                  >
+                    {tripDays.map((d) => (
+                      <option key={d.num} value={d.num}>
+                        {d.label} ({d.date})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Start Time</label>
+                  <input
+                    type="time"
+                    value={editingActivity.startTime}
+                    onChange={(e) => setEditingActivity({ ...editingActivity, startTime: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">End Time</label>
+                  <input
+                    type="time"
+                    value={editingActivity.endTime}
+                    onChange={(e) => setEditingActivity({ ...editingActivity, endTime: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold"
+                  />
+                </div>
+              </div>
+
+              {/* Status Selector */}
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Activity Status</label>
+                <select
+                  value={editingActivity.status}
+                  onChange={(e) => setEditingActivity({ ...editingActivity, status: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-900 bg-white"
+                >
+                  <option value="PLANNED">📅 PLANNED</option>
+                  <option value="IN_PROGRESS">⏳ IN PROGRESS</option>
+                  <option value="COMPLETED">✅ COMPLETED</option>
+                  <option value="CANCELLED">❌ CANCELLED</option>
+                </select>
+              </div>
+
+              {/* Location Name with Real-Time Geocoding Autocomplete */}
+              <div className="relative">
+                <label className="block font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Location Name / Venue</span>
+                  </span>
+                  {isLoadingEditLocations ? (
+                    <span className="text-[10px] text-emerald-600 font-semibold animate-pulse flex items-center gap-1">
+                      <Loader2 className="w-3 h-3 animate-spin" /> Searching map...
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-slate-400">Live GPS Autocomplete</span>
+                  )}
+                </label>
+
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="e.g. Annapurna Base Camp, Batasia Loop"
+                    value={editingActivity.locationName}
+                    onChange={(e) => {
+                      setEditingActivity({ ...editingActivity, locationName: e.target.value });
+                      setShowEditLocationSuggestions(true);
+                    }}
+                    onFocus={() => {
+                      if (editActivityLocationSuggestions.length > 0) setShowEditLocationSuggestions(true);
+                    }}
+                    className="w-full pl-9 pr-8 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50 focus:bg-white text-xs font-medium text-slate-900 transition-all"
+                  />
+                  <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+                  {editingActivity.locationName && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingActivity({ ...editingActivity, locationName: '' });
+                        setEditActivityLocationSuggestions([]);
+                        setShowEditLocationSuggestions(false);
+                      }}
+                      className="absolute right-2.5 top-2.5 p-0.5 rounded-lg text-slate-400 hover:text-slate-600 cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Real-time OpenStreetMap Suggestions Dropdown */}
+                {showEditLocationSuggestions && editActivityLocationSuggestions.length > 0 && (
+                  <div className="absolute z-50 left-0 right-0 mt-1.5 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden max-h-52 overflow-y-auto animate-in fade-in zoom-in-95 duration-150">
+                    <div className="px-3 py-1.5 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <span>Mapped Locations & Landmarks</span>
+                      <span className="text-emerald-600">OpenStreetMap</span>
+                    </div>
+                    {editActivityLocationSuggestions.map((place) => {
+                      const parts = place.display_name.split(',');
+                      const primary = parts[0].trim();
+                      const secondary = parts.slice(1, 4).join(',').trim();
+                      return (
+                        <button
+                          key={place.place_id}
+                          type="button"
+                          onClick={() => selectEditActivityLocation(place)}
+                          className="w-full text-left px-3.5 py-2.5 hover:bg-emerald-50 flex items-start gap-2.5 transition-colors border-b border-slate-50 last:border-0 group cursor-pointer"
+                        >
+                          <div className="w-6 h-6 rounded-lg bg-slate-100 group-hover:bg-emerald-100 text-slate-500 group-hover:text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 transition-colors">
+                            <Navigation className="w-3 h-3" />
+                          </div>
+                          <div className="truncate">
+                            <p className="text-xs font-bold text-slate-900 group-hover:text-emerald-900 truncate">
+                              {primary}
+                            </p>
+                            <p className="text-[10px] text-slate-500 truncate">
+                              {secondary || place.display_name}
+                            </p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Responsible Member */}
+              {members.length > 0 && (
+                <div>
+                  <label className="block font-semibold text-slate-700 mb-1">Lead / Responsible Member</label>
+                  <select
+                    value={editingActivity.responsibleMemberId}
+                    onChange={(e) => setEditingActivity({ ...editingActivity, responsibleMemberId: e.target.value })}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900 bg-white"
+                  >
+                    <option value="">Unassigned</option>
+                    {members.map((m) => (
+                      <option key={m.id} value={m.id}>
+                        {m.name} ({m.role})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Estimated Cost (₹)</label>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="0"
+                  value={editingActivity.estimatedCost === '' ? '' : editingActivity.estimatedCost}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                    setEditingActivity({ ...editingActivity, estimatedCost: clean === '' ? ('' as any) : Number(clean) });
+                  }}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-900"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">Notes / Description</label>
+                <textarea
+                  rows={2}
+                  placeholder="Details, tickets, meeting point, or packing tips..."
+                  value={editingActivity.description}
+                  onChange={(e) => setEditingActivity({ ...editingActivity, description: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-normal resize-none"
+                />
+              </div>
+
+              <div className="pt-3 flex items-center justify-between gap-2 border-t border-slate-100 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleDeleteActivity(editingActivity.id, editingActivity.title);
+                    setShowEditActivityModal(false);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 font-bold transition-colors cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Delete</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEditActivityModal(false)}
+                    className="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md cursor-pointer transition-all active:scale-95 flex items-center gap-1.5"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    <span>Save Changes</span>
+                  </button>
+                </div>
               </div>
             </form>
           </div>
@@ -3621,10 +4441,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <input
                     type="number"
                     required
-                    min="1"
+                    min="0"
                     step="any"
-                    value={newExpense.amount}
-                    onChange={(e) => setNewExpense({ ...newExpense, amount: Number(e.target.value) })}
+                    placeholder="0.00"
+                    value={newExpense.amount === '' ? '' : newExpense.amount}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setNewExpense({ ...newExpense, amount: clean === '' ? ('' as any) : Number(clean) });
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
@@ -3649,7 +4473,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               {newExpense.currency && newExpense.currency !== 'INR' && (
                 <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] flex items-center justify-between">
                   <span>
-                    Auto-converted: <strong>≈ ₹{formatExpenseAmount(convertCurrency(newExpense.amount, newExpense.currency, 'INR'))} INR</strong>
+                    Auto-converted: <strong>≈ ₹{formatExpenseAmount(convertCurrency(Number(newExpense.amount) || 0, newExpense.currency, 'INR'))} INR</strong>
                   </span>
                   <span className="text-[10px] text-amber-600 font-semibold">
                     1 {newExpense.currency} = ₹{SUPPORTED_CURRENCIES[newExpense.currency]?.rateToInr}
@@ -3735,7 +4559,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 flex items-center justify-between">
                 <span>Split equally:</span>
                 <strong className="text-slate-900 font-extrabold">
-                  ₹{formatExpenseAmount((newExpense.currency !== 'INR' ? convertCurrency(newExpense.amount, newExpense.currency, 'INR') : newExpense.amount) / Math.max(1, members.length))} per traveler
+                  ₹{formatExpenseAmount((newExpense.currency !== 'INR' ? convertCurrency(Number(newExpense.amount) || 0, newExpense.currency, 'INR') : (Number(newExpense.amount) || 0)) / Math.max(1, members.length))} per traveler
                 </strong>
               </div>
 
@@ -3832,9 +4656,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Budget (₹)</label>
                   <input
                     type="number"
-                    value={editTripForm.budget}
-                    onChange={(e) => setEditTripForm({ ...editTripForm, budget: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    min="0"
+                    placeholder="0"
+                    value={editTripForm.budget === '' ? '' : editTripForm.budget}
+                    onChange={(e) => {
+                      const clean = e.target.value.replace(/^0+(?=\d)/, '');
+                      setEditTripForm({ ...editTripForm, budget: clean === '' ? ('' as any) : Number(clean) });
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold"
                   />
                 </div>
                 <div>
@@ -4246,37 +5075,46 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           {/* 1. Schedule / Itinerary Tab */}
           <button
             type="button"
-            onClick={() => setActiveTab('itinerary')}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
-              activeTab === 'itinerary' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            onClick={() => {
+              haptic.selection();
+              setActiveTab('itinerary');
+            }}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all active:scale-95 ${
+              activeTab === 'itinerary' ? 'text-emerald-400 font-extrabold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <div className={`p-1 rounded-xl ${activeTab === 'itinerary' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'itinerary' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
               <Calendar className="w-4 h-4" />
             </div>
-            <span className="text-[10px] tracking-tight">Plan</span>
+            <span className="text-[10px] tracking-tight font-bold">Plan</span>
           </button>
 
           {/* 2. Expenses Tab */}
           <button
             type="button"
-            onClick={() => setActiveTab('expenses')}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
-              activeTab === 'expenses' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            onClick={() => {
+              haptic.selection();
+              setActiveTab('expenses');
+            }}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all active:scale-95 ${
+              activeTab === 'expenses' ? 'text-emerald-400 font-extrabold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <div className={`p-1 rounded-xl ${activeTab === 'expenses' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'expenses' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
               <Wallet className="w-4 h-4" />
             </div>
-            <span className="text-[10px] tracking-tight">Spend</span>
+            <span className="text-[10px] tracking-tight font-bold">Spend</span>
           </button>
 
           {/* 3. Center Elevated Quick Action (+) Button */}
           <div className="flex-1 flex justify-center -mt-6">
             <button
               type="button"
-              onClick={() => setShowMobileQuickActions(true)}
-              className="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-600 via-emerald-500 to-teal-400 p-0.5 shadow-lg shadow-emerald-500/30 active:scale-90 transition-transform flex items-center justify-center text-white"
+              onClick={() => {
+                haptic.medium();
+                setShowMobileQuickActions(true);
+              }}
+              className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 p-0.5 shadow-lg shadow-emerald-500/40 active:scale-90 transition-transform flex items-center justify-center text-white ring-4 ring-slate-950"
               title="Quick Action Shortcut"
               aria-label="Quick Actions"
             >
@@ -4289,12 +5127,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           {/* 4. SOS Emergency Hub Tab */}
           <button
             type="button"
-            onClick={() => setActiveTab('emergency')}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 relative transition-all ${
-              activeTab === 'emergency' ? 'text-red-400 font-bold' : 'text-slate-400 hover:text-red-300'
+            onClick={() => {
+              haptic.warning();
+              setActiveTab('emergency');
+            }}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 relative transition-all active:scale-95 ${
+              activeTab === 'emergency' ? 'text-red-400 font-extrabold' : 'text-slate-400 hover:text-red-300'
             }`}
           >
-            <div className={`p-1 rounded-xl ${activeTab === 'emergency' ? 'bg-red-500/20 text-red-400' : ''}`}>
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'emergency' ? 'bg-red-500/20 text-red-400' : ''}`}>
               <ShieldAlert className="w-4 h-4 text-red-400" />
             </div>
             <span className="text-[10px] tracking-tight font-bold text-red-400">SOS Hub</span>
@@ -4304,15 +5145,18 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           {/* 5. Members / Crew Tab */}
           <button
             type="button"
-            onClick={() => setActiveTab('members')}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all ${
-              activeTab === 'members' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+            onClick={() => {
+              haptic.selection();
+              setActiveTab('members');
+            }}
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all active:scale-95 ${
+              activeTab === 'members' ? 'text-emerald-400 font-extrabold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <div className={`p-1 rounded-xl ${activeTab === 'members' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'members' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
               <Users className="w-4 h-4" />
             </div>
-            <span className="text-[10px] tracking-tight">Crew</span>
+            <span className="text-[10px] tracking-tight font-bold">Crew</span>
           </button>
         </div>
       </nav>
@@ -4329,7 +5173,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           onClick={() => setShowMobileQuickActions(false)}
         >
           <div
-            className="w-full bg-slate-900 border-t border-slate-800 rounded-t-3xl p-6 space-y-4 text-white shadow-2xl animate-in slide-in-from-bottom-6 duration-300 pb-10"
+            className="w-full bg-slate-900 border-t border-slate-800 rounded-t-3xl p-5 sm:p-6 space-y-4 text-white shadow-2xl animate-in slide-in-from-bottom-6 duration-300 pb-8 safe-area-bottom"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="w-12 h-1.5 rounded-full bg-slate-700 mx-auto mb-1" />
@@ -4347,7 +5191,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-2 gap-2.5 pt-1">
               {/* Quick Expense */}
               {can('ADD_EXPENSE') && (
                 <button
@@ -4356,14 +5200,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     setShowMobileQuickActions(false);
                     setShowAddExpenseModal(true);
                   }}
-                  className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+                  className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left flex flex-col justify-between gap-2.5 group transition-all active:scale-95"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Wallet className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Wallet className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">Log Expense</h4>
-                    <p className="text-[10px] text-emerald-300/80">Snap / split group bill</p>
+                    <h4 className="text-xs font-black text-white">Log Expense</h4>
+                    <p className="text-[10px] text-emerald-300/80">Snap / split bill</p>
                   </div>
                 </button>
               )}
@@ -4376,17 +5220,35 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     setShowMobileQuickActions(false);
                     setShowAddActivityModal(true);
                   }}
-                  className="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+                  className="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/30 hover:bg-sky-500/20 text-left flex flex-col justify-between gap-2.5 group transition-all active:scale-95"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <MapPin className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-white">Add Place / Stop</h4>
-                    <p className="text-[10px] text-sky-300/80">Add to today's schedule</p>
+                    <h4 className="text-xs font-black text-white">Add Place / Stop</h4>
+                    <p className="text-[10px] text-sky-300/80">Today's schedule</p>
                   </div>
                 </button>
               )}
+
+              {/* Crew Chat Shortcut */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setShowCrewChat(true);
+                }}
+                className="p-3.5 rounded-2xl bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 text-left flex flex-col justify-between gap-2.5 group transition-all active:scale-95"
+              >
+                <div className="w-9 h-9 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <MessageSquare className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-white">Crew Chat</h4>
+                  <p className="text-[10px] text-teal-300/80">Live messaging</p>
+                </div>
+              </button>
 
               {/* Emergency Mode */}
               <button
@@ -4395,71 +5257,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   setShowMobileQuickActions(false);
                   setActiveTab('emergency');
                 }}
-                className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
+                className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-left flex flex-col justify-between gap-2.5 group transition-all active:scale-95"
               >
-                <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ShieldAlert className="w-5 h-5" />
+                <div className="w-9 h-9 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <ShieldAlert className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white">Emergency SOS</h4>
-                  <p className="text-[10px] text-red-300/80">Direct dial police & doctor</p>
-                </div>
-              </button>
-
-              {/* View Tasks */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMobileQuickActions(false);
-                  setActiveTab('tasks');
-                }}
-                className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 hover:bg-purple-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
-              >
-                <div className="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <CheckSquare className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Trip Tasks</h4>
-                  <p className="text-[10px] text-purple-300/80">Check packing & tickets</p>
-                </div>
-              </button>
-
-              {/* View Document Vault */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMobileQuickActions(false);
-                  setActiveTab('documents');
-                }}
-                className="p-4 rounded-2xl bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 text-left flex flex-col justify-between gap-3 group transition-all"
-              >
-                <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <FileCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Document Vault</h4>
-                  <p className="text-[10px] text-teal-300/80">Flight, hotel & PNR tickets</p>
-                </div>
-              </button>
-
-              {/* Crew Live Chat */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowMobileQuickActions(false);
-                  setShowCrewChat(true);
-                }}
-                className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 text-left flex flex-col justify-between gap-3 group transition-all col-span-2 sm:col-span-1"
-              >
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <MessageSquare className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <span>Crew Live Chat</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  </h4>
-                  <p className="text-[10px] text-emerald-300/80">Announcements & quick chat</p>
+                  <h4 className="text-xs font-black text-white">Emergency SOS</h4>
+                  <p className="text-[10px] text-red-300/80">Dial police & doc</p>
                 </div>
               </button>
             </div>

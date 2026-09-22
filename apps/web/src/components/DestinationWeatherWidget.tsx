@@ -52,6 +52,7 @@ export function DestinationWeatherWidget({
   const [sunrise, setSunrise] = useState<string>('05:30 AM');
   const [sunset, setSunset] = useState<string>('06:00 PM');
   const [forecast, setForecast] = useState<DailyForecast[]>([]);
+  const [showForecastMobile, setShowForecastMobile] = useState(false);
 
   const convertTemp = (tempC: number) => {
     if (unit === 'F') {
@@ -299,8 +300,23 @@ export function DestinationWeatherWidget({
           </div>
         </div>
 
-        {/* Right: 5-Day Expedition Forecast Strip (Spans 7 cols) */}
-        <div className="lg:col-span-7 flex flex-col justify-between space-y-3">
+        {/* Mobile Toggle Button */}
+        <div className="lg:hidden">
+          <button
+            type="button"
+            onClick={() => setShowForecastMobile((prev) => !prev)}
+            className="w-full py-2 px-3 rounded-xl bg-slate-950/80 hover:bg-slate-950 text-xs font-bold text-slate-300 hover:text-white border border-slate-800 flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span className="flex items-center gap-1.5 text-emerald-400">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{showForecastMobile ? 'Hide 5-Day Outlook' : 'View 5-Day Outlook & Satellite Forecast'}</span>
+            </span>
+            <span className="text-[11px] font-mono text-slate-400">{showForecastMobile ? '▲' : '▼'}</span>
+          </button>
+        </div>
+
+        {/* Right: 5-Day Expedition Forecast Strip (Spans 7 cols on desktop, expandable on mobile) */}
+        <div className={`lg:col-span-7 flex-col justify-between space-y-3 ${showForecastMobile ? 'flex' : 'hidden lg:flex'}`}>
           <div className="flex items-center justify-between">
             <span className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
               <span>Live 5-Day Outlook</span>

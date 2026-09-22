@@ -112,8 +112,10 @@ export const api = {
     fetcher<any>(`/trips/${tripId}/itinerary/days/${dayId}`, { method: 'DELETE' }),
   createActivity: (tripId: string, data: any) =>
     fetcher<any>(`/trips/${tripId}/itinerary/activities`, { method: 'POST', body: JSON.stringify(data) }),
-  deleteActivity: (activityId: string) =>
-    fetcher<any>(`/trips/itinerary/activities/${activityId}`, { method: 'DELETE' }),
+  updateActivity: (tripId: string, activityId: string, data: any) =>
+    fetcher<any>(`/trips/${tripId}/itinerary/activities/${activityId}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteActivity: (tripId: string, activityId: string) =>
+    fetcher<any>(`/trips/${tripId}/itinerary/activities/${activityId}`, { method: 'DELETE' }),
 
   // Expenses & Settlements
   getExpenses: (tripId: string) => fetcher<any[]>(`/trips/${tripId}/expenses`),
