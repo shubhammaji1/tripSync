@@ -13,6 +13,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { EmergencyModule } from './modules/emergency/emergency.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { RealtimeModule } from './modules/realtime/realtime.module';
+import { TrailWatchModule } from './modules/trailwatch/trailwatch.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { RealtimeModule } from './modules/realtime/realtime.module';
     TasksModule,
     EmergencyModule,
     AnalyticsModule,
+    TrailWatchModule,
   ],
   controllers: [RootController, HealthController],
 })

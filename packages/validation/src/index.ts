@@ -9,6 +9,11 @@ import {
   SettlementStatus,
   TaskPriority,
   TaskStatus,
+  TrailWatchSeverity,
+  TrailWatchAlertType,
+  TrailReportCategory,
+  VerificationStatus,
+  RouteStatus,
 } from '@tripsync/types';
 
 // ==========================================
@@ -217,3 +222,75 @@ export const updateEmergencyContactSchema = createEmergencyContactSchema.partial
 
 export type CreateEmergencyContactInput = z.infer<typeof createEmergencyContactSchema>;
 export type UpdateEmergencyContactInput = z.infer<typeof updateEmergencyContactSchema>;
+
+// ==========================================
+// TrailWatch Schemas
+// ==========================================
+export const createTripRouteSchema = z.object({
+  name: z.string().min(2, 'Route name must be at least 2 characters').max(150),
+  description: z.string().max(1000).nullable().optional(),
+  startLocation: z.string().min(2, 'Start location required').max(200),
+  endLocation: z.string().min(2, 'End location required').max(200),
+  startLat: z.number().min(-90).max(90).nullable().optional(),
+  startLng: z.number().min(-180).max(180).nullable().optional(),
+  endLat: z.number().min(-90).max(90).nullable().optional(),
+  endLng: z.number().min(-180).max(180).nullable().optional(),
+  status: z.nativeEnum(RouteStatus).default(RouteStatus.NORMAL),
+  distanceKm: z.number().nonnegative().nullable().optional(),
+  estimatedDurationMin: z.number().int().nonnegative().nullable().optional(),
+});
+
+export const updateTripRouteSchema = createTripRouteSchema.partial();
+
+export const createRouteSegmentSchema = z.object({
+  routeId: z.string().uuid('Invalid route ID'),
+  name: z.string().min(2).max(150),
+  startLat: z.number().min(-90).max(90),
+  startLng: z.number().min(-180).max(180),
+  endLat: z.number().min(-90).max(90),
+  endLng: z.number().min(-180).max(180),
+  status: z.nativeEnum(RouteStatus).default(RouteStatus.NORMAL),
+  surfaceType: z.string().max(50).nullable().optional(),
+  elevationGainM: z.number().nullable().optional(),
+  conditionNotes: z.string().max(500).nullable().optional(),
+});
+
+export const createTrailReportSchema = z.object({
+  routeId: z.string().uuid().nullable().optional(),
+  segmentId: z.string().uuid().nullable().optional(),
+  category: z.nativeEnum(TrailReportCategory),
+  severity: z.nativeEnum(TrailWatchSeverity).default(TrailWatchSeverity.MEDIUM),
+  title: z.string().min(3, 'Title must be at least 3 characters').max(150),
+  description: z.string().min(5, 'Please provide more details (at least 5 characters)').max(1000),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  locationName: z.string().max(200).nullable().optional(),
+  imageUrl: z.string().url().nullable().optional(),
+});
+
+export const acknowledgeAlertSchema = z.object({
+  acknowledged: z.boolean().default(true),
+});
+
+export const createWeatherSnapshotSchema = z.object({
+  routeId: z.string().uuid().nullable().optional(),
+  locationName: z.string().min(2).max(200),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  temperature: z.number(),
+  feelsLike: z.number().nullable().optional(),
+  rainfallMm: z.number().nonnegative().default(0),
+  visibilityKm: z.number().nonnegative().nullable().optional(),
+  windSpeedKmh: z.number().nonnegative().default(0),
+  humidityPercent: z.number().min(0).max(100).default(50),
+  condition: z.string().min(1).max(100),
+  weatherCode: z.number().int().nullable().optional(),
+  source: z.string().default('Open-Meteo'),
+});
+
+export type CreateTripRouteInput = z.infer<typeof createTripRouteSchema>;
+export type UpdateTripRouteInput = z.infer<typeof updateTripRouteSchema>;
+export type CreateRouteSegmentInput = z.infer<typeof createRouteSegmentSchema>;
+export type CreateTrailReportInput = z.infer<typeof createTrailReportSchema>;
+export type AcknowledgeAlertInput = z.infer<typeof acknowledgeAlertSchema>;
+export type CreateWeatherSnapshotInput = z.infer<typeof createWeatherSnapshotSchema>;

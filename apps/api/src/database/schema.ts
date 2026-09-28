@@ -24,6 +24,11 @@ import {
   TaskPriority,
   TaskStatus,
   NotificationType,
+  TrailWatchSeverity,
+  TrailWatchAlertType,
+  TrailReportCategory,
+  VerificationStatus,
+  RouteStatus,
 } from '@tripsync/types';
 
 // ==========================================
@@ -106,7 +111,59 @@ export const notificationTypeEnum = pgEnum('notification_type', [
   NotificationType.SETTLEMENT_REMINDER,
   NotificationType.TASK_ASSIGNED,
   NotificationType.EMERGENCY_TRIGGERED,
+  NotificationType.TRAILWATCH_ALERT,
   NotificationType.SYSTEM,
+]);
+
+export const trailWatchSeverityEnum = pgEnum('trailwatch_severity', [
+  TrailWatchSeverity.INFO,
+  TrailWatchSeverity.LOW,
+  TrailWatchSeverity.MEDIUM,
+  TrailWatchSeverity.HIGH,
+  TrailWatchSeverity.CRITICAL,
+]);
+
+export const trailWatchAlertTypeEnum = pgEnum('trailwatch_alert_type', [
+  TrailWatchAlertType.WEATHER,
+  TrailWatchAlertType.ROAD_INCIDENT,
+  TrailWatchAlertType.TRAIL_INCIDENT,
+  TrailWatchAlertType.VISIBILITY,
+  TrailWatchAlertType.HEAVY_RAIN,
+  TrailWatchAlertType.FLOODING,
+  TrailWatchAlertType.LANDSLIDE,
+  TrailWatchAlertType.ROAD_CLOSURE,
+  TrailWatchAlertType.COMMUNITY_REPORT,
+  TrailWatchAlertType.ROUTE_CHANGE,
+  TrailWatchAlertType.ACTIVITY_IMPACT,
+]);
+
+export const trailReportCategoryEnum = pgEnum('trail_report_category', [
+  TrailReportCategory.ROAD_BLOCKED,
+  TrailReportCategory.HEAVY_TRAFFIC,
+  TrailReportCategory.WATERLOGGING,
+  TrailReportCategory.LANDSLIDE,
+  TrailReportCategory.TRAIL_DAMAGED,
+  TrailReportCategory.POOR_VISIBILITY,
+  TrailReportCategory.WEATHER_ISSUE,
+  TrailReportCategory.UNSAFE_PASSAGE,
+  TrailReportCategory.ROAD_CONSTRUCTION,
+  TrailReportCategory.OTHER,
+]);
+
+export const verificationStatusEnum = pgEnum('verification_status', [
+  VerificationStatus.UNVERIFIED,
+  VerificationStatus.COMMUNITY_CONFIRMED,
+  VerificationStatus.MODERATOR_VERIFIED,
+  VerificationStatus.OFFICIAL_SOURCE,
+  VerificationStatus.EXPIRED,
+]);
+
+export const routeStatusEnum = pgEnum('route_status', [
+  RouteStatus.NORMAL,
+  RouteStatus.CAUTION,
+  RouteStatus.DISRUPTED,
+  RouteStatus.CLOSED,
+  RouteStatus.UNKNOWN,
 ]);
 
 // ==========================================
@@ -413,6 +470,161 @@ export const notifications = pgTable(
 );
 
 // ==========================================
+// 14. Trip Routes Table (TrailWatch)
+// ==========================================
+export const tripRoutes = pgTable(
+  'trip_routes',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'cascade' }).notNull(),
+    name: text('name').notNull(),
+    description: text('description'),
+    startLocation: text('start_location').notNull(),
+    endLocation: text('end_location').notNull(),
+    startLat: doublePrecision('start_lat'),
+    startLng: doublePrecision('start_lng'),
+    endLat: doublePrecision('end_lat'),
+    endLng: doublePrecision('end_lng'),
+    status: routeStatusEnum('status').default(RouteStatus.NORMAL).notNull(),
+    distanceKm: doublePrecision('distance_km'),
+    estimatedDurationMin: integer('estimated_duration_min'),
+    lastCheckedAt: timestamp('last_checked_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    tripIdx: index('trip_routes_trip_idx').on(table.tripId),
+    statusIdx: index('trip_routes_status_idx').on(table.status),
+  })
+);
+
+// ==========================================
+// 15. Route Segments Table (TrailWatch)
+// ==========================================
+export const routeSegments = pgTable(
+  'route_segments',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    routeId: uuid('route_id').references(() => tripRoutes.id, { onDelete: 'cascade' }).notNull(),
+    name: text('name').notNull(),
+    startLat: doublePrecision('start_lat').notNull(),
+    startLng: doublePrecision('start_lng').notNull(),
+    endLat: doublePrecision('end_lat').notNull(),
+    endLng: doublePrecision('end_lng').notNull(),
+    status: routeStatusEnum('status').default(RouteStatus.NORMAL).notNull(),
+    surfaceType: text('surface_type'),
+    elevationGainM: doublePrecision('elevation_gain_m'),
+    conditionNotes: text('condition_notes'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    routeIdx: index('route_segments_route_idx').on(table.routeId),
+  })
+);
+
+// ==========================================
+// 16. Trail Reports Table (TrailWatch)
+// ==========================================
+export const trailReports = pgTable(
+  'trail_reports',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'cascade' }).notNull(),
+    routeId: uuid('route_id').references(() => tripRoutes.id, { onDelete: 'set null' }),
+    segmentId: uuid('segment_id').references(() => routeSegments.id, { onDelete: 'set null' }),
+    userId: uuid('user_id').references(() => profiles.id, { onDelete: 'cascade' }).notNull(),
+    category: trailReportCategoryEnum('category').notNull(),
+    severity: trailWatchSeverityEnum('severity').default(TrailWatchSeverity.MEDIUM).notNull(),
+    title: text('title').notNull(),
+    description: text('description').notNull(),
+    latitude: doublePrecision('latitude').notNull(),
+    longitude: doublePrecision('longitude').notNull(),
+    locationName: text('location_name'),
+    imageUrl: text('image_url'),
+    verificationStatus: verificationStatusEnum('verification_status')
+      .default(VerificationStatus.UNVERIFIED)
+      .notNull(),
+    upvotes: integer('upvotes').default(0).notNull(),
+    source: text('source').default('COMMUNITY').notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    tripIdx: index('trail_reports_trip_idx').on(table.tripId),
+    routeIdx: index('trail_reports_route_idx').on(table.routeId),
+    userIdx: index('trail_reports_user_idx').on(table.userId),
+    createdIdx: index('trail_reports_created_idx').on(table.createdAt),
+  })
+);
+
+// ==========================================
+// 17. Weather Snapshots Table (TrailWatch)
+// ==========================================
+export const weatherSnapshots = pgTable(
+  'weather_snapshots',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'cascade' }).notNull(),
+    routeId: uuid('route_id').references(() => tripRoutes.id, { onDelete: 'set null' }),
+    locationName: text('location_name').notNull(),
+    latitude: doublePrecision('latitude').notNull(),
+    longitude: doublePrecision('longitude').notNull(),
+    temperature: doublePrecision('temperature').notNull(),
+    feelsLike: doublePrecision('feels_like'),
+    rainfallMm: doublePrecision('rainfall_mm').default(0).notNull(),
+    visibilityKm: doublePrecision('visibility_km'),
+    windSpeedKmh: doublePrecision('wind_speed_kmh').default(0).notNull(),
+    humidityPercent: doublePrecision('humidity_percent').default(50).notNull(),
+    condition: text('condition').notNull(),
+    weatherCode: integer('weather_code'),
+    source: text('source').default('Open-Meteo').notNull(),
+    recordedAt: timestamp('recorded_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    tripIdx: index('weather_snapshots_trip_idx').on(table.tripId),
+    routeIdx: index('weather_snapshots_route_idx').on(table.routeId),
+    recordedIdx: index('weather_snapshots_recorded_idx').on(table.recordedAt),
+  })
+);
+
+// ==========================================
+// 18. TrailWatch Alerts Table (TrailWatch)
+// ==========================================
+export const trailwatchAlerts = pgTable(
+  'trailwatch_alerts',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'cascade' }).notNull(),
+    routeId: uuid('route_id').references(() => tripRoutes.id, { onDelete: 'set null' }),
+    activityId: uuid('activity_id').references(() => activities.id, { onDelete: 'set null' }),
+    reportId: uuid('report_id').references(() => trailReports.id, { onDelete: 'set null' }),
+    type: trailWatchAlertTypeEnum('type').notNull(),
+    severity: trailWatchSeverityEnum('severity').default(TrailWatchSeverity.INFO).notNull(),
+    title: text('title').notNull(),
+    description: text('description').notNull(),
+    source: text('source').default('TrailWatch').notNull(),
+    confidence: doublePrecision('confidence').default(1.0).notNull(),
+    isAcknowledged: boolean('is_acknowledged').default(false).notNull(),
+    acknowledgedAt: timestamp('acknowledged_at', { withTimezone: true }),
+    acknowledgedById: uuid('acknowledged_by_id').references(() => profiles.id, { onDelete: 'set null' }),
+    locationName: text('location_name'),
+    latitude: doublePrecision('latitude'),
+    longitude: doublePrecision('longitude'),
+    expiresAt: timestamp('expires_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => ({
+    tripIdx: index('trailwatch_alerts_trip_idx').on(table.tripId),
+    routeIdx: index('trailwatch_alerts_route_idx').on(table.routeId),
+    activityIdx: index('trailwatch_alerts_activity_idx').on(table.activityId),
+    severityIdx: index('trailwatch_alerts_severity_idx').on(table.severity),
+  })
+);
+
+// ==========================================
 // Drizzle Relations
 // ==========================================
 export const profilesRelations = relations(profiles, ({ many }) => ({
@@ -438,6 +650,10 @@ export const tripsRelations = relations(trips, ({ one, many }) => ({
   tasks: many(tasks),
   emergencyContacts: many(emergencyContacts),
   documents: many(documents),
+  routes: many(tripRoutes),
+  trailReports: many(trailReports),
+  weatherSnapshots: many(weatherSnapshots),
+  trailwatchAlerts: many(trailwatchAlerts),
 }));
 
 export const tripMembersRelations = relations(tripMembers, ({ one }) => ({
@@ -537,6 +753,78 @@ export const tripInvitationsRelations = relations(tripInvitations, ({ one }) => 
   }),
   inviter: one(profiles, {
     fields: [tripInvitations.invitedBy],
+    references: [profiles.id],
+  }),
+}));
+
+export const tripRoutesRelations = relations(tripRoutes, ({ one, many }) => ({
+  trip: one(trips, {
+    fields: [tripRoutes.tripId],
+    references: [trips.id],
+  }),
+  segments: many(routeSegments),
+  reports: many(trailReports),
+  weatherSnapshots: many(weatherSnapshots),
+  alerts: many(trailwatchAlerts),
+}));
+
+export const routeSegmentsRelations = relations(routeSegments, ({ one, many }) => ({
+  route: one(tripRoutes, {
+    fields: [routeSegments.routeId],
+    references: [tripRoutes.id],
+  }),
+  reports: many(trailReports),
+}));
+
+export const trailReportsRelations = relations(trailReports, ({ one }) => ({
+  trip: one(trips, {
+    fields: [trailReports.tripId],
+    references: [trips.id],
+  }),
+  route: one(tripRoutes, {
+    fields: [trailReports.routeId],
+    references: [tripRoutes.id],
+  }),
+  segment: one(routeSegments, {
+    fields: [trailReports.segmentId],
+    references: [routeSegments.id],
+  }),
+  user: one(profiles, {
+    fields: [trailReports.userId],
+    references: [profiles.id],
+  }),
+}));
+
+export const weatherSnapshotsRelations = relations(weatherSnapshots, ({ one }) => ({
+  trip: one(trips, {
+    fields: [weatherSnapshots.tripId],
+    references: [trips.id],
+  }),
+  route: one(tripRoutes, {
+    fields: [weatherSnapshots.routeId],
+    references: [tripRoutes.id],
+  }),
+}));
+
+export const trailwatchAlertsRelations = relations(trailwatchAlerts, ({ one }) => ({
+  trip: one(trips, {
+    fields: [trailwatchAlerts.tripId],
+    references: [trips.id],
+  }),
+  route: one(tripRoutes, {
+    fields: [trailwatchAlerts.routeId],
+    references: [tripRoutes.id],
+  }),
+  activity: one(activities, {
+    fields: [trailwatchAlerts.activityId],
+    references: [activities.id],
+  }),
+  report: one(trailReports, {
+    fields: [trailwatchAlerts.reportId],
+    references: [trailReports.id],
+  }),
+  acknowledgedBy: one(profiles, {
+    fields: [trailwatchAlerts.acknowledgedById],
     references: [profiles.id],
   }),
 }));

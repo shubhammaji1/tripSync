@@ -10,6 +10,11 @@ import {
   TaskPriority,
   TaskStatus,
   NotificationType,
+  TrailWatchSeverity,
+  TrailWatchAlertType,
+  TrailReportCategory,
+  VerificationStatus,
+  RouteStatus,
 } from './enums';
 
 export interface Profile {
@@ -239,5 +244,144 @@ export interface DemoPersona {
   avatarUrl: string | null;
   phone: string | null;
   description: string;
+}
+
+// ==========================================
+// TrailWatch Models
+// ==========================================
+export interface TripRoute {
+  id: string;
+  tripId: string;
+  name: string;
+  description?: string | null;
+  startLocation: string;
+  endLocation: string;
+  startLat?: number | null;
+  startLng?: number | null;
+  endLat?: number | null;
+  endLng?: number | null;
+  status: RouteStatus;
+  distanceKm?: number | null;
+  estimatedDurationMin?: number | null;
+  lastCheckedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  segments?: RouteSegment[];
+  activeAlertsCount?: number;
+}
+
+export interface RouteSegment {
+  id: string;
+  routeId: string;
+  name: string;
+  startLat: number;
+  startLng: number;
+  endLat: number;
+  endLng: number;
+  status: RouteStatus;
+  surfaceType?: string | null;
+  elevationGainM?: number | null;
+  conditionNotes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TrailReport {
+  id: string;
+  tripId: string;
+  routeId?: string | null;
+  segmentId?: string | null;
+  userId: string;
+  user?: Profile | null;
+  category: TrailReportCategory;
+  severity: TrailWatchSeverity;
+  title: string;
+  description: string;
+  latitude: number;
+  longitude: number;
+  locationName?: string | null;
+  imageUrl?: string | null;
+  verificationStatus: VerificationStatus;
+  upvotes: number;
+  source: string;
+  expiresAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WeatherSnapshot {
+  id: string;
+  tripId: string;
+  routeId?: string | null;
+  locationName: string;
+  latitude: number;
+  longitude: number;
+  temperature: number;
+  feelsLike?: number | null;
+  rainfallMm: number;
+  visibilityKm?: number | null;
+  windSpeedKmh: number;
+  humidityPercent: number;
+  condition: string;
+  weatherCode?: number | null;
+  source: string;
+  recordedAt: string;
+}
+
+export interface TrailWatchAlert {
+  id: string;
+  tripId: string;
+  routeId?: string | null;
+  activityId?: string | null;
+  reportId?: string | null;
+  type: TrailWatchAlertType;
+  severity: TrailWatchSeverity;
+  title: string;
+  description: string;
+  source: string;
+  confidence: number; // 0 to 1
+  isAcknowledged: boolean;
+  acknowledgedAt?: string | null;
+  acknowledgedById?: string | null;
+  locationName?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  expiresAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AffectedActivity {
+  activityId: string;
+  activityTitle: string;
+  dayNumber: number;
+  dayDate: string;
+  startTime?: string | null;
+  endTime?: string | null;
+  locationName?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  reason: string;
+  severity: TrailWatchSeverity;
+  alertId?: string | null;
+  conditionDescription: string;
+  lastUpdated: string;
+  source: string;
+}
+
+export interface TrailWatchOverview {
+  tripId: string;
+  destination: string;
+  overallStatus: RouteStatus;
+  monitoredRoutesCount: number;
+  activeAlertsCount: number;
+  affectedActivitiesCount: number;
+  communityReportsCount: number;
+  routes: TripRoute[];
+  alerts: TrailWatchAlert[];
+  reports: TrailReport[];
+  affectedActivities: AffectedActivity[];
+  latestWeather?: WeatherSnapshot | null;
+  lastRefreshedAt: string;
 }
 
