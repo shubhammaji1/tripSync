@@ -35,10 +35,13 @@ import {
   Flame,
   Globe,
   Compass as CompassIcon,
+  Cloud,
+  Download,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
 import { TripSyncLoader } from '@/components/TripSyncLoader';
+import { TripSyncLogo } from '@/components/TripSyncLogo';
 
 type PlaceSuggestion = {
   display_name: string;
@@ -519,21 +522,124 @@ function DashboardContent() {
 
   if (!isClerkLoaded || !isSignedIn) {
     return (
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 flex flex-col items-center justify-center min-h-[60vh] space-y-6">
-        <TripSyncLoader
-          size="lg"
-          text="Checking your travel session..."
-          subtext="Connecting to TripSync collaborative cloud"
-        />
+      <div className="max-w-md mx-auto px-4 py-8 sm:py-12 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] space-y-5">
+        {/* Floating Brand Emblem with Dotted Orbit Ring & Orbiting Satellite */}
+        <div className="relative flex items-center justify-center my-2">
+          {/* Mint Dotted Orbit Ring */}
+          <div className="w-24 h-24 rounded-full border-2 border-dashed border-emerald-400/50 animate-[spin_10s_linear_infinite]" />
 
-        {/* Minimalist Dashboard Skeleton Cards */}
-        <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-8 opacity-60 pointer-events-none">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-2">
-              <div className="h-3 w-16 bg-slate-100 rounded-md animate-pulse" />
-              <div className="h-6 w-24 bg-slate-200 rounded-xl animate-pulse" />
+          {/* Central Logo Squircle */}
+          <div className="w-16 h-16 rounded-2xl bg-white shadow-xl shadow-emerald-500/15 border border-emerald-200/90 flex items-center justify-center p-2.5 absolute z-10">
+            <TripSyncLogo className="w-full h-full" />
+          </div>
+
+          {/* Satellite Orbit Dot */}
+          <div className="absolute inset-0 animate-[spin_4s_linear_infinite]">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs shadow-emerald-400 absolute -top-1.5 left-1/2 -translate-x-1/2" />
+          </div>
+        </div>
+
+        {/* Heading & Subtitle */}
+        <div className="text-center space-y-1">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            Checking your travel session...
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-medium">
+            Connecting to TripSync collaborative cloud
+          </p>
+        </div>
+
+        {/* 2x2 Grid of Status Cards */}
+        <div className="w-full grid grid-cols-2 gap-3 pt-1">
+          {/* Card 1: Trip Data */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs relative">
+            <div className="flex items-start justify-between">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Calendar className="w-5 h-5" />
+              </div>
+              <Check className="w-4 h-4 text-emerald-500 font-bold" />
             </div>
-          ))}
+            <h4 className="text-sm font-extrabold text-slate-900 mt-2.5">Trip Data</h4>
+            <p className="text-[11px] text-slate-400 font-medium mt-0.5">Syncing itinerary...</p>
+          </div>
+
+          {/* Card 2: Crew Members */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs relative">
+            <div className="flex items-start justify-between">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
+              <Check className="w-4 h-4 text-emerald-500 font-bold" />
+            </div>
+            <h4 className="text-sm font-extrabold text-slate-900 mt-2.5">Crew Members</h4>
+            <p className="text-[11px] text-slate-400 font-medium mt-0.5">Loading your crew...</p>
+          </div>
+
+          {/* Card 3: Expenses */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs relative">
+            <div className="flex items-start justify-between">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Wallet className="w-5 h-5" />
+              </div>
+              <Check className="w-4 h-4 text-emerald-500 font-bold" />
+            </div>
+            <h4 className="text-sm font-extrabold text-slate-900 mt-2.5">Expenses</h4>
+            <p className="text-[11px] text-slate-400 font-medium mt-0.5">Preparing splits...</p>
+          </div>
+
+          {/* Card 4: Offline Cache */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs relative">
+            <div className="flex items-start justify-between">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                <Cloud className="w-5 h-5" />
+              </div>
+              <Check className="w-4 h-4 text-emerald-500 font-bold" />
+            </div>
+            <h4 className="text-sm font-extrabold text-slate-900 mt-2.5">Offline Cache</h4>
+            <p className="text-[11px] text-slate-400 font-medium mt-0.5">Ready for offline</p>
+          </div>
+        </div>
+
+        {/* Bottom Feature Banner Card (Dark Mountain Theme) */}
+        <div className="w-full rounded-3xl bg-slate-950 text-white p-5 sm:p-6 border border-slate-800 shadow-2xl relative overflow-hidden mt-3">
+          {/* Subtle contour lines */}
+          <div className="absolute inset-0 opacity-15 pointer-events-none">
+            <svg viewBox="0 0 400 200" className="w-full h-full" preserveAspectRatio="none">
+              <path d="M0 150 Q 100 80, 200 130 T 400 110" stroke="#10b981" strokeWidth="1.5" fill="none" />
+              <path d="M0 170 Q 120 110, 240 150 T 400 130" stroke="#10b981" strokeWidth="1.5" fill="none" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-slate-900 border border-emerald-500/40 p-1 flex items-center justify-center shadow-inner">
+                  <TripSyncLogo className="w-full h-full" />
+                </div>
+                <span className="text-base font-black text-white tracking-tight">TripSync</span>
+              </div>
+
+              {/* Install App badge */}
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-emerald-500/40 text-[10px] font-bold text-emerald-400">
+                <Download className="w-3 h-3" />
+                <span>Install App</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed font-normal">
+              The collaborative platform for modern group travel. Plan itineraries together, eliminate awkward bill splits with automated expenses, and keep everyone in sync.
+            </p>
+
+            <div className="pt-1">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-teal-500/50 bg-teal-500/10 hover:bg-teal-500/20 text-teal-300 text-xs font-bold transition-all"
+              >
+                <span>Explore Features</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     );

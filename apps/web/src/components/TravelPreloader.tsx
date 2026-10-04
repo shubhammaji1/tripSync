@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { TripSyncLogo } from './TripSyncLogo';
-import { Sparkles, Compass } from 'lucide-react';
+import { MountainLandscape } from './MountainLandscape';
+import { ChevronRight } from 'lucide-react';
 
 const FRIENDLY_LOADING_STEPS = [
-  { icon: '🎒', text: 'Packing your adventure...' },
+  { icon: '🧳', text: 'Packing your adventure...' },
   { icon: '🗺️', text: 'Mapping scenic routes & stops...' },
   { icon: '🤝', text: 'Connecting your travel crew...' },
   { icon: '✈️', text: 'All set for takeoff!' },
@@ -18,7 +19,7 @@ export function TravelPreloader() {
   const [fadingOut, setFadingOut] = useState(false);
 
   useEffect(() => {
-    // Only show once per session for lightning-fast subsequent navigations
+    // Only show once per session for instant subsequent navigations
     const hasLoadedThisSession = sessionStorage.getItem('tripsync_preloader_shown');
     if (hasLoadedThisSession) {
       setLoading(false);
@@ -27,7 +28,7 @@ export function TravelPreloader() {
 
     const stepInterval = setInterval(() => {
       setStepIndex((prev) => (prev < FRIENDLY_LOADING_STEPS.length - 1 ? prev + 1 : prev));
-    }, 320);
+    }, 400);
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
@@ -35,9 +36,9 @@ export function TravelPreloader() {
           clearInterval(progressInterval);
           return 100;
         }
-        return prev + Math.floor(Math.random() * 20) + 15;
+        return prev + Math.floor(Math.random() * 18) + 12;
       });
-    }, 150);
+    }, 180);
 
     const timer = setTimeout(() => {
       setFadingOut(true);
@@ -47,7 +48,7 @@ export function TravelPreloader() {
           sessionStorage.setItem('tripsync_preloader_shown', 'true');
         } catch {}
       }, 400);
-    }, 1300);
+    }, 1600);
 
     return () => {
       clearInterval(stepInterval);
@@ -72,74 +73,96 @@ export function TravelPreloader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white transition-all duration-400 ${
-        fadingOut ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+      className={`fixed inset-0 z-[9999] flex flex-col justify-between items-center bg-gradient-to-b from-[#eaf6f2] via-[#f4faf7] to-[#e2f3ee] text-slate-800 transition-all duration-400 overflow-hidden ${
+        fadingOut ? 'opacity-0 scale-98 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
-      {/* Ambient background soft glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] h-[220px] bg-teal-500/15 rounded-full blur-2xl" />
+      {/* Top subtle flight trajectory arc in sky */}
+      <div className="absolute top-4 right-4 w-60 h-28 pointer-events-none opacity-80">
+        <svg viewBox="0 0 240 100" fill="none" className="w-full h-full">
+          <path
+            d="M 10 90 C 80 80, 140 50, 210 15"
+            stroke="#10b981"
+            strokeWidth="1.75"
+            strokeDasharray="5 5"
+            strokeOpacity="0.6"
+          />
+          <g transform="translate(210, 14) rotate(-35) scale(0.85)">
+            <path
+              d="M12 2L15 9H22L17 14L19 21L12 17L5 21L7 14L2 9H9L12 2Z"
+              fill="#10b981"
+            />
+          </g>
+        </svg>
       </div>
 
-      <div className="relative flex flex-col items-center max-w-xs px-6 text-center space-y-5">
-        {/* Floating Brand Emblem */}
-        <div className="relative flex items-center justify-center">
-          {/* Subtle Outer Orbit Ring */}
-          <div className="w-24 h-24 rounded-full border border-dashed border-emerald-400/30 animate-[spin_10s_linear_infinite]" />
+      {/* Main Center Content Box */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center max-w-sm px-6 text-center space-y-4 pt-12">
+        {/* Floating Brand Emblem with Dotted Orbit Ring & Orbiting Satellite */}
+        <div className="relative flex items-center justify-center my-2">
+          {/* Mint Dotted Orbit Ring */}
+          <div className="w-24 h-24 rounded-full border-2 border-dashed border-emerald-400/50 animate-[spin_10s_linear_infinite]" />
 
-          {/* Central Logo Container */}
-          <div className="w-16 h-16 rounded-2xl bg-white shadow-xl shadow-emerald-500/25 border border-emerald-400/80 flex items-center justify-center p-2.5 absolute z-10 transition-transform">
-            <TripSyncLogo className="w-full h-full animate-pulse" />
+          {/* Central Logo Squircle */}
+          <div className="w-16 h-16 rounded-2xl bg-white shadow-xl shadow-emerald-500/15 border border-emerald-200/90 flex items-center justify-center p-2.5 absolute z-10 transition-transform">
+            <TripSyncLogo className="w-full h-full" />
           </div>
 
           {/* Satellite Orbit Dot */}
           <div className="absolute inset-0 animate-[spin_4s_linear_infinite]">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400 absolute -top-1 left-1/2 -translate-x-1/2" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs shadow-emerald-400 absolute -top-1.5 left-1/2 -translate-x-1/2" />
           </div>
         </div>
 
         {/* Brand Name & Tagline */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-center gap-1.5">
-            <span className="text-2xl font-black tracking-tight text-white">TripSync</span>
-          </div>
-          <p className="text-[11px] font-medium text-slate-400">
+        <div className="space-y-0.5">
+          <h1 className="text-3xl font-black tracking-tight text-[#064e43]">
+            TripSync
+          </h1>
+          <p className="text-xs font-bold text-[#0f5147] tracking-tight">
             Smart Group Travel, Perfectly Synced ✈️
           </p>
         </div>
 
-        {/* Dynamic Friendly Step Badge */}
-        <div className="h-8 flex items-center justify-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-xs font-semibold text-slate-200 animate-in fade-in zoom-in-95 duration-200">
-            <span>{currentStep.icon}</span>
-            <span>{currentStep.text}</span>
+        {/* Dynamic Friendly Step Pill Button */}
+        <div className="pt-2">
+          <div className="inline-flex items-center justify-between gap-3 px-4 py-2 rounded-full bg-white/95 border border-emerald-200/80 shadow-xs text-xs font-bold text-slate-800 animate-in fade-in zoom-in-95 duration-200">
+            <span className="flex items-center gap-2">
+              <span className="text-sm">{currentStep.icon}</span>
+              <span>{currentStep.text}</span>
+            </span>
+            <ChevronRight className="w-4 h-4 text-emerald-600 shrink-0" />
           </div>
         </div>
 
-        {/* Sleek Progress Bar */}
-        <div className="w-56 space-y-2">
-          <div className="h-1.5 w-full bg-slate-800/80 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
+        {/* Progress Bar */}
+        <div className="w-60 max-w-full space-y-1.5 pt-1">
+          <div className="h-1.5 w-full bg-slate-200/80 rounded-full overflow-hidden p-0.5">
             <div
-              className="h-full bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 rounded-full transition-all duration-200 shadow-xs shadow-emerald-400"
+              className="h-full bg-emerald-500 rounded-full transition-all duration-200 shadow-xs"
               style={{ width: `${Math.min(progress, 100)}%` }}
             />
           </div>
 
-          <div className="flex justify-between items-center text-[10px] text-slate-500 font-medium">
+          <div className="flex justify-between items-center text-[11px] text-slate-500 font-semibold px-0.5">
             <span>Getting ready</span>
-            <span className="font-mono text-emerald-400">{Math.min(progress, 100)}%</span>
+            <span className="font-mono font-bold text-emerald-800">{Math.min(progress, 100)}%</span>
           </div>
         </div>
 
-        {/* Quick Skip Button */}
+        {/* Quick Skip to Workspace */}
         <button
           type="button"
           onClick={handleSkip}
-          className="text-[11px] text-slate-500 hover:text-slate-300 font-semibold transition-colors pt-2 underline underline-offset-4 cursor-pointer"
+          className="text-xs text-slate-700 hover:text-slate-900 font-semibold transition-colors underline underline-offset-4 cursor-pointer pt-3"
         >
           Skip to workspace →
         </button>
+      </div>
+
+      {/* Scenic Nature & Mountain Lake Landscape at bottom */}
+      <div className="relative w-full z-0 pointer-events-none mt-auto">
+        <MountainLandscape variant="full" className="w-full" />
       </div>
     </div>
   );
