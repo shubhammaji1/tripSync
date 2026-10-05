@@ -66,6 +66,7 @@ import {
   Loader2,
   Save,
   Tag,
+  Compass,
 } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { api } from '@/lib/api';
@@ -78,6 +79,7 @@ import { DocumentVaultSection } from '@/components/DocumentVaultSection';
 import { ReceiptPreviewModal } from '@/components/ReceiptPreviewModal';
 import { CrewChatDrawer } from '@/components/CrewChatDrawer';
 import { LiveActivityFeedDrawer, emitTripActivity } from '@/components/LiveActivityFeedDrawer';
+import { TrailWatchDashboard } from '@/components/trailwatch/TrailWatchDashboard';
 import { TripSyncLogo } from '@/components/TripSyncLogo';
 import { haptic } from '@/lib/haptics';
 import { SUPPORTED_CURRENCIES, convertCurrency, formatCurrencyWithSymbol } from '@/lib/currencies';
@@ -93,7 +95,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-type ActiveTab = 'overview' | 'itinerary' | 'expenses' | 'tasks' | 'documents' | 'emergency' | 'analytics' | 'members';
+type ActiveTab = 'overview' | 'itinerary' | 'trailwatch' | 'expenses' | 'tasks' | 'documents' | 'emergency' | 'analytics' | 'members';
 
 interface MemberState {
   id: string;
@@ -1855,6 +1857,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             {[
               { id: 'overview', label: 'Overview', icon: Sparkles },
               { id: 'itinerary', label: 'Itinerary', icon: Calendar },
+              { id: 'trailwatch', label: '🧭 TrailWatch', icon: Compass },
               { id: 'expenses', label: 'Expenses', icon: Wallet },
               { id: 'tasks', label: 'Tasks', icon: CheckSquare },
               { id: 'documents', label: 'Vault', icon: FileCheck },
@@ -2141,7 +2144,91 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               );
             })()}
 
-            {/* 4. Live Destination Weather & Sunrise Widget */}
+            {/* 4. TrailWatch Live Route Intelligence Summary Card */}
+            <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 border border-emerald-500/30 rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+                    <Compass className="w-5 h-5 animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+                      <span>TrailWatch Route Intelligence</span>
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        Live
+                      </span>
+                    </h3>
+                    <p className="text-[11px] text-slate-400">
+                      Live route conditions, mountain weather, and community alerts
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('trailwatch');
+                  }}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-bold text-xs transition-colors self-start sm:self-auto cursor-pointer"
+                >
+                  <span>Open TrailWatch</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('trailwatch');
+                  }}
+                  className="p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-emerald-500/40 transition-colors cursor-pointer"
+                >
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Routes</span>
+                  <div className="text-base font-black text-white mt-1">2 Monitored</div>
+                  <span className="text-[10px] text-emerald-400 font-semibold truncate block">Tiger Hill & Ridge</span>
+                </div>
+
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('trailwatch');
+                  }}
+                  className="p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-amber-500/40 transition-colors cursor-pointer"
+                >
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Alerts</span>
+                  <div className="text-base font-black text-amber-400 mt-1">2 Active</div>
+                  <span className="text-[10px] text-amber-300 font-semibold truncate block">Fog & Single-lane</span>
+                </div>
+
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('trailwatch');
+                  }}
+                  className="p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-amber-500/40 transition-colors cursor-pointer"
+                >
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Schedule</span>
+                  <div className="text-base font-black text-amber-400 mt-1">1 Affected</div>
+                  <span className="text-[10px] text-amber-300 font-semibold truncate block">Tiger Hill Sunrise</span>
+                </div>
+
+                <div
+                  onClick={() => {
+                    haptic.selection();
+                    setActiveTab('trailwatch');
+                  }}
+                  className="p-3 rounded-2xl bg-white/5 border border-white/5 hover:border-sky-500/40 transition-colors cursor-pointer"
+                >
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Weather</span>
+                  <div className="text-base font-black text-sky-400 mt-1">11.2°C · Mist</div>
+                  <span className="text-[10px] text-slate-300 font-semibold truncate block">Rain 6.4mm · Vis 1.2km</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. Live Destination Weather & Sunrise Widget */}
             <DestinationWeatherWidget destination={displayDestination} startDate={tripDetails?.startDate} />
 
             {/* 5. Travelers Roster */}
@@ -2530,6 +2617,17 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </>
             )}
           </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* TRAILWATCH INTELLIGENCE TAB */}
+        {/* ========================================================= */}
+        {activeTab === 'trailwatch' && (
+          <TrailWatchDashboard
+            tripId={params.id}
+            tripDestination={tripDetails?.destination || 'Darjeeling, West Bengal, India'}
+            onNavigateToItinerary={() => setActiveTab('itinerary')}
+          />
         )}
 
         {/* ========================================================= */}
@@ -5142,21 +5240,22 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-red-500 animate-ping" />
           </button>
 
-          {/* 5. Members / Crew Tab */}
+          {/* 5. TrailWatch Route Intelligence Tab */}
           <button
             type="button"
             onClick={() => {
               haptic.selection();
-              setActiveTab('members');
+              setActiveTab('trailwatch');
             }}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 transition-all active:scale-95 ${
-              activeTab === 'members' ? 'text-emerald-400 font-extrabold' : 'text-slate-400 hover:text-slate-200'
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 py-1 relative transition-all active:scale-95 ${
+              activeTab === 'trailwatch' ? 'text-emerald-400 font-extrabold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'members' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
-              <Users className="w-4 h-4" />
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === 'trailwatch' ? 'bg-emerald-500/20 text-emerald-400' : ''}`}>
+              <Compass className="w-4 h-4" />
             </div>
-            <span className="text-[10px] tracking-tight font-bold">Crew</span>
+            <span className="text-[10px] tracking-tight font-bold">Trails</span>
+            <span className="absolute top-1 right-2.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           </button>
         </div>
       </nav>
@@ -5265,6 +5364,26 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <div>
                   <h4 className="text-xs font-black text-white">Emergency SOS</h4>
                   <p className="text-[10px] text-red-300/80">Dial police & doc</p>
+                </div>
+              </button>
+
+              {/* TrailWatch Intelligence Shortcut */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowMobileQuickActions(false);
+                  setActiveTab('trailwatch');
+                }}
+                className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-left flex flex-col justify-between gap-2.5 group transition-all active:scale-95 col-span-2"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Compass className="w-4 h-4 animate-pulse" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-white">TrailWatch Intelligence</h4>
+                    <p className="text-[10px] text-amber-300/80">Live route conditions, mountain weather & hazard reports</p>
+                  </div>
                 </div>
               </button>
             </div>

@@ -1,5 +1,17 @@
-import { Profile, AuthResponse } from '@tripsync/types';
-import { LoginInput, RegisterInput } from '@tripsync/validation';
+import {
+  Profile,
+  AuthResponse,
+  TrailWatchOverview,
+  TripRoute,
+  TrailReport,
+  TrailWatchAlert,
+} from '@tripsync/types';
+import {
+  LoginInput,
+  RegisterInput,
+  CreateTrailReportInput,
+  CreateTripRouteInput,
+} from '@tripsync/validation';
 
 type InvitationAcceptanceResponse =
   | AuthResponse
@@ -166,4 +178,19 @@ export const api = {
     fetcher<any>(`/trips/${tripId}/members/${userId}/phone`, { method: 'PATCH', body: JSON.stringify({ phone }) }),
   removeMember: (tripId: string, userId: string) =>
     fetcher<any>(`/trips/${tripId}/members/${userId}`, { method: 'DELETE' }),
+
+  // TrailWatch
+  getTrailWatchOverview: (tripId: string) => fetcher<TrailWatchOverview>(`/trips/${tripId}/trailwatch`),
+  getTrailWatchRoutes: (tripId: string) => fetcher<TripRoute[]>(`/trips/${tripId}/trailwatch/routes`),
+  createTrailWatchRoute: (tripId: string, data: CreateTripRouteInput) =>
+    fetcher<TripRoute>(`/trips/${tripId}/trailwatch/routes`, { method: 'POST', body: JSON.stringify(data) }),
+  getTrailWatchAlerts: (tripId: string) => fetcher<TrailWatchAlert[]>(`/trips/${tripId}/trailwatch/alerts`),
+  getTrailWatchReports: (tripId: string) => fetcher<TrailReport[]>(`/trips/${tripId}/trailwatch/reports`),
+  createTrailReport: (tripId: string, data: CreateTrailReportInput) =>
+    fetcher<TrailReport>(`/trips/${tripId}/trailwatch/reports`, { method: 'POST', body: JSON.stringify(data) }),
+  acknowledgeTrailWatchAlert: (tripId: string, alertId: string) =>
+    fetcher<TrailWatchAlert>(`/trips/${tripId}/trailwatch/alerts/${alertId}/acknowledge`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+    }),
 };
