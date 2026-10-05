@@ -76,13 +76,13 @@ export function PWAInstallPrompt() {
     <>
       {/* 1. Minimized Round App Logo Floating Button (Always present at bottom right) */}
       {isMinimized && !isExpanded && (
-        <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-30 flex items-center shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-30 flex items-center animate-in fade-in zoom-in-95 duration-200 pointer-events-auto">
           <button
             type="button"
             onClick={() => setIsExpanded(true)}
             title="Install TripSync App • Offline Ready"
             aria-label="Install TripSync App"
-            className="group relative flex items-center gap-2 p-1.5 pr-3 rounded-full bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/60 shadow-xl hover:shadow-emerald-500/30 text-white backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+            className="group relative flex items-center gap-2 p-1.5 pr-3 rounded-full bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/60 shadow-2xl shadow-black/40 hover:shadow-emerald-500/30 text-white backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {/* Logo Badge */}
             <div className="w-9 h-9 rounded-full bg-slate-900 border border-emerald-500/40 flex items-center justify-center p-1.5 shadow-inner shrink-0 group-hover:rotate-6 transition-transform">

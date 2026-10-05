@@ -11,28 +11,26 @@ export function MountainLandscape({ variant = 'full', className = '' }: Mountain
   if (variant === 'minimal') {
     return (
       <div className={`relative w-full overflow-hidden select-none pointer-events-none ${className}`}>
-        {/* Sky trajectory flight curve with small airplane */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        {/* Sky trajectory flight curve with small airplane flying across mountain ridges */}
+        <div className="absolute inset-0 flex items-end justify-center pb-8 sm:pb-12 pointer-events-none">
           <svg
-            className="w-full h-full max-h-48"
-            viewBox="0 0 600 200"
+            className="w-full h-32 sm:h-40 max-w-lg mx-auto"
+            viewBox="0 0 500 120"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
           >
             <path
-              d="M 50 160 C 200 150, 320 80, 520 40"
+              d="M 30 100 C 150 85, 260 45, 420 22"
               stroke="#10b981"
-              strokeWidth="2"
-              strokeDasharray="6 6"
-              strokeOpacity="0.45"
+              strokeWidth="1.75"
+              strokeDasharray="5 5"
+              strokeOpacity="0.55"
             />
-            {/* Plane at the end of the arc */}
-            <g transform="translate(520, 38) rotate(-20) scale(0.9)">
+            {/* Real Airplane silhouette */}
+            <g transform="translate(420, 20) rotate(-22) scale(0.9)">
               <path
-                d="M12 2L15 9H22L17 14L19 21L12 17L5 21L7 14L2 9H9L12 2Z"
+                d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
                 fill="#10b981"
-                opacity="0.85"
               />
             </g>
           </svg>
