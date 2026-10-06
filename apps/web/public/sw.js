@@ -42,8 +42,13 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET requests and cross-origin Chrome extension requests
-  if (request.method !== 'GET' || !url.protocol.startsWith('http')) {
+  // Skip non-GET requests, API requests, and cross-origin Chrome extension requests
+  if (
+    request.method !== 'GET' ||
+    !url.protocol.startsWith('http') ||
+    url.pathname.startsWith('/api') ||
+    url.port === '4000'
+  ) {
     return;
   }
 
@@ -80,7 +85,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // B. Next.js App Routes & API Requests (Network First, fallback to cached offline snapshot)
+  // B. Next.js App Routes (Network First, fallback to cached offline snapshot)
   event.respondWith(
     fetch(request)
       .then((networkResponse) => {
@@ -100,13 +105,16 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        // If visiting a trip route offline, return cached dashboard or root shell
-        if (url.pathname.startsWith('/trips/')) {
-          const dashboardCached = await caches.match('/dashboard');
-          if (dashboardCached) return dashboardCached;
+        // Only return HTML fallback for HTML document navigation requests
+        if (request.headers.get('accept')?.includes('text/html') || request.mode === 'navigate') {
+          if (url.pathname.startsWith('/trips/')) {
+            const dashboardCached = await caches.match('/dashboard');
+            if (dashboardCached) return dashboardCached;
+          }
+          return caches.match('/');
         }
 
-        return caches.match('/');
+        return Promise.reject(new Error('Network error and no offline cache available'));
       })
   );
 });

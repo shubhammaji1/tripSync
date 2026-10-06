@@ -1,12 +1,13 @@
-import { Injectable, Inject, Optional } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import {
   BalanceSummary,
   OptimizedTransfer,
   Profile,
   SettlementStatus,
+  TripRole,
 } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { settlements, profiles, expenses, expenseParticipants, tripMembers } from '../../database/schema';
+import { settlements, profiles, expenses, expenseParticipants, tripMembers, trips } from '../../database/schema';
 import { eq, and } from 'drizzle-orm';
 import { SEED_USERS } from '../../database/seed';
 
@@ -190,10 +191,32 @@ export class SettlementsService {
     });
   }
 
+  private async verifyTripAccess(tripId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+      if (!isOwner && !isMember) {
+        throw new ForbiddenException('You do not have permission to access settlements for this trip');
+      }
+      return trip;
+    }
+    return null;
+  }
+
   /**
    * Get settlements and optimized transfers for a trip
    */
-  async getTripSettlements(tripId: string) {
+  async getTripSettlements(tripId: string, userId?: string) {
+    if (userId) {
+      await this.verifyTripAccess(tripId, userId);
+    }
+
     if (this.db) {
       try {
         // Query members from database
@@ -282,7 +305,7 @@ export class SettlementsService {
   /**
    * Mark a debt or settlement as settled
    */
-  async recordSettlement(tripId: string, payload: {
+  async recordSettlement(tripId: string, userId: string, payload: {
     fromUserId: string;
     toUserId: string;
     amount: number;
@@ -290,6 +313,30 @@ export class SettlementsService {
     notes?: string;
   }) {
     if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const callerMembership = (trip.members || []).find((m: any) => m.userId === userId);
+      if (!isOwner && !callerMembership) {
+        throw new ForbiddenException('Caller is not a member of this trip or authorized to record settlements');
+      }
+
+      const isAdmin = isOwner || callerMembership?.role === TripRole.ADMIN;
+      const isParty = payload.fromUserId === userId || payload.toUserId === userId;
+      if (!isAdmin && !isParty) {
+        throw new ForbiddenException('Only the paying user, receiving user, or trip managers can record settlements');
+      }
+
+      const validFrom = trip.ownerId === payload.fromUserId || (trip.members || []).some((m: any) => m.userId === payload.fromUserId);
+      const validTo = trip.ownerId === payload.toUserId || (trip.members || []).some((m: any) => m.userId === payload.toUserId);
+      if (!validFrom || !validTo) {
+        throw new ForbiddenException('Settlement parties must be members of this trip');
+      }
+
       const [newSettlement] = await (this.db.insert(settlements).values({
         tripId,
         fromUserId: payload.fromUserId,

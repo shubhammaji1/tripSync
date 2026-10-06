@@ -19,6 +19,8 @@ import {
   UpdateTaskInput,
 } from '@tripsync/validation';
 
+import { CurrentUser } from '../../common/current-user.decorator';
+
 @ApiTags('Tasks')
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -28,17 +30,21 @@ export class TasksController {
 
   @Get()
   @ApiOperation({ summary: 'Get all tasks for a trip' })
-  async getTripTasks(@Param('tripId') tripId: string) {
-    return this.tasksService.getTripTasks(tripId);
+  async getTripTasks(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.tasksService.getTripTasks(tripId, userId);
   }
 
   @Post()
   @ApiOperation({ summary: 'Create a new task with assignee and due date' })
   async createTask(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(createTaskSchema)) body: CreateTaskInput
   ) {
-    return this.tasksService.createTask(tripId, body);
+    return this.tasksService.createTask(tripId, userId, body);
   }
 
   @Patch(':taskId')
@@ -46,14 +52,19 @@ export class TasksController {
   async updateTask(
     @Param('tripId') tripId: string,
     @Param('taskId') taskId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(updateTaskSchema)) body: UpdateTaskInput
   ) {
-    return this.tasksService.updateTask(taskId, body);
+    return this.tasksService.updateTask(tripId, taskId, userId, body);
   }
 
   @Delete(':taskId')
   @ApiOperation({ summary: 'Delete a task' })
-  async deleteTask(@Param('taskId') taskId: string) {
-    return this.tasksService.deleteTask(taskId);
+  async deleteTask(
+    @Param('tripId') tripId: string,
+    @Param('taskId') taskId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.tasksService.deleteTask(tripId, taskId, userId);
   }
 }

@@ -112,15 +112,15 @@ export function DestinationWeatherWidget({
       );
       const geoData = await geoRes.json();
 
-      let lat = 27.041;
-      let lon = 88.2663;
-      let resolvedName = searchCity;
-
-      if (geoData.results && geoData.results.length > 0) {
-        lat = geoData.results[0].latitude;
-        lon = geoData.results[0].longitude;
-        resolvedName = `${geoData.results[0].name}, ${geoData.results[0].country || ''}`;
+      if (!geoData.results || geoData.results.length === 0) {
+        setError('Weather data unavailable for this location');
+        setLoading(false);
+        return;
       }
+
+      const lat = geoData.results[0].latitude;
+      const lon = geoData.results[0].longitude;
+      const resolvedName = `${geoData.results[0].name}, ${geoData.results[0].country || ''}`;
       setLocationName(resolvedName);
 
       // 2. Fetch Live Climate & 5-Day Forecast for the coordinates
@@ -235,8 +235,30 @@ export function DestinationWeatherWidget({
         </div>
       </div>
 
-      {/* Main Stats Grid */}
-      <div className="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {error ? (
+        <div className="p-8 sm:p-12 text-center flex flex-col items-center justify-center space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg">
+            <AlertTriangle className="w-7 h-7" />
+          </div>
+          <div className="space-y-1">
+            <h4 className="text-base font-extrabold text-white">{error}</h4>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              We couldn&apos;t retrieve real-time weather coordinates for &ldquo;{destination}&rdquo;. Please verify the destination name or retry the meteorological connection.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={fetchLiveWeather}
+            disabled={loading}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-white text-xs font-bold transition-all cursor-pointer shadow-sm border border-slate-700"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-emerald-400' : ''}`} />
+            <span>Retry Meteorological Sync</span>
+          </button>
+        </div>
+      ) : (
+        /* Main Stats Grid */
+        <div className="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Current Real-Time Conditions Hero (Spans 5 cols) */}
         <div className="lg:col-span-5 p-5 rounded-2xl bg-gradient-to-br from-slate-950/90 to-slate-900 border border-slate-800 flex flex-col justify-between space-y-4">
           <div>
@@ -359,6 +381,7 @@ export function DestinationWeatherWidget({
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

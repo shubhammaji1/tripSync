@@ -147,6 +147,14 @@ export type CreateActivityInput = z.infer<typeof createActivitySchema>;
 export type UpdateActivityInput = z.infer<typeof updateActivitySchema>;
 export type ReorderActivitiesInput = z.infer<typeof reorderActivitiesSchema>;
 
+export function sanitizeHtml(input: string): string {
+  if (!input) return input;
+  return input
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/<[^>]+>/g, '')
+    .trim();
+}
+
 // ==========================================
 // Expense & Settlement Schemas
 // ==========================================
@@ -157,7 +165,7 @@ export const expenseParticipantSchema = z.object({
   shares: z.number().int().positive().nullable().optional(),
 });
 
-export const createExpenseSchema = z.object({
+export const baseExpenseSchema = z.object({
   title: z.string().min(2, 'Title required').max(150),
   amount: z.number().positive('Amount must be positive'),
   currency: z.string().length(3).default('INR'),
@@ -169,7 +177,31 @@ export const createExpenseSchema = z.object({
   participants: z.array(expenseParticipantSchema).min(1, 'At least 1 participant is required'),
 });
 
-export const updateExpenseSchema = createExpenseSchema.partial();
+export const createExpenseSchema = baseExpenseSchema.refine(
+  (data) => {
+    if (!data.participants || data.participants.length === 0) return true;
+    const sum = data.participants.reduce((acc, p) => acc + (p.shareAmount || 0), 0);
+    return Math.abs(sum - data.amount) <= 0.05;
+  },
+  {
+    message: 'Participant split amounts must sum to the total expense amount',
+    path: ['participants'],
+  }
+);
+
+export const updateExpenseSchema = baseExpenseSchema.partial().refine(
+  (data) => {
+    if (data.amount !== undefined && data.participants && data.participants.length > 0) {
+      const sum = data.participants.reduce((acc, p) => acc + (p.shareAmount || 0), 0);
+      return Math.abs(sum - data.amount) <= 0.05;
+    }
+    return true;
+  },
+  {
+    message: 'Participant split amounts must sum to the total expense amount',
+    path: ['participants'],
+  }
+);
 
 export const createSettlementSchema = z.object({
   fromUserId: z.string().uuid(),

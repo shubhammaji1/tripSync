@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import QRCode from 'qrcode';
 import {
   X,
   QrCode,
@@ -107,12 +108,27 @@ export function UPISettlementModal({
   const [copiedLink, setCopiedLink] = useState(false);
   const [settled, setSettled] = useState(false);
   const [activeTab, setActiveTab] = useState<'app' | 'qr'>('app');
-
-  if (!isOpen) return null;
+  const [qrDataUrl, setQrDataUrl] = useState<string>('');
 
   const note = `TripSync - ${tripName}`;
   const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=${encodeURIComponent(upiUrl)}`;
+
+  useEffect(() => {
+    if (upiUrl) {
+      QRCode.toDataURL(upiUrl, {
+        width: 300,
+        margin: 2,
+        color: {
+          dark: '#0f172a',
+          light: '#ffffff',
+        },
+      })
+        .then((url) => setQrDataUrl(url))
+        .catch((err) => console.warn('Offline QR generation warning:', err));
+    }
+  }, [upiUrl]);
+
+  if (!isOpen) return null;
 
   const handleCopyUpiId = () => {
     navigator.clipboard.writeText(upiId);
@@ -285,18 +301,24 @@ export function UPISettlementModal({
             </div>
           )}
 
-          {/* Tab 2: Dynamic QR Code for In-Person Scanning */}
+          {/* Tab 2: Dynamic QR Code for In-Person Scanning (Generated Offline) */}
           {activeTab === 'qr' && (
             <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
               <div className="p-3 bg-white rounded-2xl border border-slate-200 shadow-md">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={qrUrl}
-                  alt={`UPI QR Code to pay ${toUser}`}
-                  width={180}
-                  height={180}
-                  className="rounded-xl aspect-square"
-                />
+                {qrDataUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={qrDataUrl}
+                    alt={`UPI QR Code to pay ${toUser}`}
+                    width={180}
+                    height={180}
+                    className="rounded-xl aspect-square"
+                  />
+                ) : (
+                  <div className="w-[180px] h-[180px] flex items-center justify-center bg-slate-100 rounded-xl">
+                    <span className="text-xs text-slate-400 font-bold animate-pulse">Generating offline QR...</span>
+                  </div>
+                )}
               </div>
               <p className="text-[11px] text-slate-500 font-medium text-center">
                 Scan with Google Pay, PhonePe, Paytm, or any banking app camera.

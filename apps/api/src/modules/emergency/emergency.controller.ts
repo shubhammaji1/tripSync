@@ -30,14 +30,20 @@ export class EmergencyController {
 
   @Get('contacts')
   @ApiOperation({ summary: 'Get all emergency contacts for a trip' })
-  async getEmergencyContacts(@Param('tripId') tripId: string) {
-    return this.emergencyService.getEmergencyContacts(tripId);
+  async getEmergencyContacts(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.emergencyService.getEmergencyContacts(tripId, userId);
   }
 
   @Get('packet')
   @ApiOperation({ summary: 'Get lightweight offline-ready emergency data packet' })
-  async getEmergencyPacket(@Param('tripId') tripId: string) {
-    return this.emergencyService.getEmergencyPacket(tripId);
+  async getEmergencyPacket(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.emergencyService.getEmergencyPacket(tripId, userId);
   }
 
   @Post('contacts')

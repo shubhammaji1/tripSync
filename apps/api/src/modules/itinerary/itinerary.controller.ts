@@ -11,6 +11,7 @@ import {
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ItineraryService } from './itinerary.service';
 import { AuthGuard } from '../../common/auth.guard';
+import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import {
   createActivitySchema,
@@ -30,32 +31,41 @@ export class ItineraryController {
 
   @Get()
   @ApiOperation({ summary: 'Get all itinerary days and activities for a trip' })
-  async getItinerary(@Param('tripId') tripId: string) {
-    return this.itineraryService.getItinerary(tripId);
+  async getItinerary(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.itineraryService.getItinerary(tripId, userId);
   }
 
   @Post('days')
   @ApiOperation({ summary: 'Create a custom itinerary day' })
   async createDay(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(createTripDaySchema)) body: CreateTripDayInput
   ) {
-    return this.itineraryService.createDay(tripId, body);
+    return this.itineraryService.createDay(tripId, userId, body);
   }
 
   @Post('activities')
   @ApiOperation({ summary: 'Add a new activity to a trip day' })
   async createActivity(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(createActivitySchema)) body: CreateActivityInput
   ) {
-    return this.itineraryService.createActivity(tripId, body);
+    return this.itineraryService.createActivity(tripId, userId, body);
   }
 
   @Delete('days/:dayId')
   @ApiOperation({ summary: 'Delete an itinerary day and its activities' })
-  async deleteDay(@Param('tripId') tripId: string, @Param('dayId') dayId: string) {
-    return this.itineraryService.deleteDay(tripId, dayId);
+  async deleteDay(
+    @Param('tripId') tripId: string,
+    @Param('dayId') dayId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.itineraryService.deleteDay(tripId, dayId, userId);
   }
 
   @Patch('activities/:activityId')
@@ -63,17 +73,19 @@ export class ItineraryController {
   async updateActivity(
     @Param('tripId') tripId: string,
     @Param('activityId') activityId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(updateActivitySchema)) body: UpdateActivityInput
   ) {
-    return this.itineraryService.updateActivity(activityId, body);
+    return this.itineraryService.updateActivity(tripId, activityId, userId, body);
   }
 
   @Delete('activities/:activityId')
   @ApiOperation({ summary: 'Delete an activity' })
   async deleteActivity(
     @Param('tripId') tripId: string,
-    @Param('activityId') activityId: string
+    @Param('activityId') activityId: string,
+    @CurrentUser('id') userId: string
   ) {
-    return this.itineraryService.deleteActivity(activityId);
+    return this.itineraryService.deleteActivity(tripId, activityId, userId);
   }
 }

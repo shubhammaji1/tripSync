@@ -12,6 +12,8 @@ import { AuthGuard } from '../../common/auth.guard';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import { createSettlementSchema, CreateSettlementInput } from '@tripsync/validation';
 
+import { CurrentUser } from '../../common/current-user.decorator';
+
 @ApiTags('Settlements')
 @ApiBearerAuth()
 @UseGuards(AuthGuard)
@@ -21,16 +23,20 @@ export class SettlementsController {
 
   @Get()
   @ApiOperation({ summary: 'Get balances and optimized debt settlement transfers for a trip' })
-  async getTripSettlements(@Param('tripId') tripId: string) {
-    return this.settlementsService.getTripSettlements(tripId);
+  async getTripSettlements(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.settlementsService.getTripSettlements(tripId, userId);
   }
 
   @Post()
   @ApiOperation({ summary: 'Record or mark a settlement transfer as completed' })
   async recordSettlement(
     @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(createSettlementSchema)) body: CreateSettlementInput
   ) {
-    return this.settlementsService.recordSettlement(tripId, body);
+    return this.settlementsService.recordSettlement(tripId, userId, body);
   }
 }

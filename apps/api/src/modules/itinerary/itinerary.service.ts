@@ -1,13 +1,13 @@
-import { Injectable, Inject, Optional, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import {
   CreateTripDayInput,
   CreateActivityInput,
   UpdateActivityInput,
   ReorderActivitiesInput,
 } from '@tripsync/validation';
-import { ActivityStatus } from '@tripsync/types';
+import { ActivityStatus, TripRole, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { tripDays, activities } from '../../database/schema';
+import { tripDays, activities, trips, tripMembers } from '../../database/schema';
 import { eq, and, asc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_USERS } from '../../database/seed';
 
@@ -174,7 +174,55 @@ export class ItineraryService {
     ]);
   }
 
-  async getItinerary(tripId: string) {
+  private async verifyTripMember(tripId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+      if (!isOwner && !isMember) {
+        throw new ForbiddenException('You do not have permission to access the itinerary for this trip');
+      }
+      return trip;
+    }
+    return null;
+  }
+
+  private async verifyActivityManagePermission(tripId: string, activityId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const activity = await this.db.query.activities.findFirst({
+        where: and(eq(activities.id, activityId), eq(activities.tripId, tripId)),
+      });
+      if (!activity) throw new NotFoundException(`Activity ${activityId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const memberRole = (trip.members || []).find((m: any) => m.userId === userId)?.role;
+      const isAdmin = memberRole === TripRole.ADMIN || memberRole === TripRole.OWNER;
+      const isResponsible = activity.responsibleMemberId === userId;
+
+      if (!isOwner && !isAdmin && !isResponsible) {
+        throw new ForbiddenException('Only trip managers or activity creators can delete activities');
+      }
+      return activity;
+    }
+    return null;
+  }
+
+  async getItinerary(tripId: string, userId?: string) {
+    if (userId) {
+      await this.verifyTripMember(tripId, userId);
+    }
+
     if (this.db) {
       try {
         const days = await this.db.query.tripDays.findMany({
@@ -196,7 +244,9 @@ export class ItineraryService {
     return this.mockDays.get(tripId) || [];
   }
 
-  async createDay(tripId: string, input: CreateTripDayInput) {
+  async createDay(tripId: string, userId: string, input: CreateTripDayInput) {
+    await this.verifyTripMember(tripId, userId);
+
     if (this.db) {
       try {
         const [day] = await (this.db.insert(tripDays).values({
@@ -227,7 +277,17 @@ export class ItineraryService {
     return day;
   }
 
-  async deleteDay(tripId: string, dayId: string) {
+  async deleteDay(tripId: string, dayId: string, userId: string) {
+    const trip = await this.verifyTripMember(tripId, userId);
+    if (this.db && trip) {
+      const isOwner = trip.ownerId === userId;
+      const memberRole = (trip.members || []).find((m: any) => m.userId === userId)?.role;
+      const isAdmin = memberRole === TripRole.ADMIN || memberRole === TripRole.OWNER;
+      if (!isOwner && !isAdmin) {
+        throw new ForbiddenException('Only trip managers can delete itinerary days');
+      }
+    }
+
     if (this.db) {
       try {
         await this.db.delete(tripDays).where(and(eq(tripDays.id, dayId), eq(tripDays.tripId, tripId)));
@@ -242,7 +302,9 @@ export class ItineraryService {
     return { success: true };
   }
 
-  async createActivity(tripId: string, input: CreateActivityInput) {
+  async createActivity(tripId: string, userId: string, input: CreateActivityInput) {
+    await this.verifyTripMember(tripId, userId);
+
     if (this.db) {
       try {
         const [activity] = await (this.db.insert(activities).values({
@@ -285,7 +347,9 @@ export class ItineraryService {
     return newAct;
   }
 
-  async updateActivity(activityId: string, input: UpdateActivityInput) {
+  async updateActivity(tripId: string, activityId: string, userId: string, input: UpdateActivityInput) {
+    await this.verifyActivityManagePermission(tripId, activityId, userId);
+
     if (this.db) {
       try {
         const [updated] = await (this.db.update(activities)
@@ -294,7 +358,7 @@ export class ItineraryService {
             estimatedCost: input.estimatedCost !== undefined ? (input.estimatedCost ? input.estimatedCost.toString() : null) : undefined,
             updatedAt: new Date(),
           } as any) as any)
-          .where(eq(activities.id, activityId))
+          .where(and(eq(activities.id, activityId), eq(activities.tripId, tripId)))
           .returning();
         return updated;
       } catch (err) {
@@ -305,10 +369,12 @@ export class ItineraryService {
     return { id: activityId, ...input, updatedAt: new Date().toISOString() };
   }
 
-  async deleteActivity(activityId: string) {
+  async deleteActivity(tripId: string, activityId: string, userId: string) {
+    await this.verifyActivityManagePermission(tripId, activityId, userId);
+
     if (this.db) {
       try {
-        await this.db.delete(activities).where(eq(activities.id, activityId));
+        await this.db.delete(activities).where(and(eq(activities.id, activityId), eq(activities.tripId, tripId)));
         return { success: true };
       } catch (err) {
         throw err;

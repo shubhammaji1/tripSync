@@ -24,8 +24,11 @@ export class ExpensesController {
 
   @Get()
   @ApiOperation({ summary: 'Get all expenses for a trip' })
-  async getTripExpenses(@Param('tripId') tripId: string) {
-    return this.expensesService.getTripExpenses(tripId);
+  async getTripExpenses(
+    @Param('tripId') tripId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.expensesService.getTripExpenses(tripId, userId);
   }
 
   @Post()
@@ -40,16 +43,22 @@ export class ExpensesController {
 
   @Delete(':expenseId')
   @ApiOperation({ summary: 'Delete an expense record' })
-  async deleteExpense(@Param('expenseId') expenseId: string) {
-    return this.expensesService.deleteExpense(expenseId);
+  async deleteExpense(
+    @Param('tripId') tripId: string,
+    @Param('expenseId') expenseId: string,
+    @CurrentUser('id') userId: string
+  ) {
+    return this.expensesService.deleteExpense(tripId, expenseId, userId);
   }
 
   @Patch(':expenseId')
   @ApiOperation({ summary: 'Update an expense record' })
   async updateExpense(
+    @Param('tripId') tripId: string,
     @Param('expenseId') expenseId: string,
+    @CurrentUser('id') userId: string,
     @Body(new ZodValidationPipe(updateExpenseSchema)) body: UpdateExpenseInput
   ) {
-    return this.expensesService.updateExpense(expenseId, body);
+    return this.expensesService.updateExpense(tripId, expenseId, userId, body);
   }
 }

@@ -1,9 +1,9 @@
-import { Injectable, Inject, Optional, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateExpenseInput, UpdateExpenseInput } from '@tripsync/validation';
-import { ExpenseCategory, SplitType } from '@tripsync/types';
+import { ExpenseCategory, SplitType, TripRole } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { expenses, expenseParticipants } from '../../database/schema';
-import { eq, desc } from 'drizzle-orm';
+import { expenses, expenseParticipants, trips, tripMembers } from '../../database/schema';
+import { eq, and, desc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_USERS } from '../../database/seed';
 
 @Injectable()
@@ -84,7 +84,55 @@ export class ExpensesService {
     ]);
   }
 
-  async getTripExpenses(tripId: string) {
+  private async verifyTripAccess(tripId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+      if (!isOwner && !isMember) {
+        throw new ForbiddenException('You do not have permission to access expenses for this trip');
+      }
+      return trip;
+    }
+    return null;
+  }
+
+  private async verifyExpenseManagePermission(tripId: string, expenseId: string, userId: string) {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const expense = await this.db.query.expenses.findFirst({
+        where: and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)),
+      });
+      if (!expense) throw new NotFoundException(`Expense ${expenseId} not found`);
+
+      const isPayer = expense.paidById === userId;
+      const isOwner = trip.ownerId === userId;
+      const memberRole = (trip.members || []).find((m: any) => m.userId === userId)?.role;
+      const isAdmin = memberRole === TripRole.ADMIN || memberRole === TripRole.OWNER;
+
+      if (!isPayer && !isOwner && !isAdmin) {
+        throw new ForbiddenException('You do not have permission to delete or modify this expense');
+      }
+      return expense;
+    }
+    return null;
+  }
+
+  async getTripExpenses(tripId: string, userId?: string) {
+    if (userId) {
+      await this.verifyTripAccess(tripId, userId);
+    }
+
     if (this.db) {
       try {
         const result = await this.db.query.expenses.findMany({
@@ -105,6 +153,8 @@ export class ExpensesService {
   }
 
   async createExpense(tripId: string, paidById: string, input: CreateExpenseInput) {
+    await this.verifyTripAccess(tripId, paidById);
+
     if (this.db) {
       try {
         const [newExpense] = await (this.db.insert(expenses).values({
@@ -169,10 +219,12 @@ export class ExpensesService {
     return newExp;
   }
 
-  async deleteExpense(expenseId: string) {
+  async deleteExpense(tripId: string, expenseId: string, userId: string) {
+    await this.verifyExpenseManagePermission(tripId, expenseId, userId);
+
     if (this.db) {
       try {
-        await this.db.delete(expenses).where(eq(expenses.id, expenseId));
+        await this.db.delete(expenses).where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)));
         return { success: true };
       } catch (err) {
         throw err;
@@ -182,7 +234,9 @@ export class ExpensesService {
     return { success: true };
   }
 
-  async updateExpense(expenseId: string, input: UpdateExpenseInput) {
+  async updateExpense(tripId: string, expenseId: string, userId: string, input: UpdateExpenseInput) {
+    await this.verifyExpenseManagePermission(tripId, expenseId, userId);
+
     if (this.db) {
       try {
         const { participants, ...expenseFields } = input;
@@ -190,7 +244,7 @@ export class ExpensesService {
           ...expenseFields,
           amount: expenseFields.amount !== undefined ? expenseFields.amount.toString() : undefined,
           updatedAt: new Date(),
-        } as any) as any).where(eq(expenses.id, expenseId)).returning();
+        } as any) as any).where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId))).returning();
         if (updated && participants) {
           await this.db.delete(expenseParticipants).where(eq(expenseParticipants.expenseId, expenseId));
           await this.db.insert(expenseParticipants).values(participants.map((participant) => ({

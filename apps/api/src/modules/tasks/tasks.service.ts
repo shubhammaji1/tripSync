@@ -1,9 +1,9 @@
-import { Injectable, Inject, Optional, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateTaskInput, UpdateTaskInput } from '@tripsync/validation';
 import { TaskPriority, TaskStatus } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { tasks } from '../../database/schema';
-import { eq, desc } from 'drizzle-orm';
+import { tasks, trips, tripMembers } from '../../database/schema';
+import { eq, and, desc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_USERS } from '../../database/seed';
 
 @Injectable()
@@ -69,7 +69,29 @@ export class TasksService {
     ]);
   }
 
-  async getTripTasks(tripId: string) {
+  private async verifyTripMember(tripId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      const isOwner = trip.ownerId === userId;
+      const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+      if (!isOwner && !isMember) {
+        throw new ForbiddenException('Unauthorized to modify tasks for this trip');
+      }
+      return trip;
+    }
+    return null;
+  }
+
+  async getTripTasks(tripId: string, userId?: string) {
+    if (userId) {
+      await this.verifyTripMember(tripId, userId);
+    }
+
     if (this.db) {
       try {
         const result = await this.db.query.tasks.findMany({
@@ -86,7 +108,9 @@ export class TasksService {
     return this.mockTasks.get(tripId) || [];
   }
 
-  async createTask(tripId: string, input: CreateTaskInput) {
+  async createTask(tripId: string, userId: string, input: CreateTaskInput) {
+    await this.verifyTripMember(tripId, userId);
+
     if (this.db) {
       try {
         const [task] = await (this.db.insert(tasks).values({
@@ -121,12 +145,19 @@ export class TasksService {
     return newTask;
   }
 
-  async updateTask(taskId: string, input: UpdateTaskInput) {
+  async updateTask(tripId: string, taskId: string, userId: string, input: UpdateTaskInput) {
+    await this.verifyTripMember(tripId, userId);
+
     if (this.db) {
       try {
+        const existing = await this.db.query.tasks.findFirst({
+          where: and(eq(tasks.id, taskId), eq(tasks.tripId, tripId)),
+        });
+        if (!existing) throw new NotFoundException(`Task ${taskId} not found`);
+
         const [updated] = await (this.db.update(tasks)
           .set({ ...input, updatedAt: new Date() } as any) as any)
-          .where(eq(tasks.id, taskId))
+          .where(and(eq(tasks.id, taskId), eq(tasks.tripId, tripId)))
           .returning();
         return updated;
       } catch (err) {
@@ -137,10 +168,17 @@ export class TasksService {
     return { id: taskId, ...input, updatedAt: new Date().toISOString() };
   }
 
-  async deleteTask(taskId: string) {
+  async deleteTask(tripId: string, taskId: string, userId: string) {
+    await this.verifyTripMember(tripId, userId);
+
     if (this.db) {
       try {
-        await this.db.delete(tasks).where(eq(tasks.id, taskId));
+        const existing = await this.db.query.tasks.findFirst({
+          where: and(eq(tasks.id, taskId), eq(tasks.tripId, tripId)),
+        });
+        if (!existing) throw new NotFoundException(`Task ${taskId} not found`);
+
+        await this.db.delete(tasks).where(and(eq(tasks.id, taskId), eq(tasks.tripId, tripId)));
         return { success: true };
       } catch (err) {
         throw err;

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Wifi, WifiOff, Mountain, CheckCircle2, RefreshCw, AlertTriangle, X } from 'lucide-react';
+import { api } from '@/lib/api';
 
 export function MountainOfflineSentinel() {
   const [isOnline, setIsOnline] = useState(true);
@@ -70,30 +71,74 @@ export function MountainOfflineSentinel() {
     }
   };
 
-  const triggerOfflineQueueSync = () => {
+  const triggerOfflineQueueSync = async () => {
     try {
-      const queue = JSON.parse(localStorage.getItem('tripsync_offline_queue') || '[]');
-      if (queue.length > 0) {
-        setSyncStatus('syncing');
-        // Simulate flushing queue to backend/broadcast
-        setTimeout(() => {
-          localStorage.removeItem('tripsync_offline_queue');
-          setPendingSyncCount(0);
-          setSyncStatus('synced');
-          setTimeout(() => {
-            setShowBanner(false);
-            setSyncStatus('idle');
-          }, 3500);
-        }, 1200);
-      } else {
+      const rawQueue = localStorage.getItem('tripsync_offline_queue');
+      const queue: any[] = JSON.parse(rawQueue || '[]');
+      if (queue.length === 0) {
         setSyncStatus('synced');
         setTimeout(() => {
           setShowBanner(false);
           setSyncStatus('idle');
         }, 3000);
+        return;
       }
-    } catch {
+
+      setSyncStatus('syncing');
+
+      const failedItems: any[] = [];
+      const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api/v1';
+      const apiBaseUrl = rawApiUrl.replace(/\/+$/, '').endsWith('/api/v1')
+        ? rawApiUrl.replace(/\/+$/, '')
+        : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
+
+      for (const item of queue) {
+        try {
+          if (item.endpoint) {
+            const method = item.method || 'POST';
+            const res = await fetch(`${apiBaseUrl}${item.endpoint}`, {
+              method,
+              headers: {
+                'Content-Type': 'application/json',
+                ...(item.headers || {}),
+              },
+              body: item.body ? (typeof item.body === 'string' ? item.body : JSON.stringify(item.body)) : undefined,
+            });
+            if (!res.ok && res.status >= 500) {
+              failedItems.push(item);
+            }
+          } else if (item.type === 'createExpense' || item.action === 'createExpense') {
+            await api.createExpense(item.tripId, item.data || item.payload);
+          } else if (item.type === 'createTask' || item.action === 'createTask') {
+            await api.createTask(item.tripId, item.data || item.payload);
+          } else if (item.type === 'createActivity' || item.action === 'createActivity') {
+            await api.createActivity(item.tripId, item.data || item.payload);
+          } else if (item.type === 'recordSettlement' || item.action === 'recordSettlement') {
+            await api.recordSettlement(item.tripId, item.data || item.payload);
+          }
+        } catch (itemErr) {
+          console.warn('[Offline Sentinel] Failed to flush queued item:', item, itemErr);
+          failedItems.push(item);
+        }
+      }
+
+      if (failedItems.length > 0) {
+        localStorage.setItem('tripsync_offline_queue', JSON.stringify(failedItems));
+        setPendingSyncCount(failedItems.length);
+        setSyncStatus('idle');
+      } else {
+        localStorage.removeItem('tripsync_offline_queue');
+        setPendingSyncCount(0);
+        setSyncStatus('synced');
+        setTimeout(() => {
+          setShowBanner(false);
+          setSyncStatus('idle');
+        }, 3500);
+      }
+    } catch (err) {
+      console.warn('[Offline Sentinel] Sync error:', err);
       setShowBanner(false);
+      setSyncStatus('idle');
     }
   };
 

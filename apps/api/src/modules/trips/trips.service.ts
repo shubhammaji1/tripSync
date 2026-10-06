@@ -6,6 +6,8 @@ import { trips, tripMembers, profiles, activities } from '../../database/schema'
 import { eq, and, desc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_TRIP_2_ID, SEED_USERS } from '../../database/seed';
 
+import { sanitizeHtml } from '@tripsync/validation';
+
 @Injectable()
 export class TripsService {
   // In-memory cache for development/mock mode
@@ -124,28 +126,40 @@ export class TripsService {
             emergencyContacts: true,
           },
         });
-        if (trip) {
-          const mappedMembers = (trip.members || []).map((m: any) => {
-            if (m.userId === trip.ownerId) {
-              return { ...m, role: TripRole.OWNER };
-            }
-            return m;
-          });
-          const hasOwner = mappedMembers.some((m: any) => m.userId === trip.ownerId);
-          if (!hasOwner && trip.owner) {
-            mappedMembers.unshift({
-              tripId: trip.id,
-              userId: trip.ownerId,
-              role: TripRole.OWNER,
-              joinedAt: trip.createdAt,
-              user: trip.owner,
-            } as any);
-          }
-          return {
-            ...trip,
-            members: mappedMembers,
-          };
+
+        if (!trip) {
+          throw new NotFoundException(`Trip with ID ${tripId} not found`);
         }
+
+        // Enforce object-level access control for private trips (BUG-002)
+        if (trip.privacy === TripPrivacy.PRIVATE) {
+          const isOwner = trip.ownerId === userId;
+          const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+          if (!isOwner && !isMember) {
+            throw new ForbiddenException('You do not have access to this private trip');
+          }
+        }
+
+        const mappedMembers = (trip.members || []).map((m: any) => {
+          if (m.userId === trip.ownerId) {
+            return { ...m, role: TripRole.OWNER };
+          }
+          return m;
+        });
+        const hasOwner = mappedMembers.some((m: any) => m.userId === trip.ownerId);
+        if (!hasOwner && trip.owner) {
+          mappedMembers.unshift({
+            tripId: trip.id,
+            userId: trip.ownerId,
+            role: TripRole.OWNER,
+            joinedAt: trip.createdAt,
+            user: trip.owner,
+          } as any);
+        }
+        return {
+          ...trip,
+          members: mappedMembers,
+        };
       } catch (err) {
         throw err;
       }
@@ -155,14 +169,22 @@ export class TripsService {
     if (!trip) {
       throw new NotFoundException(`Trip with ID ${tripId} not found`);
     }
+    if (trip.privacy === TripPrivacy.PRIVATE && trip.ownerId !== userId) {
+      throw new ForbiddenException('You do not have access to this private trip');
+    }
     return trip;
   }
 
   async createTrip(userId: string, input: CreateTripInput) {
+    const sanitizedName = sanitizeHtml(input.name);
+    const sanitizedDesc = input.description ? sanitizeHtml(input.description) : null;
+
     const newTripId = 'trip-' + Date.now();
     const tripData = {
       id: newTripId,
       ...input,
+      name: sanitizedName,
+      description: sanitizedDesc,
       budget: input.budget || null,
       status: TripStatus.PLANNING,
       ownerId: userId,
@@ -175,8 +197,8 @@ export class TripsService {
     if (this.db) {
       try {
         const [inserted] = await (this.db.insert(trips).values({
-          name: input.name,
-          description: input.description,
+          name: sanitizedName,
+          description: sanitizedDesc,
           destination: input.destination,
           startDate: input.startDate,
           endDate: input.endDate,
@@ -256,11 +278,17 @@ export class TripsService {
   async updateTrip(tripId: string, userId: string, input: UpdateTripInput) {
     await this.requireTripManager(tripId, userId);
 
+    const sanitizedData = {
+      ...input,
+      name: input.name !== undefined ? sanitizeHtml(input.name) : undefined,
+      description: input.description !== undefined ? (input.description ? sanitizeHtml(input.description) : null) : undefined,
+    };
+
     if (this.db) {
       try {
         const [updated] = await (this.db.update(trips)
           .set({
-            ...input,
+            ...sanitizedData,
             budget: input.budget !== undefined ? (input.budget ? input.budget.toString() : null) : undefined,
             updatedAt: new Date(),
           } as any) as any)

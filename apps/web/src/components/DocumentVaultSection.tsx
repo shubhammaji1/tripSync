@@ -29,6 +29,14 @@ import {
 import { emitTripActivity } from '@/components/LiveActivityFeedDrawer';
 import { haptic } from '@/lib/haptics';
 
+async function hashPin(pin: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(pin.trim());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export interface TravelDocument {
   id: string;
   title: string;
@@ -43,6 +51,7 @@ export interface TravelDocument {
   addedBy?: string;
   createdAt?: string;
   isLocked?: boolean;
+  pinHash?: string;
   pin?: string;
 }
 
@@ -203,11 +212,29 @@ export function DocumentVaultSection({
     }
   };
 
-  const handleUnlockPin = (e: React.FormEvent) => {
+  const handleUnlockPin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!pinPromptDoc) return;
 
-    if (pinInput.trim() === pinPromptDoc.pin || !pinPromptDoc.pin) {
+    let isValid = false;
+    if (!pinPromptDoc.pinHash && !pinPromptDoc.pin) {
+      isValid = true;
+    } else if (pinPromptDoc.pinHash) {
+      const enteredHash = await hashPin(pinInput);
+      isValid = enteredHash === pinPromptDoc.pinHash;
+    } else if (pinPromptDoc.pin) {
+      isValid = pinInput.trim() === pinPromptDoc.pin;
+      // Upgrade legacy plaintext PIN to pinHash
+      if (isValid) {
+        const hashed = await hashPin(pinInput);
+        const updatedDocs = documents.map((d) =>
+          d.id === pinPromptDoc.id ? { ...d, pinHash: hashed, pin: undefined } : d
+        );
+        saveDocuments(updatedDocs);
+      }
+    }
+
+    if (isValid) {
       haptic.success();
       setUnlockedDocIds((prev) => ({ ...prev, [pinPromptDoc.id]: true }));
       const action = pendingAction;
@@ -225,9 +252,14 @@ export function DocumentVaultSection({
     }
   };
 
-  const handleAddDocument = (e: React.FormEvent) => {
+  const handleAddDocument = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newDoc.title.trim()) return;
+
+    let pinHash: string | undefined = undefined;
+    if (newDoc.isLocked && newDoc.pin) {
+      pinHash = await hashPin(newDoc.pin);
+    }
 
     const doc: TravelDocument = {
       id: `doc-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
@@ -241,7 +273,7 @@ export function DocumentVaultSection({
       fileName: newDoc.fileName,
       fileSize: newDoc.fileSize,
       isLocked: newDoc.isLocked,
-      pin: newDoc.isLocked ? newDoc.pin.trim() : undefined,
+      pinHash,
       addedBy: 'You',
       createdAt: new Date().toISOString(),
     };

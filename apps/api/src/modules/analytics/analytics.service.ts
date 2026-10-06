@@ -15,8 +15,8 @@ export class AnalyticsService {
     private readonly membersService: MembersService
   ) {}
 
-  async getTripAnalytics(tripId: string): Promise<TripAnalytics> {
-    const rawExpenses = await this.expensesService.getTripExpenses(tripId);
+  async getTripAnalytics(tripId: string, userId?: string): Promise<TripAnalytics> {
+    const rawExpenses = await this.expensesService.getTripExpenses(tripId, userId);
     const membersData = await this.membersService.getTripMembers(tripId);
     const membersList = membersData.map((m: any) => m.user || m);
 

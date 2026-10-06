@@ -1,6 +1,6 @@
 import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { CreateEmergencyContactInput, UpdateEmergencyContactInput } from '@tripsync/validation';
-import { TripRole } from '@tripsync/types';
+import { TripRole, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { emergencyContacts, trips, tripMembers } from '../../database/schema';
 import { eq, and } from 'drizzle-orm';
@@ -81,7 +81,31 @@ export class EmergencyService {
     }
   }
 
-  async getEmergencyContacts(tripId: string) {
+  private async requireTripAccess(tripId: string, userId: string): Promise<any> {
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({
+        where: eq(trips.id, tripId),
+        with: { members: true },
+      });
+      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
+
+      if (trip.privacy === TripPrivacy.PRIVATE) {
+        const isOwner = trip.ownerId === userId;
+        const isMember = (trip.members || []).some((m: any) => m.userId === userId);
+        if (!isOwner && !isMember) {
+          throw new ForbiddenException('Only authorized trip members may access emergency contact dossiers');
+        }
+      }
+      return trip;
+    }
+    return null;
+  }
+
+  async getEmergencyContacts(tripId: string, userId?: string) {
+    if (userId) {
+      await this.requireTripAccess(tripId, userId);
+    }
+
     if (this.db) {
       try {
         const result = await this.db.query.emergencyContacts.findMany({
@@ -100,7 +124,11 @@ export class EmergencyService {
    * Generates a lightweight, high-reliability offline emergency packet
    * containing critical contacts, member phone numbers, hotel address, and basic details.
    */
-  async getEmergencyPacket(tripId: string) {
+  async getEmergencyPacket(tripId: string, userId?: string) {
+    if (userId) {
+      await this.requireTripAccess(tripId, userId);
+    }
+
     const contacts = await this.getEmergencyContacts(tripId);
     if (this.db) {
       const trip = await this.db.query.trips.findFirst({
