@@ -56,7 +56,7 @@ TripSync is built as a high-performance **Modular Monolith**:
 
 - **Frontend**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query, Recharts, Lucide Icons
 - **Backend**: NestJS 11, Fastify, TypeScript, Swagger/OpenAPI, Drizzle ORM, WebSockets
-- **Database & Auth**: PostgreSQL (Supabase / Local Docker), Supabase Auth, Row Level Security (RLS)
+- **Database & Auth**: PostgreSQL (Supabase / Local Docker), Clerk authentication, Supabase private storage, Row Level Security (RLS)
 - **Cache & Queues**: Redis, BullMQ Background Jobs
 - **Monorepo**: Turborepo, pnpm workspaces
 
@@ -65,8 +65,8 @@ TripSync is built as a high-performance **Modular Monolith**:
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js >= 20.0.0
-- pnpm >= 8.0.0
+- Node.js >= 22.13.0
+- pnpm >= 8.15.9
 - Docker & Docker Compose (for local database & Redis)
 
 ### 1. Clone & Install

@@ -1,3 +1,4 @@
+import { CollaborationModule } from './modules/collaboration/collaboration.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
@@ -22,6 +23,7 @@ import { TrailWatchModule } from './modules/trailwatch/trailwatch.module';
       envFilePath: ['.env.local', '.env', '../.env', '../../.env'],
     }),
     CommonModule,
+    CollaborationModule,
     DatabaseModule,
     RealtimeModule,
     AuthModule,

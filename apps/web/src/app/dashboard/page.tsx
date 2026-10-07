@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect, useRef, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -191,6 +193,8 @@ function DashboardContent() {
   const [newTrip, setNewTrip] = useState<{
     name: string;
     destination: string;
+    destinationLat?: number | null;
+    destinationLng?: number | null;
     startDate: string;
     endDate: string;
     budget: number | string;
@@ -213,6 +217,8 @@ function DashboardContent() {
     id: string;
     name: string;
     destination: string;
+    destinationLat?: number | null;
+    destinationLng?: number | null;
     startDate: string;
     endDate: string;
     budget: number | string;
@@ -279,7 +285,7 @@ function DashboardContent() {
     setIsResolvingImage(true);
     const coverImage = await findPlaceImage(place.display_name);
     if (showEditModal && editingTrip) {
-      setEditingTrip((curr) => curr ? { ...curr, destination: place.display_name, coverImage } : null);
+      setEditingTrip((curr) => curr ? { ...curr, destination: place.display_name, destinationLat: Number(place.lat), destinationLng: Number(place.lon), coverImage } : null);
     } else {
       setNewTrip((current) => ({ ...current, destination: place.display_name, coverImage }));
     }
@@ -292,9 +298,12 @@ function DashboardContent() {
     }
   }, [searchParams]);
 
+  const [tripsError, setTripsError] = useState<string | null>(null);
+  const [tripsLoading, setTripsLoading] = useState(true);
   const fetchTrips = () => {
     if (isClerkLoaded && isSignedIn) {
-      api.getTrips().then(setTrips).catch(() => setTrips([]));
+      setTripsLoading(true); setTripsError(null);
+      api.getTrips().then(setTrips).catch(err => setTripsError(err.message || 'Trips could not be loaded')).finally(() => setTripsLoading(false));
     }
   };
 
@@ -314,6 +323,8 @@ function DashboardContent() {
       const response = await api.createTrip({
         name: newTrip.name,
         destination: newTrip.destination,
+        destinationLat: newTrip.destinationLat,
+        destinationLng: newTrip.destinationLng,
         description: newTrip.description || null,
         startDate: newTrip.startDate,
         endDate: newTrip.endDate,
@@ -347,6 +358,8 @@ function DashboardContent() {
       id: trip.id,
       name: trip.name,
       destination: trip.destination,
+      destinationLat: trip.destinationLat,
+      destinationLng: trip.destinationLng,
       startDate: trip.startDate ? trip.startDate.split('T')[0] : '2026-11-15',
       endDate: trip.endDate ? trip.endDate.split('T')[0] : '2026-11-19',
       budget: Number(trip.budget || 0),
@@ -366,6 +379,8 @@ function DashboardContent() {
       const updated = await api.updateTrip(editingTrip.id, {
         name: editingTrip.name,
         destination: editingTrip.destination,
+        destinationLat: editingTrip.destinationLat,
+        destinationLng: editingTrip.destinationLng,
         description: editingTrip.description || null,
         startDate: editingTrip.startDate,
         endDate: editingTrip.endDate,
@@ -647,6 +662,8 @@ function DashboardContent() {
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+      {tripsError && <div role="alert" className="m-4 rounded-xl bg-red-50 p-4 text-red-800">{tripsError} <button type="button" onClick={fetchTrips} className="underline">Retry</button></div>}
+      {tripsLoading && <p role="status" className="m-4 text-slate-600">Loading your trips…</p>}
       {/* 1. TOP GREETING & QUICK ACTION BAR */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
@@ -941,7 +958,7 @@ function DashboardContent() {
         </div>
 
         {/* Trips Output */}
-        {filteredAndSortedTrips.length === 0 ? (
+        {tripsLoading || tripsError ? null : filteredAndSortedTrips.length === 0 ? (
           <div className="text-center py-16 px-4 bg-white rounded-3xl border border-dashed border-slate-300">
             <div className="w-16 h-16 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-4">
               <CompassIcon className="w-8 h-8" />
@@ -1339,7 +1356,7 @@ function DashboardContent() {
 
       {/* 1. JOIN VIA CODE / LINK MODAL */}
       {showJoinModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
@@ -1387,12 +1404,12 @@ function DashboardContent() {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* 2. PACKING CHECKLIST MODAL */}
       {showPackingModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -1452,12 +1469,12 @@ function DashboardContent() {
               </button>
             </div>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* 3. SPLIT CALCULATOR MODAL */}
       {showSplitCalcModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
@@ -1540,12 +1557,12 @@ function DashboardContent() {
               </button>
             </div>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* 4. EDIT TRIP MODAL */}
       {showEditModal && editingTrip && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
@@ -1589,7 +1606,7 @@ function DashboardContent() {
                     value={editingTrip.destination}
                     onChange={(e) => {
                       selectedDestinationRef.current = null;
-                      setEditingTrip({ ...editingTrip, destination: e.target.value, coverImage: null });
+                      setEditingTrip({ ...editingTrip, destination: e.target.value, destinationLat: null, destinationLng: null, coverImage: null });
                       setDestinationSuggestions([]);
                     }}
                     className="w-full rounded-xl border border-slate-300 py-2.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
@@ -1714,12 +1731,12 @@ function DashboardContent() {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* 5. CREATE TRIP MODAL */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -1883,7 +1900,7 @@ function DashboardContent() {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
     </div>
   );
@@ -1896,4 +1913,3 @@ export default function DashboardPage() {
     </Suspense>
   );
 }
-

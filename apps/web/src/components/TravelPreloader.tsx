@@ -83,7 +83,7 @@ export function TravelPreloader() {
       {/* ========================================================================= */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
         {/* Responsive Background: Full bleed on mobile & desktop */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {}
         <img
           src="/images/background.png"
           alt="TripSync scenic alpine travel scenery"

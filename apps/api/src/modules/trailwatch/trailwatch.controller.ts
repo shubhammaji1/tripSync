@@ -8,6 +8,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { TrailWatchService } from './trailwatch.service';
+import { RolesGuard } from '../../common/roles.guard';
+import { RequireRoles } from '../../common/roles.decorator';
+import { TripRole } from '@tripsync/types';
 import { AuthGuard } from '../../common/auth.guard';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
@@ -21,7 +24,8 @@ import { Profile } from '@tripsync/types';
 
 @ApiTags('TrailWatch')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
+@RequireRoles(TripRole.VIEWER)
 @Controller('trips/:tripId/trailwatch')
 export class TrailWatchController {
   constructor(private readonly trailwatchService: TrailWatchService) {}
@@ -39,6 +43,7 @@ export class TrailWatchController {
   }
 
   @Post('routes')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Add a new monitored route to the trip' })
   async createRoute(
     @Param('tripId') tripId: string,
@@ -60,22 +65,24 @@ export class TrailWatchController {
   }
 
   @Post('reports')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Submit a new community condition/incident report' })
   async createReport(
     @Param('tripId') tripId: string,
     @CurrentUser() user: Profile,
     @Body(new ZodValidationPipe(createTrailReportSchema)) body: CreateTrailReportInput
   ) {
-    return this.trailwatchService.createReport(tripId, user?.id || 'demo-user', body);
+    return this.trailwatchService.createReport(tripId, user.id, body);
   }
 
   @Post('alerts/:alertId/acknowledge')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Acknowledge an active condition alert' })
   async acknowledgeAlert(
     @Param('tripId') tripId: string,
     @Param('alertId') alertId: string,
     @CurrentUser() user: Profile
   ) {
-    return this.trailwatchService.acknowledgeAlert(tripId, alertId, user?.id || 'demo-user');
+    return this.trailwatchService.acknowledgeAlert(tripId, alertId, user.id);
   }
 }

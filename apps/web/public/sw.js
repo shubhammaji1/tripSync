@@ -1,127 +1,18 @@
-// TripSync Service Worker: Offline Caching for Mountain & Zero-Network Zones
-const CACHE_NAME = 'tripsync-cache-v2';
-const STATIC_ASSETS = [
-  '/',
-  '/dashboard',
-  '/manifest.json',
-  '/favicon.svg',
-  '/logo.svg',
-  '/icon.svg',
-];
-
-// 1. Install Event: Pre-cache shell assets
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('[TripSync SW] Some static assets failed to precache:', err);
-      });
-    })
-  );
-  self.skipWaiting();
-});
-
-// 2. Activate Event: Clean up outdated caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
-
-// 3. Fetch Event: Stale-While-Revalidate & Cache-First with Mountain Offline Fallback
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // Skip non-GET requests, API requests, and cross-origin Chrome extension requests
-  if (
-    request.method !== 'GET' ||
-    !url.protocol.startsWith('http') ||
-    url.pathname.startsWith('/api') ||
-    url.port === '4000'
-  ) {
-    return;
+const CACHE = 'tripsync-public-shell-v3';
+const ASSETS = ['/offline.html', '/offline.js', '/manifest.json', '/favicon.svg', '/logo.svg'];
+self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))); self.skipWaiting(); });
+self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('tripsync-') && key !== CACHE).map(key => caches.delete(key))))); self.clients.claim(); });
+self.addEventListener('fetch', event => {
+  const request = event.request, url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (request.mode === 'navigate') {
+    event.respondWith(fetch(request).catch(() => caches.match('/offline.html'))); return;
   }
-
-  // A. Static Asset / Image / Font Caching (Cache First, fallback to network)
-  if (
-    url.pathname.startsWith('/_next/static') ||
-    url.pathname.endsWith('.svg') ||
-    url.pathname.endsWith('.png') ||
-    url.pathname.endsWith('.jpg') ||
-    url.pathname.endsWith('.ico') ||
-    url.pathname.endsWith('.json')
-  ) {
-    event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(request, responseToCache);
-              });
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            // Return fallback for images/icons if available
-            return caches.match('/icon.svg');
-          });
-      })
-    );
-    return;
-  }
-
-  // B. Next.js App Routes (Network First, fallback to cached offline snapshot)
-  event.respondWith(
-    fetch(request)
-      .then((networkResponse) => {
-        // Cache successful responses for offline access
-        if (networkResponse && networkResponse.status === 200) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseToCache);
-          });
-        }
-        return networkResponse;
-      })
-      .catch(async () => {
-        // High in mountain / offline mode: return cached version
-        const cachedResponse = await caches.match(request);
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Only return HTML fallback for HTML document navigation requests
-        if (request.headers.get('accept')?.includes('text/html') || request.mode === 'navigate') {
-          if (url.pathname.startsWith('/trips/')) {
-            const dashboardCached = await caches.match('/dashboard');
-            if (dashboardCached) return dashboardCached;
-          }
-          return caches.match('/');
-        }
-
-        return Promise.reject(new Error('Network error and no offline cache available'));
-      })
-  );
-});
-
-// 4. Background Sync / Offline Broadcast
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+  if (url.pathname.startsWith('/_next/static/') || ASSETS.includes(url.pathname)) {
+    event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
+      if (response.ok) { const copy = response.clone(); event.waitUntil(caches.open(CACHE).then(cache => cache.put(request, copy))); }
+      return response;
+    }))); return;
   }
 });
+self.addEventListener('message', event => { if (event.data?.type === 'SKIP_WAITING') self.skipWaiting(); });

@@ -1,8 +1,10 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import {
   Calendar,
   Wallet,
@@ -254,6 +256,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           title: activity.title,
           description: activity.description || '',
           location: activity.locationName || '',
+          locationLat: activity.locationLat, locationLng: activity.locationLng,
           responsible: activity.responsibleMember?.fullName || 'Unassigned',
           cost: Number(activity.estimatedCost || 0),
           status: activity.status || 'PLANNED',
@@ -364,6 +367,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     startTime: string;
     endTime: string;
     locationName: string;
+    locationLat?: number | null;
+    locationLng?: number | null;
     estimatedCost: number | string;
     responsibleMemberId: string;
   }>({
@@ -457,7 +462,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
     setNewActivity((curr) => ({
       ...curr,
-      locationName: formattedLocation,
+      locationName: formattedLocation, locationLat: Number(place.lat), locationLng: Number(place.lon),
       title: curr.title?.trim() ? curr.title : primaryName,
     }));
     setShowLocationSuggestions(false);
@@ -559,7 +564,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
     setEditingActivity((curr: any) => ({
       ...curr,
-      locationName: formattedLocation,
+      locationName: formattedLocation, locationLat: Number(place.lat), locationLng: Number(place.lon),
       title: curr.title?.trim() ? curr.title : primaryName,
     }));
     setShowEditLocationSuggestions(false);
@@ -629,7 +634,25 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   }).format(Number(amount) || 0);
 
   // Settled debts & UPI state
-  const [settledDebtIds, setSettledDebtIds] = useState<Record<string, boolean>>({});
+  const [settledDebtIds] = useState<Record<string, boolean>>({});
+  const [ledger, setLedger] = useState<any | null>(null);
+  const [ledgerError, setLedgerError] = useState<string | null>(null);
+  const [recordingPayment, setRecordingPayment] = useState(false);
+  const loadLedger = async () => {
+    try { setLedger(await api.getSettlements(params.id)); setLedgerError(null); }
+    catch (err: any) { setLedgerError(err.message || 'Balances unavailable'); }
+  };
+  useEffect(() => { void loadLedger(); }, [params.id, expensesList]);
+  const recordPayment = async (transfer: any) => {
+    if (recordingPayment) return;
+    setRecordingPayment(true);
+    try {
+      await api.recordSettlement(params.id, { fromUserId: transfer.fromUserId, toUserId: transfer.toUserId,
+        amount: transfer.amount, currency: tripDetails?.currency || 'INR', notes: 'Manually recorded payment; not verified by payment provider' });
+      await loadLedger();
+    } catch (err: any) { setActionAlert(err.message || 'Payment could not be recorded'); throw err; }
+    finally { setRecordingPayment(false); }
+  };
   const [selectedUpiDebt, setSelectedUpiDebt] = useState<any | null>(null);
 
   // Itinerary View Mode (Timeline vs Map)
@@ -695,7 +718,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   const showPermissionWarning = (actionName: string) => {
     haptic.warning();
-    setActionAlert(`Action Locked: Your current role (${currentRole}) does not have permission to ${actionName}. Switch to OWNER or ADMIN above to unlock.`);
+    setActionAlert(`Action Locked: Your current role (${currentRole}) does not have permission to ${actionName}. Ask a trip owner or admin to grant the required access.`);
     setTimeout(() => setActionAlert(null), 5000);
   };
 
@@ -711,11 +734,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     const responsiblePerson = members.find((m) => m.id === newActivity.responsibleMemberId)?.name || user?.fullName || 'Traveler';
     const newAct = {
       id: 'act-' + Date.now(),
+      locationLat: newActivity.locationLat, locationLng: newActivity.locationLng,
       dayNumber: selectedDay,
       time: `${newActivity.startTime} - ${newActivity.endTime}`,
       title: newActivity.title || 'New Activity',
       description: newActivity.description || 'Added by ' + (user?.fullName || 'Member'),
-      location: newActivity.locationName || 'Darjeeling',
+      location: newActivity.locationName || tripDetails?.destination || '',
       responsible: responsiblePerson,
       cost: Number(newActivity.estimatedCost || 0),
       status: 'PLANNED',
@@ -730,6 +754,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         startTime: newActivity.startTime,
         endTime: newActivity.endTime,
         locationName: newAct.location,
+        locationLat: newActivity.locationLat, locationLng: newActivity.locationLng,
         estimatedCost: newAct.cost,
         currency: tripCurrency,
         responsibleMemberId: /^[0-9a-f-]{36}$/i.test(newActivity.responsibleMemberId) ? newActivity.responsibleMemberId : null,
@@ -780,6 +805,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       startTime: start || '10:00',
       endTime: end || '12:00',
       locationName: act.location || '',
+      locationLat: act.locationLat, locationLng: act.locationLng,
       estimatedCost: Number(act.cost) || 0,
       responsibleMemberId: matchedMember?.id || '',
       status: act.status || 'PLANNED',
@@ -803,6 +829,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
     const updatedAct = {
       id: editingActivity.id,
+      locationLat: editingActivity.locationLat, locationLng: editingActivity.locationLng,
       dayNumber: editingActivity.dayNumber,
       time: updatedTime,
       title: editingActivity.title || 'Updated Activity',
@@ -821,6 +848,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           startTime: editingActivity.startTime,
           endTime: editingActivity.endTime,
           locationName: updatedAct.location,
+          locationLat: editingActivity.locationLat ?? null, locationLng: editingActivity.locationLng ?? null,
           estimatedCost: updatedAct.cost,
           currency: tripDetails?.currency || 'INR',
           responsibleMemberId: /^[0-9a-f-]{36}$/i.test(editingActivity.responsibleMemberId)
@@ -919,9 +947,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     const expenseCurrency = newExpense.currency || 'INR';
 
     // Auto-convert to INR base currency if logged in foreign currency
-    const baseAmount = expenseCurrency !== 'INR'
-      ? convertCurrency(rawAmount, expenseCurrency, 'INR')
-      : rawAmount;
+    const baseAmount = rawAmount;
+    if (expenseCurrency !== tripCurrency) { setActionAlert('Record the amount in the trip currency. Automatic conversion is unavailable.'); return; }
 
     const newEntry = {
       id: 'exp-' + Date.now(),
@@ -934,9 +961,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       category: newExpense.category,
       receiptUrl: newExpense.receiptUrl || undefined,
       date: newExpense.date || tripDetails?.startDate || new Date().toISOString().slice(0, 10),
-      participants: members.map((member) => ({
+      participants: members.map((member, index) => ({
         userId: member.id,
-        shareAmount: baseAmount / Math.max(1, members.length),
+        shareAmount: (Math.floor(Math.round(baseAmount * 100) / Math.max(1, members.length)) + (index < Math.round(baseAmount * 100) % Math.max(1, members.length) ? 1 : 0)) / 100,
       })),
       split: `${members.length} members (₹${formatExpenseAmount(baseAmount / Math.max(1, members.length))} each)`,
     };
@@ -945,6 +972,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       const updatedEntry = { ...newEntry, id: editingExpenseId };
       try {
         await api.updateExpense(params.id, editingExpenseId, {
+          paidById: payerId,
+          receiptUrl: newEntry.receiptUrl,
           title: newEntry.title,
           amount: baseAmount,
           category: newEntry.category,
@@ -959,7 +988,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         setActionAlert(reason.message || 'Expense could not be updated.');
         return;
       }
-      setExpensesList((current) => current.map((expense) => expense.id === editingExpenseId ? updatedEntry : expense));
+      const loaded = await api.getExpenses(params.id);
+      setExpensesList(loaded.map((expense: any) => ({ ...expense, amount: Number(expense.amount), paidBy: expense.paidBy?.fullName || 'Traveler', split: `${expense.participants?.length || 0} members` })));
       setEditingExpenseId(null);
       setShowAddExpenseModal(false);
       return;
@@ -969,17 +999,20 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       const validMembers = members.filter((member) => /^[0-9a-f-]{36}$/i.test(member.id));
       const saved = await api.createExpense(params.id, {
         title: newEntry.title,
+        paidById: payerId,
+        receiptUrl: newExpense.receiptUrl || null,
         amount: baseAmount,
         currency: tripCurrency,
         category: newExpense.category,
         splitType: newExpense.splitType,
         date: newEntry.date,
-        participants: validMembers.map((member) => ({
-          userId: member.id,
-          shareAmount: Math.round((baseAmount / validMembers.length) * 100) / 100,
-        })),
+        participants: validMembers.map((member, index) => {
+          const cents = Math.round(baseAmount * 100);
+          return { userId: member.id, shareAmount: (Math.floor(cents / validMembers.length) + (index < cents % validMembers.length ? 1 : 0)) / 100 };
+        }),
       });
-      setExpensesList((current) => [{ ...newEntry, id: saved.id || newEntry.id }, ...current]);
+      const loaded = await api.getExpenses(params.id);
+      setExpensesList(loaded.map((expense: any) => ({ ...expense, amount: Number(expense.amount), paidBy: expense.paidBy?.fullName || expense.paidBy?.email || 'Traveler', split: `${expense.participants?.length || 0} members` })));
       haptic.success();
       emitTripActivity(params.id, {
         type: 'NEW_EXPENSE',
@@ -996,7 +1029,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setNewExpense({
       title: '',
       amount: 1800,
-      currency: 'INR',
+      currency: tripCurrency,
       category: 'FOOD',
       date: '',
       paidById: user?.id || members[0]?.id || '',
@@ -1011,7 +1044,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setNewExpense({
       title: expense.title || '',
       amount: Number(expense.originalAmount || expense.amount || 0),
-      currency: expense.originalCurrency || 'INR',
+      currency: tripCurrency,
       category: expense.category || 'FOOD',
       date: expense.date || '',
       paidById: expense.paidById || members.find((member) => member.name === expense.paidBy)?.id || user?.id || '',
@@ -1584,55 +1617,11 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     setSelectedDay(Math.max(1, Math.min(selectedDay, remainingDays.length)));
   };
 
-  const calculatedDebtTransfers = (() => {
-    const balances = new Map<string, number>(members.map((member) => [member.id, 0]));
-    for (const expense of expensesList) {
-      const payerId = expense.paidById || members.find((member) => member.name === expense.paidBy)?.id;
-      if (!payerId || !balances.has(payerId)) continue;
-      const amount = Number(expense.amount || 0);
-      balances.set(payerId, (balances.get(payerId) || 0) + amount);
-
-      const participants = expense.participants?.length
-        ? expense.participants
-        : members.map((member) => ({ userId: member.id, shareAmount: amount / Math.max(1, members.length) }));
-      for (const participant of participants) {
-        if (balances.has(participant.userId)) {
-          balances.set(participant.userId, (balances.get(participant.userId) || 0) - Number(participant.shareAmount || 0));
-        }
-      }
-    }
-
-    const creditors = Array.from(balances.entries()).filter(([, amount]) => amount > 0.01).map(([id, amount]) => ({ id, amount }));
-    const debtors = Array.from(balances.entries()).filter(([, amount]) => amount < -0.01).map(([id, amount]) => ({ id, amount: -amount }));
-    const transfers: { id: string; from: string; to: string; amount: number }[] = [];
-    let creditorIndex = 0;
-    let debtorIndex = 0;
-
-    while (creditorIndex < creditors.length && debtorIndex < debtors.length) {
-      const creditor = creditors[creditorIndex];
-      const debtor = debtors[debtorIndex];
-      const amount = Math.min(creditor.amount, debtor.amount);
-      transfers.push({
-        id: `settlement-${transfers.length + 1}`,
-        from: members.find((member) => member.id === debtor.id)?.name || 'Member',
-        to: members.find((member) => member.id === creditor.id)?.name || 'Member',
-        amount: Math.round(amount * 100) / 100,
-      });
-      creditor.amount -= amount;
-      debtor.amount -= amount;
-      if (creditor.amount <= 0.01) creditorIndex += 1;
-      if (debtor.amount <= 0.01) debtorIndex += 1;
-    }
-    return transfers;
-  })();
-
-  const debtTransfers = isDemoSession ? [
-    { id: 'dt-1', from: 'Amit Kumar', to: 'Rahul Sharma', amount: 1933 },
-    { id: 'dt-2', from: 'Sneha Reddy', to: 'Rahul Sharma', amount: 1933 },
-    { id: 'dt-3', from: 'Arjun Mehta', to: 'Rahul Sharma', amount: 200 },
-    { id: 'dt-4', from: 'Arjun Mehta', to: 'Priya Patel', amount: 1267 },
-    { id: 'dt-5', from: 'Shubham Verma', to: 'Priya Patel', amount: 467 },
-  ] : calculatedDebtTransfers;
+  const debtTransfers = (ledger?.optimizedTransfers || []).map((transfer: any) => ({
+    ...transfer, id: [transfer.fromUserId, transfer.toUserId, transfer.amount].join(':'),
+    from: transfer.fromUser.fullName || transfer.fromUser.email,
+    to: transfer.toUser.fullName || transfer.toUser.email,
+  }));
 
   const tripBudget = isDemoSession ? 35000 : Number(tripDetails?.budget || 0);
   const calculatedTripSpent = expensesList.reduce((total, expense) => total + Number(expense.amount || 0), 0);
@@ -2625,7 +2614,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         {activeTab === 'trailwatch' && (
           <TrailWatchDashboard
             tripId={params.id}
-            tripDestination={tripDetails?.destination || 'Darjeeling, West Bengal, India'}
+            canReport={can('ADD_ACTIVITY')}
+            tripDestination={tripDetails?.destination || 'Trip destination'}
             onNavigateToItinerary={() => setActiveTab('itinerary')}
           />
         )}
@@ -2684,9 +2674,10 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </span>
               </div>
 
+              {ledgerError && <p role="alert" className="mt-3 text-sm text-red-200">{ledgerError} <button onClick={loadLedger} className="underline">Retry</button></p>}
               {/* Debt Transfer Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-                {debtTransfers.map((dt) => {
+                {debtTransfers.map((dt: any) => {
                   const isSettled = settledDebtIds[dt.id];
                   return (
                     <div
@@ -2704,7 +2695,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                       </div>
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
                         <span className="text-base font-extrabold text-white">
-                          ₹{dt.amount.toLocaleString()}
+                          {formatCurrency(dt.amount, tripCurrency)}
                         </span>
                         <div className="flex items-center gap-1.5">
                           <button
@@ -2713,12 +2704,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                             className="px-2.5 py-1 rounded-lg text-[11px] font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white flex items-center gap-1 shadow-sm transition-all active:scale-95"
                           >
                             <Smartphone className="w-3 h-3" />
-                            <span>Pay UPI</span>
+                            <span>{tripCurrency === 'INR' ? 'Pay UPI' : 'Record payment'}</span>
                           </button>
                           {can('ADD_EXPENSE') && (
                             <button
                               type="button"
-                              onClick={() => setSettledDebtIds({ ...settledDebtIds, [dt.id]: !isSettled })}
+                              disabled={recordingPayment} onClick={() => { void recordPayment(dt).catch(() => undefined); }}
                               className={`px-2 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all ${
                                 isSettled
                                   ? 'bg-emerald-500 text-white'
@@ -2735,7 +2726,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                   );
                 })}
                 {debtTransfers.length === 0 && (
-                  <p className="col-span-full py-6 text-center text-sm text-slate-400">No outstanding settlements.</p>
+                  <p className="col-span-full py-6 text-center text-sm text-slate-400">{ledgerError ? 'Balances unavailable' : ledger ? 'No outstanding settlements.' : 'Loading balances…'}</p>
                 )}
               </div>
             </div>
@@ -4085,7 +4076,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
       {/* Modal: Add Activity */}
       {showAddActivityModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <h3 className="font-extrabold text-base text-slate-900">Add Activity to Day {selectedDay}</h3>
@@ -4153,7 +4144,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     placeholder="e.g. Annapurna Base Camp, Batasia Loop, Phewa Lake"
                     value={newActivity.locationName}
                     onChange={(e) => {
-                      setNewActivity({ ...newActivity, locationName: e.target.value });
+                      setNewActivity({ ...newActivity, locationName: e.target.value, locationLat: null, locationLng: null });
                       setShowLocationSuggestions(true);
                     }}
                     onFocus={() => {
@@ -4166,7 +4157,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     <button
                       type="button"
                       onClick={() => {
-                        setNewActivity({ ...newActivity, locationName: '' });
+                        setNewActivity({ ...newActivity, locationName: '', locationLat: null, locationLng: null });
                         setActivityLocationSuggestions([]);
                         setShowLocationSuggestions(false);
                       }}
@@ -4244,12 +4235,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Modal: Edit Activity */}
       {showEditActivityModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
@@ -4359,7 +4350,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     placeholder="e.g. Annapurna Base Camp, Batasia Loop"
                     value={editingActivity.locationName}
                     onChange={(e) => {
-                      setEditingActivity({ ...editingActivity, locationName: e.target.value });
+                      setEditingActivity({ ...editingActivity, locationName: e.target.value, locationLat: null, locationLng: null });
                       setShowEditLocationSuggestions(true);
                     }}
                     onFocus={() => {
@@ -4372,7 +4363,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     <button
                       type="button"
                       onClick={() => {
-                        setEditingActivity({ ...editingActivity, locationName: '' });
+                        setEditingActivity({ ...editingActivity, locationName: '', locationLat: null, locationLng: null });
                         setEditActivityLocationSuggestions([]);
                         setShowEditLocationSuggestions(false);
                       }}
@@ -4496,12 +4487,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Modal: Add Expense */}
       {showAddExpenseModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
               <div>
@@ -4554,7 +4545,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 <div className="sm:col-span-5">
                   <label className="block font-bold text-slate-700 mb-1">Currency</label>
                   <select
-                    value={newExpense.currency || 'INR'}
+                    value={tripCurrency} disabled
                     onChange={(e) => setNewExpense({ ...newExpense, currency: e.target.value })}
                     className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
@@ -4567,17 +4558,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </div>
               </div>
 
-              {/* Currency Conversion Preview Badge (if foreign currency) */}
-              {newExpense.currency && newExpense.currency !== 'INR' && (
-                <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] flex items-center justify-between">
-                  <span>
-                    Auto-converted: <strong>≈ ₹{formatExpenseAmount(convertCurrency(Number(newExpense.amount) || 0, newExpense.currency, 'INR'))} INR</strong>
-                  </span>
-                  <span className="text-[10px] text-amber-600 font-semibold">
-                    1 {newExpense.currency} = ₹{SUPPORTED_CURRENCIES[newExpense.currency]?.rateToInr}
-                  </span>
-                </div>
-              )}
+
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -4617,7 +4598,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 {newExpense.receiptUrl ? (
                   <div className="relative p-2 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-2.5 overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      {}
                       <img
                         src={newExpense.receiptUrl}
                         alt="Receipt preview"
@@ -4657,7 +4638,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 flex items-center justify-between">
                 <span>Split equally:</span>
                 <strong className="text-slate-900 font-extrabold">
-                  ₹{formatExpenseAmount((newExpense.currency !== 'INR' ? convertCurrency(Number(newExpense.amount) || 0, newExpense.currency, 'INR') : (Number(newExpense.amount) || 0)) / Math.max(1, members.length))} per traveler
+                  {formatCurrency((Number(newExpense.amount) || 0) / Math.max(1, members.length), tripCurrency)} per traveler
                 </strong>
               </div>
 
@@ -4678,12 +4659,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Edit Trip Details Modal */}
       {showEditTripModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2">
@@ -4806,12 +4787,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Modal: Add Emergency Contact */}
       {showAddEmergencyModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -4962,12 +4943,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Modal: Edit Emergency Contact */}
       {showEditEmergencyModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -5083,12 +5064,12 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Modal: Edit Traveler Phone Number */}
       {showEditMemberPhoneModal && editingMemberForPhone && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 shrink-0">
               <div className="flex items-center gap-2.5">
@@ -5162,7 +5143,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* ========================================================= */}
@@ -5264,7 +5245,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
       {/* MOBILE QUICK ACTION BOTTOM SHEET */}
       {/* ========================================================= */}
       {showMobileQuickActions && (
-        <div
+        <AccessibleOverlay
           role="dialog"
           aria-modal="true"
           aria-label="On-the-Road Quick Actions"
@@ -5388,7 +5369,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               </button>
             </div>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* Floating Crew Chat Button (Desktop Bottom Left) */}
@@ -5417,9 +5398,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
           toUser={selectedUpiDebt.to}
           amount={selectedUpiDebt.amount}
           tripName={displayTripName}
-          onMarkSettled={() => {
-            setSettledDebtIds({ ...settledDebtIds, [selectedUpiDebt.id]: true });
-          }}
+          currency={tripCurrency}
+          onMarkSettled={() => recordPayment(selectedUpiDebt)}
         />
       )}
 
@@ -5462,7 +5442,8 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   );
 }
 
-export default function TripWorkspacePage({ params }: { params: { id: string } }) {
+export default function TripWorkspacePage() {
+  const params = useParams<{ id: string }>();
   return (
     <Suspense fallback={<div className="p-8 text-center text-sm text-slate-500">Loading Trip Workspace...</div>}>
       <TripWorkspaceContent params={params} />

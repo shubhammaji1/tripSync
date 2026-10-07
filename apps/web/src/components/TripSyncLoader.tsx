@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React from 'react';
 import { TripSyncLogo } from './TripSyncLogo';
 
@@ -66,9 +68,9 @@ export function TripSyncLoader({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
+      <AccessibleOverlay className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 dark:bg-slate-950/80 backdrop-blur-md">
         {content}
-      </div>
+      </AccessibleOverlay>
     );
   }
 

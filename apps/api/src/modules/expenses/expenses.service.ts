@@ -1,273 +1,73 @@
-import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CreateExpenseInput, UpdateExpenseInput } from '@tripsync/validation';
-import { ExpenseCategory, SplitType, TripRole } from '@tripsync/types';
+import { TripRole } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { expenses, expenseParticipants, trips, tripMembers } from '../../database/schema';
+import { expenses, expenseParticipants, trips } from '../../database/schema';
 import { eq, and, desc } from 'drizzle-orm';
-import { SEED_TRIP_ID, SEED_USERS } from '../../database/seed';
+import { TripAccessService } from '../../common/trip-access.service';
 
 @Injectable()
 export class ExpensesService {
-  private mockExpenses: Map<string, any[]> = new Map();
-
-  constructor(
-    @Optional() @Inject(DRIZZLE_PROVIDER) private db?: DrizzleDB
-  ) {
-    this.initMockExpenses();
+  constructor(@Inject(DRIZZLE_PROVIDER) private db: DrizzleDB, private access: TripAccessService) {}
+  async getTripExpenses(tripId: string, userId: string) {
+    await this.access.requireMember(tripId, userId);
+    return this.db.query.expenses.findMany({ where: eq(expenses.tripId, tripId),
+      orderBy: [desc(expenses.createdAt)], with: { paidBy: true, participants: { with: { user: true } } } });
   }
-
-  private initMockExpenses() {
-    this.mockExpenses.set(SEED_TRIP_ID, [
-      {
-        id: 'exp-1',
-        tripId: SEED_TRIP_ID,
-        paidById: SEED_USERS[0].id,
-        paidBy: SEED_USERS[0],
-        title: 'Summit Hermon Hotel Advance Booking',
-        amount: 6000,
-        currency: 'INR',
-        category: ExpenseCategory.ACCOMMODATION,
-        splitType: SplitType.EQUAL,
-        date: '2026-09-10',
-        receiptUrl: null,
-        notes: 'Room booking for 6 members',
-        participants: SEED_USERS.map((u) => ({
-          id: `ep-${u.id}-1`,
-          userId: u.id,
-          user: u,
-          shareAmount: 1000,
-        })),
-        createdAt: '2026-09-10T14:30:00Z',
-      },
-      {
-        id: 'exp-2',
-        tripId: SEED_TRIP_ID,
-        paidById: SEED_USERS[1].id,
-        paidBy: SEED_USERS[1],
-        title: 'Toyota Innova Sightseeing Cab',
-        amount: 2400,
-        currency: 'INR',
-        category: ExpenseCategory.TRANSPORT,
-        splitType: SplitType.EQUAL,
-        date: '2026-09-11',
-        receiptUrl: null,
-        notes: 'Tiger Hill and tea gardens cab',
-        participants: SEED_USERS.map((u) => ({
-          id: `ep-${u.id}-2`,
-          userId: u.id,
-          user: u,
-          shareAmount: 400,
-        })),
-        createdAt: '2026-09-11T08:00:00Z',
-      },
-      {
-        id: 'exp-3',
-        tripId: SEED_TRIP_ID,
-        paidById: SEED_USERS[2].id,
-        paidBy: SEED_USERS[2],
-        title: 'Glenary’s Bakery & Restaurant Group Dinner',
-        amount: 3200,
-        currency: 'INR',
-        category: ExpenseCategory.FOOD,
-        splitType: SplitType.EQUAL,
-        date: '2026-09-11',
-        receiptUrl: null,
-        notes: 'Dinner & desserts',
-        participants: SEED_USERS.map((u) => ({
-          id: `ep-${u.id}-3`,
-          userId: u.id,
-          user: u,
-          shareAmount: 533.33,
-        })),
-        createdAt: '2026-09-11T21:00:00Z',
-      },
-    ]);
+  private async validate(tripId: string, input: any, db = this.db) {
+    const trip = await db.query.trips.findFirst({ where: eq(trips.id, tripId), with: { members: true } });
+    if (!trip) throw new NotFoundException('Trip not found');
+    const ids = new Set([trip.ownerId, ...trip.members.map(m => m.userId)]);
+    if (!ids.has(input.paidById) || input.participants.some(p => !ids.has(p.userId)))
+      throw new BadRequestException('Payer and participants must belong to this trip');
+    if (input.currency !== trip.currency) throw new BadRequestException('Expense currency must match the trip currency');
+    const participantIds = input.participants.map(p => p.userId);
+    const cents = (value: number) => Math.round(Number(value) * 100);
+    if (!participantIds.length || new Set(participantIds).size !== participantIds.length ||
+      input.participants.reduce((sum, p) => sum + cents(p.shareAmount), 0) !== cents(input.amount))
+      throw new BadRequestException('Unique participant shares must sum exactly to the total');
   }
-
-  private async verifyTripAccess(tripId: string, userId: string): Promise<any> {
-    if (this.db) {
-      const trip = await this.db.query.trips.findFirst({
-        where: eq(trips.id, tripId),
-        with: { members: true },
-      });
-      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
-
-      const isOwner = trip.ownerId === userId;
-      const isMember = (trip.members || []).some((m: any) => m.userId === userId);
-      if (!isOwner && !isMember) {
-        throw new ForbiddenException('You do not have permission to access expenses for this trip');
-      }
-      return trip;
-    }
-    return null;
+  async createExpense(tripId: string, userId: string, input: CreateExpenseInput) {
+    await this.access.requireMember(tripId, userId, true);
+    const paidById = input.paidById || userId;
+    return this.db.transaction(async tx => {
+      await tx.select().from(trips).where(eq(trips.id, tripId)).for('update');
+      await this.validate(tripId, { ...input, paidById }, tx as any);
+      const { participants, ...fields } = input;
+      const [expense] = await tx.insert(expenses).values({ ...fields, tripId, paidById, amount: input.amount.toFixed(2) }).returning();
+      await tx.insert(expenseParticipants).values(participants.map(p => ({ ...p, expenseId: expense.id, shareAmount: p.shareAmount.toFixed(2) })));
+      return expense;
+    });
   }
-
-  private async verifyExpenseManagePermission(tripId: string, expenseId: string, userId: string) {
-    if (this.db) {
-      const trip = await this.db.query.trips.findFirst({
-        where: eq(trips.id, tripId),
-        with: { members: true },
-      });
-      if (!trip) throw new NotFoundException(`Trip ${tripId} not found`);
-
-      const expense = await this.db.query.expenses.findFirst({
-        where: and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)),
-      });
-      if (!expense) throw new NotFoundException(`Expense ${expenseId} not found`);
-
-      const isPayer = expense.paidById === userId;
-      const isOwner = trip.ownerId === userId;
-      const memberRole = (trip.members || []).find((m: any) => m.userId === userId)?.role;
-      const isAdmin = memberRole === TripRole.ADMIN || memberRole === TripRole.OWNER;
-
-      if (!isPayer && !isOwner && !isAdmin) {
-        throw new ForbiddenException('You do not have permission to delete or modify this expense');
+  private async requireManage(tripId: string, expenseId: string, userId: string) {
+    const { role } = await this.access.requireMember(tripId, userId, true);
+    const expense = await this.db.query.expenses.findFirst({ where: and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)), with: { participants: true } });
+    if (!expense) throw new NotFoundException('Expense not found');
+    if (expense.paidById !== userId && role !== TripRole.OWNER && role !== TripRole.ADMIN)
+      throw new ForbiddenException('Only the payer or trip managers can change this expense');
+    return expense;
+  }
+  async updateExpense(tripId: string, expenseId: string, userId: string, input: UpdateExpenseInput) {
+    await this.requireManage(tripId, expenseId, userId);
+    return this.db.transaction(async tx => {
+      await tx.select().from(trips).where(eq(trips.id, tripId)).for('update');
+      await tx.select().from(expenses).where(eq(expenses.id, expenseId)).for('update');
+      const existing = await tx.query.expenses.findFirst({ where: eq(expenses.id, expenseId), with: { participants: true } });
+      if (!existing) throw new NotFoundException('Expense not found');
+      await this.validate(tripId, { ...existing, ...input }, tx as any);
+      const { participants, ...fields } = input;
+      const [expense] = await tx.update(expenses).set({ ...fields, amount: input.amount === undefined ? undefined : input.amount.toFixed(2), updatedAt: new Date() } as any)
+        .where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId))).returning();
+      if (participants) {
+        await tx.delete(expenseParticipants).where(eq(expenseParticipants.expenseId, expenseId));
+        await tx.insert(expenseParticipants).values(participants.map(p => ({ ...p, expenseId, shareAmount: p.shareAmount.toFixed(2) })));
       }
       return expense;
-    }
-    return null;
+    });
   }
-
-  async getTripExpenses(tripId: string, userId?: string) {
-    if (userId) {
-      await this.verifyTripAccess(tripId, userId);
-    }
-
-    if (this.db) {
-      try {
-        const result = await this.db.query.expenses.findMany({
-          where: eq(expenses.tripId, tripId),
-          orderBy: [desc(expenses.createdAt)],
-          with: {
-            paidBy: true,
-            participants: { with: { user: true } },
-          },
-        });
-        return result;
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    return this.mockExpenses.get(tripId) || [];
-  }
-
-  async createExpense(tripId: string, paidById: string, input: CreateExpenseInput) {
-    await this.verifyTripAccess(tripId, paidById);
-
-    if (this.db) {
-      try {
-        const [newExpense] = await (this.db.insert(expenses).values({
-          tripId,
-          paidById,
-          title: input.title,
-          amount: input.amount.toString(),
-          currency: input.currency,
-          category: input.category,
-          splitType: input.splitType,
-          date: input.date,
-          receiptUrl: input.receiptUrl,
-          notes: input.notes,
-        } as any) as any).returning();
-
-        for (const p of input.participants) {
-          await (this.db.insert(expenseParticipants).values({
-            expenseId: newExpense.id,
-            userId: p.userId,
-            shareAmount: p.shareAmount.toString(),
-            percentage: p.percentage,
-            shares: p.shares,
-          } as any) as any);
-        }
-
-        return newExpense;
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    const payer = SEED_USERS.find((u) => u.id === paidById) || SEED_USERS[0];
-    const newExp = {
-      id: 'exp-' + Date.now(),
-      tripId,
-      paidById,
-      paidBy: payer,
-      title: input.title,
-      amount: input.amount,
-      currency: input.currency,
-      category: input.category,
-      splitType: input.splitType,
-      date: input.date,
-      receiptUrl: input.receiptUrl || null,
-      notes: input.notes || null,
-      participants: input.participants.map((p) => ({
-        id: 'ep-' + Math.random().toString(36).substring(7),
-        userId: p.userId,
-        user: SEED_USERS.find((u) => u.id === p.userId) || { id: p.userId, fullName: 'Member' },
-        shareAmount: p.shareAmount,
-        percentage: p.percentage,
-        shares: p.shares,
-      })),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    const tripExps = this.mockExpenses.get(tripId) || [];
-    tripExps.unshift(newExp);
-    this.mockExpenses.set(tripId, tripExps);
-
-    return newExp;
-  }
-
   async deleteExpense(tripId: string, expenseId: string, userId: string) {
-    await this.verifyExpenseManagePermission(tripId, expenseId, userId);
-
-    if (this.db) {
-      try {
-        await this.db.delete(expenses).where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)));
-        return { success: true };
-      } catch (err) {
-        throw err;
-      }
-    }
-
+    await this.requireManage(tripId, expenseId, userId);
+    await this.db.delete(expenses).where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId)));
     return { success: true };
-  }
-
-  async updateExpense(tripId: string, expenseId: string, userId: string, input: UpdateExpenseInput) {
-    await this.verifyExpenseManagePermission(tripId, expenseId, userId);
-
-    if (this.db) {
-      try {
-        const { participants, ...expenseFields } = input;
-        const [updated] = await (this.db.update(expenses).set({
-          ...expenseFields,
-          amount: expenseFields.amount !== undefined ? expenseFields.amount.toString() : undefined,
-          updatedAt: new Date(),
-        } as any) as any).where(and(eq(expenses.id, expenseId), eq(expenses.tripId, tripId))).returning();
-        if (updated && participants) {
-          await this.db.delete(expenseParticipants).where(eq(expenseParticipants.expenseId, expenseId));
-          await this.db.insert(expenseParticipants).values(participants.map((participant) => ({
-            expenseId,
-            userId: participant.userId,
-            shareAmount: participant.shareAmount.toString(),
-            percentage: participant.percentage,
-            shares: participant.shares,
-          })) as any);
-        }
-        if (updated) return updated;
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    for (const tripExpenses of this.mockExpenses.values()) {
-      const index = tripExpenses.findIndex((expense) => expense.id === expenseId);
-      if (index >= 0) {
-        tripExpenses[index] = { ...tripExpenses[index], ...input, updatedAt: new Date().toISOString() };
-        return tripExpenses[index];
-      }
-    }
-    throw new NotFoundException(`Expense ${expenseId} not found`);
   }
 }

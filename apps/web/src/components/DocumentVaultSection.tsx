@@ -1,5 +1,8 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
+import { api } from '@/lib/api';
 import React, { useState, useEffect } from 'react';
 import {
   FileText,
@@ -29,13 +32,6 @@ import {
 import { emitTripActivity } from '@/components/LiveActivityFeedDrawer';
 import { haptic } from '@/lib/haptics';
 
-async function hashPin(pin: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(pin.trim());
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-}
 
 export interface TravelDocument {
   id: string;
@@ -51,8 +47,8 @@ export interface TravelDocument {
   addedBy?: string;
   createdAt?: string;
   isLocked?: boolean;
-  pinHash?: string;
-  pin?: string;
+
+
 }
 
 interface DocumentVaultSectionProps {
@@ -74,40 +70,20 @@ export function DocumentVaultSection({
   const [previewDoc, setPreviewDoc] = useState<TravelDocument | null>(null);
 
   // Sensitive PIN Lock state
-  const [unlockedDocIds, setUnlockedDocIds] = useState<Record<string, boolean>>({});
+  const [unlockedDocIds, setUnlockedDocIds] = useState<Record<string, number>>({});
   const [pinPromptDoc, setPinPromptDoc] = useState<TravelDocument | null>(null);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
   const [pendingAction, setPendingAction] = useState<{ type: 'view' | 'download' | 'copy'; doc: TravelDocument } | null>(null);
 
-  const storageKey = `tripsync_docs_${tripId}`;
-
-  // Load real documents for this specific trip from persistent storage
+  const [vaultError, setVaultError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   useEffect(() => {
-    if (!tripId) return;
-
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setDocuments(parsed);
-          return;
-        }
-      }
-      setDocuments([]);
-    } catch {
-      setDocuments([]);
-    }
-  }, [tripId, storageKey]);
-
-  const saveDocuments = (updated: TravelDocument[]) => {
-    setDocuments(updated);
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(updated));
-    } catch {}
-  };
-
+    let active = true;
+    setDocuments([]); setUnlockedDocIds({}); setPreviewDoc(null); setVaultError(null);
+    api.getDocuments(tripId).then(data => { if (active) setDocuments(data); }).catch(err => { if (active) setVaultError(err.message); });
+    return () => { active = false; };
+  }, [tripId]);
   // New Document Form State
   const [newDoc, setNewDoc] = useState<{
     title: string;
@@ -149,12 +125,12 @@ export function DocumentVaultSection({
       'image/jpeg',
       'image/png',
       'image/webp',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+
+
     ];
-    const isAllowedExt = /\.(pdf|jpg|jpeg|png|webp|doc|docx)$/i.test(file.name);
-    if (!allowedMimes.includes(file.type) && !isAllowedExt) {
-      alert('Security Block: Invalid file type. Only verified PDF, JPEG, PNG, WEBP, and DOC files are permitted.');
+    const isAllowedExt = /\.(pdf|jpg|jpeg|png|webp)$/i.test(file.name);
+    if (!allowedMimes.includes(file.type) || !isAllowedExt) {
+      alert('Security Block: Invalid file type. Only verified PDF, JPEG, PNG, and WEBP files are permitted.');
       e.target.value = '';
       return;
     }
@@ -185,7 +161,7 @@ export function DocumentVaultSection({
   };
 
   const triggerSecuredAction = (doc: TravelDocument, actionType: 'view' | 'download' | 'copy') => {
-    if (doc.isLocked && !unlockedDocIds[doc.id]) {
+    if (doc.isLocked && (!unlockedDocIds[doc.id] || Date.now() - unlockedDocIds[doc.id] > 240000)) {
       haptic.light();
       setPinPromptDoc(doc);
       setPendingAction({ type: actionType, doc });
@@ -194,7 +170,9 @@ export function DocumentVaultSection({
       return;
     }
 
-    executeAction(doc, actionType);
+    if (!doc.isLocked && actionType !== 'copy') {
+      void api.unlockDocument(tripId, doc.id, '').then(fresh => { setDocuments(prev => prev.map(item => item.id === fresh.id ? fresh : item)); executeAction(fresh, actionType); }).catch(reason => setVaultError(reason.message || 'Could not refresh document access'));
+    } else executeAction(doc, actionType);
   };
 
   const executeAction = (doc: TravelDocument, actionType: 'view' | 'download' | 'copy') => {
@@ -217,26 +195,15 @@ export function DocumentVaultSection({
     if (!pinPromptDoc) return;
 
     let isValid = false;
-    if (!pinPromptDoc.pinHash && !pinPromptDoc.pin) {
+    let unlocked: TravelDocument | null = null;
+    try {
+      unlocked = await api.unlockDocument(tripId, pinPromptDoc.id, pinInput);
       isValid = true;
-    } else if (pinPromptDoc.pinHash) {
-      const enteredHash = await hashPin(pinInput);
-      isValid = enteredHash === pinPromptDoc.pinHash;
-    } else if (pinPromptDoc.pin) {
-      isValid = pinInput.trim() === pinPromptDoc.pin;
-      // Upgrade legacy plaintext PIN to pinHash
-      if (isValid) {
-        const hashed = await hashPin(pinInput);
-        const updatedDocs = documents.map((d) =>
-          d.id === pinPromptDoc.id ? { ...d, pinHash: hashed, pin: undefined } : d
-        );
-        saveDocuments(updatedDocs);
-      }
-    }
-
+      setDocuments(prev => prev.map(doc => doc.id === unlocked!.id ? unlocked! : doc));
+    } catch { isValid = false; }
     if (isValid) {
       haptic.success();
-      setUnlockedDocIds((prev) => ({ ...prev, [pinPromptDoc.id]: true }));
+      setUnlockedDocIds((prev) => ({ ...prev, [pinPromptDoc.id]: Date.now() }));
       const action = pendingAction;
       setPinPromptDoc(null);
       setPendingAction(null);
@@ -244,7 +211,7 @@ export function DocumentVaultSection({
       setPinError(false);
 
       if (action) {
-        executeAction(action.doc, action.type);
+        executeAction(unlocked || action.doc, action.type);
       }
     } else {
       haptic.error();
@@ -256,29 +223,14 @@ export function DocumentVaultSection({
     e.preventDefault();
     if (!newDoc.title.trim()) return;
 
-    let pinHash: string | undefined = undefined;
-    if (newDoc.isLocked && newDoc.pin) {
-      pinHash = await hashPin(newDoc.pin);
-    }
-
-    const doc: TravelDocument = {
-      id: `doc-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
-      title: newDoc.title.trim(),
-      category: newDoc.category,
-      provider: newDoc.provider.trim() || 'Official Provider',
-      referenceNumber: newDoc.referenceNumber.trim() || 'N/A',
-      travelDate: newDoc.travelDate.trim() || 'Trip Dates',
-      notes: newDoc.notes.trim(),
-      fileUrl: newDoc.fileUrl,
-      fileName: newDoc.fileName,
-      fileSize: newDoc.fileSize,
-      isLocked: newDoc.isLocked,
-      pinHash,
-      addedBy: 'You',
-      createdAt: new Date().toISOString(),
-    };
-
-    saveDocuments([doc, ...documents]);
+    if (saving) return;
+    setSaving(true); setVaultError(null);
+    let doc: TravelDocument;
+    try {
+      doc = await api.addDocument(tripId, { ...newDoc, pin: newDoc.isLocked ? newDoc.pin : undefined });
+      setDocuments(prev => [doc, ...prev]);
+    } catch (err: any) { setVaultError(err.message || 'Document could not be saved'); return; }
+    finally { setSaving(false); }
     haptic.success();
     if (tripId) {
       emitTripActivity(tripId, {
@@ -304,10 +256,11 @@ export function DocumentVaultSection({
     });
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Delete this travel document from the group vault?')) {
       haptic.warning();
-      saveDocuments(documents.filter((d) => d.id !== id));
+      try { await api.deleteDocument(tripId, id); setDocuments(prev => prev.filter(d => d.id !== id)); }
+      catch (err: any) { setVaultError(err.message || 'Document could not be deleted'); }
     }
   };
 
@@ -339,6 +292,7 @@ export function DocumentVaultSection({
 
   return (
     <div className="space-y-6">
+      {vaultError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-800">{vaultError}</p>}
       {/* Top Action & Summary Bar */}
       <div className="bg-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
@@ -562,7 +516,7 @@ export function DocumentVaultSection({
       {/* UPLOAD DOCUMENT MODAL */}
       {/* ========================================================= */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-md p-3 sm:p-6 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-md p-3 sm:p-6 flex min-h-full items-center justify-center">
           <div className="relative w-full max-w-xl bg-white border border-slate-200 text-slate-900 rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col animate-in fade-in zoom-in-95 duration-200">
             {/* Modal Header */}
             <div className="px-6 py-5 bg-gradient-to-r from-slate-50 via-slate-50/50 to-white border-b border-slate-100 flex items-center justify-between shrink-0">
@@ -753,7 +707,7 @@ export function DocumentVaultSection({
                     </div>
                     <div>
                       <h4 className="text-xs sm:text-sm font-black text-slate-900 flex items-center gap-1.5">
-                        <span>Lock with 4-Digit Security PIN</span>
+                        <span>Lock with 6–12 Digit Security PIN</span>
                         {newDoc.isLocked && (
                           <span className="px-2 py-0.5 rounded-full bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider">
                             Active Lock
@@ -761,7 +715,7 @@ export function DocumentVaultSection({
                         )}
                       </h4>
                       <p className="text-[11px] text-slate-500 mt-0.5 max-w-md">
-                        Require a 4-digit PIN to view reference codes, notes, or download this file. Perfect for sensitive Passports, Visas, and personal IDs.
+                        Require a 6–12 digit PIN to view reference codes, notes, or download this file. Perfect for sensitive Passports, Visas, and personal IDs.
                       </p>
                     </div>
                   </div>
@@ -789,7 +743,7 @@ export function DocumentVaultSection({
                 {newDoc.isLocked && (
                   <div className="mt-4 pt-4 border-t border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in duration-150">
                     <div>
-                      <label className="text-xs font-bold text-amber-950 block">Set Your 4-Digit PIN</label>
+                      <label className="text-xs font-bold text-amber-950 block">Set Your 6–12 Digit PIN</label>
                       <p className="text-[10px] text-amber-800/80 font-medium">Share this PIN only with authorized travelers</p>
                     </div>
 
@@ -797,21 +751,21 @@ export function DocumentVaultSection({
                       <input
                         type="password"
                         inputMode="numeric"
-                        maxLength={4}
+                        minLength={6} maxLength={12}
                         required={newDoc.isLocked}
                         value={newDoc.pin}
                         onChange={(e) => {
-                          const val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                          const val = e.target.value.replace(/\D/g, '').slice(0, 12);
                           setNewDoc({ ...newDoc, pin: val });
-                          if (val.length === 4) haptic.light();
+                          if (val.length >= 6) haptic.light();
                         }}
                         placeholder="••••"
                         className="w-32 tracking-[0.4em] text-center bg-white border-2 border-amber-400 rounded-xl px-3 py-2 text-base font-mono font-black text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xs"
                       />
-                      {newDoc.pin && newDoc.pin.length === 4 && (
+                      {newDoc.pin && newDoc.pin.length >= 6 && (
                         <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2.5 py-1.5 rounded-xl border border-emerald-300">
                           <Check className="w-3.5 h-3.5" />
-                          <span>4-Digit PIN Ready</span>
+                          <span>6–12 Digit PIN Ready</span>
                         </span>
                       )}
                     </div>
@@ -829,7 +783,7 @@ export function DocumentVaultSection({
                   Cancel
                 </button>
                 <button
-                  type="submit"
+                  type="submit" disabled={saving}
                   className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
                 >
                   <UploadCloud className="w-4 h-4" />
@@ -838,14 +792,14 @@ export function DocumentVaultSection({
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* ========================================================= */}
       {/* PIN UNLOCK KEYPAD MODAL */}
       {/* ========================================================= */}
       {pinPromptDoc && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 flex min-h-full items-center justify-center">
           <div className="relative w-full max-w-sm bg-white border border-slate-200 text-slate-900 rounded-3xl shadow-2xl p-6 text-center space-y-4 my-auto animate-in fade-in zoom-in-95 duration-200">
             <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-sm">
               <Lock className="w-7 h-7" />
@@ -855,7 +809,7 @@ export function DocumentVaultSection({
               <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-black uppercase tracking-wider border border-amber-200">
                 🔒 Security Locked
               </span>
-              <h3 className="text-lg font-black text-slate-900 mt-2">Enter 4-Digit PIN</h3>
+              <h3 className="text-lg font-black text-slate-900 mt-2">Enter 6–12 Digit PIN</h3>
               <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
                 This document is protected. Enter the PIN to access <strong className="text-slate-900">{pinPromptDoc.title}</strong>
               </p>
@@ -866,14 +820,14 @@ export function DocumentVaultSection({
                 <input
                   type="password"
                   inputMode="numeric"
-                  maxLength={4}
+                  minLength={6} maxLength={12}
                   autoFocus
                   value={pinInput}
                   onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                    const val = e.target.value.replace(/\D/g, '').slice(0, 12);
                     setPinInput(val);
                     setPinError(false);
-                    if (val.length === 4) haptic.light();
+                    if (val.length >= 6) haptic.light();
                   }}
                   placeholder="••••"
                   className={`w-36 mx-auto tracking-[0.4em] text-center bg-slate-50 border-2 rounded-2xl py-3 text-xl font-mono font-black text-slate-900 focus:outline-none transition-all ${
@@ -904,7 +858,7 @@ export function DocumentVaultSection({
                 </button>
                 <button
                   type="submit"
-                  disabled={pinInput.length < 4}
+                  disabled={pinInput.length < 6}
                   className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-slate-950 text-xs font-black shadow-md shadow-amber-500/20 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <Lock className="w-3.5 h-3.5" />
@@ -913,14 +867,14 @@ export function DocumentVaultSection({
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
 
       {/* ========================================================= */}
       {/* DOCUMENT PREVIEW MODAL */}
       {/* ========================================================= */}
       {previewDoc && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+        <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-md p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
           <div className="relative w-full max-w-md bg-white border border-slate-200 text-slate-900 rounded-3xl shadow-2xl p-6 space-y-4 my-auto max-h-[calc(100vh-4rem)] flex flex-col animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -983,7 +937,7 @@ export function DocumentVaultSection({
               )}
             </div>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
     </div>
   );

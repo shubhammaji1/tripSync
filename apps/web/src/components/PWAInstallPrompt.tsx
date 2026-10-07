@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect } from 'react';
 import { Download, X, Share, PlusSquare, Smartphone } from 'lucide-react';
 import { TripSyncLogo } from './TripSyncLogo';
@@ -108,7 +110,7 @@ export function PWAInstallPrompt() {
 
       {/* 2. Expanded Install Dialog Modal */}
       {isExpanded && (
-        <div className="fixed inset-0 z-40 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 flex min-h-full items-center justify-center animate-in fade-in duration-200">
+        <AccessibleOverlay className="fixed inset-0 z-40 overflow-y-auto bg-black/60 backdrop-blur-sm p-4 sm:p-6 flex min-h-full items-center justify-center animate-in fade-in duration-200">
           <div className="relative w-full max-w-sm bg-slate-900 border-2 border-emerald-500/50 text-white p-5 rounded-3xl shadow-2xl space-y-4 my-auto animate-in zoom-in-95 duration-200">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -167,7 +169,7 @@ export function PWAInstallPrompt() {
               </div>
             )}
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
     </>
   );

@@ -69,6 +69,8 @@ export const createTripSchema = z.object({
   name: z.string().min(3, 'Trip name must be at least 3 characters').max(120),
   description: z.string().max(1000).nullable().optional(),
   destination: z.string().min(2, 'Destination is required').max(200),
+  destinationLat: z.number().min(-90).max(90).nullable().optional(),
+  destinationLng: z.number().min(-180).max(180).nullable().optional(),
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Start date must be YYYY-MM-DD'),
   endDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'End date must be YYYY-MM-DD'),
   budget: z.number().positive('Budget must be greater than 0').nullable().optional(),
@@ -160,19 +162,20 @@ export function sanitizeHtml(input: string): string {
 // ==========================================
 export const expenseParticipantSchema = z.object({
   userId: z.string().uuid('Invalid user ID'),
-  shareAmount: z.number().nonnegative(),
+  shareAmount: z.number().nonnegative().refine(n => Math.abs(n * 100 - Math.round(n * 100)) < 0.00001, 'Use at most two decimal places'),
   percentage: z.number().min(0).max(100).nullable().optional(),
   shares: z.number().int().positive().nullable().optional(),
 });
 
 export const baseExpenseSchema = z.object({
+  paidById: z.string().uuid().optional(),
   title: z.string().min(2, 'Title required').max(150),
-  amount: z.number().positive('Amount must be positive'),
+  amount: z.number().positive('Amount must be positive').max(9999999999.99).refine(n => Math.abs(n * 100 - Math.round(n * 100)) < 0.00001, 'Use at most two decimal places'),
   currency: z.string().length(3).default('INR'),
   category: z.nativeEnum(ExpenseCategory).default(ExpenseCategory.FOOD),
   splitType: z.nativeEnum(SplitType).default(SplitType.EQUAL),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
-  receiptUrl: z.string().url().nullable().optional(),
+  receiptUrl: z.string().max(7 * 1024 * 1024).refine(value => /^https:\/\//i.test(value) || /^data:(application\/pdf|image\/(jpeg|png|webp));base64,[A-Za-z0-9+/=]+$/.test(value), 'Use an HTTPS receipt or a PDF/JPEG/PNG/WEBP upload').nullable().optional(),
   notes: z.string().max(500).nullable().optional(),
   participants: z.array(expenseParticipantSchema).min(1, 'At least 1 participant is required'),
 });
@@ -181,7 +184,7 @@ export const createExpenseSchema = baseExpenseSchema.refine(
   (data) => {
     if (!data.participants || data.participants.length === 0) return true;
     const sum = data.participants.reduce((acc, p) => acc + (p.shareAmount || 0), 0);
-    return Math.abs(sum - data.amount) <= 0.05;
+    return Math.round(sum * 100) === Math.round(data.amount * 100);
   },
   {
     message: 'Participant split amounts must sum to the total expense amount',
@@ -206,10 +209,10 @@ export const updateExpenseSchema = baseExpenseSchema.partial().refine(
 export const createSettlementSchema = z.object({
   fromUserId: z.string().uuid(),
   toUserId: z.string().uuid(),
-  amount: z.number().positive(),
+  amount: z.number().positive().refine(n => Math.abs(n * 100 - Math.round(n * 100)) < 0.000001, 'Use at most two decimal places'),
   currency: z.string().length(3).default('INR'),
   notes: z.string().max(500).nullable().optional(),
-});
+}).refine(data => data.fromUserId !== data.toUserId, { message: 'Settlement parties must differ' });
 
 export const updateSettlementSchema = z.object({
   status: z.nativeEnum(SettlementStatus),
@@ -267,7 +270,7 @@ export const createTripRouteSchema = z.object({
   startLng: z.number().min(-180).max(180).nullable().optional(),
   endLat: z.number().min(-90).max(90).nullable().optional(),
   endLng: z.number().min(-180).max(180).nullable().optional(),
-  status: z.nativeEnum(RouteStatus).default(RouteStatus.NORMAL),
+  status: z.nativeEnum(RouteStatus).default(RouteStatus.UNKNOWN),
   distanceKm: z.number().nonnegative().nullable().optional(),
   estimatedDurationMin: z.number().int().nonnegative().nullable().optional(),
 });

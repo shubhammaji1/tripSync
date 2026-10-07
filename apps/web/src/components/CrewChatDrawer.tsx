@@ -1,5 +1,8 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
+import { api } from '@/lib/api';
 import React, { useState, useEffect, useRef } from 'react';
 import {
   MessageSquare,
@@ -49,70 +52,21 @@ export function CrewChatDrawer({
   const [inputText, setInputText] = useState('');
   const [asAnnouncement, setAsAnnouncement] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const broadcastChannelRef = useRef<BroadcastChannel | null>(null);
-
-  const storageKey = `tripsync_chat_${tripId}`;
-
-  // Load real messages for this specific trip from persistent storage
+  const [error, setError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
   useEffect(() => {
-    if (!tripId) return;
-
-    const loadMessages = () => {
-      try {
-        const stored = localStorage.getItem(storageKey);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) {
-            setMessages(parsed);
-          }
-        } else {
-          // Clean empty state - NO mock static data
-          setMessages([]);
-        }
-      } catch {
-        setMessages([]);
-      }
+    if (!isOpen || !tripId) return;
+    let active = true;
+    setMessages([]); setError(null);
+    const load = async () => {
+      try { const data = await api.getChat(tripId); if (active) setMessages(data); }
+      catch (err: any) { if (active) setError(err.message || 'Messages could not be loaded'); }
     };
-
-    loadMessages();
-
-    // 1. Setup real-time BroadcastChannel for instantaneous sync across all tabs/windows
-    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      const channel = new BroadcastChannel(`tripsync_realtime_chat_${tripId}`);
-      broadcastChannelRef.current = channel;
-
-      channel.onmessage = (event) => {
-        if (event.data?.type === 'NEW_CHAT_MESSAGE') {
-          setMessages((prev) => {
-            if (prev.some((m) => m.id === event.data.message.id)) return prev;
-            return [...prev, event.data.message];
-          });
-        } else if (event.data?.type === 'CLEAR_CHAT_MESSAGES') {
-          setMessages([]);
-        }
-      };
-    }
-
-    // 2. Storage event listener for multi-tab fallback
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === storageKey && e.newValue) {
-        try {
-          setMessages(JSON.parse(e.newValue));
-        } catch {}
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      broadcastChannelRef.current?.close();
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [tripId, storageKey]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+    void load();
+    const timer = setInterval(load, 5000);
+    return () => { active = false; clearInterval(timer); };
+  }, [tripId, isOpen]);
+  const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   useEffect(() => {
     if (isOpen) {
@@ -120,61 +74,22 @@ export function CrewChatDrawer({
     }
   }, [messages, isOpen]);
 
-  const saveAndBroadcastMessages = (updated: ChatMessage[], newMsg?: ChatMessage) => {
-    setMessages(updated);
+  const send = async (content: string, announcement = false) => {
+    if (!content.trim() || sending) return;
+    setSending(true); setError(null);
     try {
-      localStorage.setItem(storageKey, JSON.stringify(updated));
-    } catch {}
-
-    if (newMsg && broadcastChannelRef.current) {
-      broadcastChannelRef.current.postMessage({
-        type: 'NEW_CHAT_MESSAGE',
-        message: newMsg,
-      });
-    }
+      const message = await api.sendChat(tripId, { content: content.trim(), isAnnouncement: announcement });
+      setMessages(prev => prev.some(m => m.id === message.id) ? prev : [...prev, message]);
+      setInputText(''); setAsAnnouncement(false);
+    } catch (err: any) { setError(err.message || 'Message could not be sent'); }
+    finally { setSending(false); }
   };
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-
-    const newMsg: ChatMessage = {
-      id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-      senderId: currentUser.id,
-      senderName: currentUser.name,
-      senderRole: currentUser.role || 'MEMBER',
-      content: inputText.trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
-      isAnnouncement: asAnnouncement,
-      avatarLetter: (currentUser.name || 'U').trim()[0]?.toUpperCase() || 'U',
-    };
-
-    const updated = [...messages, newMsg];
-    saveAndBroadcastMessages(updated, newMsg);
-    setInputText('');
-    setAsAnnouncement(false);
-  };
-
-  const sendQuickChip = (text: string) => {
-    const newMsg: ChatMessage = {
-      id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-      senderId: currentUser.id,
-      senderName: currentUser.name,
-      senderRole: currentUser.role || 'MEMBER',
-      content: text,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
-      avatarLetter: (currentUser.name || 'U').trim()[0]?.toUpperCase() || 'U',
-    };
-
-    const updated = [...messages, newMsg];
-    saveAndBroadcastMessages(updated, newMsg);
-  };
-
-  const handleClearChat = () => {
-    if (confirm('Clear chat history for this trip?')) {
-      saveAndBroadcastMessages([]);
-      broadcastChannelRef.current?.postMessage({ type: 'CLEAR_CHAT_MESSAGES' });
-    }
+  const handleSendMessage = (event: React.FormEvent) => { event.preventDefault(); void send(inputText, asAnnouncement); };
+  const sendQuickChip = (text: string) => { void send(text); };
+  const handleClearChat = async () => {
+    if (!confirm('Clear chat history for this trip?')) return;
+    try { await api.clearChat(tripId); setMessages([]); }
+    catch (err: any) { setError(err.message || 'Chat could not be cleared'); }
   };
 
   // Find latest announcement
@@ -192,9 +107,10 @@ export function CrewChatDrawer({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] flex justify-end bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
+    <AccessibleOverlay className="fixed inset-0 z-[60] flex justify-end bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative z-10 w-full max-w-md bg-slate-900 border-l border-slate-800 text-white flex flex-col h-full shadow-2xl animate-in slide-in-from-right duration-300">
-        {/* Top Header */}
+        {error && <p role="alert" className="m-3 rounded-xl bg-red-50 p-3 text-sm text-red-800">{error}</p>}
+      {/* Top Header */}
         <div className="p-4 sm:p-5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/20">
@@ -207,7 +123,7 @@ export function CrewChatDrawer({
                 </h3>
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Realtime
+                  Crew chat
                 </span>
               </div>
               <p className="text-xs text-slate-400 truncate mt-0.5">
@@ -319,7 +235,7 @@ export function CrewChatDrawer({
                         isMe ? 'text-emerald-200/80' : 'text-slate-400'
                       }`}
                     >
-                      {msg.timestamp}
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>
 
@@ -375,7 +291,7 @@ export function CrewChatDrawer({
                 Pin as Announcement 📌
               </span>
             </label>
-            <span className="text-[10px] text-slate-500">Realtime Sync Active</span>
+            <span className="text-[10px] text-slate-500">Updates every 5 seconds</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -393,7 +309,7 @@ export function CrewChatDrawer({
 
             <button
               type="submit"
-              disabled={!inputText.trim()}
+              disabled={!inputText.trim() || sending || currentUser.role === 'VIEWER'}
               className="p-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-emerald-500/20 active:scale-95 transition-all shrink-0 cursor-pointer"
             >
               <Send className="w-4 h-4" />
@@ -401,6 +317,6 @@ export function CrewChatDrawer({
           </div>
         </form>
       </div>
-    </div>
+    </AccessibleOverlay>
   );
 }

@@ -22,20 +22,20 @@ async function bootstrap() {
   // request needs a verifiable Supabase session token. If this secret is
   // missing in production, every request will correctly 401, but that's a
   // silent, confusing failure mode in prod - fail loudly at boot instead.
-  if (process.env.NODE_ENV === 'production' && !process.env.SUPABASE_JWT_SECRET) {
+  if (process.env.NODE_ENV === 'production' && !process.env.SUPABASE_JWT_SECRET && !process.env.CLERK_SECRET_KEY) {
     throw new Error(
-      'SUPABASE_JWT_SECRET is required in production - the API cannot verify user sessions without it.',
+      'Configure CLERK_SECRET_KEY or SUPABASE_JWT_SECRET before starting the production API.',
     );
   }
-  if (!process.env.SUPABASE_JWT_SECRET) {
+  if (!process.env.SUPABASE_JWT_SECRET && !process.env.CLERK_SECRET_KEY) {
     logger.warn(
-      'SUPABASE_JWT_SECRET is not set - all authenticated requests will be rejected until it is configured.',
+      'No authentication verifier configured; protected requests will be rejected.',
     );
   }
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true })
+    new FastifyAdapter({ logger: true, bodyLimit: 8 * 1024 * 1024, trustProxy: process.env.TRUST_PROXY === 'true' })
   );
 
   // Performance: Response compression (Brotli / Gzip) for slow mobile connections
@@ -53,7 +53,6 @@ async function bootstrap() {
   await app.register(rateLimit as any, {
     max: 120,
     timeWindow: '1 minute',
-    allowList: ['127.0.0.1', 'localhost'],
     errorResponseBuilder: (req: any, context: any) => ({
       statusCode: 429,
       error: 'Too Many Requests',
@@ -109,6 +108,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT || 4000;
+  app.enableShutdownHooks();
   await app.listen(port, '0.0.0.0');
 
   logger.log(`🚀 TripSync API is running on http://localhost:${port}/api/v1`);

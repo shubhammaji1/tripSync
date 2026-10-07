@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
 import {
@@ -26,7 +28,8 @@ interface UPISettlementModalProps {
   amount: number;
   tripName: string;
   defaultUpiId?: string;
-  onMarkSettled?: () => void;
+  currency?: string;
+  onMarkSettled?: () => Promise<void>;
 }
 
 // 🟢 Official Google Pay Logo Component
@@ -100,9 +103,10 @@ export function UPISettlementModal({
   tripName,
   defaultUpiId,
   onMarkSettled,
+  currency = 'INR',
 }: UPISettlementModalProps) {
   const [upiId, setUpiId] = useState(
-    defaultUpiId || `${toUser.toLowerCase().replace(/[^a-z0-9]/g, '')}@okaxis`
+    defaultUpiId || ''
   );
   const [copied, setCopied] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -110,10 +114,14 @@ export function UPISettlementModal({
   const [activeTab, setActiveTab] = useState<'app' | 'qr'>('app');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
 
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const validUpi = currency === 'INR' && /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z0-9.-]{2,64}$/.test(upiId.trim());
   const note = `TripSync - ${tripName}`;
-  const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
+  const upiUrl = !validUpi ? '' : `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
 
   useEffect(() => {
+    if (!upiUrl) { setQrDataUrl(''); return; }
     if (upiUrl) {
       QRCode.toDataURL(upiUrl, {
         width: 300,
@@ -144,12 +152,12 @@ export function UPISettlementModal({
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  const handleSettleConfirmation = () => {
-    haptic.success();
-    setSettled(true);
-    if (onMarkSettled) {
-      onMarkSettled();
-    }
+  const handleSettleConfirmation = async () => {
+    if (saving) return;
+    setSaving(true); setError(null);
+    try { await onMarkSettled?.(); }
+    catch (err: any) { setError(err.message || 'Payment could not be recorded'); setSaving(false); return; }
+    haptic.success(); setSettled(true); setSaving(false);
     setTimeout(() => {
       onClose();
       setSettled(false);
@@ -157,8 +165,10 @@ export function UPISettlementModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-md p-3 sm:p-6 flex min-h-full items-center justify-center">
+    <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-md p-3 sm:p-6 flex min-h-full items-center justify-center">
       <div className="relative w-full max-w-md bg-white border border-slate-200 text-slate-900 rounded-3xl shadow-2xl overflow-hidden my-auto flex flex-col animate-in fade-in zoom-in-95 duration-200 max-h-[calc(90vh-1rem)]">
+        {error && <p role="alert" className="m-4 text-sm text-red-700">{error}</p>}
+        <p className="px-6 pt-4 text-sm text-slate-600">Enter the recipient’s confirmed UPI ID. Marking paid records your confirmation; TripSync does not verify bank payments. {currency !== 'INR' && 'UPI is available only for INR.'}</p>
         {/* Modal Header */}
         <div className="px-6 py-5 bg-gradient-to-r from-emerald-50/80 via-slate-50 to-white border-b border-slate-100 flex items-start justify-between shrink-0">
           <div className="space-y-1">
@@ -255,7 +265,7 @@ export function UPISettlementModal({
             <div className="space-y-3 pt-1">
               {/* Primary Direct UPI Trigger */}
               <a
-                href={upiUrl}
+                href={validUpi ? upiUrl : undefined} aria-disabled={!validUpi} onClick={event => { if (!validUpi) event.preventDefault(); }}
                 className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-500/20 active:scale-95 transition-all text-center cursor-pointer"
               >
                 <Smartphone className="w-4 h-4" />
@@ -267,7 +277,7 @@ export function UPISettlementModal({
               <div className="grid grid-cols-3 gap-2.5 text-center text-xs">
                 {/* Google Pay */}
                 <a
-                  href={`gpay://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
+                  href={!validUpi ? undefined : `gpay://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
                   className="p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
                   <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -278,7 +288,7 @@ export function UPISettlementModal({
 
                 {/* PhonePe */}
                 <a
-                  href={`phonepe://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
+                  href={!validUpi ? undefined : `phonepe://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
                   className="p-3 rounded-2xl bg-white hover:bg-purple-50/50 border border-slate-200 hover:border-purple-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
                   <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -289,7 +299,7 @@ export function UPISettlementModal({
 
                 {/* Paytm */}
                 <a
-                  href={`paytmmp://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
+                  href={!validUpi ? undefined : `paytmmp://upi/pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(toUser)}&am=${amount}&cu=INR`}
                   className="p-3 rounded-2xl bg-white hover:bg-sky-50/50 border border-slate-200 hover:border-sky-300 text-slate-800 font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer shadow-xs hover:shadow-sm group"
                 >
                   <div className="w-7 h-7 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -306,7 +316,7 @@ export function UPISettlementModal({
             <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
               <div className="p-3 bg-white rounded-2xl border border-slate-200 shadow-md">
                 {qrDataUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
+
                   <img
                     src={qrDataUrl}
                     alt={`UPI QR Code to pay ${toUser}`}
@@ -340,7 +350,7 @@ export function UPISettlementModal({
 
           <button
             type="button"
-            onClick={handleSettleConfirmation}
+            disabled={saving} onClick={handleSettleConfirmation}
             className={`px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-1.5 transition-all cursor-pointer shadow-xs ${
               settled
                 ? 'bg-emerald-600 text-white'
@@ -361,6 +371,6 @@ export function UPISettlementModal({
           </button>
         </div>
       </div>
-    </div>
+    </AccessibleOverlay>
   );
 }

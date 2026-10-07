@@ -30,6 +30,7 @@ import { haptic } from '@/lib/haptics';
 
 interface TrailWatchMapProps {
   destination: string;
+  location?: { latitude: number; longitude: number; name: string } | null;
   routes: TripRoute[];
   alerts: TrailWatchAlert[];
   reports: TrailReport[];
@@ -41,6 +42,7 @@ interface TrailWatchMapProps {
 
 export function TrailWatchMap({
   destination,
+  location,
   routes,
   alerts,
   reports,
@@ -59,6 +61,17 @@ export function TrailWatchMap({
     data: any;
   } | null>(null);
 
+  const [mapError, setMapError] = useState<string | null>(null);
+  const coordinates = (lat: any, lng: any) => typeof lat === 'number' && Number.isFinite(lat) && Math.abs(lat) <= 90 && typeof lng === 'number' && Number.isFinite(lng) && Math.abs(lng) <= 180;
+  const point = (lat: unknown, lng: unknown): [number, number] => [Number(lat), Number(lng)];
+  useEffect(() => () => { mapInstanceRef.current?.remove(); mapInstanceRef.current = null; layersGroupRef.current = null; }, []);
+  useEffect(() => {
+    const element = mapContainerRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(() => mapInstanceRef.current?.invalidateSize());
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   // Initialize and update Leaflet Map
   useEffect(() => {
     if (typeof window === 'undefined' || !mapContainerRef.current) return;
@@ -71,14 +84,12 @@ export function TrailWatchMap({
 
       // Initialize map instance if not yet created
       if (!mapInstanceRef.current) {
-        const defaultCenter: [number, number] =
-          weather && weather.latitude && weather.longitude
-            ? [weather.latitude, weather.longitude]
-            : [27.041, 88.2663]; // Darjeeling default
+        const defaultCenter: [number, number] = location && coordinates(location.latitude, location.longitude)
+          ? [location.latitude, location.longitude] : [0, 0];
 
         const map = L.map(mapContainerRef.current, {
           center: defaultCenter,
-          zoom: 11,
+          zoom: location ? 11 : 2,
           zoomControl: false,
         });
 
@@ -88,7 +99,7 @@ export function TrailWatchMap({
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 19,
-        }).addTo(map);
+        }).on('tileerror', () => { if (isMounted) setMapError('Map tiles unavailable. Your reports remain listed below.'); }).addTo(map);
 
         layersGroupRef.current = L.layerGroup().addTo(map);
         mapInstanceRef.current = map;
@@ -104,12 +115,12 @@ export function TrailWatchMap({
       // 1. Draw Route Lines & Segments
       if (activeFilter === 'ALL' || activeFilter === 'ROUTES') {
         routes.forEach((route) => {
-          if (route.startLat && route.startLng && route.endLat && route.endLng) {
-            bounds.push([route.startLat, route.startLng]);
-            bounds.push([route.endLat, route.endLng]);
+          if (coordinates(route.startLat, route.startLng) && coordinates(route.endLat, route.endLng)) {
+            bounds.push(point(route.startLat, route.startLng));
+            bounds.push(point(route.endLat, route.endLng));
 
             const lineColor =
-              route.status === RouteStatus.DISRUPTED
+              (route.status === RouteStatus.DISRUPTED || route.status === RouteStatus.CLOSED)
                 ? '#ef4444' // red
                 : route.status === RouteStatus.CAUTION
                 ? '#f59e0b' // amber
@@ -117,8 +128,8 @@ export function TrailWatchMap({
 
             const polyline = L.polyline(
               [
-                [route.startLat, route.startLng],
-                [route.endLat, route.endLng],
+                point(route.startLat, route.startLng),
+                point(route.endLat, route.endLng),
               ],
               {
                 color: lineColor,
@@ -134,36 +145,44 @@ export function TrailWatchMap({
             });
 
             layerGroup.addLayer(polyline);
+            (route.segments || []).forEach(segment => {
+              if (!coordinates(segment.startLat, segment.startLng) || !coordinates(segment.endLat, segment.endLng)) return;
+              bounds.push(point(segment.startLat, segment.startLng), point(segment.endLat, segment.endLng));
+              const color = segment.status === RouteStatus.CLOSED || segment.status === RouteStatus.DISRUPTED ? '#ef4444' : segment.status === RouteStatus.CAUTION ? '#f59e0b' : '#10b981';
+              const line = L.polyline([point(segment.startLat, segment.startLng), point(segment.endLat, segment.endLng)], { color, weight: 7, dashArray: '6, 6' });
+              line.on('click', () => setSelectedItem({ type: 'route', data: { ...segment, description: segment.conditionNotes } }));
+              layerGroup.addLayer(line);
+            });
 
             // Start & End markers
             const startIcon = L.divIcon({
               className: 'custom-route-icon',
               html: `
                 <div class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 border-2 border-emerald-400 shadow-md text-emerald-400 font-bold text-[10px]" style="transform: translate(-50%, -50%);">
-                  <span>START</span>
+                  <span>S</span>
                 </div>
               `,
-              iconSize: [28, 28],
+              iconSize: [28, 28], iconAnchor: [0, 0],
             });
 
             const endIcon = L.divIcon({
               className: 'custom-route-icon',
               html: `
                 <div class="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900 border-2 border-sky-400 shadow-md text-sky-400 font-bold text-[10px]" style="transform: translate(-50%, -50%);">
-                  <span>END</span>
+                  <span>E</span>
                 </div>
               `,
-              iconSize: [28, 28],
+              iconSize: [28, 28], iconAnchor: [0, 0],
             });
 
-            const startMarker = L.marker([route.startLat, route.startLng], { icon: startIcon });
+            const startMarker = L.marker(point(route.startLat, route.startLng), { icon: startIcon });
             startMarker.on('click', () => {
               haptic.selection();
               setSelectedItem({ type: 'route', data: route });
             });
             layerGroup.addLayer(startMarker);
 
-            const endMarker = L.marker([route.endLat, route.endLng], { icon: endIcon });
+            const endMarker = L.marker(point(route.endLat, route.endLng), { icon: endIcon });
             endMarker.on('click', () => {
               haptic.selection();
               setSelectedItem({ type: 'route', data: route });
@@ -176,8 +195,8 @@ export function TrailWatchMap({
       // 2. Draw Hazard & Condition Alerts
       if (activeFilter === 'ALL' || activeFilter === 'ALERTS') {
         alerts.forEach((alert) => {
-          if (alert.latitude && alert.longitude) {
-            bounds.push([alert.latitude, alert.longitude]);
+          if (coordinates(alert.latitude, alert.longitude)) {
+            bounds.push(point(alert.latitude, alert.longitude));
 
             const isHigh =
               alert.severity === TrailWatchSeverity.HIGH ||
@@ -196,14 +215,14 @@ export function TrailWatchMap({
                     </svg>
                   </div>
                   <div class="px-1.5 py-0.5 mt-0.5 rounded bg-slate-950/90 text-white text-[9px] font-bold border border-white/20 whitespace-nowrap shadow-md">
-                    ${alert.type}
+                    ${String(alert.type).replace(/[^A-Z_]/g, '')}
                   </div>
                 </div>
               `,
               iconSize: [32, 42],
             });
 
-            const marker = L.marker([alert.latitude, alert.longitude], { icon: alertIcon });
+            const marker = L.marker(point(alert.latitude, alert.longitude), { icon: alertIcon });
             marker.on('click', () => {
               haptic.selection();
               setSelectedItem({ type: 'alert', data: alert });
@@ -217,8 +236,8 @@ export function TrailWatchMap({
       // 3. Draw Community Reports
       if (activeFilter === 'ALL' || activeFilter === 'REPORTS') {
         reports.forEach((report) => {
-          if (report.latitude && report.longitude) {
-            bounds.push([report.latitude, report.longitude]);
+          if (coordinates(report.latitude, report.longitude)) {
+            bounds.push(point(report.latitude, report.longitude));
 
             const reportIcon = L.divIcon({
               className: 'custom-report-pin',
@@ -237,7 +256,7 @@ export function TrailWatchMap({
               iconSize: [28, 36],
             });
 
-            const marker = L.marker([report.latitude, report.longitude], { icon: reportIcon });
+            const marker = L.marker(point(report.latitude, report.longitude), { icon: reportIcon });
             marker.on('click', () => {
               haptic.selection();
               setSelectedItem({ type: 'report', data: report });
@@ -249,9 +268,9 @@ export function TrailWatchMap({
       }
 
       // 4. Draw Affected Activities Marker
-      affectedActivities.forEach((act) => {
-        if (act.latitude && act.longitude) {
-          bounds.push([act.latitude, act.longitude]);
+      (activeFilter === 'ALL' ? affectedActivities : []).forEach((act) => {
+        if (coordinates(act.latitude, act.longitude)) {
+          bounds.push(point(act.latitude, act.longitude));
 
           const actIcon = L.divIcon({
             className: 'custom-activity-pin',
@@ -273,7 +292,7 @@ export function TrailWatchMap({
             iconSize: [32, 40],
           });
 
-          const marker = L.marker([act.latitude, act.longitude], { icon: actIcon });
+          const marker = L.marker(point(act.latitude, act.longitude), { icon: actIcon });
           marker.on('click', () => {
             haptic.selection();
             setSelectedItem({ type: 'activity', data: act });
@@ -282,7 +301,10 @@ export function TrailWatchMap({
         }
       });
 
+      if (location && coordinates(location.latitude, location.longitude)) bounds.push([location.latitude, location.longitude]);
       // Fit map bounds smoothly
+      if (bounds.length === 1) map.setView(bounds[0], 12);
+      else if (!bounds.length) map.setView([0, 0], 2);
       if (bounds.length > 1) {
         try {
           map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13 });
@@ -290,15 +312,17 @@ export function TrailWatchMap({
       }
     }
 
-    initOrUpdateMap();
+    initOrUpdateMap().catch(() => { if (isMounted) setMapError('Map could not load. Please retry.'); });
 
     return () => {
       isMounted = false;
     };
-  }, [routes, alerts, reports, affectedActivities, activeFilter]);
+  }, [routes, alerts, reports, affectedActivities, activeFilter, location, weather, destination]);
 
   return (
     <div className="relative w-full h-[420px] sm:h-[480px] lg:h-[540px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950">
+      {mapError && <div role="alert" className="absolute bottom-3 left-3 right-3 z-30 rounded-xl bg-slate-900 p-3 text-sm text-amber-200">{mapError}</div>}
+      {!location && routes.length === 0 && reports.length === 0 && <div className="absolute top-20 left-3 right-3 z-10 rounded-xl bg-slate-900/95 p-3 text-sm text-slate-200">Location coordinates unavailable for {destination}. Choose a precise trip destination to center this map.</div>}
       {/* Map DOM Element */}
       <div ref={mapContainerRef} className="w-full h-full z-0" />
 
@@ -331,7 +355,7 @@ export function TrailWatchMap({
       {/* Live Map Status Pill */}
       <div className="absolute top-3 right-3 hidden sm:flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/10 shadow-lg text-xs font-semibold text-slate-200">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        <span>Live Route Intelligence</span>
+        <span>Reported conditions · route lines are schematic</span>
       </div>
 
       {/* Selected Marker Detail Card / Drawer */}

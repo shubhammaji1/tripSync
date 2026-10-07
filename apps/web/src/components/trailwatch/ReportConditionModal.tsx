@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
+import React, { useState, useEffect } from 'react';
 import {
   X,
   AlertTriangle,
@@ -37,8 +39,8 @@ export function ReportConditionModal({
   isOpen,
   onClose,
   onReportCreated,
-  defaultLat = 27.041,
-  defaultLng = 88.2663,
+  defaultLat,
+  defaultLng,
 }: ReportConditionModalProps) {
   const [category, setCategory] = useState<TrailReportCategory>(
     TrailReportCategory.POOR_VISIBILITY
@@ -49,13 +51,16 @@ export function ReportConditionModal({
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [locationName, setLocationName] = useState(destination);
-  const [latitude, setLatitude] = useState<number>(defaultLat);
-  const [longitude, setLongitude] = useState<number>(defaultLng);
+  const [latitude, setLatitude] = useState<number | undefined>(defaultLat);
+  const [longitude, setLongitude] = useState<number | undefined>(defaultLng);
   const [imageUrl, setImageUrl] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (isOpen) { setLatitude(defaultLat); setLongitude(defaultLng); setLocationName(destination); setError(null); }
+  }, [isOpen, defaultLat, defaultLng, destination]);
   if (!isOpen) return null;
 
   const handleGetCurrentLocation = () => {
@@ -68,7 +73,7 @@ export function ReportConditionModal({
           setLocationName((prev) => (prev ? prev : 'Current GPS Location'));
         },
         (err) => {
-          console.warn('Geolocation failed:', err);
+          setError('Location permission unavailable. Enter the coordinates manually.');
         }
       );
     }
@@ -81,6 +86,9 @@ export function ReportConditionModal({
       return;
     }
 
+    if (latitude == null || longitude == null || !Number.isFinite(latitude) || !Number.isFinite(longitude) || Math.abs(latitude) > 90 || Math.abs(longitude) > 180) {
+      setError('Choose your GPS location or enter valid latitude and longitude.'); return;
+    }
     setIsSubmitting(true);
     setError(null);
 
@@ -115,7 +123,7 @@ export function ReportConditionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <AccessibleOverlay className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
       <div className="relative w-full max-w-lg bg-slate-900 border border-white/15 rounded-3xl p-6 sm:p-7 shadow-2xl overflow-y-auto max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
@@ -266,15 +274,15 @@ export function ReportConditionModal({
                 <input
                   type="number"
                   step="0.0001"
-                  value={latitude}
-                  onChange={(e) => setLatitude(parseFloat(e.target.value) || 0)}
+                  required min={-90} max={90} aria-label="Latitude" value={latitude ?? ''}
+                  onChange={(e) => setLatitude(e.target.value === '' ? undefined : Number(e.target.value))}
                   className="w-1/2 bg-slate-800/80 border border-white/10 rounded-xl px-2.5 py-2 text-xs text-white"
                   placeholder="Lat"
                 />
                 <input
                   type="number"
                   step="0.0001"
-                  value={longitude}
+                  required min={-180} max={180} aria-label="Longitude" value={longitude ?? ''}
                   onChange={(e) => setLongitude(parseFloat(e.target.value) || 0)}
                   className="w-1/2 bg-slate-800/80 border border-white/10 rounded-xl px-2.5 py-2 text-xs text-white"
                   placeholder="Lng"
@@ -310,6 +318,6 @@ export function ReportConditionModal({
           </div>
         </form>
       </div>
-    </div>
+    </AccessibleOverlay>
   );
 }

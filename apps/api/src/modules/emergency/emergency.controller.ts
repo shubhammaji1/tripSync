@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { EmergencyService } from './emergency.service';
+import { RolesGuard } from '../../common/roles.guard';
+import { RequireRoles } from '../../common/roles.decorator';
+import { TripRole } from '@tripsync/types';
 import { AuthGuard } from '../../common/auth.guard';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
@@ -23,7 +26,8 @@ import { Profile } from '@tripsync/types';
 
 @ApiTags('Emergency')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
+@RequireRoles(TripRole.VIEWER)
 @Controller('trips/:tripId/emergency')
 export class EmergencyController {
   constructor(private readonly emergencyService: EmergencyService) {}
@@ -47,6 +51,7 @@ export class EmergencyController {
   }
 
   @Post('contacts')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Add a new emergency contact (Owner / Admin)' })
   async createEmergencyContact(
     @Param('tripId') tripId: string,
@@ -57,6 +62,7 @@ export class EmergencyController {
   }
 
   @Patch('contacts/:contactId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Update an existing emergency contact (Owner / Admin)' })
   async updateEmergencyContact(
     @Param('tripId') tripId: string,
@@ -68,6 +74,7 @@ export class EmergencyController {
   }
 
   @Delete('contacts/:contactId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Delete an emergency contact (Owner / Admin)' })
   async deleteEmergencyContact(
     @Param('tripId') tripId: string,
@@ -78,6 +85,7 @@ export class EmergencyController {
   }
 
   @Post('seed-starter')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Seed quick starter emergency contacts for a trip (Owner / Admin)' })
   async seedStarterContacts(
     @Param('tripId') tripId: string,

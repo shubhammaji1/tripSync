@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ItineraryService } from './itinerary.service';
+import { RolesGuard } from '../../common/roles.guard';
+import { RequireRoles } from '../../common/roles.decorator';
+import { TripRole } from '@tripsync/types';
 import { AuthGuard } from '../../common/auth.guard';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
@@ -24,7 +27,8 @@ import {
 
 @ApiTags('Itinerary')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
+@RequireRoles(TripRole.VIEWER)
 @Controller('trips/:tripId/itinerary')
 export class ItineraryController {
   constructor(private readonly itineraryService: ItineraryService) {}
@@ -39,6 +43,7 @@ export class ItineraryController {
   }
 
   @Post('days')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Create a custom itinerary day' })
   async createDay(
     @Param('tripId') tripId: string,
@@ -49,6 +54,7 @@ export class ItineraryController {
   }
 
   @Post('activities')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Add a new activity to a trip day' })
   async createActivity(
     @Param('tripId') tripId: string,
@@ -59,6 +65,7 @@ export class ItineraryController {
   }
 
   @Delete('days/:dayId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Delete an itinerary day and its activities' })
   async deleteDay(
     @Param('tripId') tripId: string,
@@ -69,6 +76,7 @@ export class ItineraryController {
   }
 
   @Patch('activities/:activityId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Update an existing activity' })
   async updateActivity(
     @Param('tripId') tripId: string,
@@ -80,6 +88,7 @@ export class ItineraryController {
   }
 
   @Delete('activities/:activityId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Delete an activity' })
   async deleteActivity(
     @Param('tripId') tripId: string,

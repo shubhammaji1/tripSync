@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
+import { NotificationQueueService } from './notification-queue.service';
 
 export interface SendTripInviteOptions {
   to: string;
@@ -17,7 +18,7 @@ export class MailService {
   private transporter: nodemailer.Transporter | null = null;
   private readonly fromEmail: string;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(private readonly configService: ConfigService, private readonly notifications: NotificationQueueService) {
     const host = this.configService.get<string>('SMTP_HOST');
     const port = parseInt(this.configService.get<string>('SMTP_PORT') || '587', 10);
     const user = this.configService.get<string>('SMTP_USER') || this.configService.get<string>('GMAIL_USER');
@@ -32,6 +33,7 @@ export class MailService {
           host,
           port,
           secure,
+          requireTLS: process.env.NODE_ENV === 'production' && !secure,
           auth: { user, pass },
         });
         this.logger.log(`📧 SMTP Transporter initialized (${host}:${port})`);
@@ -58,10 +60,14 @@ export class MailService {
    * Sends a trip invitation email.
    * Returns { sent: true } if delivered via SMTP/Resend, or { sent: false } if simulated.
    */
-  async sendTripInvitation(options: SendTripInviteOptions): Promise<{ sent: boolean; message?: string }> {
+  async sendTripInvitation(options: SendTripInviteOptions): Promise<{ sent: boolean; queued?: boolean; message?: string }> {
     const { to, tripName, tripDestination, inviterName, role, inviteLink } = options;
 
     const subject = `You're invited to join ${tripName} on TripSync! ✈️`;
+    if (this.notifications.enabled) {
+      await this.notifications.sendInvitation(to, subject, `You have been invited to join "${tripName}" by ${inviterName} as ${role}.\n\n${inviteLink}`);
+      return { sent: false, queued: true, message: 'Invitation email queued for delivery' };
+    }
 
     const html = `
 <!DOCTYPE html>
@@ -139,6 +145,7 @@ export class MailService {
         }
 
         const res = await fetch('https://api.resend.com/emails', {
+          signal: AbortSignal.timeout(15000),
           method: 'POST',
           headers: {
             Authorization: `Bearer ${resendApiKey}`,
@@ -182,7 +189,7 @@ export class MailService {
     }
 
     // 3. Fallback: Log to console
-    this.logger.log(`\n======================================================\n📨 [SIMULATED EMAIL DISPATCH]\nTo: ${to}\nSubject: ${subject}\nInvite Link: ${inviteLink}\n(Configure SMTP_HOST/SMTP_USER/SMTP_PASS or RESEND_API_KEY in .env for live email delivery)\n======================================================\n`);
+    this.logger.warn('Invitation email was not delivered; configure and verify the email provider.');
     return { sent: false, message: 'SMTP not configured in .env' };
   }
 }

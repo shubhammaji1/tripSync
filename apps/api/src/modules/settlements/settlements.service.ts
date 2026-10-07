@@ -1,4 +1,4 @@
-import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, Inject, Optional, NotFoundException, ForbiddenException, BadRequestException, ServiceUnavailableException } from '@nestjs/common';
 import {
   BalanceSummary,
   OptimizedTransfer,
@@ -36,7 +36,8 @@ export class SettlementsService {
    */
   calculateNetBalances(
     allMembers: Profile[],
-    allExpenses: RawExpense[]
+    allExpenses: RawExpense[],
+    recorded: { fromUserId: string; toUserId: string; amount: number | string }[] = []
   ): Map<string, number> {
     const netBalances = new Map<string, number>();
 
@@ -62,7 +63,12 @@ export class SettlementsService {
       }
     }
 
-    return netBalances;
+    for (const transfer of recorded) {
+      const amount = Number(transfer.amount);
+      netBalances.set(transfer.fromUserId, (netBalances.get(transfer.fromUserId) || 0) + amount);
+      netBalances.set(transfer.toUserId, (netBalances.get(transfer.toUserId) || 0) - amount);
+    }
+    return new Map([...netBalances].map(([id, amount]) => [id, Math.round(amount * 100) / 100]));
   }
 
   /**
@@ -72,10 +78,11 @@ export class SettlementsService {
   optimizeSettlements(
     allMembers: Profile[],
     allExpenses: RawExpense[],
-    currency: string = 'INR'
+    currency: string = 'INR',
+    recorded: { fromUserId: string; toUserId: string; amount: number | string }[] = []
   ): OptimizedTransfer[] {
     const memberMap = new Map<string, Profile>(allMembers.map((m) => [m.id, m]));
-    const netBalances = this.calculateNetBalances(allMembers, allExpenses);
+    const netBalances = this.calculateNetBalances(allMembers, allExpenses, recorded);
 
     // Separate into debtors (negative balance) and creditors (positive balance)
     const debtors: { userId: string; amount: number }[] = [];
@@ -83,9 +90,9 @@ export class SettlementsService {
 
     netBalances.forEach((balance, userId) => {
       const rounded = Math.round(balance * 100) / 100;
-      if (rounded < -0.01) {
+      if (rounded <= -0.01) {
         debtors.push({ userId, amount: -rounded });
-      } else if (rounded > 0.01) {
+      } else if (rounded >= 0.01) {
         creditors.push({ userId, amount: rounded });
       }
     });
@@ -212,22 +219,22 @@ export class SettlementsService {
   /**
    * Get settlements and optimized transfers for a trip
    */
-  async getTripSettlements(tripId: string, userId?: string) {
+  async getTripSettlements(tripId: string, userId?: string, database = this.db) {
     if (userId) {
       await this.verifyTripAccess(tripId, userId);
     }
 
-    if (this.db) {
+    if (database) {
       try {
         // Query members from database
-        const membersResult = await this.db.query.tripMembers.findMany({
+        const membersResult = await database.query.tripMembers.findMany({
           where: eq(tripMembers.tripId, tripId),
           with: { user: true },
         });
         const membersList = membersResult.map((m) => m.user as unknown as Profile);
 
         // Query expenses and participants
-        const expensesResult = await this.db.query.expenses.findMany({
+        const expensesResult = await database.query.expenses.findMany({
           where: eq(expenses.tripId, tripId),
           with: { participants: true },
         });
@@ -243,13 +250,17 @@ export class SettlementsService {
           })),
         }));
 
-        const balances = this.generateBalanceSummaries(membersList, rawExpenses);
-        const optimizedTransfers = this.optimizeSettlements(membersList, rawExpenses);
-
-        const existingSettlements = await this.db.query.settlements.findMany({
-          where: eq(settlements.tripId, tripId),
-          with: { fromUser: true, toUser: true },
+        const trip = await database.query.trips.findFirst({ where: eq(trips.id, tripId), with: { owner: true } });
+        if (!membersList.some(m => m.id === trip.ownerId)) membersList.push(trip.owner as unknown as Profile);
+        const existingSettlements = await database.query.settlements.findMany({
+          where: eq(settlements.tripId, tripId), with: { fromUser: true, toUser: true },
         });
+        const recorded = existingSettlements.filter(s => s.status === SettlementStatus.SETTLED);
+        if (rawExpenses.some(e => e.currency !== trip.currency) || recorded.some(s => s.currency !== trip.currency))
+          throw new BadRequestException('Mixed currency ledger requires reconciliation');
+        const net = this.calculateNetBalances(membersList, rawExpenses, recorded);
+        const balances = this.generateBalanceSummaries(membersList, rawExpenses).map(b => ({ ...b, netBalance: net.get(b.userId) || 0 }));
+        const optimizedTransfers = this.optimizeSettlements(membersList, rawExpenses, trip.currency, recorded);
 
         return {
           balances,
@@ -257,54 +268,13 @@ export class SettlementsService {
           settlements: existingSettlements,
         };
       } catch (err) {
-        console.warn('Database query fallback to mock data:', err);
+        throw err;
       }
     }
 
-    // Mock fallback for quick offline dev / testing
-    const defaultProfiles: Profile[] = SEED_USERS.map((u) => ({
-      ...u,
-      createdAt: '2026-08-01T00:00:00Z',
-      updatedAt: '2026-08-01T00:00:00Z',
-    }));
-
-    const mockExpenses: RawExpense[] = [
-      {
-        id: 'exp-1',
-        paidById: defaultProfiles[0].id, // Rahul paid ₹6,000 (equal split 6 members = 1000 each)
-        amount: 6000,
-        currency: 'INR',
-        participants: defaultProfiles.map((p) => ({ userId: p.id, shareAmount: 1000 })),
-      },
-      {
-        id: 'exp-2',
-        paidById: defaultProfiles[1].id, // Shubham paid ₹2,400 (equal split 6 members = 400 each)
-        amount: 2400,
-        currency: 'INR',
-        participants: defaultProfiles.map((p) => ({ userId: p.id, shareAmount: 400 })),
-      },
-      {
-        id: 'exp-3',
-        paidById: defaultProfiles[2].id, // Priya paid ₹3,200 (equal split 6 members = 533.33 each)
-        amount: 3200,
-        currency: 'INR',
-        participants: defaultProfiles.map((p) => ({ userId: p.id, shareAmount: 533.33 })),
-      },
-    ];
-
-    const balances = this.generateBalanceSummaries(defaultProfiles, mockExpenses);
-    const optimizedTransfers = this.optimizeSettlements(defaultProfiles, mockExpenses);
-
-    return {
-      balances,
-      optimizedTransfers,
-      settlements: [],
-    };
+    throw new ServiceUnavailableException('Database unavailable');
   }
 
-  /**
-   * Mark a debt or settlement as settled
-   */
   async recordSettlement(tripId: string, userId: string, payload: {
     fromUserId: string;
     toUserId: string;
@@ -325,6 +295,9 @@ export class SettlementsService {
         throw new ForbiddenException('Caller is not a member of this trip or authorized to record settlements');
       }
 
+      if (callerMembership?.role === TripRole.VIEWER && !isOwner) throw new ForbiddenException('Viewers cannot record settlements');
+      if (payload.fromUserId === payload.toUserId || !Number.isFinite(payload.amount) || payload.amount <= 0) throw new BadRequestException('Invalid settlement');
+      if ((payload.currency || 'INR') !== trip.currency) throw new BadRequestException('Currency must match the trip');
       const isAdmin = isOwner || callerMembership?.role === TripRole.ADMIN;
       const isParty = payload.fromUserId === userId || payload.toUserId === userId;
       if (!isAdmin && !isParty) {
@@ -337,7 +310,15 @@ export class SettlementsService {
         throw new ForbiddenException('Settlement parties must be members of this trip');
       }
 
-      const [newSettlement] = await (this.db.insert(settlements).values({
+      return this.db.transaction(async tx => {
+      await tx.select().from(trips).where(eq(trips.id, tripId)).for('update');
+      const ledger = await this.getTripSettlements(tripId, undefined, tx as any);
+      const from = ledger.balances.find(b => b.userId === payload.fromUserId)?.netBalance || 0;
+      const to = ledger.balances.find(b => b.userId === payload.toUserId)?.netBalance || 0;
+      const amount = Math.round(payload.amount * 100);
+      if (from >= 0 || to <= 0 || amount > Math.min(Math.round(-from * 100), Math.round(to * 100)))
+        throw new BadRequestException('Payment exceeds the outstanding balance. Refresh settlements.');
+      const [newSettlement] = await (tx.insert(settlements).values({
         tripId,
         fromUserId: payload.fromUserId,
         toUserId: payload.toUserId,
@@ -348,14 +329,9 @@ export class SettlementsService {
         notes: payload.notes || 'Settled in TripSync',
       } as any) as any).returning();
       return newSettlement;
+      });
     }
 
-    return {
-      id: 'settle-' + Date.now(),
-      tripId,
-      ...payload,
-      status: SettlementStatus.SETTLED,
-      settledAt: new Date().toISOString(),
-    };
+    throw new ServiceUnavailableException('Database unavailable');
   }
 }

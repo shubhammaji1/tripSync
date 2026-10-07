@@ -23,17 +23,17 @@ export function Footer() {
             </Link>
 
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              The collaborative platform for modern group travel. Plan itineraries together, eliminate awkward bill splits with automated settlements, and keep everyone safe in real time.
+              The collaborative platform for group travel. Share itineraries, calculate expense balances, and keep your crew informed.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-2.5">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>All Systems Operational</span>
+                <span>Shared travel workspace</span>
               </div>
 
               <span className="text-[10px] text-slate-500 font-medium">
-                v2.4.0 • Enterprise Cloud
+                Plan • Coordinate • Travel
               </span>
             </div>
           </div>

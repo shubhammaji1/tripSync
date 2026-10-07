@@ -1,3 +1,4 @@
+import { FormAccessibility } from '@/components/FormAccessibility';
 import { ClerkProvider } from '@clerk/nextjs';
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
@@ -9,6 +10,8 @@ import { MountainOfflineSentinel } from '@/components/MountainOfflineSentinel';
 import { TravelPreloader } from '@/components/TravelPreloader';
 import { AuthProvider } from '@/lib/auth-context';
 import { ApiAuthBridge } from '@/components/ApiAuthBridge';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://tripsync.app'),
@@ -66,8 +69,6 @@ export const viewport: Viewport = {
   themeColor: '#090d16',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   colorScheme: 'light',
 };
 
@@ -82,10 +83,10 @@ export default function RootLayout({
         <ClerkProvider>
           <AuthProvider>
             <ApiAuthBridge />
+            <FormAccessibility />
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
-            <TravelPreloader />
             <PWAInstallPrompt />
             <MountainOfflineSentinel />
           </AuthProvider>

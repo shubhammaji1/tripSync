@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { TasksService } from './tasks.service';
+import { RolesGuard } from '../../common/roles.guard';
+import { RequireRoles } from '../../common/roles.decorator';
+import { TripRole } from '@tripsync/types';
 import { AuthGuard } from '../../common/auth.guard';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import {
@@ -23,7 +26,8 @@ import { CurrentUser } from '../../common/current-user.decorator';
 
 @ApiTags('Tasks')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
+@RequireRoles(TripRole.VIEWER)
 @Controller('trips/:tripId/tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
@@ -38,6 +42,7 @@ export class TasksController {
   }
 
   @Post()
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Create a new task with assignee and due date' })
   async createTask(
     @Param('tripId') tripId: string,
@@ -48,6 +53,7 @@ export class TasksController {
   }
 
   @Patch(':taskId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Update task details or change status' })
   async updateTask(
     @Param('tripId') tripId: string,
@@ -59,6 +65,7 @@ export class TasksController {
   }
 
   @Delete(':taskId')
+  @RequireRoles(TripRole.MEMBER)
   @ApiOperation({ summary: 'Delete a task' })
   async deleteTask(
     @Param('tripId') tripId: string,

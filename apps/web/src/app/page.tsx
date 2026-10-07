@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -290,12 +292,12 @@ export default function LandingPage() {
             {
               emoji: '📡',
               title: 'Offline-ready',
-              desc: 'Full itinerary, maps, and cached docs work without cellular signal in remote mountains.',
+              desc: 'Save a read-only itinerary and emergency contacts for the current browser session.',
             },
             {
               emoji: '💱',
               title: 'Multi-currency',
-              desc: 'Automatic FX rates so no one overpays on international and border trips.',
+              desc: 'Choose your trip currency and keep expenses and settlements in that currency.',
             },
             {
               emoji: '👥',
@@ -588,19 +590,19 @@ export default function LandingPage() {
               </div>
               <div>
                 <h4 className="text-lg font-black text-slate-900">Mountain Offline Mode</h4>
-                <p className="text-xs text-slate-500 font-semibold">Zero signal? No problem.</p>
+                <p className="text-xs text-slate-500 font-semibold">Read your saved travel packet offline.</p>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-              High passes and remote trails often have zero cellular bars. TripSync automatically caches your complete itinerary, boarding passes, emergency numbers, and hotel contacts offline.
+              Open your trip online to save its itinerary and emergency contacts for this browser session. The offline packet is read-only; maps, documents, payments and live conditions require a connection.
             </p>
 
             <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-xs">
               <span className="font-bold text-slate-700">Offline Packet Status</span>
               <span className="inline-flex items-center gap-1 font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/60">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>100% Synced Locally</span>
+                <span>Saved after opening your trip online</span>
               </span>
             </div>
           </div>
@@ -618,7 +620,7 @@ export default function LandingPage() {
             </div>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-              Log expenses in USD, EUR, or INR. When the trip ends, TripSync cancels out circular debts so each traveler makes the absolute minimum number of payments.
+              Record expenses in your chosen trip currency. TripSync calculates each member’s net balance and suggests fewer direct payments to settle the group’s debts.
             </p>
 
             <div className="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex items-center justify-between text-xs">
@@ -666,7 +668,7 @@ export default function LandingPage() {
             </span>
             <h3 className="text-xl font-black text-slate-900 mb-2">Plan</h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Share a simple 6-digit invite link with your crew. Add must-do spots, assign checklist tasks, and pin stays.
+              Share a secure invite link with your crew. Add must-do spots, assign checklist tasks, and pin stays.
             </p>
           </div>
 
@@ -697,7 +699,7 @@ export default function LandingPage() {
         </blockquote>
 
         <p className="text-sm sm:text-base text-slate-500 font-semibold mb-10 sm:mb-14">
-          Trusted by over 12,000+ friend groups, trekking crews, and families worldwide.
+          Built for friend groups, trekking crews, and families. The stories below illustrate how a shared travel workspace can help.
         </p>
 
         {/* Testimonial Cards Carousel / Grid */}
@@ -773,7 +775,7 @@ export default function LandingPage() {
       {/* JOIN TRIP MODAL DIALOG                                    */}
       {/* ========================================================= */}
       {joinModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+        <AccessibleOverlay className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-sm w-full p-6 text-left relative animate-in zoom-in-95 duration-200">
             <button
               type="button"
@@ -822,7 +824,7 @@ export default function LandingPage() {
               </div>
             </form>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
     </div>
   );

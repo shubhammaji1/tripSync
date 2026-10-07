@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState, useEffect } from 'react';
 import {
   Bell,
@@ -257,7 +259,7 @@ export function LiveActivityFeedDrawer({
 
       {/* 2. Slide-out Activity Feed Drawer / Mobile Bottom Sheet */}
       {isOpen && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-stretch sm:justify-end bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
+        <AccessibleOverlay className="fixed inset-0 z-[60] flex items-end sm:items-stretch sm:justify-end bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative z-10 w-full sm:max-w-md bg-slate-900 border-t sm:border-t-0 sm:border-l border-slate-800 text-white flex flex-col h-[85vh] sm:h-full rounded-t-3xl sm:rounded-none shadow-2xl animate-in slide-in-from-bottom sm:slide-in-from-right duration-300 overflow-hidden">
             
             {/* Mobile Top Grab Bar */}
@@ -424,7 +426,7 @@ export function LiveActivityFeedDrawer({
               )}
             </div>
           </div>
-        </div>
+        </AccessibleOverlay>
       )}
     </>
   );

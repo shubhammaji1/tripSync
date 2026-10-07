@@ -30,7 +30,7 @@ export default function SafetyGuidelinesPage() {
             Traveler Safety & Emergency Standards
           </h1>
           <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl">
-            Group expeditions are unforgettable adventures, but unexpected situations happen. TripSync is engineered with safety-first protocols so no traveler is ever left stranded or without help.
+            TripSync helps your group store emergency contacts and coordinate travel. Verify the local numbers and conditions for your destination before departure.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export default function SafetyGuidelinesPage() {
               <PhoneCall className="w-4 h-4" />
             </div>
             <h3 className="font-extrabold text-sm text-white">1-Tap SOS Dialing</h3>
-            <p className="text-xs text-red-200/80">Direct connection to 112, 100 Police, 108 Ambulance, and Fire Dept.</p>
+            <p className="text-xs text-red-200/80">Dial the emergency contacts saved for your trip. Numbers vary by country and region.</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 space-y-1.5">
@@ -57,7 +57,7 @@ export default function SafetyGuidelinesPage() {
               <MapPin className="w-4 h-4" />
             </div>
             <h3 className="font-extrabold text-sm text-white">Offline Directory</h3>
-            <p className="text-xs text-sky-200/80">All emergency numbers remain accessible offline without cellular data.</p>
+            <p className="text-xs text-sky-200/80">Saved emergency contacts remain in your read-only packet for the current browser session.</p>
           </div>
 
           <div className="p-4 rounded-2xl bg-purple-950/40 border border-purple-800/60 space-y-1.5">

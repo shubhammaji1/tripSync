@@ -15,6 +15,20 @@
       "when": 1787815000000,
       "tag": "0001_sample_trip_owner_only",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791277239427,
+      "tag": "0002_keen_frog_thor",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791277239428,
+      "tag": "0003_private_collaboration",
+      "breakpoints": true
     }
   ]
 }

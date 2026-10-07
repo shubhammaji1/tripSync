@@ -370,6 +370,9 @@ export interface AffectedActivity {
 }
 
 export interface TrailWatchOverview {
+  resolvedLocation?: { latitude: number; longitude: number; name: string } | null;
+  monitoringStatus?: 'AVAILABLE' | 'PARTIAL' | 'UNAVAILABLE';
+  weatherError?: string | null;
   tripId: string;
   destination: string;
   overallStatus: RouteStatus;

@@ -1,5 +1,6 @@
 import {
   pgTable,
+  jsonb,
   uuid,
   text,
   timestamp,
@@ -189,6 +190,8 @@ export const trips = pgTable(
     name: text('name').notNull(),
     description: text('description'),
     destination: text('destination').notNull(),
+    destinationLat: doublePrecision('destination_lat'),
+    destinationLng: doublePrecision('destination_lng'),
     startDate: text('start_date').notNull(),
     endDate: text('end_date').notNull(),
     budget: numeric('budget', { precision: 12, scale: 2 }),
@@ -431,6 +434,8 @@ export const documents = pgTable(
     userId: uuid('user_id').references(() => profiles.id, { onDelete: 'cascade' }).notNull(),
     title: text('title').notNull(),
     fileUrl: text('file_url').notNull(),
+    metadata: jsonb('metadata').$type<Record<string, any>>().default({}).notNull(),
+    pinDigest: text('pin_digest'),
     fileType: text('file_type').notNull(),
     fileSize: integer('file_size').notNull(),
     category: text('category').default('GENERAL').notNull(),
@@ -828,3 +833,14 @@ export const trailwatchAlertsRelations = relations(trailwatchAlerts, ({ one }) =
     references: [profiles.id],
   }),
 }));
+
+export const chatMessages = pgTable('chat_messages', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'cascade' }).notNull(),
+  senderId: uuid('sender_id').references(() => profiles.id, { onDelete: 'cascade' }).notNull(),
+  senderName: text('sender_name').notNull(),
+  senderRole: text('sender_role').notNull(),
+  content: text('content').notNull(),
+  isAnnouncement: boolean('is_announcement').default(false).notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+}, t => ({ tripCreatedIdx: index('chat_messages_trip_created_idx').on(t.tripId, t.createdAt) }));

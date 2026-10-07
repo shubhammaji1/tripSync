@@ -1,5 +1,7 @@
 'use client';
 
+import { AccessibleOverlay } from '@/components/AccessibleOverlay';
+
 import React, { useState } from 'react';
 import { X, Download, ZoomIn, ZoomOut, RotateCw, Receipt, ExternalLink } from 'lucide-react';
 
@@ -34,7 +36,7 @@ export function ReceiptPreviewModal({
   const handleRotate = () => setRotation((prev) => (prev + 90) % 360);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/85 backdrop-blur-md p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
+    <AccessibleOverlay className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/85 backdrop-blur-md p-4 sm:p-6 md:p-8 flex min-h-full items-center justify-center">
       <div className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 text-white rounded-3xl shadow-2xl overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] animate-in fade-in zoom-in-95 duration-200">
         {/* Modal Header */}
         <div className="p-4 sm:p-5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
@@ -85,7 +87,7 @@ export function ReceiptPreviewModal({
               transform: `scale(${zoomLevel}) rotate(${rotation}deg)`,
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {}
             <img
               src={receiptUrl}
               alt={`Receipt for ${expenseTitle}`}
@@ -125,6 +127,6 @@ export function ReceiptPreviewModal({
           </div>
         </div>
       </div>
-    </div>
+    </AccessibleOverlay>
   );
 }

@@ -2,7 +2,7 @@ import { Injectable, Inject, Optional, NotFoundException, ForbiddenException } f
 import { CreateTripInput, UpdateTripInput } from '@tripsync/validation';
 import { Trip, TripRole, TripStatus, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
-import { trips, tripMembers, profiles, activities } from '../../database/schema';
+import { settlements, expenses, trips, tripMembers, profiles, activities } from '../../database/schema';
 import { eq, and, desc } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_TRIP_2_ID, SEED_USERS } from '../../database/seed';
 
@@ -196,10 +196,13 @@ export class TripsService {
 
     if (this.db) {
       try {
-        const [inserted] = await (this.db.insert(trips).values({
+        const inserted = await this.db.transaction(async tx => {
+        const [inserted] = await (tx.insert(trips).values({
           name: sanitizedName,
           description: sanitizedDesc,
           destination: input.destination,
+          destinationLat: input.destinationLat,
+          destinationLng: input.destinationLng,
           startDate: input.startDate,
           endDate: input.endDate,
           budget: input.budget ? input.budget.toString() : null,
@@ -211,11 +214,13 @@ export class TripsService {
         } as any) as any).returning();
 
         // Add creator as OWNER in trip_members
-        await (this.db.insert(tripMembers).values({
+        await (tx.insert(tripMembers).values({
           tripId: inserted.id,
           userId: userId,
           role: TripRole.OWNER,
         } as any) as any);
+        return inserted;
+        });
 
         return {
           ...inserted,
@@ -276,7 +281,15 @@ export class TripsService {
   }
 
   async updateTrip(tripId: string, userId: string, input: UpdateTripInput) {
-    await this.requireTripManager(tripId, userId);
+    const currentTrip = await this.requireTripManager(tripId, userId);
+    if (input.destination !== undefined && input.destination !== currentTrip.destination && input.destinationLat === undefined) {
+      input = { ...input, destinationLat: null, destinationLng: null };
+    }
+    if (input.currency && input.currency !== currentTrip.currency && this.db) {
+      const ledger = await this.db.query.expenses.findFirst({ where: eq(expenses.tripId, tripId) });
+      const paid = await this.db.query.settlements.findFirst({ where: eq(settlements.tripId, tripId) });
+      if (ledger || paid) throw new ForbiddenException('Trip currency cannot change after recording expenses or settlements');
+    }
 
     const sanitizedData = {
       ...input,

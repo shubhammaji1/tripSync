@@ -1,3 +1,4 @@
+import { saveOfflineTrip } from './offline';
 import {
   Profile,
   AuthResponse,
@@ -23,10 +24,15 @@ const API_BASE_URL = rawApiUrl.replace(/\/+$/, '').endsWith('/api/v1')
   ? rawApiUrl.replace(/\/+$/, '')
   : `${rawApiUrl.replace(/\/+$/, '')}/api/v1`;
 
+let resolveProvider: (() => void) | null = null;
+const providerReady = new Promise<void>(resolve => { resolveProvider = resolve; });
 let authTokenProvider: (() => Promise<string | null>) | null = null;
+let authVersion = 0;
 
 export function setApiAuthTokenProvider(provider: (() => Promise<string | null>) | null) {
   authTokenProvider = provider;
+  authVersion++;
+  if (provider) resolveProvider?.();
 }
 
 function getAuthToken(): string | null {
@@ -35,6 +41,8 @@ function getAuthToken(): string | null {
 
 async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
+  if (!authTokenProvider && (!endpoint.startsWith('/auth/') || endpoint === '/auth/me' || endpoint.includes('/accept'))) await Promise.race([providerReady, new Promise(resolve => setTimeout(resolve, 10000))]);
+  const requestAuthVersion = authVersion;
   const token = authTokenProvider ? await authTokenProvider() : getAuthToken();
 
   const headers: Record<string, string> = {
@@ -50,7 +58,10 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const res = await fetch(url, {
       ...options,
       headers,
+      cache: 'no-store',
+      signal: options?.signal || AbortSignal.timeout(20000),
     });
+    if (requestAuthVersion !== authVersion) throw new Error('Your session changed. Please retry.');
 
     if (!res.ok) {
       const errorText = await res.text().catch(() => '');
@@ -70,14 +81,18 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
       return {} as T;
     }
     try {
-      return JSON.parse(text);
+      const data = JSON.parse(text);
+      if ((!options?.method || options.method === 'GET') && /^\/trips\/[0-9a-f-]{36}$/.test(endpoint)) {
+        void saveOfflineTrip(endpoint, data).catch(() => undefined);
+      }
+      return data;
     } catch {
       return text as unknown as T;
     }
   } catch (err: any) {
     if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
       const helpfulError = new Error(
-        `Unable to reach TripSync API at ${API_BASE_URL}. Please ensure the backend server is running.`
+        'TripSync could not connect. Check your connection and try again.'
       );
       console.warn(`API request to ${endpoint} failed:`, helpfulError.message);
       throw helpfulError;
@@ -88,6 +103,13 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  getChat: (tripId: string) => fetcher<any[]>(`/trips/${tripId}/chat`),
+  sendChat: (tripId: string, data: any) => fetcher<any>(`/trips/${tripId}/chat`, { method: 'POST', body: JSON.stringify(data) }),
+  clearChat: (tripId: string) => fetcher<any>(`/trips/${tripId}/chat`, { method: 'DELETE' }),
+  getDocuments: (tripId: string) => fetcher<any[]>(`/trips/${tripId}/documents`),
+  addDocument: (tripId: string, data: any) => fetcher<any>(`/trips/${tripId}/documents`, { method: 'POST', body: JSON.stringify(data) }),
+  unlockDocument: (tripId: string, id: string, pin: string) => fetcher<any>(`/trips/${tripId}/documents/${id}/unlock`, { method: 'POST', body: JSON.stringify({ pin }) }),
+  deleteDocument: (tripId: string, id: string) => fetcher<any>(`/trips/${tripId}/documents/${id}`, { method: 'DELETE' }),
   // Auth & Profiles
   login: (data: LoginInput) => fetcher<AuthResponse>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
   register: (data: RegisterInput) =>

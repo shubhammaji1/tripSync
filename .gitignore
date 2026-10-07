@@ -42,3 +42,8 @@ coverage
 
 .vercel
 .env*
+
+# Browser regression artifacts
+tests/browser/.build/
+test-results/
+playwright-report/

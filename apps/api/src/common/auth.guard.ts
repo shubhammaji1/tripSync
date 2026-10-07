@@ -19,15 +19,7 @@ interface SupabaseJwtPayload {
   user_metadata?: { full_name?: string; avatar_url?: string };
 }
 
-/**
- * Verifies the Supabase session JWT sent as `Authorization: Bearer <token>`.
- *
- * This guard has exactly one source of identity: a token signed by Supabase
- * Auth with SUPABASE_JWT_SECRET. There is intentionally no fallback path -
- * no "no header -> default user", no seed-user token matching, no unsigned
- * `user_token_<id>` acceptance. Every branch that cannot cryptographically
- * verify the caller throws UnauthorizedException.
- */
+/** Verifies signed Clerk or configured Supabase sessions. No unsigned or demo identity is accepted. */
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -37,6 +29,10 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    return this.authenticateRequest(request);
+  }
+
+  async authenticateRequest(request: any): Promise<boolean> {
     const authHeader = request.headers['authorization'] as string | undefined;
 
     if (!authHeader) {
@@ -49,7 +45,7 @@ export class AuthGuard implements CanActivate {
     }
 
     const jwtSecret = this.configService.get<string>('SUPABASE_JWT_SECRET');
-    if (!jwtSecret) {
+    if (!jwtSecret && !this.configService.get<string>('CLERK_SECRET_KEY')) {
       // Fail closed. There is no "default user" to fall back to - if the
       // server isn't configured to verify sessions, nothing is authenticated.
       throw new UnauthorizedException('Authentication is not configured on the server');
@@ -57,7 +53,8 @@ export class AuthGuard implements CanActivate {
 
     let decoded: SupabaseJwtPayload;
     try {
-      decoded = jwt.verify(token, jwtSecret, { algorithms: ['HS256'] }) as SupabaseJwtPayload;
+      if (!jwtSecret) throw new Error('Supabase is not configured');
+      decoded = jwt.verify(token, jwtSecret, { algorithms: ['HS256'], audience: 'authenticated' }) as SupabaseJwtPayload;
     } catch {
       const clerkSecretKey = this.configService.get<string>('CLERK_SECRET_KEY');
       if (!clerkSecretKey) throw new UnauthorizedException('Expired or invalid session token');
@@ -66,6 +63,8 @@ export class AuthGuard implements CanActivate {
         const clerkClaims = await verifyToken(token, { secretKey: clerkSecretKey });
         const clerkClient = createClerkClient({ secretKey: clerkSecretKey });
         const clerkUser = await clerkClient.users.getUser(clerkClaims.sub);
+        const primaryEmail = clerkUser.emailAddresses.find(email => email.id === clerkUser.primaryEmailAddressId);
+        if (primaryEmail?.verification?.status !== 'verified') throw new UnauthorizedException('Verify your email before continuing');
         const clerkHash = createHash('sha256').update(clerkClaims.sub).digest('hex');
         const clerkProfileId = [
           clerkHash.slice(0, 8),
@@ -76,7 +75,8 @@ export class AuthGuard implements CanActivate {
         ].join('-');
         decoded = {
           sub: clerkProfileId,
-          email: clerkUser.emailAddresses[0]?.emailAddress,
+          email: primaryEmail.emailAddress,
+          exp: clerkClaims.exp,
           user_metadata: {
             full_name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || undefined,
             avatar_url: clerkUser.imageUrl,
@@ -87,6 +87,8 @@ export class AuthGuard implements CanActivate {
       }
     }
 
+    if (!Number.isFinite(decoded.exp) || decoded.exp <= Date.now() / 1000) throw new UnauthorizedException('Session token requires an unexpired expiration claim');
+    if (!/^[0-9a-f-]{36}$/i.test(decoded.sub || '')) throw new UnauthorizedException('Invalid session subject');
     if (!decoded.sub) {
       throw new UnauthorizedException('Session token is missing a subject claim');
     }

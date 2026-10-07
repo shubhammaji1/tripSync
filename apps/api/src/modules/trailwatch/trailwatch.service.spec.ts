@@ -105,7 +105,7 @@ describe('TrailWatchService - Intelligence & Impact Layer', () => {
         {
           id: 'day-2',
           dayNumber: 2,
-          date: '2026-09-11',
+          date: new Date().toISOString().slice(0, 10),
           activities: [
             {
               id: 'act-sunrise',

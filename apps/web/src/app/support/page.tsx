@@ -15,7 +15,7 @@ export default function SupportCenterPage() {
     },
     {
       q: 'How does the optimal debt settlement calculation work?',
-      a: 'TripSync uses a Greedy Min-Cash-Flow algorithm. Instead of everyone making multiple back-and-forth payments to each other for every meal or taxi ride, our engine calculates net balances and provides the absolute minimum number of direct peer-to-peer transfers to settle all group debts.',
+      a: 'TripSync calculates net balances from expenses and recorded payments, then uses a greedy algorithm to suggest direct transfers. It reduces back-and-forth payments but does not guarantee the mathematical minimum number of transfers.',
     },
     {
       q: 'Can Viewers edit the itinerary or delete expenses?',

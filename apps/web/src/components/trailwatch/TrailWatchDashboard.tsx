@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Compass,
   AlertTriangle,
@@ -45,17 +45,20 @@ interface TrailWatchDashboardProps {
   tripId: string;
   tripDestination: string;
   onNavigateToItinerary?: () => void;
+  canReport?: boolean;
 }
 
 export function TrailWatchDashboard({
   tripId,
   tripDestination,
   onNavigateToItinerary,
+  canReport = true,
 }: TrailWatchDashboardProps) {
   const [overview, setOverview] = useState<TrailWatchOverview | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const requestVersion = useRef(0);
 
   // Sub-tabs below map: 'activities' | 'routes' | 'reports' | 'alerts'
   const [activeSubTab, setActiveSubTab] = useState<'activities' | 'routes' | 'reports' | 'alerts'>('activities');
@@ -65,57 +68,42 @@ export function TrailWatchDashboard({
 
   // Load TrailWatch Overview from API
   const loadOverview = async (isManualRefresh = false) => {
+    const version = ++requestVersion.current;
     if (isManualRefresh) setRefreshing(true);
     setError(null);
     try {
       const data = await api.getTrailWatchOverview(tripId);
+      if (version !== requestVersion.current) return;
       setOverview(data);
     } catch (err: any) {
+      if (version !== requestVersion.current) return;
       console.warn('Failed to load TrailWatch overview:', err);
       setError(err?.message || 'Unable to fetch TrailWatch intelligence.');
     } finally {
-      setLoading(false);
-      if (isManualRefresh) setRefreshing(false);
+      if (version === requestVersion.current) { setLoading(false); setRefreshing(false); }
     }
   };
 
   useEffect(() => {
+    setOverview(null);
+    setLoading(true);
     loadOverview();
+    return () => { requestVersion.current++; };
   }, [tripId]);
 
   const handleAcknowledgeAlert = async (alertId: string) => {
     haptic.success();
     try {
       await api.acknowledgeTrailWatchAlert(tripId, alertId);
-      // Optimistically update overview
-      setOverview((prev) => {
-        if (!prev) return prev;
-        const updatedAlerts = prev.alerts.map((a) =>
-          a.id === alertId ? { ...a, isAcknowledged: true } : a
-        );
-        const updatedAffected = prev.affectedActivities.filter((act) => act.alertId !== alertId);
-        return {
-          ...prev,
-          alerts: updatedAlerts,
-          activeAlertsCount: Math.max(0, prev.activeAlertsCount - 1),
-          affectedActivities: updatedAffected,
-          affectedActivitiesCount: updatedAffected.length,
-        };
-      });
+      await loadOverview();
+
     } catch (err) {
-      console.warn('Failed to acknowledge alert:', err);
+      setError(err instanceof Error ? err.message : 'Could not acknowledge alert');
     }
   };
 
   const handleReportCreated = (newReport: TrailReport) => {
-    setOverview((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        reports: [newReport, ...prev.reports],
-        communityReportsCount: prev.communityReportsCount + 1,
-      };
-    });
+    void loadOverview();
   };
 
   if (loading) {
@@ -136,10 +124,14 @@ export function TrailWatchDashboard({
   const reports = overview?.reports || [];
   const affected = overview?.affectedActivities || [];
 
-  const overallStatus = overview?.overallStatus || RouteStatus.NORMAL;
+  const overallStatus = overview?.overallStatus || RouteStatus.UNKNOWN;
+  const limitedMonitoring = overallStatus === RouteStatus.UNKNOWN || (overview?.monitoringStatus !== 'AVAILABLE' && overallStatus === RouteStatus.NORMAL);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 rounded-3xl bg-slate-950 p-4 sm:p-6 text-slate-100">
+      {error && <div role="alert" className="rounded-xl border border-red-400/30 bg-red-950/60 p-4 text-sm text-red-200">{error} <button type="button" onClick={() => loadOverview(true)} className="underline">Retry</button></div>}
+      {overview?.weatherError && <p className="rounded-xl bg-amber-950/50 p-3 text-sm text-amber-200">{overview.weatherError}</p>}
+      <p className="text-sm text-slate-300">Conditions cover the resolved location and submitted routes. Missing reports do not confirm that a route is safe. Current weather is not a forecast for future trip dates.</p>
       {/* 1. Header Banner & Quick Controls */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900/95 to-emerald-950/30 border border-white/10 p-5 sm:p-7 shadow-2xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -154,7 +146,7 @@ export function TrailWatchDashboard({
                     TrailWatch
                   </h2>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
-                    Live Route Intelligence
+                    Location & reported conditions
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -183,7 +175,7 @@ export function TrailWatchDashboard({
               type="button"
               onClick={() => {
                 haptic.medium();
-                setIsReportModalOpen(true);
+                if (canReport) setIsReportModalOpen(true);
               }}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-slate-950 font-black text-xs shadow-lg shadow-emerald-500/25 active:scale-95 transition-all"
             >
@@ -199,7 +191,7 @@ export function TrailWatchDashboard({
             <span className="text-slate-400">Overall Route Condition:</span>
             <span
               className={`px-2.5 py-0.5 rounded-full font-black text-[11px] uppercase tracking-wider flex items-center gap-1.5 ${
-                overallStatus === RouteStatus.DISRUPTED
+                limitedMonitoring ? 'bg-slate-500/20 text-slate-300 border border-slate-500/30' : overallStatus === RouteStatus.DISRUPTED
                   ? 'bg-red-500/20 text-red-300 border border-red-500/30'
                   : overallStatus === RouteStatus.CAUTION
                   ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
@@ -208,14 +200,14 @@ export function TrailWatchDashboard({
             >
               <span
                 className={`w-1.5 h-1.5 rounded-full ${
-                  overallStatus === RouteStatus.DISRUPTED
+                  limitedMonitoring ? 'bg-slate-400' : overallStatus === RouteStatus.DISRUPTED
                     ? 'bg-red-400'
                     : overallStatus === RouteStatus.CAUTION
                     ? 'bg-amber-400'
                     : 'bg-emerald-400'
                 }`}
               />
-              {overallStatus === RouteStatus.DISRUPTED
+              {overallStatus === RouteStatus.UNKNOWN || (overview?.monitoringStatus !== 'AVAILABLE' && overallStatus === RouteStatus.NORMAL) ? 'Limited monitoring data' : overallStatus === RouteStatus.DISRUPTED
                 ? 'Disruptions Reported'
                 : overallStatus === RouteStatus.CAUTION
                 ? 'Caution Advised'
@@ -224,9 +216,9 @@ export function TrailWatchDashboard({
           </div>
 
           <div className="flex items-center gap-3 text-slate-400 text-[11px]">
-            <span>Weather Source: {weather?.source || 'Open-Meteo'}</span>
+            <span>Weather Source: {weather?.source || 'Unavailable'}</span>
             <span>•</span>
-            <span>Last checked: Just now</span>
+            <span>Weather recorded: {weather?.recordedAt ? new Date(weather.recordedAt).toLocaleString() : 'Unavailable'}</span>
           </div>
         </div>
       </div>
@@ -241,15 +233,15 @@ export function TrailWatchDashboard({
           </div>
           <div className="mt-2">
             <div className="text-2xl font-black text-white">
-              {weather ? `${Math.round(weather.temperature)}°C` : '18°C'}
+              {weather ? `${Math.round(weather.temperature)}°C` : '—'}
             </div>
             <div className="text-[11px] text-slate-300 font-semibold truncate mt-0.5">
-              {weather?.condition || 'Partly Cloudy'}
+              {weather?.condition || 'Weather unavailable'}
             </div>
           </div>
           <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[10px] text-slate-400">
-            <span>Rain: {weather?.rainfallMm || 0} mm</span>
-            <span>Vis: {weather?.visibilityKm ? `${weather.visibilityKm} km` : 'Good'}</span>
+            <span>Rain: {weather?.rainfallMm ?? '—'} mm</span>
+            <span>Vis: {weather?.visibilityKm != null ? `${weather.visibilityKm} km` : 'Unknown'}</span>
           </div>
         </div>
 
@@ -263,11 +255,13 @@ export function TrailWatchDashboard({
             <div className="text-2xl font-black text-white">{routes.length}</div>
             <div className="text-[11px] text-slate-300 font-semibold mt-0.5">
               {routes.filter((r) => r.status === RouteStatus.NORMAL).length} clear,{' '}
-              {routes.filter((r) => r.status !== RouteStatus.NORMAL).length} cautious
+              {routes.filter((r) => r.status === RouteStatus.CAUTION).length} cautious,{' '}
+              {routes.filter((r) => r.status === RouteStatus.CLOSED || r.status === RouteStatus.DISRUPTED).length} disrupted,{' '}
+              {routes.filter((r) => r.status === RouteStatus.UNKNOWN).length} unknown
             </div>
           </div>
           <div className="mt-3 pt-2 border-t border-white/5 text-[10px] text-emerald-400 font-bold">
-            Realtime route segments linked
+              {routes.length ? 'Submitted routes available' : 'No routes submitted'}
           </div>
         </div>
 
@@ -432,6 +426,7 @@ export function TrailWatchDashboard({
 
         <TrailWatchMap
           destination={tripDestination}
+          location={overview?.resolvedLocation}
           routes={routes}
           alerts={alerts}
           reports={reports}
@@ -480,7 +475,7 @@ export function TrailWatchDashboard({
                   <div className="flex items-center justify-between gap-2">
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                        route.status === RouteStatus.DISRUPTED
+                        route.status === RouteStatus.UNKNOWN ? 'bg-slate-500/20 text-slate-300 border border-slate-500/30' : route.status === RouteStatus.DISRUPTED || route.status === RouteStatus.CLOSED
                           ? 'bg-red-500/20 text-red-300 border border-red-500/30'
                           : route.status === RouteStatus.CAUTION
                           ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
@@ -491,7 +486,7 @@ export function TrailWatchDashboard({
                     </span>
                     {route.distanceKm && (
                       <span className="text-xs font-bold text-slate-400">
-                        {route.distanceKm} km · ~{route.estimatedDurationMin || 45} mins
+                        {route.distanceKm} km{route.estimatedDurationMin ? ` · ~${route.estimatedDurationMin} mins` : ''}
                       </span>
                     )}
                   </div>
@@ -532,12 +527,12 @@ export function TrailWatchDashboard({
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-                  <span>Last inspected: {route.lastCheckedAt ? 'Recent' : 'Scheduled'}</span>
+                  <span>Last inspected: {route.lastCheckedAt ? new Date(route.lastCheckedAt).toLocaleString() : 'Not inspected'}</span>
                   <button
                     type="button"
                     onClick={() => {
                       haptic.medium();
-                      setIsReportModalOpen(true);
+                      if (canReport) setIsReportModalOpen(true);
                     }}
                     className="text-emerald-400 hover:text-emerald-300 font-bold text-xs"
                   >
@@ -560,7 +555,7 @@ export function TrailWatchDashboard({
                 type="button"
                 onClick={() => {
                   haptic.medium();
-                  setIsReportModalOpen(true);
+                  if (canReport) setIsReportModalOpen(true);
                 }}
                 className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
               >
@@ -651,7 +646,7 @@ export function TrailWatchDashboard({
                       <div className="flex items-center gap-3 mt-2 text-[11px] text-slate-400">
                         <span>Source: {alert.source}</span>
                         <span>•</span>
-                        <span>Confidence: {Math.round(alert.confidence * 100)}%</span>
+                        <span>{alert.source.toLowerCase().includes('community') ? 'Community report · unverified' : `Confidence: ${Math.round(alert.confidence * 100)}%`}</span>
                       </div>
                     </div>
                   </div>
@@ -684,9 +679,9 @@ export function TrailWatchDashboard({
             {affected.length === 0 ? (
               <div className="p-8 text-center bg-slate-900/60 rounded-3xl border border-white/10">
                 <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
-                <h4 className="text-sm font-bold text-white">All Planned Activities Normal</h4>
+                <h4 className="text-sm font-bold text-white">No current activity advisories</h4>
                 <p className="text-xs text-slate-400 mt-1">
-                  Current weather and route monitoring indicate no significant disruptions to your schedule.
+                  No applicable advisories were found in the available data. Verify conditions locally before traveling.
                 </p>
               </div>
             ) : (
@@ -733,8 +728,8 @@ export function TrailWatchDashboard({
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         onReportCreated={handleReportCreated}
-        defaultLat={weather?.latitude || 27.041}
-        defaultLng={weather?.longitude || 88.2663}
+        defaultLat={overview?.resolvedLocation?.latitude}
+        defaultLng={overview?.resolvedLocation?.longitude}
       />
     </div>
   );

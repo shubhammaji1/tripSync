@@ -106,7 +106,7 @@ export class MembersService {
       inviteLink,
     });
 
-    return { ...invite, inviteLink, emailSent: mailResult.sent };
+    return { ...invite, inviteLink, emailSent: mailResult.sent, emailQueued: !!mailResult.queued };
   }
 
   async getOrCreateShareLink(tripId: string, invitedBy: string, role: TripRole = TripRole.MEMBER) {
@@ -206,7 +206,7 @@ export class MembersService {
       createdInvites.push({
         ...invite,
         inviteLink,
-        emailSent: mailResult.sent,
+        emailSent: mailResult.sent, emailQueued: !!mailResult.queued,
       });
     }
 

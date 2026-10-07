@@ -34,6 +34,8 @@ import {
 import { eq, and, desc } from 'drizzle-orm';
 import { RealtimeGateway } from '../realtime/realtime.gateway';
 import { ItineraryService } from '../itinerary/itinerary.service';
+import { randomUUID } from 'crypto';
+import { LocationWeatherService } from './location-weather.service';
 import { SEED_TRIP_ID, SEED_USERS } from '../../database/seed';
 
 // Utility: Haversine distance in kilometers
@@ -62,7 +64,8 @@ export class TrailWatchService {
   constructor(
     @Optional() @Inject(DRIZZLE_PROVIDER) private db?: DrizzleDB,
     @Optional() private realtimeGateway?: RealtimeGateway,
-    @Optional() private itineraryService?: ItineraryService
+    @Optional() private itineraryService?: ItineraryService,
+    @Optional() private locationWeather?: LocationWeatherService
   ) {
     this.initMockTrailWatch();
   }
@@ -284,7 +287,7 @@ export class TrailWatchService {
       (day.activities || []).forEach((act: any) => {
         // 1. Direct Activity Match via Alert reference
         const directAlert = alerts.find(
-          (a) => !a.isAcknowledged && a.activityId === act.id
+          (a) => (!a.expiresAt || new Date(a.expiresAt).getTime() > Date.now()) && a.activityId === act.id
         );
 
         if (directAlert) {
@@ -309,9 +312,9 @@ export class TrailWatchService {
         }
 
         // 2. Proximity-based Alert matching (within ~3 km of an active hazard)
-        if (act.locationLat && act.locationLng) {
+        if (act.locationLat != null && act.locationLng != null) {
           for (const alert of alerts) {
-            if (alert.isAcknowledged || !alert.latitude || !alert.longitude) continue;
+            if ((alert.expiresAt && new Date(alert.expiresAt).getTime() <= Date.now()) || alert.latitude == null || alert.longitude == null) continue;
             const dist = getDistanceKm(
               act.locationLat,
               act.locationLng,
@@ -345,7 +348,10 @@ export class TrailWatchService {
         const titleLower = (act.title || '').toLowerCase();
         const locLower = (act.locationName || '').toLowerCase();
 
-        if (weather) {
+        if (weather && Date.now() - new Date(weather.recordedAt).getTime() < 60 * 60 * 1000 &&
+            act.locationLat != null && act.locationLng != null &&
+            getDistanceKm(act.locationLat, act.locationLng, weather.latitude, weather.longitude) <= 10 &&
+            (!day.date || day.date === new Date(weather.recordedAt).toISOString().slice(0, 10))) {
           // Visibility-sensitive morning sunrise activities
           if (
             (titleLower.includes('sunrise') || titleLower.includes('observatory') || locLower.includes('tiger hill')) &&
@@ -405,22 +411,50 @@ export class TrailWatchService {
    * Consolidated overview for Trip Intelligence
    */
   async getOverview(tripId: string): Promise<TrailWatchOverview> {
-    let tripName = 'Darjeeling, West Bengal, India';
+    let tripName = 'Destination unavailable';
+    let resolvedLocation = null;
+    let weatherError: string | null = null;
+    if (this.db) {
+      const trip = await this.db.query.trips.findFirst({ where: eq(trips.id, tripId) });
+      if (!trip) throw new NotFoundException('Trip not found');
+      tripName = trip.destination;
+      if (this.locationWeather) {
+        try { resolvedLocation = await this.locationWeather.resolve(trip); }
+        catch { weatherError = 'Destination coordinates could not be resolved. Set the trip location precisely.'; }
+      }
+    } else if (tripId === SEED_TRIP_ID) tripName = 'Darjeeling, West Bengal, India';
 
     // 1. Fetch routes, alerts, reports, weather
-    const [routes, alerts, reports, weather] = await Promise.all([
+    const [routes, rawAlerts, rawReports, cachedWeather] = await Promise.all([
       this.getRoutes(tripId),
       this.getAlerts(tripId),
       this.getReports(tripId),
       this.getLatestWeather(tripId),
     ]);
 
+    const active = (item: any) => !item.expiresAt || new Date(item.expiresAt).getTime() > Date.now();
+    const alerts = rawAlerts.filter(active);
+    const reports = rawReports.filter(active);
+    let weather = cachedWeather;
+    if (this.db) {
+      const matches = weather && resolvedLocation && getDistanceKm(weather.latitude, weather.longitude, resolvedLocation.latitude, resolvedLocation.longitude) < 5;
+      if (!matches || Date.now() - new Date(weather.recordedAt).getTime() > 15 * 60 * 1000) {
+        weather = null;
+        if (resolvedLocation && this.locationWeather) {
+          try {
+            weather = await this.locationWeather.weather(tripId, resolvedLocation);
+            await this.db.insert(weatherSnapshots).values({ ...weather, recordedAt: new Date(weather.recordedAt) } as any);
+          } catch { weatherError = 'Current weather is unavailable. Try refreshing later.'; }
+        }
+      }
+    }
     // 2. Fetch Itinerary to evaluate activity impact
     let days: any[] = [];
     try {
       const itinerarySvc = this.itineraryService || new ItineraryService(this.db);
       days = await itinerarySvc.getItinerary(tripId);
     } catch (err) {
+      if (this.db) throw err;
       days = [];
     }
 
@@ -430,17 +464,17 @@ export class TrailWatchService {
           where: eq(trips.id, tripId),
         });
         if (trip) tripName = trip.destination;
-      } catch {}
+      } catch (err) { if (this.db) throw err; }
     }
 
     const affectedActivities = this.evaluateActivityImpact(tripId, days, alerts, weather);
 
     // Compute overall trip route health status
-    let overallStatus = RouteStatus.NORMAL;
+    let overallStatus = routes.length && routes.every(route => route.status !== RouteStatus.UNKNOWN) ? RouteStatus.NORMAL : RouteStatus.UNKNOWN;
     const hasDisrupted = routes.some((r) => r.status === RouteStatus.DISRUPTED || r.status === RouteStatus.CLOSED);
     const hasCaution = routes.some((r) => r.status === RouteStatus.CAUTION);
     const hasCriticalAlert = alerts.some(
-      (a) => !a.isAcknowledged && (a.severity === TrailWatchSeverity.CRITICAL || a.severity === TrailWatchSeverity.HIGH)
+      (a) => (a.severity === TrailWatchSeverity.CRITICAL || a.severity === TrailWatchSeverity.HIGH)
     );
 
     if (hasDisrupted || hasCriticalAlert) {
@@ -451,10 +485,13 @@ export class TrailWatchService {
 
     return {
       tripId,
+      resolvedLocation,
+      weatherError,
+      monitoringStatus: weather && routes.length ? 'AVAILABLE' : weather || routes.length || reports.length ? 'PARTIAL' : 'UNAVAILABLE',
       destination: tripName,
       overallStatus,
       monitoredRoutesCount: routes.length,
-      activeAlertsCount: alerts.filter((a) => !a.isAcknowledged).length,
+      activeAlertsCount: alerts.length,
       affectedActivitiesCount: affectedActivities.length,
       communityReportsCount: reports.length,
       routes,
@@ -476,10 +513,8 @@ export class TrailWatchService {
           },
           orderBy: [desc(tripRoutes.createdAt)],
         });
-        if (rows && rows.length > 0) {
-          return rows as unknown as TripRoute[];
-        }
-      } catch {}
+        return rows as any;
+      } catch (err) { if (this.db) throw err; }
     }
 
     return this.mockRoutes.get(tripId) || [];
@@ -492,10 +527,8 @@ export class TrailWatchService {
           where: eq(trailwatchAlerts.tripId, tripId),
           orderBy: [desc(trailwatchAlerts.createdAt)],
         });
-        if (rows && rows.length > 0) {
-          return rows as unknown as TrailWatchAlert[];
-        }
-      } catch {}
+        return rows as any;
+      } catch (err) { if (this.db) throw err; }
     }
 
     return this.mockAlerts.get(tripId) || [];
@@ -509,10 +542,8 @@ export class TrailWatchService {
           with: { user: true },
           orderBy: [desc(trailReports.createdAt)],
         });
-        if (rows && rows.length > 0) {
-          return rows as unknown as TrailReport[];
-        }
-      } catch {}
+        return rows as any;
+      } catch (err) { if (this.db) throw err; }
     }
 
     return this.mockReports.get(tripId) || [];
@@ -525,8 +556,8 @@ export class TrailWatchService {
           where: eq(weatherSnapshots.tripId, tripId),
           orderBy: [desc(weatherSnapshots.recordedAt)],
         });
-        if (row) return row as unknown as WeatherSnapshot;
-      } catch {}
+        return row ? row as unknown as WeatherSnapshot : null;
+      } catch (err) { if (this.db) throw err; }
     }
 
     return this.mockWeather.get(tripId) || null;
@@ -537,6 +568,14 @@ export class TrailWatchService {
     userId: string,
     input: CreateTrailReportInput
   ): Promise<TrailReport> {
+    if (this.db && input.routeId) {
+      const route = await this.db.query.tripRoutes.findFirst({ where: and(eq(tripRoutes.id, input.routeId), eq(tripRoutes.tripId, tripId)) });
+      if (!route) throw new ForbiddenException('Route is not in this trip');
+    }
+    if (this.db && input.segmentId) {
+      const segment = await this.db.query.routeSegments.findFirst({ where: eq(routeSegments.id, input.segmentId), with: { route: true } });
+      if (!segment || segment.route.tripId !== tripId || (input.routeId && segment.routeId !== input.routeId)) throw new ForbiddenException('Segment is not in this route');
+    }
     let authorProfile: Profile | null = null;
     if (this.db) {
       try {
@@ -544,7 +583,7 @@ export class TrailWatchService {
           where: eq(profiles.id, userId),
         });
         if (userRow) authorProfile = userRow as unknown as Profile;
-      } catch {}
+      } catch (err) { if (this.db) throw err; }
     }
     if (!authorProfile) {
       authorProfile = (SEED_USERS.find((u) => u.id === userId) as unknown as Profile) || {
@@ -559,7 +598,7 @@ export class TrailWatchService {
     }
 
     const newReport: TrailReport = {
-      id: `rep-${Date.now()}`,
+      id: randomUUID(),
       tripId,
       routeId: input.routeId || null,
       segmentId: input.segmentId || null,
@@ -582,29 +621,22 @@ export class TrailWatchService {
     };
 
     if (this.db) {
-      try {
-        const [inserted] = await (this.db
-          .insert(trailReports)
-          .values({
-            tripId,
-            routeId: input.routeId,
-            segmentId: input.segmentId,
-            userId,
-            category: input.category,
-            severity: input.severity,
-            title: input.title,
-            description: input.description,
-            latitude: input.latitude,
-            longitude: input.longitude,
-            locationName: input.locationName,
-            imageUrl: input.imageUrl,
-            verificationStatus: VerificationStatus.UNVERIFIED,
-            source: 'Community Report',
-          } as any) as any)
-          .returning();
-
-        newReport.id = inserted.id;
-      } catch {}
+      const result = await this.db.transaction(async tx => {
+        const [report] = await tx.insert(trailReports).values({ ...newReport, user: undefined,
+          expiresAt: new Date(newReport.expiresAt), createdAt: new Date(), updatedAt: new Date() } as any).returning();
+        let alert = null;
+        if (input.severity === TrailWatchSeverity.HIGH || input.severity === TrailWatchSeverity.CRITICAL) {
+          [alert] = await tx.insert(trailwatchAlerts).values({ tripId, routeId: input.routeId, reportId: report.id,
+            type: TrailWatchAlertType.COMMUNITY_REPORT, severity: input.severity, title: input.title, description: input.description,
+            source: 'Unverified community report', confidence: 0, latitude: input.latitude, longitude: input.longitude,
+            locationName: input.locationName, expiresAt: new Date(Date.now() + 12 * 60 * 60 * 1000) } as any).returning();
+        }
+        return { report, alert };
+      });
+      const report = { ...result.report, user: authorProfile } as unknown as TrailReport;
+      this.realtimeGateway?.broadcastTripEvent(tripId, 'trailwatch.report.created', { report });
+      if (result.alert) this.realtimeGateway?.broadcastTripEvent(tripId, 'trailwatch.alert.created', { alert: result.alert });
+      return report;
     }
 
     // Save to in-memory store
@@ -618,7 +650,7 @@ export class TrailWatchService {
       input.severity === TrailWatchSeverity.CRITICAL
     ) {
       const generatedAlert: TrailWatchAlert = {
-        id: `alert-auto-${Date.now()}`,
+        id: randomUUID(),
         tripId,
         routeId: input.routeId || null,
         reportId: newReport.id,
@@ -643,8 +675,8 @@ export class TrailWatchService {
 
       if (this.db) {
         try {
-          await this.db.insert(trailwatchAlerts).values(generatedAlert as any);
-        } catch {}
+          await this.db.insert(trailwatchAlerts).values({ ...generatedAlert, createdAt: new Date(), updatedAt: new Date(), expiresAt: new Date(generatedAlert.expiresAt) } as any);
+        } catch (err) { if (this.db) throw err; }
       }
 
       // Broadcast new alert event
@@ -670,20 +702,20 @@ export class TrailWatchService {
     input: CreateTripRouteInput
   ): Promise<TripRoute> {
     const newRoute: TripRoute = {
-      id: `route-${Date.now()}`,
+      id: randomUUID(),
       tripId,
       name: input.name,
       description: input.description || null,
       startLocation: input.startLocation,
       endLocation: input.endLocation,
-      startLat: input.startLat || null,
-      startLng: input.startLng || null,
-      endLat: input.endLat || null,
-      endLng: input.endLng || null,
-      status: input.status || RouteStatus.NORMAL,
+      startLat: input.startLat ?? null,
+      startLng: input.startLng ?? null,
+      endLat: input.endLat ?? null,
+      endLng: input.endLng ?? null,
+      status: input.status || RouteStatus.UNKNOWN,
       distanceKm: input.distanceKm || null,
       estimatedDurationMin: input.estimatedDurationMin || null,
-      lastCheckedAt: new Date().toISOString(),
+      lastCheckedAt: null,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       segments: [],
@@ -696,10 +728,11 @@ export class TrailWatchService {
           .values({
             tripId,
             ...input,
+            status: input.status || RouteStatus.UNKNOWN,
           } as any) as any)
           .returning();
-        newRoute.id = inserted.id;
-      } catch {}
+        Object.assign(newRoute, inserted, { segments: [] });
+      } catch (err) { if (this.db) throw err; }
     }
 
     const routes = this.mockRoutes.get(tripId) || [];
@@ -720,56 +753,19 @@ export class TrailWatchService {
     alertId: string,
     userId: string
   ): Promise<TrailWatchAlert> {
-    const alerts = this.mockAlerts.get(tripId) || [];
-    const target = alerts.find((a) => a.id === alertId);
-
-    const now = new Date().toISOString();
-
+    const now = new Date();
     if (this.db) {
-      try {
-        await (this.db
-          .update(trailwatchAlerts)
-          .set({
-            isAcknowledged: true,
-            acknowledgedAt: new Date(),
-            acknowledgedById: userId,
-            updatedAt: new Date(),
-          } as any) as any)
-          .where(eq(trailwatchAlerts.id, alertId));
-      } catch {}
+      const [target] = await this.db.update(trailwatchAlerts).set({ isAcknowledged: true, acknowledgedAt: now, acknowledgedById: userId, updatedAt: now } as any)
+        .where(and(eq(trailwatchAlerts.id, alertId), eq(trailwatchAlerts.tripId, tripId))).returning();
+      if (!target) throw new NotFoundException('Alert not found in this trip');
+      this.realtimeGateway?.broadcastTripEvent(tripId, 'trailwatch.alert.acknowledged', { alertId, userId });
+      return target as unknown as TrailWatchAlert;
     }
-
-    if (target) {
-      target.isAcknowledged = true;
-      target.acknowledgedAt = now;
-      target.acknowledgedById = userId;
-      target.updatedAt = now;
-    }
-
-    if (this.realtimeGateway) {
-      this.realtimeGateway.broadcastTripEvent(tripId, 'trailwatch.alert.acknowledged', {
-        alertId,
-        userId,
-        timestamp: now,
-      });
-    }
-
-    return (
-      target || {
-        id: alertId,
-        tripId,
-        type: TrailWatchAlertType.ACTIVITY_IMPACT,
-        severity: TrailWatchSeverity.INFO,
-        title: 'Acknowledged Alert',
-        description: 'Alert has been acknowledged by traveler.',
-        source: 'User Action',
-        confidence: 1,
-        isAcknowledged: true,
-        acknowledgedAt: now,
-        acknowledgedById: userId,
-        createdAt: now,
-        updatedAt: now,
-      }
-    );
+    const target = (this.mockAlerts.get(tripId) || []).find(a => a.id === alertId);
+    if (!target) throw new NotFoundException('Alert not found');
+    target.isAcknowledged = true;
+    target.acknowledgedById = userId;
+    target.acknowledgedAt = now.toISOString();
+    return target;
   }
 }

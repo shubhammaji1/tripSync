@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useClerk, useUser } from '@clerk/nextjs';
 import { api } from '@/lib/api';
@@ -20,7 +20,8 @@ interface InvitationDetails {
   inviterName: string;
 }
 
-export default function AcceptInvitationPage({ params }: { params: { token: string } }) {
+export default function AcceptInvitationPage() {
+  const params = useParams<{ token: string }>();
   const router = useRouter();
   const { signOut } = useClerk();
   const { isLoaded: isUserLoaded, user } = useUser();
