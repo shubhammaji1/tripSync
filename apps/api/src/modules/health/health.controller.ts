@@ -6,7 +6,7 @@ import { sql } from 'drizzle-orm';
 @ApiTags('Root')
 @Controller()
 export class RootController {
-  @Get(['', 'ready'])
+  @Get()
   @ApiOperation({ summary: 'API Root status' })
   getRoot() {
     return {
@@ -28,7 +28,7 @@ export class HealthController {
   @Get('live')
   live() { return { status: 'ok' }; }
 
-  @Get()
+  @Get(['', 'ready'])
   @ApiOperation({ summary: 'Liveness and database keep-alive probe (Render + Supabase)' })
   async check() {
     let dbStatus = 'skipped';

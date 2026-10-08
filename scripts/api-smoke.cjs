@@ -16,6 +16,8 @@ let output = ''; child.stdout.on('data', data => { output += data; }); child.std
     if (protectedResponse.status !== 401) throw new Error('Unauthenticated trip request was not rejected: ' + protectedResponse.status);
     const health = await fetch('http://127.0.0.1:4199/api/v1/health', { signal: AbortSignal.timeout(15000) });
     if (health.status !== 503) throw new Error('Unavailable database readiness was not rejected: ' + health.status);
+    const readinessAlias = await fetch('http://127.0.0.1:4199/api/v1/health/ready', { signal: AbortSignal.timeout(15000) });
+    if (readinessAlias.status !== 503) throw new Error('Readiness route did not reject unavailable database: ' + readinessAlias.status);
     console.log('API HTTP smoke passed: live=200, unauthenticated trips=401, unavailable database=503');
   } finally { child.kill(); }
 })().catch(error => { console.error(error.message); process.exitCode = 1; });
