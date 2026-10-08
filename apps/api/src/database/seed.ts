@@ -68,6 +68,7 @@ export const SEED_TRIP_ID = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
 export const SEED_TRIP_2_ID = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
 
 export async function seedDatabase() {
+  if (process.env.NODE_ENV === 'production') throw new Error('Sample database seeding is disabled in production');
   const connectionString =
     process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/tripsync';
   console.log('🌱 Seeding database at:', connectionString);

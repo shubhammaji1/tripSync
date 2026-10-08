@@ -5,6 +5,7 @@ import { AccessibleOverlay } from '@/components/AccessibleOverlay';
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 import {
   Calendar,
   Wallet,
@@ -116,7 +117,11 @@ interface TripDayState {
 function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const searchParams = useSearchParams();
   const [user, setUser] = useState<any>(null);
-  const isDemoSession = false;
+  const { userId: clerkUserId, sessionId, isLoaded } = useAuth();
+  const workspaceKey = [clerkUserId, sessionId, params.id].join(':');
+  const [loadedTripKey, setLoadedTripKey] = useState<string | null>(null);
+  const [tripLoadError, setTripLoadError] = useState<string | null>(null);
+  const [tripReload, setTripReload] = useState(0);
   const [tripDetails, setTripDetails] = useState<any>(null);
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
@@ -212,11 +217,15 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   });
 
   useEffect(() => {
-    api.getMe().then(setUser).catch(() => setUser(null));
-  }, []);
-
-  useEffect(() => {
-    api.getTripById(params.id).then((trip) => {
+    if (!isLoaded || !clerkUserId) return;
+    let cancelled = false;
+    setTripDetails(null); setLoadedTripKey(null); setTripLoadError(null); setUser(null);
+    setMembers([]); setTripDays([]); setActivitiesList([]); setExpensesList([]); setTasks([]);
+    setEmergencyContacts([]); setLedger(null); setLedgerError(null);
+    Promise.all([api.getTripById(params.id), api.getMe()]).then(([trip, profile]) => {
+      if (cancelled) return;
+      setUser(profile);
+      setLoadedTripKey(workspaceKey);
       setTripDetails(trip);
       const mapMember = (member: any) => {
         const memberId = member.userId || member.user?.id || member.id;
@@ -233,6 +242,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         setMembers(apiMembers);
       } else {
         api.getMembers(params.id).then((tripMembers) => {
+          if (cancelled) return;
           const fetchedMembers = tripMembers.map(mapMember);
           if (fetchedMembers.length) {
             setMembers(fetchedMembers);
@@ -287,13 +297,14 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
         setEmergencyContacts(trip.emergencyContacts);
       } else {
         api.getEmergencyContacts(params.id).then((contacts) => {
-          if (contacts && contacts.length > 0) {
+          if (!cancelled && contacts && contacts.length > 0) {
             setEmergencyContacts(contacts);
           }
         }).catch(() => {});
       }
-    }).catch((reason: any) => setActionAlert(reason.message || 'Trip data could not be loaded.'));
-  }, [params.id]);
+    }).catch((reason: any) => { if (!cancelled) setTripLoadError(reason.message || 'Trip data could not be loaded.'); });
+    return () => { cancelled = true; };
+  }, [params.id, clerkUserId, sessionId, isLoaded, tripReload]);
 
   // Itinerary state
   const [selectedDay, setSelectedDay] = useState<number>(1);
@@ -303,63 +314,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   const [showAddDayForm, setShowAddDayForm] = useState(false);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
   const [showMobileQuickActions, setShowMobileQuickActions] = useState(false);
-  const [activitiesList, setActivitiesList] = useState([
-    {
-      id: 'act-1',
-      dayNumber: 1,
-      time: '14:00 - 15:30',
-      title: 'Check-in at Summit Hermon Hotel',
-      description: 'Drop bags, freshen up, and meet in the lobby for evening tea.',
-      location: 'Summit Hermon Hotel',
-      responsible: 'Shubham Verma',
-      cost: 6000,
-      status: 'COMPLETED',
-    },
-    {
-      id: 'act-2',
-      dayNumber: 1,
-      time: '16:30 - 19:30',
-      title: 'Mall Road & Chowrasta Evening Walk',
-      description: 'Explore local tea lounges, woollen handicraft shops, and hot momo stalls.',
-      location: 'Chowrasta Mall Road',
-      responsible: 'Priya Patel',
-      cost: 1500,
-      status: 'PLANNED',
-    },
-    {
-      id: 'act-3',
-      dayNumber: 2,
-      time: '04:30 - 07:30',
-      title: 'Tiger Hill Early Morning Sunrise',
-      description: 'Wakeup call at 3:30 AM. Witness Kanchenjunga peak illuminated in sunrise colors.',
-      location: 'Tiger Hill Observatory',
-      responsible: 'Rahul Sharma',
-      cost: 2400,
-      status: 'EARLY SUNRISE',
-    },
-    {
-      id: 'act-4',
-      dayNumber: 2,
-      time: '10:30 - 13:00',
-      title: 'Happy Valley Tea Estate Guided Tour',
-      description: 'Historical tea factory processing walkthrough followed by tea tasting session.',
-      location: 'Happy Valley Tea Estate',
-      responsible: 'Amit Kumar',
-      cost: 1200,
-      status: 'PLANNED',
-    },
-    {
-      id: 'act-5',
-      dayNumber: 3,
-      time: '10:00 - 13:00',
-      title: 'Ghoom Monastery & Heritage Toy Train Ride',
-      description: 'Steam joyride loop through Batasia war memorial and Ghum altitude summit.',
-      location: 'Ghoom Railway Station',
-      responsible: 'Rahul Sharma',
-      cost: 3600,
-      status: 'PLANNED',
-    },
-  ]);
+  const [activitiesList, setActivitiesList] = useState<any[]>([]);
 
   const [newActivity, setNewActivity] = useState<{
     title: string;
@@ -574,37 +529,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
   // Expense & Split state
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
   const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null);
-  const [expensesList, setExpensesList] = useState<any[]>([
-    {
-      id: 'exp-1',
-      title: 'Summit Hermon Hotel Advance Booking',
-      paidBy: 'Rahul Sharma',
-      amount: 6000,
-      category: 'ACCOMMODATION',
-      date: '2026-09-10',
-      split: '6 members (₹1,000 each)',
-      receiptUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      id: 'exp-2',
-      title: 'Toyota Innova Sightseeing Cab',
-      paidBy: 'Shubham Verma',
-      amount: 2400,
-      category: 'TRANSPORT',
-      date: '2026-09-11',
-      split: '6 members (₹400 each)',
-    },
-    {
-      id: 'exp-3',
-      title: 'Glenary’s Bakery & Restaurant Group Dinner',
-      paidBy: 'Priya Patel',
-      amount: 3200,
-      category: 'FOOD',
-      date: '2026-09-11',
-      split: '6 members (₹533 each)',
-      receiptUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=800&q=80',
-    },
-  ]);
+  const [expensesList, setExpensesList] = useState<any[]>([]);
 
   const [newExpense, setNewExpense] = useState<{
     title: string;
@@ -642,7 +567,13 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     try { setLedger(await api.getSettlements(params.id)); setLedgerError(null); }
     catch (err: any) { setLedgerError(err.message || 'Balances unavailable'); }
   };
-  useEffect(() => { void loadLedger(); }, [params.id, expensesList]);
+  useEffect(() => {
+    if (loadedTripKey !== workspaceKey) return;
+    let cancelled = false;
+    api.getSettlements(params.id).then(data => { if (!cancelled) { setLedger(data); setLedgerError(null); } })
+      .catch(error => { if (!cancelled) setLedgerError(error.message || 'Balances unavailable'); });
+    return () => { cancelled = true; };
+  }, [params.id, expensesList, loadedTripKey, workspaceKey]);
   const recordPayment = async (transfer: any) => {
     if (recordingPayment) return;
     setRecordingPayment(true);
@@ -666,40 +597,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
 
   // Tasks local state
   const [newTask, setNewTask] = useState({ title: '', dueDate: '', priority: 'MEDIUM', assignedToId: '' });
-  const [tasks, setTasks] = useState([
-    {
-      id: 't-1',
-      title: 'Confirm Toyota Innova cab pickup at Bagdogra Airport',
-      assignedTo: 'Rahul Sharma',
-      dueDate: '2026-09-09',
-      priority: 'HIGH',
-      status: 'DONE',
-    },
-    {
-      id: 't-2',
-      title: 'Book Himalayan Mountaineering Institute museum tickets',
-      assignedTo: 'Shubham Verma',
-      dueDate: '2026-09-10',
-      priority: 'MEDIUM',
-      status: 'IN_PROGRESS',
-    },
-    {
-      id: 't-3',
-      title: 'Assemble First Aid & Mountain Motion Sickness Kit',
-      assignedTo: 'Priya Patel',
-      dueDate: '2026-09-08',
-      priority: 'HIGH',
-      status: 'DONE',
-    },
-    {
-      id: 't-4',
-      title: 'Download offline Google Maps & emergency contact list',
-      assignedTo: 'Amit Kumar',
-      dueDate: '2026-09-09',
-      priority: 'URGENT',
-      status: 'TODO',
-    },
-  ]);
+  const [tasks, setTasks] = useState<any[]>([]);
 
   // Sync tab from query param (e.g. ?tab=emergency)
   useEffect(() => {
@@ -1623,9 +1521,9 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     to: transfer.toUser.fullName || transfer.toUser.email,
   }));
 
-  const tripBudget = isDemoSession ? 35000 : Number(tripDetails?.budget || 0);
+  const tripBudget = Number(tripDetails?.budget || 0);
   const calculatedTripSpent = expensesList.reduce((total, expense) => total + Number(expense.amount || 0), 0);
-  const tripSpent = isDemoSession ? 11600 : calculatedTripSpent;
+  const tripSpent = calculatedTripSpent;
   const tripCurrency = tripDetails?.currency || 'INR';
   const pendingTaskCount = tasks.filter((task) => task.status !== 'DONE').length;
 
@@ -1646,37 +1544,32 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
     if (payerId) totals[payerId] = (totals[payerId] || 0) + Number(expense.amount || 0);
     return totals;
   }, {});
-  const equalShare = members.length > 0 ? tripSpent / members.length : 0;
+  const memberShares = expensesList.flatMap(expense => expense.participants || []).reduce<Record<string, number>>((shares, participant) => { shares[participant.userId] = (shares[participant.userId] || 0) + Number(participant.shareAmount || 0); return shares; }, {});
   const memberSpendingData = members.map((member) => ({
     name: member.name.split(' ').map((part) => part[0]).join(''),
     paid: memberPaidTotals[member.id] || 0,
-    share: equalShare,
+    share: memberShares[member.id] || 0,
   }));
 
-  const displayTripName = isDemoSession ? 'Darjeeling Himalayan Adventure' : tripDetails?.name || 'Your New Trip';
-  const displayDestination = isDemoSession
-    ? 'Darjeeling, West Bengal, India'
-    : tripDetails?.destination || 'Add your destination to get started';
-  const displayDates = isDemoSession
-    ? 'Sep 10 - Sep 14, 2026 (4 Days)'
-    : tripDetails?.startDate && tripDetails?.endDate
-      ? `${formatDate(tripDetails.startDate)} - ${formatDate(tripDetails.endDate)}`
-      : 'No dates selected';
-  const displayCoverImage = isDemoSession
-    ? 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80'
-    : tripDetails?.coverImage;
-  const countdownDays = !isDemoSession && tripDetails?.startDate
-    ? Math.ceil((new Date(`${tripDetails.startDate}T00:00:00`).getTime() - new Date().setHours(0, 0, 0, 0)) / 86400000)
-    : null;
-  const countdownLabel = isDemoSession
-    ? '19 Days'
-    : countdownDays === null
-      ? 'N/A'
-      : countdownDays > 0
-        ? `${countdownDays} Days`
-        : countdownDays === 0
-          ? 'Today'
-          : 'Trip started';
+  const displayTripName = tripDetails?.name || 'Trip';
+  const displayDestination = tripDetails?.destination || 'Destination not set';
+  const displayDates = tripDetails?.startDate && tripDetails?.endDate
+    ? `${formatDate(tripDetails.startDate)} - ${formatDate(tripDetails.endDate)}` : 'No dates selected';
+  const displayCoverImage = tripDetails?.coverImage;
+  const countdownDays = tripDetails?.startDate
+    ? Math.ceil((new Date(`${tripDetails.startDate}T00:00:00`).getTime() - new Date().setHours(0, 0, 0, 0)) / 86400000) : null;
+  const countdownLabel = countdownDays === null ? 'N/A' : countdownDays > 0 ? `${countdownDays} Days` : countdownDays === 0 ? 'Today' : 'Trip started';
+
+  if (!isLoaded || !tripDetails || loadedTripKey !== workspaceKey) {
+    return <main className="mx-auto max-w-3xl px-4 py-12">
+      <Link href="/dashboard" className="text-brand-700 underline">Back to dashboard</Link>
+      {tripLoadError ? <div role="alert" className="mt-6 rounded-xl border border-red-200 bg-red-50 p-6 text-red-800">
+        <h1 className="text-xl font-bold">Trip could not be loaded</h1>
+        <p className="mt-2">{tripLoadError}</p>
+        <button type="button" onClick={() => setTripReload(value => value + 1)} className="mt-4 rounded-lg bg-slate-900 px-4 py-2 text-white">Retry</button>
+      </div> : <p role="status" className="mt-6">{isLoaded && !clerkUserId ? 'Sign in to view this trip.' : 'Loading your trip…'}</p>}
+    </main>;
+  }
 
   return (
     <div className="min-h-full pb-36 md:pb-16">
@@ -1908,7 +1801,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                 </div>
                 <p className="text-lg sm:text-xl font-black text-slate-900 leading-tight">{countdownLabel}</p>
                 <p className="text-[11px] text-emerald-600 font-semibold truncate mt-0.5">
-                  {isDemoSession ? 'Departing Sep 10' : tripDetails?.startDate ? `Starts ${formatDate(tripDetails.startDate)}` : 'Set trip dates'}
+                  {tripDetails?.startDate ? `Starts ${formatDate(tripDetails.startDate)}` : 'Set trip dates'}
                 </p>
               </button>
 
@@ -2218,7 +2111,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
             </div>
 
             {/* 5. Live Destination Weather & Sunrise Widget */}
-            <DestinationWeatherWidget destination={displayDestination} startDate={tripDetails?.startDate} />
+            <DestinationWeatherWidget tripId={params.id} destination={displayDestination} startDate={tripDetails?.startDate} />
 
             {/* 5. Travelers Roster */}
             <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-2xs space-y-4">
@@ -2352,7 +2245,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     .map((a) => ({
                       id: a.id,
                       title: a.title,
-                      location: a.location,
+                      location: a.location, locationLat: a.locationLat, locationLng: a.locationLng,
                       startTime: a.time,
                       notes: a.description,
                       leadName: a.responsible,
@@ -2661,16 +2554,16 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
                     <Split className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-white">Optimal Debt Settlement Engine</h3>
+                    <h3 className="font-bold text-base text-white">Expense balances</h3>
                     <p className="text-xs text-slate-400">
                       {debtTransfers.length > 0
                         ? `Reduced shared expenses into ${debtTransfers.length} minimal direct transfer${debtTransfers.length === 1 ? '' : 's'}.`
-                        : 'Everyone is settled. New shared expenses will appear here.'}
+                        : ledger ? 'No outstanding transfers.' : 'Loading saved balances…'}
                     </p>
                   </div>
                 </div>
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  Greedy Min-Cash-Flow
+                  Suggested transfers
                 </span>
               </div>
 
@@ -3510,7 +3403,7 @@ function TripWorkspaceContent({ params }: { params: { id: string } }) {
               {/* Member Contribution Bar Chart */}
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 mb-4">
-                  Member Paid vs Equal Share ({formatCurrency(equalShare, tripCurrency)})
+                  Member Paid vs Recorded Share
                 </h3>
                 <div className="w-full h-64">
                   {memberSpendingData.length > 0 ? (

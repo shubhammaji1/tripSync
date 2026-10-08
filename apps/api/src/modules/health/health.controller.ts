@@ -6,7 +6,7 @@ import { sql } from 'drizzle-orm';
 @ApiTags('Root')
 @Controller()
 export class RootController {
-  @Get()
+  @Get(['', 'ready'])
   @ApiOperation({ summary: 'API Root status' })
   getRoot() {
     return {
@@ -35,6 +35,8 @@ export class HealthController {
     if (this.db) {
       try {
         await this.db.execute(sql`SELECT 1`);
+        await this.db.execute(sql`SELECT trips.destination_lat, trips.destination_lng, documents.metadata, documents.pin_digest, notifications.data
+          FROM trips, documents, notifications, trip_routes, route_segments, trail_reports, trailwatch_alerts, weather_snapshots, chat_messages LIMIT 0`);
         dbStatus = 'connected';
       } catch (err: any) {
         throw new ServiceUnavailableException('Database unavailable');

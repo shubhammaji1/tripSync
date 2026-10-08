@@ -67,7 +67,8 @@ export class TrailWatchService {
     @Optional() private itineraryService?: ItineraryService,
     @Optional() private locationWeather?: LocationWeatherService
   ) {
-    this.initMockTrailWatch();
+    if (!this.db && process.env.NODE_ENV !== 'test') throw new Error('Database persistence is required; sample data is only available in tests');
+    if (!this.db) this.initMockTrailWatch();
   }
 
   private initMockTrailWatch() {

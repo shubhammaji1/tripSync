@@ -13,7 +13,8 @@ export class TasksService {
   constructor(
     @Optional() @Inject(DRIZZLE_PROVIDER) private db?: DrizzleDB
   ) {
-    this.initMockTasks();
+    if (!this.db && process.env.NODE_ENV !== 'test') throw new Error('Database persistence is required; sample data is only available in tests');
+    if (!this.db) this.initMockTasks();
   }
 
   private initMockTasks() {

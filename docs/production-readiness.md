@@ -1,5 +1,15 @@
 # Production setup and verification
 
+## Real-user data follow-up — 2026-10-08
+
+Sample records came from hard-coded initial trip-page state, which remained visible when authenticated loading failed. Collections now start empty, and the workspace only renders after the saved trip and profile load successfully. Trip/account changes discard stale results. Dashboard records are scoped to the signed-in account. API sample-data initialization is restricted to tests. The Clerk token getter can refresh without invalidating requests; account/session changes still invalidate them. Read timeouts allow 60 seconds, write timeouts remain 20 seconds, and timeout messages offer retry.
+
+Trip listing filters membership in SQL; shared-trip and member-list access reject unrelated accounts. Readiness checks feature tables and columns, not only connectivity. Pooler connections disable prepared statements. The live configured database received missing coordinate columns, the TrailWatch/chat schema, and private collaboration access restrictions; existing user records were preserved. Weather now shares TrailWatch's saved/resolved destination. The itinerary map omits unresolved pins instead of inventing positions. Analytics uses persisted participant shares.
+
+Publish the reviewed source to both Vercel and Render to activate these code fixes. Redeploying an older commit will not publish uncommitted changes. Then verify a real authenticated trip, viewer restrictions, account switching, document access, invitation delivery and payment persistence. Matching Clerk production keys are still required on both services before launch; test keys remain a launch blocker. Complete the deployment configuration and operational verification below before claiming production readiness.
+
+Verification for this follow-up: 34 backend tests, 10 browser tests, auth-refresh/account-change regressions, lint, type-checking and production builds passed. The dependency audit found no known production vulnerabilities. The real HTTP startup probe returned 200 for liveness, 401 for unauthenticated trips and 503 for an unavailable database. Startup now queues Fastify plugins before listening; awaiting registrations individually had stalled the process. Browser tests exercise the real trip page with an unavailable API and an empty persisted trip, plus location maps and encrypted offline isolation. These fixture checks do not replace final authenticated verification against the deployment.
+
 Use Node 22.13+ and pnpm 8.15.9. Install with `pnpm install --frozen-lockfile`.
 
 ## Required deployment configuration

@@ -82,9 +82,9 @@ export function PWAInstallPrompt() {
           <button
             type="button"
             onClick={() => setIsExpanded(true)}
-            title="Install TripSync App • Offline Ready"
+            title="Install TripSync App"
             aria-label="Install TripSync App"
-            className="group relative flex items-center gap-2 p-1.5 pr-3 rounded-full bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/60 shadow-2xl shadow-black/40 hover:shadow-emerald-500/30 text-white backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
+            className="group relative flex items-center gap-2 p-1.5 sm:pr-3 rounded-full bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/60 shadow-2xl shadow-black/40 hover:shadow-emerald-500/30 text-white backdrop-blur-xl transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer"
           >
             {/* Logo Badge */}
             <div className="w-9 h-9 rounded-full bg-slate-900 border border-emerald-500/40 flex items-center justify-center p-1.5 shadow-inner shrink-0 group-hover:rotate-6 transition-transform">
@@ -92,13 +92,13 @@ export function PWAInstallPrompt() {
             </div>
 
             {/* Label */}
-            <div className="flex flex-col text-left leading-tight">
+            <div className="hidden sm:flex flex-col text-left leading-tight">
               <span className="text-[11px] font-black text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1">
                 <span>Install App</span>
                 <Download className="w-3 h-3 text-emerald-400" />
               </span>
               <span className="text-[8px] text-emerald-400 font-bold uppercase tracking-wider">
-                Offline Ready
+                Cached travel info
               </span>
             </div>
 
@@ -120,7 +120,7 @@ export function PWAInstallPrompt() {
                 <div>
                   <h4 className="font-extrabold text-base text-white">Install TripSync</h4>
                   <p className="text-xs text-emerald-400 font-medium mt-0.5">
-                    Fast offline access on your device
+                    Access cached travel information
                   </p>
                 </div>
               </div>
@@ -164,7 +164,7 @@ export function PWAInstallPrompt() {
                   <span>{deferredPrompt ? 'Install App to Phone' : 'Install to Home Screen'}</span>
                 </button>
                 <p className="text-[11px] text-slate-400 text-center">
-                  Works offline without internet during travel.
+                  Previously opened itinerary and emergency information can be viewed offline. Editing requires a connection.
                 </p>
               </div>
             )}

@@ -26,6 +26,8 @@ interface ItineraryItem {
   id: string;
   title: string;
   location?: string;
+  locationLat?: number | null;
+  locationLng?: number | null;
   startTime?: string;
   endTime?: string;
   notes?: string;
@@ -80,7 +82,7 @@ const geoCache: Record<string, { lat: number; lng: number }> = {};
 
 export function ItineraryRouteMap({
   days,
-  tripDestination = 'Nepal',
+  tripDestination = '',
 }: ItineraryRouteMapProps) {
   const [selectedDayId, setSelectedDayId] = useState<string>('all');
   const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
@@ -156,31 +158,15 @@ export function ItineraryRouteMap({
         return null;
       };
 
-      // Fallback destination coordinates
-      let baseDestCoords = { lat: 28.3949, lng: 84.124 }; // Default Nepal
-      const resolvedDest = await fetchCoords(tripDestination);
-      if (resolvedDest) baseDestCoords = resolvedDest;
-
       for (let i = 0; i < allStops.length; i++) {
         if (isCancelled) return;
         const { dayNum, dayId, item, stopIdx } = allStops[i];
         const searchLocation = item.location || item.title;
 
-        let coords = await fetchCoords(searchLocation);
-        if (!coords && item.location && tripDestination) {
-          coords = await fetchCoords(`${item.location}, ${tripDestination}`);
-        }
-        if (!coords && item.title && tripDestination) {
-          coords = await fetchCoords(`${item.title}, ${tripDestination}`);
-        }
-
-        // If not found, place with slight smart offset around destination
-        if (!coords) {
-          coords = {
-            lat: baseDestCoords.lat + (Math.sin(i + 1) * 0.08) + ((dayNum - 1) * 0.05),
-            lng: baseDestCoords.lng + (Math.cos(i + 1) * 0.08) + ((dayNum - 1) * 0.05),
-          };
-        }
+        let coords = typeof item.locationLat === 'number' && typeof item.locationLng === 'number'
+          ? { lat: item.locationLat, lng: item.locationLng } : null;
+        if (!coords && searchLocation && tripDestination) coords = await fetchCoords(`${searchLocation}, ${tripDestination}`);
+        if (!coords || !Number.isFinite(coords.lat) || !Number.isFinite(coords.lng) || Math.abs(coords.lat) > 90 || Math.abs(coords.lng) > 180) continue;
 
         results.push({
           id: item.id,
@@ -210,7 +196,7 @@ export function ItineraryRouteMap({
     return () => {
       isCancelled = true;
     };
-  }, [JSON.stringify(allStops.map((s) => s.item.id + s.item.location + s.item.title)), tripDestination]);
+  }, [JSON.stringify(allStops), tripDestination]);
 
   // 3. Initialize Leaflet Map
   useEffect(() => {
@@ -232,11 +218,11 @@ export function ItineraryRouteMap({
       const defaultCenter: [number, number] =
         resolvedWaypoints.length > 0
           ? [resolvedWaypoints[0].lat, resolvedWaypoints[0].lng]
-          : [28.3949, 84.124];
+          : [0, 0];
 
       const map = L.map(mapContainerRef.current, {
         center: defaultCenter,
-        zoom: 8,
+        zoom: resolvedWaypoints.length ? 8 : 2,
         zoomControl: false,
       });
 

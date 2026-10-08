@@ -19,6 +19,7 @@ jobs:
       - run: pnpm --filter @tripsync/validation build
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: node scripts/auth-bridge-smoke.cjs
       - run: pnpm --filter @tripsync/api run test --runInBand
       - run: pnpm build
         env:

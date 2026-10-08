@@ -28,10 +28,13 @@ let resolveProvider: (() => void) | null = null;
 const providerReady = new Promise<void>(resolve => { resolveProvider = resolve; });
 let authTokenProvider: (() => Promise<string | null>) | null = null;
 let authVersion = 0;
+let authIdentity: string | null | undefined;
 
-export function setApiAuthTokenProvider(provider: (() => Promise<string | null>) | null) {
+export function setApiAuthTokenProvider(provider: (() => Promise<string | null>) | null, identity?: string | null) {
   authTokenProvider = provider;
-  authVersion++;
+  // Token callbacks can change during refresh without changing the user/session.
+  if (identity === undefined || identity !== authIdentity) authVersion++;
+  authIdentity = identity;
   if (provider) resolveProvider?.();
 }
 
@@ -44,6 +47,7 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
   if (!authTokenProvider && (!endpoint.startsWith('/auth/') || endpoint === '/auth/me' || endpoint.includes('/accept'))) await Promise.race([providerReady, new Promise(resolve => setTimeout(resolve, 10000))]);
   const requestAuthVersion = authVersion;
   const token = authTokenProvider ? await authTokenProvider() : getAuthToken();
+  if (requestAuthVersion !== authVersion) throw new Error('Your session changed. Please retry.');
 
   const headers: Record<string, string> = {
     ...(options?.body !== undefined ? { 'Content-Type': 'application/json' } : {}),
@@ -59,7 +63,7 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
       ...options,
       headers,
       cache: 'no-store',
-      signal: options?.signal || AbortSignal.timeout(20000),
+      signal: options?.signal || AbortSignal.timeout((options?.method || 'GET').toUpperCase() === 'GET' ? 60000 : 20000),
     });
     if (requestAuthVersion !== authVersion) throw new Error('Your session changed. Please retry.');
 
@@ -77,6 +81,7 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
     }
 
     const text = await res.text();
+    if (requestAuthVersion !== authVersion) throw new Error('Your session changed. Please retry.');
     if (!text || text.trim() === '') {
       return {} as T;
     }
@@ -90,6 +95,9 @@ async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
       return text as unknown as T;
     }
   } catch (err: any) {
+    if (err.name === 'TimeoutError') {
+      throw new Error('TripSync is taking longer than expected to respond. Please retry in a moment.');
+    }
     if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
       const helpfulError = new Error(
         'TripSync could not connect. Check your connection and try again.'

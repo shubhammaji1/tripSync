@@ -38,19 +38,20 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true, bodyLimit: 8 * 1024 * 1024, trustProxy: process.env.TRUST_PROXY === 'true' })
   );
 
+  // Queue all plugins before listen; awaiting each registration starts Fastify readiness too early.
   // Performance: Response compression (Brotli / Gzip) for slow mobile connections
-  await app.register(compress as any, {
+  app.register(compress as any, {
     encodings: ['gzip', 'deflate', 'br'],
   });
 
   // Security: HTTP Security Headers via Helmet
-  await app.register(helmet as any, {
+  app.register(helmet as any, {
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
   });
 
   // Security: Rate Limiting & Abuse Protection (120 req/min per IP)
-  await app.register(rateLimit as any, {
+  app.register(rateLimit as any, {
     max: 120,
     timeWindow: '1 minute',
     errorResponseBuilder: (req: any, context: any) => ({

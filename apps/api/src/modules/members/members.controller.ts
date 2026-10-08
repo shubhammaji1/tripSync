@@ -11,6 +11,8 @@ import {
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { MembersService } from './members.service';
 import { AuthGuard } from '../../common/auth.guard';
+import { RolesGuard } from '../../common/roles.guard';
+import { RequireRoles } from '../../common/roles.decorator';
 import { CurrentUser } from '../../common/current-user.decorator';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
 import {
@@ -27,7 +29,8 @@ import { TripRole } from '@tripsync/types';
 
 @ApiTags('Members')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
+@RequireRoles(TripRole.VIEWER)
 @Controller('trips/:tripId/members')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}

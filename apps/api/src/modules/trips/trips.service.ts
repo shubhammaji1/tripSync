@@ -3,7 +3,7 @@ import { CreateTripInput, UpdateTripInput } from '@tripsync/validation';
 import { Trip, TripRole, TripStatus, TripPrivacy } from '@tripsync/types';
 import { DRIZZLE_PROVIDER, DrizzleDB } from '../../database/database.module';
 import { settlements, expenses, trips, tripMembers, profiles, activities } from '../../database/schema';
-import { eq, and, desc } from 'drizzle-orm';
+import { eq, and, desc, or, inArray } from 'drizzle-orm';
 import { SEED_TRIP_ID, SEED_TRIP_2_ID, SEED_USERS } from '../../database/seed';
 
 import { sanitizeHtml } from '@tripsync/validation';
@@ -16,7 +16,8 @@ export class TripsService {
   constructor(
     @Optional() @Inject(DRIZZLE_PROVIDER) private db?: DrizzleDB
   ) {
-    this.initMockTrips();
+    if (!this.db && process.env.NODE_ENV !== 'test') throw new Error('Database persistence is required; sample data is only available in tests');
+    if (!this.db) this.initMockTrips();
   }
 
   private initMockTrips() {
@@ -63,6 +64,7 @@ export class TripsService {
     if (this.db) {
       try {
         const result = await this.db.query.trips.findMany({
+          where: or(eq(trips.ownerId, userId), inArray(trips.id, this.db.select({ tripId: tripMembers.tripId }).from(tripMembers).where(eq(tripMembers.userId, userId)))),
           orderBy: [desc(trips.createdAt)],
           with: {
             members: { with: { user: true } },
@@ -132,7 +134,7 @@ export class TripsService {
         }
 
         // Enforce object-level access control for private trips (BUG-002)
-        if (trip.privacy === TripPrivacy.PRIVATE) {
+        if (trip) {
           const isOwner = trip.ownerId === userId;
           const isMember = (trip.members || []).some((m: any) => m.userId === userId);
           if (!isOwner && !isMember) {

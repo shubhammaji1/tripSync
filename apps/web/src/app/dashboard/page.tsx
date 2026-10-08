@@ -145,7 +145,10 @@ function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { isLoaded: isClerkLoaded, isSignedIn, user } = useUser();
-  const [trips, setTrips] = useState<any[]>([]);
+  const [tripRecords, setTrips] = useState<any[]>([]);
+  const [tripsOwner, setTripsOwner] = useState<string | null>(null);
+  const trips = tripsOwner === user?.id ? tripRecords : [];
+  const tripRequestSequence = useRef(0);
   const [filter, setFilter] = useState<'all' | 'planning' | 'active' | 'completed'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'nearest' | 'newest' | 'budget' | 'alpha'>('nearest');
@@ -302,14 +305,21 @@ function DashboardContent() {
   const [tripsLoading, setTripsLoading] = useState(true);
   const fetchTrips = () => {
     if (isClerkLoaded && isSignedIn) {
+      const sequence = ++tripRequestSequence.current;
       setTripsLoading(true); setTripsError(null);
-      api.getTrips().then(setTrips).catch(err => setTripsError(err.message || 'Trips could not be loaded')).finally(() => setTripsLoading(false));
+      api.getTrips().then(data => {
+        if (sequence !== tripRequestSequence.current) return;
+        setTrips(data); setTripsOwner(user.id);
+      }).catch(err => { if (sequence === tripRequestSequence.current) setTripsError(err.message || 'Trips could not be loaded'); })
+        .finally(() => { if (sequence === tripRequestSequence.current) setTripsLoading(false); });
     }
   };
 
   useEffect(() => {
+    setTrips([]); setTripsOwner(null); setTripsError(null);
     fetchTrips();
-  }, [isClerkLoaded, isSignedIn]);
+    return () => { tripRequestSequence.current++; };
+  }, [isClerkLoaded, isSignedIn, user?.id]);
 
   const handleCreateTrip = async (e: React.FormEvent) => {
     e.preventDefault();

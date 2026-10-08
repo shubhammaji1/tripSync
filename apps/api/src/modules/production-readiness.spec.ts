@@ -5,6 +5,10 @@ import { join } from 'path';
 import { eq } from 'drizzle-orm';
 import * as schema from '../database/schema';
 import { ExpensesService } from './expenses/expenses.service';
+import { TripsService } from './trips/trips.service';
+import { TasksService } from './tasks/tasks.service';
+import { RolesGuard } from '../common/roles.guard';
+import { HealthController } from './health/health.controller';
 import { SettlementsService } from './settlements/settlements.service';
 import { TrailWatchService } from './trailwatch/trailwatch.service';
 import { CollaborationService } from './collaboration/collaboration.module';
@@ -46,6 +50,34 @@ describe('Production data and authorization regressions', () => {
     await expect(expenses.getTripExpenses(tripId, viewer)).resolves.toEqual([]);
     await expect(expenses.createExpense(tripId, viewer, expense())).rejects.toThrow('permission');
     await expect(expenses.getTripExpenses(tripId, outsider)).rejects.toThrow('permission');
+  });
+  it('only lists owned or joined trips and protects shared trips from outsiders', async () => {
+    const service = new TripsService(db);
+    expect((await service.getAllTrips(member)).map((trip: any) => trip.id)).toEqual([tripId]);
+    expect(await service.getAllTrips(outsider)).toEqual([]);
+    await expect(service.getTripById(tripId, outsider)).rejects.toThrow('access');
+  });
+  it('fails closed instead of using sample records when persistence is absent in production', () => {
+    const previous = process.env.NODE_ENV;
+    process.env.NODE_ENV = 'production';
+    try {
+      expect(() => new TripsService()).toThrow('Database persistence');
+      expect(() => new TasksService()).toThrow('Database persistence');
+      expect(() => new TrailWatchService()).toThrow('Database persistence');
+    } finally { process.env.NODE_ENV = previous; }
+  });
+  it('allows a trip viewer to read member data but rejects an unrelated account', async () => {
+    const guard = new RolesGuard({ getAllAndOverride: () => [TripRole.VIEWER] } as any, db);
+    const context = (userId: string) => ({ getHandler: () => null, getClass: () => null, switchToHttp: () => ({ getRequest: () => ({ user: { id: userId }, params: { tripId } }) }) } as any);
+    await expect(guard.canActivate(context(viewer))).resolves.toBe(true);
+    await expect(guard.canActivate(context(outsider))).rejects.toThrow('permission');
+  });
+  it('does not report readiness when connectivity works but the feature schema is missing', async () => {
+    const execute = jest.fn().mockResolvedValueOnce([]).mockRejectedValueOnce(new Error('missing relation'));
+    const health = new HealthController({ execute } as any);
+    expect(health.live()).toEqual({ status: 'ok' });
+    await expect(health.check()).rejects.toThrow('Database unavailable');
+    expect(execute).toHaveBeenCalledTimes(2);
   });
   it('rejects foreign trip participants and duplicate splits', async () => {
     await expect(expenses.createExpense(tripId, member, { ...expense(), participants: [{ userId: outsider, shareAmount: 100 }] })).rejects.toThrow('belong');

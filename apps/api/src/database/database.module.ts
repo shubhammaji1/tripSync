@@ -24,7 +24,7 @@ class DatabaseShutdown implements OnModuleDestroy {
         if (!connectionString) {
           throw new Error('DATABASE_URL is required for database persistence');
         }
-        return postgres(connectionString, { max: 10, connect_timeout: 5, idle_timeout: 20 });
+        return postgres(connectionString, { max: 10, connect_timeout: 5, idle_timeout: 20, prepare: false });
       },
     },
     { provide: DRIZZLE_PROVIDER, inject: [POSTGRES_CLIENT], useFactory: (client: ReturnType<typeof postgres>) => drizzle(client, { schema }) },
